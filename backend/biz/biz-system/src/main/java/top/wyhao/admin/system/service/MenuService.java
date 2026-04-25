@@ -18,10 +18,10 @@ package top.wyhao.admin.system.service;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import top.wyhao.admin.system.domain.bo.MenuRequest;
-import top.wyhao.admin.system.domain.query.MenuQuery;
-import top.wyhao.admin.system.domain.vo.MenuTreeVO;
-import top.wyhao.admin.system.domain.vo.MenuVO;
+import top.wyhao.admin.system.model.bo.MenuRequest;
+import top.wyhao.admin.system.model.query.MenuQuery;
+import top.wyhao.admin.system.model.vo.MenuTreeVO;
+import top.wyhao.admin.system.model.vo.MenuVO;
 import top.wyhao.starter.web.core.model.SortQuery;
 
 import java.util.List;

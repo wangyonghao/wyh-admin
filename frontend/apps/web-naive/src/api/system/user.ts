@@ -1,7 +1,7 @@
 import type { BaseEntity, PageQuery, PageResult } from '#/types/api';
 import type { Gender, Option } from '#/types/global';
 
-import { requestClient as http } from '#/api/request';
+import http from '#/api/http';
 
 /* ==================== API 定义 ==================== */
 export const userApi = {
@@ -12,7 +12,7 @@ export const userApi = {
     });
   },
   /** 查询用户详情 */
-  get: (id: string) => {
+  detail: (id: string) => {
     return http.get<UserDetailResp>(`/system/user/${id}`);
   },
   /** 新增用户 */
@@ -29,9 +29,7 @@ export const userApi = {
   },
   /** 导出用户 */
   export: (query: UserQuery) => {
-    return http.download('/system/user/export', {
-      params: query,
-    });
+    return http.download('/system/user/export', { params: query, });
   },
   /** 下载用户导入模板 */
   downloadTemplate: () => {
@@ -112,13 +110,11 @@ export interface UserDetailResp extends UserResp {
 }
 
 export interface UserQuery {
-  description?: string;
-  username?: string | undefined;
-  nickname?: string | undefined;
-  email?: string | undefined;
-  phone?: string | undefined;
-  status?: string | undefined;
-  deptId?: string | undefined;
+  keyword?: string;
+  email?: string;
+  phone?: string;
+  status?: string;
+  deptId?: string;
   sort?: Array<string> | string;
   userIds?: Array<string>;
   roleId?: string;

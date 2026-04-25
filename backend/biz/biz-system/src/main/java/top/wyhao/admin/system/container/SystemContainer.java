@@ -24,8 +24,8 @@ import org.springframework.stereotype.Component;
 import top.wyhao.starter.core.constant.ContainerConstants;
 import top.wyhao.admin.system.mapper.RoleMapper;
 import top.wyhao.admin.system.mapper.UserRoleMapper;
-import top.wyhao.admin.system.domain.entity.RoleDO;
-import top.wyhao.admin.system.domain.entity.UserRoleDO;
+import top.wyhao.admin.system.model.entity.RoleDO;
+import top.wyhao.admin.system.model.entity.UserRoleDO;
 
 import java.util.Collections;
 import java.util.List;

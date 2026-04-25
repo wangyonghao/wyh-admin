@@ -16,15 +16,11 @@
 
 package top.wyhao.admin.system.mapper;
 
-import jakarta.annotation.Resource;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import top.wyhao.admin.system.domain.entity.DeptDO;
+import top.wyhao.admin.system.model.entity.DeptDO;
 import top.wyhao.starter.data.enums.DatabaseType;
 import top.wyhao.starter.data.mapper.BaseMapper;
-import top.wyhao.starter.data.util.DBMetaUtils;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 /**

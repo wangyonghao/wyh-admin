@@ -23,10 +23,10 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import top.wyhao.admin.system.domain.bo.SettingsRequest;
-import top.wyhao.admin.system.domain.bo.SettingsResetRequest;
-import top.wyhao.admin.system.domain.query.SettingsQuery;
-import top.wyhao.admin.system.domain.vo.SettingsResult;
+import top.wyhao.admin.system.model.bo.SettingsRequest;
+import top.wyhao.admin.system.model.bo.SettingsResetRequest;
+import top.wyhao.admin.system.model.query.SettingsQuery;
+import top.wyhao.admin.system.model.vo.SettingsResult;
 import top.wyhao.admin.system.service.SettingsService;
 
 import java.util.List;

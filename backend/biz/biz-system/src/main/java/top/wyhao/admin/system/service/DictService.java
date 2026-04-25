@@ -16,9 +16,9 @@
 
 package top.wyhao.admin.system.service;
 
-import top.wyhao.admin.system.domain.entity.DictDO;
-import top.wyhao.admin.system.domain.query.DictQuery;
-import top.wyhao.admin.system.domain.vo.DictResult;
+import top.wyhao.admin.system.model.entity.DictDO;
+import top.wyhao.admin.system.model.query.DictQuery;
+import top.wyhao.admin.system.model.vo.DictResult;
 import top.wyhao.starter.data.service.IService;
 import top.wyhao.starter.web.core.model.PageQuery;
 import top.wyhao.starter.web.core.model.resp.LabelValueResp;

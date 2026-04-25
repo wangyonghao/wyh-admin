@@ -17,7 +17,7 @@
 package top.wyhao.admin.system.service;
 
 import me.zhyd.oauth.model.AuthUser;
-import top.wyhao.admin.system.domain.entity.user.UserSocialDO;
+import top.wyhao.admin.system.model.entity.user.UserSocialDO;
 
 import java.util.List;
 

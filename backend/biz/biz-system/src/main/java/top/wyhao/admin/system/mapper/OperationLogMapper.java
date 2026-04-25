@@ -23,11 +23,11 @@ import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import top.wyhao.starter.core.constant.CacheConstants;
-import top.wyhao.admin.system.domain.entity.SysOperationLog;
-import top.wyhao.admin.system.domain.vo.dashboard.DashboardAccessTrendResp;
-import top.wyhao.admin.system.domain.vo.dashboard.DashboardChartCommonResp;
-import top.wyhao.admin.system.domain.vo.dashboard.DashboardOverviewCommonResp;
-import top.wyhao.admin.system.domain.vo.log.LogResp;
+import top.wyhao.admin.system.model.entity.SysOperationLog;
+import top.wyhao.admin.system.model.vo.dashboard.DashboardAccessTrendResp;
+import top.wyhao.admin.system.model.vo.dashboard.DashboardChartCommonResp;
+import top.wyhao.admin.system.model.vo.dashboard.DashboardOverviewCommonResp;
+import top.wyhao.admin.system.model.vo.log.LogResp;
 import top.wyhao.starter.data.mapper.BaseMapper;
 
 import java.util.Date;

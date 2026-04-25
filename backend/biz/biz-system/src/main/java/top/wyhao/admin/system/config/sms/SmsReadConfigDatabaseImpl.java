@@ -24,8 +24,8 @@ import org.dromara.sms4j.provider.config.BaseConfig;
 import org.springframework.stereotype.Component;
 
 import top.wyhao.starter.core.enums.StatusEnum;
-import top.wyhao.admin.system.domain.query.SmsConfigQuery;
-import top.wyhao.admin.system.domain.vo.SmsConfigResp;
+import top.wyhao.admin.system.model.query.SmsConfigQuery;
+import top.wyhao.admin.system.model.vo.SmsConfigResp;
 import top.wyhao.admin.system.service.SmsConfigService;
 import top.wyhao.starter.core.util.CollUtils;
 

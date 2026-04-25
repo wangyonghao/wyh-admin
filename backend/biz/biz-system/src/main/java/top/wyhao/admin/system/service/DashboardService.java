@@ -16,10 +16,10 @@
 
 package top.wyhao.admin.system.service;
 
-import top.wyhao.admin.system.domain.vo.dashboard.DashboardAccessTrendResp;
-import top.wyhao.admin.system.domain.vo.dashboard.DashboardChartCommonResp;
-import top.wyhao.admin.system.domain.vo.dashboard.DashboardNoticeResp;
-import top.wyhao.admin.system.domain.vo.dashboard.DashboardOverviewCommonResp;
+import top.wyhao.admin.system.model.vo.dashboard.DashboardAccessTrendResp;
+import top.wyhao.admin.system.model.vo.dashboard.DashboardChartCommonResp;
+import top.wyhao.admin.system.model.vo.dashboard.DashboardNoticeResp;
+import top.wyhao.admin.system.model.vo.dashboard.DashboardOverviewCommonResp;
 
 import java.io.IOException;
 import java.util.List;

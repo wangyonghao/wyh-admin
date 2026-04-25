@@ -29,7 +29,7 @@ export const useUserStore = defineStore(
     const router = useRouter();
 
     // 状态
-    const token = ref<null | string>(null);
+    const token = ref<string>();
     const tokenExpireTime = ref<null | number>(null);
     const user = ref<null | UserProfile>(null);
     const roles = ref<string[]>([]);

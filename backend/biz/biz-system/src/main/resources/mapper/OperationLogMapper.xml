@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="top.wyhao.admin.system.mapper.OperationLogMapper">
-    <select id="selectLogPage" resultType="top.wyhao.admin.system.domain.vo.log.LogResp">
+    <select id="selectLogPage" resultType="top.wyhao.admin.system.model.vo.log.LogResp">
         SELECT
             t1.id,
             t1.description,
@@ -21,7 +21,7 @@
         ${ew.customSqlSegment}
     </select>
 
-    <select id="selectLogList" resultType="top.wyhao.admin.system.domain.vo.log.LogResp">
+    <select id="selectLogList" resultType="top.wyhao.admin.system.model.vo.log.LogResp">
         SELECT
             t1.id,
             t1.description,
@@ -41,27 +41,27 @@
         ${ew.customSqlSegment}
     </select>
 
-    <select id="selectDashboardOverviewPv" databaseId="mysql" resultType="top.wyhao.admin.system.domain.vo.dashboard.DashboardOverviewCommonResp">
+    <select id="selectDashboardOverviewPv" databaseId="mysql" resultType="top.wyhao.admin.system.model.vo.dashboard.DashboardOverviewCommonResp">
         SELECT
             (SELECT COUNT(*) FROM sys_operation_log) AS total,
             (SELECT COUNT(*) FROM sys_operation_log WHERE create_time >= CURDATE() AND create_time <![CDATA[ < ]]> DATE_ADD(CURDATE(), INTERVAL 1 DAY)) AS today,
             (SELECT COUNT(*) FROM sys_operation_log WHERE create_time >= DATE_SUB(CURDATE(), INTERVAL 1 DAY) AND create_time <![CDATA[ < ]]> CURDATE()) AS yesterday
 
     </select>
-    <select id="selectDashboardOverviewPv" databaseId="pgsql" resultType="top.wyhao.admin.system.domain.vo.dashboard.DashboardOverviewCommonResp">
+    <select id="selectDashboardOverviewPv" databaseId="pgsql" resultType="top.wyhao.admin.system.model.vo.dashboard.DashboardOverviewCommonResp">
         SELECT
             (SELECT COUNT(*) FROM sys_operation_log) AS total,
             (SELECT COUNT(*) FROM sys_operation_log WHERE create_time >= CURRENT_DATE AND create_time <![CDATA[ < ]]> CURRENT_DATE + INTERVAL '1 day') AS today,
             (SELECT COUNT(*) FROM sys_operation_log WHERE create_time >= CURRENT_DATE - INTERVAL '1 day' AND create_time <![CDATA[ < ]]> CURRENT_DATE) AS yesterday
     </select>
 
-    <select id="selectDashboardOverviewIp" databaseId="mysql" resultType="top.wyhao.admin.system.domain.vo.dashboard.DashboardOverviewCommonResp">
+    <select id="selectDashboardOverviewIp" databaseId="mysql" resultType="top.wyhao.admin.system.model.vo.dashboard.DashboardOverviewCommonResp">
         SELECT
             (SELECT COUNT(DISTINCT ip) FROM sys_operation_log) AS total,
             (SELECT COUNT(DISTINCT ip) FROM sys_operation_log WHERE create_time >= CURDATE() AND create_time &lt; DATE_ADD(CURDATE(), INTERVAL 1 DAY)) AS today,
             (SELECT COUNT(DISTINCT ip) FROM sys_operation_log WHERE create_time >= DATE_SUB(CURDATE(), INTERVAL 1 DAY) AND create_time &lt; CURDATE()) AS yesterday
     </select>
-    <select id="selectDashboardOverviewIp" databaseId="pgsql" resultType="top.wyhao.admin.system.domain.vo.dashboard.DashboardOverviewCommonResp">
+    <select id="selectDashboardOverviewIp" databaseId="pgsql" resultType="top.wyhao.admin.system.model.vo.dashboard.DashboardOverviewCommonResp">
         SELECT
                 (SELECT COUNT(DISTINCT ip) FROM sys_operation_log) AS total,
                 (SELECT COUNT(DISTINCT ip) FROM sys_operation_log WHERE create_time >= CURRENT_DATE AND create_time <![CDATA[ < ]]> CURRENT_DATE + INTERVAL '1 day') AS today,
@@ -69,7 +69,7 @@
     </select>
 
     <select id="selectListDashboardAnalysisPv" databaseId="mysql"
-            resultType="top.wyhao.admin.system.domain.vo.dashboard.DashboardChartCommonResp">
+            resultType="top.wyhao.admin.system.model.vo.dashboard.DashboardChartCommonResp">
         SELECT
             DATE_FORMAT(create_time, '%Y-%m') AS name,
             COUNT(*) AS value
@@ -82,7 +82,7 @@
         ORDER BY name
     </select>
     <select id="selectListDashboardAnalysisPv" databaseId="pgsql"
-            resultType="top.wyhao.admin.system.domain.vo.dashboard.DashboardChartCommonResp">
+            resultType="top.wyhao.admin.system.model.vo.dashboard.DashboardChartCommonResp">
         SELECT
         TO_CHAR(create_time, 'YYYY-MM') AS name,
         COUNT(*) AS value
@@ -96,7 +96,7 @@
     </select>
 
     <select id="selectListDashboardAnalysisIp" databaseId="mysql"
-            resultType="top.wyhao.admin.system.domain.vo.dashboard.DashboardChartCommonResp">
+            resultType="top.wyhao.admin.system.model.vo.dashboard.DashboardChartCommonResp">
         SELECT
             DATE_FORMAT(create_time, '%Y-%m') AS name,
             COUNT(DISTINCT ip) AS value
@@ -109,7 +109,7 @@
         ORDER BY name
     </select>
     <select id="selectListDashboardAnalysisIp" databaseId="pgsql"
-            resultType="top.wyhao.admin.system.domain.vo.dashboard.DashboardChartCommonResp">
+            resultType="top.wyhao.admin.system.model.vo.dashboard.DashboardChartCommonResp">
         SELECT
         TO_CHAR(create_time, 'YYYY-MM') AS name,
         COUNT(DISTINCT ip) AS value
@@ -122,7 +122,7 @@
         ORDER BY name
     </select>
 
-    <select id="selectListDashboardAnalysisGeo" resultType="top.wyhao.admin.system.domain.vo.dashboard.DashboardChartCommonResp">
+    <select id="selectListDashboardAnalysisGeo" resultType="top.wyhao.admin.system.model.vo.dashboard.DashboardChartCommonResp">
         SELECT
             CASE
                 WHEN POSITION(' ' IN address) > 0 THEN SUBSTRING(address FROM 1 FOR POSITION(' ' IN address) - 1)
@@ -135,7 +135,7 @@
     </select>
 
     <select id="selectListDashboardAccessTrend"
-            resultType="top.wyhao.admin.system.domain.vo.dashboard.DashboardAccessTrendResp">
+            resultType="top.wyhao.admin.system.model.vo.dashboard.DashboardAccessTrendResp">
         SELECT
             DATE(create_time) AS date,
             COUNT(*) AS pvCount,
@@ -147,7 +147,7 @@
     </select>
 
     <select id="selectListDashboardAnalysisTimeslot"
-            resultType="top.wyhao.admin.system.domain.vo.dashboard.DashboardChartCommonResp">
+            resultType="top.wyhao.admin.system.model.vo.dashboard.DashboardChartCommonResp">
         SELECT
             <choose>
                 <when test="_databaseId =='mysql'">
@@ -164,7 +164,7 @@
     </select>
 
     <select id="selectListDashboardAnalysisModule"
-            resultType="top.wyhao.admin.system.domain.vo.dashboard.DashboardChartCommonResp">
+            resultType="top.wyhao.admin.system.model.vo.dashboard.DashboardChartCommonResp">
         SELECT
             module AS name,
             COUNT(*) AS value
@@ -176,7 +176,7 @@
     </select>
 
     <select id="selectListDashboardAnalysisOs"
-            resultType="top.wyhao.admin.system.domain.vo.dashboard.DashboardChartCommonResp">
+            resultType="top.wyhao.admin.system.model.vo.dashboard.DashboardChartCommonResp">
         SELECT
             os AS name,
             COUNT(*) AS value
@@ -188,7 +188,7 @@
     </select>
 
     <select id="selectListDashboardAnalysisBrowser"
-            resultType="top.wyhao.admin.system.domain.vo.dashboard.DashboardChartCommonResp">
+            resultType="top.wyhao.admin.system.model.vo.dashboard.DashboardChartCommonResp">
         SELECT
             <choose>
                 <when test="_databaseId =='mysql'">

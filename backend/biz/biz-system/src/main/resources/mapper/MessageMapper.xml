@@ -2,12 +2,12 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="top.wyhao.admin.system.mapper.MessageMapper">
 
-    <resultMap id="messageDetailMap" type="top.wyhao.admin.system.domain.vo.message.MessageDetailResp">
+    <resultMap id="messageDetailMap" type="top.wyhao.admin.system.model.vo.message.MessageDetailResp">
         <id column="id" property="id" />
         <result property="users" column="users" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler" />
     </resultMap>
 
-    <select id="selectMessagePage" resultType="top.wyhao.admin.system.domain.vo.message.MessageResp">
+    <select id="selectMessagePage" resultType="top.wyhao.admin.system.model.vo.message.MessageResp">
         SELECT
             t1.id,
             t1.title,
@@ -57,7 +57,7 @@
         WHERE t1.id = #{id}
     </select>
 
-    <select id="selectUnreadListByUserId" resultType="top.wyhao.admin.system.domain.entity.MessageDO">
+    <select id="selectUnreadListByUserId" resultType="top.wyhao.admin.system.model.entity.MessageDO">
         SELECT
             t1.*
         FROM sys_message AS t1

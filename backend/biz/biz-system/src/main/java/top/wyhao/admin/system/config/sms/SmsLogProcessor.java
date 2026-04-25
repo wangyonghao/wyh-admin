@@ -23,7 +23,7 @@ import org.dromara.sms4j.api.entity.SmsResponse;
 import org.dromara.sms4j.api.proxy.CoreMethodProcessor;
 import org.springframework.stereotype.Component;
 import top.wyhao.starter.core.enums.ResultStatusEnum;
-import top.wyhao.admin.system.domain.bo.SmsLogReq;
+import top.wyhao.admin.system.model.bo.SmsLogReq;
 import top.wyhao.admin.system.service.SmsLogService;
 
 import java.util.LinkedHashMap;

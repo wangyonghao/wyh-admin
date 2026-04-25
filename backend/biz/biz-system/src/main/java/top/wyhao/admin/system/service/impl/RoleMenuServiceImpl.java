@@ -20,7 +20,7 @@ import cn.hutool.core.collection.CollUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import top.wyhao.admin.system.domain.entity.RoleMenuDO;
+import top.wyhao.admin.system.model.entity.RoleMenuDO;
 import top.wyhao.admin.system.mapper.RoleMenuMapper;
 import top.wyhao.admin.system.service.RoleMenuService;
 import top.wyhao.starter.core.util.CollUtils;

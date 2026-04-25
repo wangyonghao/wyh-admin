@@ -23,7 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.wyhao.admin.system.mapper.user.UserPasswordHistoryMapper;
-import top.wyhao.admin.system.domain.entity.user.UserPasswordHistoryDO;
+import top.wyhao.admin.system.model.entity.user.UserPasswordHistoryDO;
 import top.wyhao.admin.system.service.UserPasswordHistoryService;
 import top.wyhao.starter.core.util.CollUtils;
 

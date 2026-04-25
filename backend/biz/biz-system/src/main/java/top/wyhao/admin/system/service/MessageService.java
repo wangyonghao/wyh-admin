@@ -16,11 +16,11 @@
 
 package top.wyhao.admin.system.service;
 
-import top.wyhao.admin.system.domain.query.MessageQuery;
-import top.wyhao.admin.system.domain.bo.MessageReq;
-import top.wyhao.admin.system.domain.vo.message.MessageDetailResp;
-import top.wyhao.admin.system.domain.vo.message.MessageResp;
-import top.wyhao.admin.system.domain.vo.message.MessageUnreadResp;
+import top.wyhao.admin.system.model.query.MessageQuery;
+import top.wyhao.admin.system.model.bo.MessageReq;
+import top.wyhao.admin.system.model.vo.message.MessageDetailResp;
+import top.wyhao.admin.system.model.vo.message.MessageResp;
+import top.wyhao.admin.system.model.vo.message.MessageUnreadResp;
 import top.wyhao.starter.web.core.model.PageQuery;
 import top.wyhao.starter.web.core.model.PageResult;
 

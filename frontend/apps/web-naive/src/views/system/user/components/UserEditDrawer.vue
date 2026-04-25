@@ -113,7 +113,7 @@ async function loadUserDetail() {
   if (!props.userId) return;
 
   try {
-    const res = await userApi.get(props.userId);
+    const res = await userApi.detail(props.userId);
     formData.username = res.username ?? '';
     formData.nickname = res.nickname ?? '';
     formData.gender = res.gender ?? 0;

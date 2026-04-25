@@ -18,8 +18,8 @@ package top.wyhao.admin.system.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
-import top.wyhao.admin.system.domain.entity.FileDO;
-import top.wyhao.admin.system.domain.vo.file.FileStatisticsResp;
+import top.wyhao.admin.system.model.entity.FileDO;
+import top.wyhao.admin.system.model.vo.file.FileStatisticsResp;
 import top.wyhao.starter.data.mapper.BaseMapper;
 
 import java.util.List;

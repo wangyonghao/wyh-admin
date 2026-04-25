@@ -47,19 +47,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import top.wyhao.admin.modules.common.util.RsaUtils;
-import top.wyhao.admin.system.domain.SystemConstants;
-import top.wyhao.admin.system.domain.bo.user.*;
-import top.wyhao.admin.system.domain.entity.DeptDO;
-import top.wyhao.admin.system.domain.entity.RoleDO;
-import top.wyhao.admin.system.domain.entity.UserRoleDO;
-import top.wyhao.admin.system.domain.entity.user.UserDO;
-import top.wyhao.admin.system.domain.entity.user.UserPasswordHistoryDO;
-import top.wyhao.admin.system.domain.enums.ConfigCategory;
-import top.wyhao.admin.system.domain.query.UserQuery;
-import top.wyhao.admin.system.domain.vo.user.UserDetailResult;
-import top.wyhao.admin.system.domain.vo.user.UserImportParseResp;
-import top.wyhao.admin.system.domain.vo.user.UserImportResp;
-import top.wyhao.admin.system.domain.vo.user.UserResult;
+import top.wyhao.admin.system.model.SystemConstants;
+import top.wyhao.admin.system.model.bo.user.*;
+import top.wyhao.admin.system.model.entity.DeptDO;
+import top.wyhao.admin.system.model.entity.RoleDO;
+import top.wyhao.admin.system.model.entity.UserRoleDO;
+import top.wyhao.admin.system.model.entity.user.UserDO;
+import top.wyhao.admin.system.model.entity.user.UserPasswordHistoryDO;
+import top.wyhao.admin.system.model.enums.ConfigCategory;
+import top.wyhao.admin.system.model.query.UserQuery;
+import top.wyhao.admin.system.model.vo.user.UserDetailResult;
+import top.wyhao.admin.system.model.vo.user.UserImportParseResp;
+import top.wyhao.admin.system.model.vo.user.UserImportResp;
+import top.wyhao.admin.system.model.vo.user.UserResult;
 import top.wyhao.admin.system.mapper.DeptMapper;
 import top.wyhao.admin.system.mapper.MenuMapper;
 import top.wyhao.admin.system.mapper.UserRoleMapper;
@@ -80,6 +80,7 @@ import top.wyhao.starter.core.util.ExceptionUtils;
 import top.wyhao.starter.core.util.validation.BizAssert;
 import top.wyhao.starter.data.util.QueryWrapperUtil;
 import top.wyhao.starter.encrypt.field.util.EncryptHelper;
+import top.wyhao.starter.excel.util.ExcelUtils;
 import top.wyhao.starter.web.core.model.PageQuery;
 import top.wyhao.starter.web.core.model.PageResult;
 import top.wyhao.starter.web.core.model.SortQuery;
@@ -93,8 +94,8 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import static top.wyhao.admin.system.domain.enums.ImportPolicies.*;
-import static top.wyhao.admin.system.domain.enums.PasswordPolicies.*;
+import static top.wyhao.admin.system.model.enums.ImportPolicies.*;
+import static top.wyhao.admin.system.model.enums.PasswordPolicies.*;
 
 /**
  * 用户业务实现
@@ -370,7 +371,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void export(UserQuery query, SortQuery sortQuery, HttpServletResponse response) {
-        // todo
+        // 构建查询条件
+        QueryWrapper<UserDO> queryWrapper = this.buildQueryWrapper(query);
+        QueryWrapperUtil.applySort(queryWrapper, sortQuery.getSort(), UserDO.class);
+        
+        // 查询用户列表
+        List<UserDetailResult> userList = userMapper.selectUserList(queryWrapper);
+        
+        // 导出Excel
+        ExcelUtils.export(userList, "用户数据", UserDetailResult.class, response);
     }
 
     @Override
@@ -516,7 +525,7 @@ public class UserServiceImpl implements UserService {
     }
 
     private QueryWrapper<UserDO> buildQueryWrapper(UserQuery query) {
-        String description = query.getDescription();
+        String description = query.getKeyword();
         StatusEnum status = query.getStatus();
         List<LocalDateTime> createTimeList = query.getCreateTime();
         Long deptId = query.getDeptId();

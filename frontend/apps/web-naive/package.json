@@ -43,6 +43,7 @@
     "@vben/utils": "workspace:*",
     "@vicons/ionicons5": "^0.13.0",
     "@vueuse/core": "catalog:",
+    "axios": "catalog:",
     "crypto-js": "^4.2.0",
     "jsencrypt": "^3.5.4",
     "naive-ui": "catalog:",

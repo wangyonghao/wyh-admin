@@ -75,7 +75,7 @@ public class ExcelUtils {
         try {
             String exportFileName = URLEncodeUtil.encode("%s_%s.xlsx".formatted(fileName, DateUtil
                 .format(new Date(), DatePattern.PURE_DATETIME_PATTERN)));
-            response.setHeader("Content-disposition", "attachment;filename=" + exportFileName);
+            response.setHeader("Content-Disposition", "attachment;filename=" + exportFileName);
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8");
             FastExcelFactory.write(response.getOutputStream(), clazz)
                 .autoCloseStream(false)

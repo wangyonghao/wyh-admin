@@ -20,10 +20,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import top.wyhao.admin.system.domain.entity.NoticeDO;
-import top.wyhao.admin.system.domain.query.NoticeQuery;
-import top.wyhao.admin.system.domain.vo.dashboard.DashboardNoticeResp;
-import top.wyhao.admin.system.domain.vo.notice.NoticeResp;
+import top.wyhao.admin.system.model.entity.NoticeDO;
+import top.wyhao.admin.system.model.query.NoticeQuery;
+import top.wyhao.admin.system.model.vo.dashboard.DashboardNoticeResp;
+import top.wyhao.admin.system.model.vo.notice.NoticeResp;
 import top.wyhao.starter.data.mapper.BaseMapper;
 
 import java.util.List;

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="top.wyhao.admin.system.mapper.UserRoleMapper">
 
-  <select id="selectUserPage" resultType="top.wyhao.admin.system.domain.vo.role.RoleUserResult">
+  <select id="selectUserPage" resultType="top.wyhao.admin.system.model.vo.role.RoleUserResult">
     SELECT su.id,
            su.nickname,
            su.username,

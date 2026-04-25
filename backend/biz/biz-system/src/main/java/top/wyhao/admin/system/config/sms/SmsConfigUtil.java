@@ -25,7 +25,7 @@ import org.dromara.sms4j.provider.config.BaseConfig;
 import org.dromara.sms4j.provider.factory.BaseProviderFactory;
 import org.dromara.sms4j.provider.factory.ProviderFactoryHolder;
 import org.jspecify.annotations.NonNull;
-import top.wyhao.admin.system.domain.vo.SmsConfigResp;
+import top.wyhao.admin.system.model.vo.SmsConfigResp;
 import top.wyhao.starter.json.util.JSONUtils;
 
 import java.util.Map;

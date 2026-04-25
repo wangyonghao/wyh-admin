@@ -29,11 +29,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import top.wyhao.admin.system.domain.bo.user.UserImportReq;
-import top.wyhao.admin.system.domain.bo.user.UserRequest;
-import top.wyhao.admin.system.domain.query.UserQuery;
-import top.wyhao.admin.system.domain.vo.user.UserDetailResult;
-import top.wyhao.admin.system.domain.vo.user.UserResult;
+import top.wyhao.admin.system.model.bo.user.UserImportReq;
+import top.wyhao.admin.system.model.bo.user.UserRequest;
+import top.wyhao.admin.system.model.query.UserQuery;
+import top.wyhao.admin.system.model.vo.user.UserDetailResult;
+import top.wyhao.admin.system.model.vo.user.UserResult;
 import top.wyhao.admin.system.service.UserService;
 import top.wyhao.starter.core.exception.SystemException;
 import top.wyhao.starter.core.model.R;
@@ -68,8 +68,8 @@ public class UserController {
     @Operation(summary = "分页查询列表", description = "分页查询列表")
     @SaCheckPermission("system:user:list")
     @GetMapping
-    public R<PageResult<UserResult>> page(@Valid UserQuery query, @Valid PageQuery pageQuery) {
-        return R.ok(userService.page(query, pageQuery));
+    public PageResult<UserResult> page(@Valid UserQuery query, @Valid PageQuery pageQuery) {
+        return userService.page(query, pageQuery);
     }
 
     /**

@@ -17,10 +17,10 @@
 package top.wyhao.admin.system.service;
 
 import jakarta.servlet.http.HttpServletResponse;
-import top.wyhao.admin.system.domain.bo.DeptReq;
-import top.wyhao.admin.system.domain.entity.DeptDO;
-import top.wyhao.admin.system.domain.query.DeptQuery;
-import top.wyhao.admin.system.domain.vo.DeptResp;
+import top.wyhao.admin.system.model.bo.DeptReq;
+import top.wyhao.admin.system.model.entity.DeptDO;
+import top.wyhao.admin.system.model.query.DeptQuery;
+import top.wyhao.admin.system.model.vo.DeptResp;
 import top.wyhao.starter.web.core.model.PageQuery;
 import top.wyhao.starter.web.core.model.PageResult;
 import top.wyhao.starter.web.core.model.resp.LabelValueResp;

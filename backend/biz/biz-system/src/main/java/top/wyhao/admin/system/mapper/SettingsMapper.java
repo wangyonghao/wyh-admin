@@ -20,7 +20,7 @@ import cn.hutool.core.text.CharSequenceUtil;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import top.wyhao.admin.system.domain.entity.SettingsDO;
+import top.wyhao.admin.system.model.entity.SettingsDO;
 import top.wyhao.starter.data.mapper.BaseMapper;
 
 import java.util.List;

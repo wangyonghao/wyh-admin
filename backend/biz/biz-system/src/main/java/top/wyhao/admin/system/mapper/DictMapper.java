@@ -20,7 +20,7 @@ import com.alicp.jetcache.anno.Cached;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import top.wyhao.starter.core.constant.CacheConstants;
-import top.wyhao.admin.system.domain.entity.DictDO;
+import top.wyhao.admin.system.model.entity.DictDO;
 import top.wyhao.starter.data.mapper.BaseMapper;
 import top.wyhao.starter.web.core.model.resp.LabelValueResp;
 

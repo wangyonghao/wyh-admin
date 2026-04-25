@@ -43,7 +43,7 @@ import top.wyhao.admin.auth.model.vo.AuthInfo;
 import top.wyhao.admin.auth.model.vo.LoginResult;
 import top.wyhao.admin.auth.model.vo.SocialAuthAuthorizeResp;
 import top.wyhao.admin.modules.common.util.RsaUtils;
-import top.wyhao.admin.system.domain.bo.user.UserPasswordResetRequest;
+import top.wyhao.admin.system.model.bo.user.UserPasswordResetRequest;
 import top.wyhao.admin.system.service.MenuService;
 import top.wyhao.admin.system.service.UserService;
 import top.wyhao.common.security.util.LoginUtil;

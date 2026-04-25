@@ -50,7 +50,7 @@ async function loadUserDetail() {
 
   detailLoading.value = true;
   try {
-    const res = await userApi.get(props.userId);
+    const res = await userApi.detail(props.userId);
     detailData.value = res;
   } catch (error) {
     console.error('加载用户详情失败:', error);

@@ -13,10 +13,7 @@ import { SearchOutline } from '@vicons/ionicons5';
 import { Page } from '@Vben/common-ui'
 import { NButton, NDataTable, NDropdown, NIcon, NInput, NSpace, NSplit, NTag, NTree, useDialog, useMessage, } from 'naive-ui';
 
-import { deptApi } from '#/api/system/dept';
-import { roleApi } from '#/api/system/role';
-import { userApi } from '#/api/system/user';
-import { useDownload } from '#/hooks/app/useDownload';
+import { deptApi,roleApi,userApi } from '#/api/system';
 
 import UserDetailDrawer from './components/UserDetailDrawer.vue';
 import UserEditDrawer from './components/UserEditDrawer.vue';
@@ -73,7 +70,7 @@ async function loadRoleOptions() {
 }
 
 // ==================== 用户列表逻辑 ====================
-const userSearchForm = ref({ username: '' });
+const userSearchForm = ref({ description: '' });
 const userData = ref<UserResp[]>([]);
 const userLoading = ref(false);
 const userPagination = ref({
@@ -263,7 +260,7 @@ async function loadUserData() {
       page: userPagination.value.page,
       size: userPagination.value.pageSize,
       deptId: selectedDeptId.value,
-      username: userSearchForm.value.username || undefined,
+      description: userSearchForm.value.description || undefined,
     });
     userData.value = res.list;
     userPagination.value.itemCount = res.total;
@@ -283,12 +280,10 @@ function handleImport() {
 }
 
 function handleExport() {
-  useDownload(() =>
-    userApi.export({
-      deptId: selectedDeptId.value,
-      username: userSearchForm.value.username || undefined,
-    }),
-  );
+  userApi.export({
+    deptId: selectedDeptId.value,
+    description: userSearchForm.value.description || undefined,
+  });
 }
 
 // ==================== 用户操作逻辑 ====================
@@ -430,10 +425,10 @@ onMounted(() => {
           <div class="flex items-center justify-between mb-4 gap-3">
             <div class="flex items-center gap-2">
               <NInput
-                v-model:value="userSearchForm.username"
-                placeholder="搜索用户名"
+                v-model:value="userSearchForm.description"
+                placeholder="搜索关键字（用户名/昵称）"
                 clearable
-                class="w-[200px]"
+                class="w-[240px]"
                 @keyup.enter="handleSearch"
               >
                 <template #prefix>

@@ -30,10 +30,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import top.wyhao.starter.core.constant.CacheConstants;
-import top.wyhao.admin.system.domain.vo.dashboard.DashboardAccessTrendResp;
-import top.wyhao.admin.system.domain.vo.dashboard.DashboardChartCommonResp;
-import top.wyhao.admin.system.domain.vo.dashboard.DashboardNoticeResp;
-import top.wyhao.admin.system.domain.vo.dashboard.DashboardOverviewCommonResp;
+import top.wyhao.admin.system.model.vo.dashboard.DashboardAccessTrendResp;
+import top.wyhao.admin.system.model.vo.dashboard.DashboardChartCommonResp;
+import top.wyhao.admin.system.model.vo.dashboard.DashboardNoticeResp;
+import top.wyhao.admin.system.model.vo.dashboard.DashboardOverviewCommonResp;
 import top.wyhao.admin.system.service.DashboardService;
 import top.wyhao.starter.core.util.validation.ValidationUtils;
 

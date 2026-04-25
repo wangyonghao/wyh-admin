@@ -18,7 +18,7 @@ package top.wyhao.admin.system.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import top.wyhao.starter.data.mapper.BaseMapper;
-import top.wyhao.admin.system.domain.entity.SmsLogDO;
+import top.wyhao.admin.system.model.entity.SmsLogDO;
 
 /**
  * 短信日志 Mapper

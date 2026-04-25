@@ -17,21 +17,18 @@
 package top.wyhao.admin.system.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import top.wyhao.admin.system.domain.enums.ConfigCategory;
-import top.wyhao.admin.system.domain.query.SettingsQuery;
-import top.wyhao.admin.system.domain.bo.SettingsRequest;
-import top.wyhao.admin.system.domain.bo.SettingsResetRequest;
-import top.wyhao.admin.system.domain.vo.SettingsResult;
+import top.wyhao.admin.system.model.enums.ConfigCategory;
+import top.wyhao.admin.system.model.query.SettingsQuery;
+import top.wyhao.admin.system.model.bo.SettingsRequest;
+import top.wyhao.admin.system.model.bo.SettingsResetRequest;
+import top.wyhao.admin.system.model.vo.SettingsResult;
 import top.wyhao.starter.mail.MailConfigurer;
 
 import java.util.List;
 import java.util.Map;
 
 /**
- * 参数业务接口
- *
- * @author Bull-BCLS
- * @since 2023/8/26 19:38
+ * 系统配置业务接口
  */
 public interface SettingsService extends MailConfigurer {
 

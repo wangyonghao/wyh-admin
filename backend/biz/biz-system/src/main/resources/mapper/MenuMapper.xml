@@ -13,7 +13,7 @@
           AND t1.permission IS NOT NULL
     </select>
 
-    <select id="selectListByRoleId" resultType="top.wyhao.admin.system.domain.entity.MenuDO">
+    <select id="selectListByRoleId" resultType="top.wyhao.admin.system.model.entity.MenuDO">
         SELECT t1.*
         FROM sys_menu AS t1
         LEFT JOIN sys_role_menu AS t2 ON t2.menu_id = t1.id

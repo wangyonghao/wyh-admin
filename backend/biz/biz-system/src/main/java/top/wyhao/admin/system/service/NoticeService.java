@@ -16,13 +16,13 @@
 
 package top.wyhao.admin.system.service;
 
-import top.wyhao.admin.system.domain.enums.NoticeMethods;
-import top.wyhao.admin.system.domain.entity.NoticeDO;
-import top.wyhao.admin.system.domain.query.NoticeQuery;
-import top.wyhao.admin.system.domain.bo.NoticeReq;
-import top.wyhao.admin.system.domain.vo.dashboard.DashboardNoticeResp;
-import top.wyhao.admin.system.domain.vo.notice.NoticeDetailResp;
-import top.wyhao.admin.system.domain.vo.notice.NoticeResp;
+import top.wyhao.admin.system.model.enums.NoticeMethods;
+import top.wyhao.admin.system.model.entity.NoticeDO;
+import top.wyhao.admin.system.model.query.NoticeQuery;
+import top.wyhao.admin.system.model.bo.NoticeReq;
+import top.wyhao.admin.system.model.vo.dashboard.DashboardNoticeResp;
+import top.wyhao.admin.system.model.vo.notice.NoticeDetailResp;
+import top.wyhao.admin.system.model.vo.notice.NoticeResp;
 import top.wyhao.starter.web.core.model.PageQuery;
 import top.wyhao.starter.web.core.model.SortQuery;
 import top.wyhao.starter.web.core.model.resp.LabelValueResp;

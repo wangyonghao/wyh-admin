@@ -21,7 +21,7 @@ import com.alicp.jetcache.anno.Cached;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import top.wyhao.admin.modules.common.api.system.UserApi;
-import top.wyhao.admin.system.domain.bo.user.UserPasswordResetRequest;
+import top.wyhao.admin.system.model.bo.user.UserPasswordResetRequest;
 import top.wyhao.admin.system.mapper.user.UserMapper;
 import top.wyhao.admin.system.service.UserService;
 import top.wyhao.starter.core.constant.CacheConstants;

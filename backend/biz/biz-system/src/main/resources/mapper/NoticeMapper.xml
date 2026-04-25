@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="top.wyhao.admin.system.mapper.NoticeMapper">
 
-    <resultMap id="notice" type="top.wyhao.admin.system.domain.vo.notice.NoticeResp">
+    <resultMap id="notice" type="top.wyhao.admin.system.model.vo.notice.NoticeResp">
         <id property="id" column="id" />
         <result property="noticeMethods" column="notice_methods" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler" />
     </resultMap>
@@ -80,7 +80,7 @@
     </select>
 
     <select id="selectDashboardList"
-            resultType="top.wyhao.admin.system.domain.vo.dashboard.DashboardNoticeResp">
+            resultType="top.wyhao.admin.system.model.vo.dashboard.DashboardNoticeResp">
         SELECT
         id, title, type, is_top
         FROM sys_notice
