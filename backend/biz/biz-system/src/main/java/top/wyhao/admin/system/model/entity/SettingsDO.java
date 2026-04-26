@@ -25,14 +25,14 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 /**
- * 参数实体
+ * 系统配置表
  *
  * @author Bull-BCLS
  * @since 2023/8/26 19:20
  */
 @Data
 @TableName("sys_settings")
-public class SettingsDO {
+public class ConfigDO {
 
     @TableId
     private Long id;
@@ -43,19 +43,24 @@ public class SettingsDO {
     private String category;
 
     /**
-     * 名称
+     * 配置分组: site, register, login, email, sms, storage, push, oauth, payment, security
      */
     private String name;
 
     /**
-     * 键
+     * 配置键，如 site_name, login_captcha_type
      */
-    private String code;
+    private String config_key;
 
     /**
-     * 值
+     * 配置值。简单类型存字符串/数字/布尔；复杂类型存JSON
      */
-    private String value;
+    private String config_value;
+
+    /**
+     * 值类型: 'string','number','boolean','json'
+     */
+    private String valueType;
 
     /**
      * 默认值
@@ -63,19 +68,16 @@ public class SettingsDO {
     private String defaultValue;
 
     /**
-     * 描述
+     * 配置说明
      */
     private String description;
 
-    /**
-     * 修改人
-     */
+    @TableField(fill = FieldFill.INSERT)
+    private Long createUser;
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
     @TableField(fill = FieldFill.UPDATE)
     private Long updateUser;
-
-    /**
-     * 修改时间
-     */
     @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime updateTime;
 }

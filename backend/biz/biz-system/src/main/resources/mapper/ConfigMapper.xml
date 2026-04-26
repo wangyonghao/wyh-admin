@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="top.wyhao.admin.system.mapper.ConfigMapper">
+
+    <select id="selectConfigPage" resultType="top.wyhao.admin.system.model.vo.ConfigResult">
+        SELECT
+            id,
+            config_key,
+            config_value,
+            description,
+            version,
+            created_at,
+            updated_at
+        FROM sys_config
+        ${ew.customSqlSegment}
+    </select>
+
+</mapper>
