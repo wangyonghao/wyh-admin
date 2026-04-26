@@ -88,8 +88,8 @@ public class SettingsServiceImpl implements SettingsService {
 
     @Override
     public void updateValue(String key, String value) {
-        settingsMapper.lambdaUpdate().set(SettingsDO::getValue, value)
-                .eq(SettingsDO::getCode, key);
+        settingsMapper.lambdaUpdate().set(SettingsDO::getConfig_value, value)
+                .eq(SettingsDO::getConfig_key, key);
     }
 
     @Override
@@ -97,8 +97,8 @@ public class SettingsServiceImpl implements SettingsService {
     public Map<String, String> getByCategory(ConfigCategory category) {
         return settingsMapper.selectByCategory(category.name())
                 .stream()
-                .collect(Collectors.toMap(SettingsDO::getCode, o -> CharSequenceUtil.emptyIfNull(ObjectUtil.defaultIfNull(o
-                        .getValue(), o.getDefaultValue())), (oldVal, newVal) -> oldVal));
+                .collect(Collectors.toMap(SettingsDO::getConfig_key, o -> CharSequenceUtil.emptyIfNull(ObjectUtil.defaultIfNull(o
+                        .getConfig_value(), o.getDefaultValue())), (oldVal, newVal) -> oldVal));
     }
 
     @Override
@@ -112,7 +112,7 @@ public class SettingsServiceImpl implements SettingsService {
         List<Long> idList = CollUtils.mapToList(configs, SettingsRequest::getId);
         List<SettingsDO> configList = settingsMapper.selectByIds(idList);
         Map<String, SettingsDO> configMap = configList.stream()
-                .collect(Collectors.toMap(SettingsDO::getCode, Function.identity(), (existing, replacement) -> existing));
+                .collect(Collectors.toMap(SettingsDO::getConfig_key, Function.identity(), (existing, replacement) -> existing));
         for (SettingsRequest req : configs) {
             SettingsDO config = configMap.get(req.getCode());
             ValidationUtils.throwIfNull(config, "参数 [{}] 不存在", req.getCode());
@@ -142,11 +142,11 @@ public class SettingsServiceImpl implements SettingsService {
         String category = req.getCategory();
         List<String> codeList = req.getCode();
         ValidationUtils.throwIf(CharSequenceUtil.isBlank(category) && CollUtil.isEmpty(codeList), "键列表不能为空");
-        LambdaUpdateChainWrapper<SettingsDO> updateWrapper = settingsMapper.lambdaUpdate().set(SettingsDO::getValue, null);
+        LambdaUpdateChainWrapper<SettingsDO> updateWrapper = settingsMapper.lambdaUpdate().set(SettingsDO::getConfig_value, null);
         if (CharSequenceUtil.isNotBlank(category)) {
             updateWrapper.eq(SettingsDO::getCategory, category);
         } else {
-            updateWrapper.in(SettingsDO::getCode, req.getCode());
+            updateWrapper.in(SettingsDO::getConfig_key, req.getCode());
         }
         updateWrapper.update();
     }

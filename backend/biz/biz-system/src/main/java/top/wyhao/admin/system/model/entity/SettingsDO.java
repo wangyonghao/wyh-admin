@@ -32,7 +32,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @TableName("sys_settings")
-public class ConfigDO {
+public class SettingsDO {
 
     @TableId
     private Long id;

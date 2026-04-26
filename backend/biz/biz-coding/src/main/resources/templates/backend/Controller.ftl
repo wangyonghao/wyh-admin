@@ -20,4 +20,4 @@ import ${packageName}.service.${classNamePrefix}Service;
 @Tag(name = "${businessName}管理 API")
 @RestController
 @RequestMapping("/${apiModuleName}/${apiName}")
-public class ${className} extends BaseController<${classNamePrefix}Service, ${classNamePrefix}Resp, ${classNamePrefix}DetailResp, ${classNamePrefix}Query, ${classNamePrefix}Req> {}
+public class ${className} extends <${classNamePrefix}Service, ${classNamePrefix}Resp, ${classNamePrefix}DetailResp, ${classNamePrefix}Query, ${classNamePrefix}Req> {}

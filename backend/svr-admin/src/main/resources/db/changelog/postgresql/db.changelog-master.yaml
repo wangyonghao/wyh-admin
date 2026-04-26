@@ -4,6 +4,8 @@ databaseChangeLog:
   - include:
       file: db/changelog/postgresql/system/data.sql
   - include:
+      file: db/changelog/postgresql/system/sys_config.sql
+  - include:
       file: db/changelog/postgresql/generator/schema.sql
   - include:
       file: db/changelog/postgresql/generator/data.sql

@@ -51,13 +51,13 @@ public interface SettingsMapper extends BaseMapper<SettingsDO> {
      */
     default String getRawValue(String key) {
         SettingsDO config = this.lambdaQuery()
-                .eq(SettingsDO::getCode, key)
-                .select(SettingsDO::getValue, SettingsDO::getDefaultValue)
+                .eq(SettingsDO::getConfig_key, key)
+                .select(SettingsDO::getConfig_value, SettingsDO::getDefaultValue)
                 .one();
         if (config == null) {
             return null;
         }
-        return CharSequenceUtil.nullToDefault(config.getValue(), config.getDefaultValue());
+        return CharSequenceUtil.nullToDefault(config.getConfig_value(), config.getDefaultValue());
     }
 
     /**
