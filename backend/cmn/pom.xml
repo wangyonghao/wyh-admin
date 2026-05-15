@@ -15,16 +15,10 @@
   <description>WYH Admin Commons Modules</description>
 
   <modules>
-    <!-- 所有业务模块的通用能力 -->
-    <module>biz-base</module>
-    <!-- Starter 模块 -->
     <module>cmn-apidoc</module>
-    <!-- 集成认证能力 -->
     <module>cmn-security</module>
     <module>cmn-justauth</module>
-    <module>cmn-redis</module>
-    <module>cmn-springcache</module>
-    <module>cmn-jetcache</module>
+    <module>cmn-cache</module>
     <module>cmn-captcha-graphic</module>
     <module>cmn-captcha-behavior</module>
     <module>cmn-base</module>
@@ -34,7 +28,9 @@
     <module>cmn-fastexcel</module>
     <module>cmn-poi</module>
     <module>cmn-tenant</module>
-    <module>cmn-license</module>
+    <module>cmn-license-core</module>
+    <module>cmn-license-generator</module>
+    <module>cmn-license-verifier</module>
     <module>cmn-mail</module>
     <module>cmn-websocket</module>
     <module>cmn-oss</module>

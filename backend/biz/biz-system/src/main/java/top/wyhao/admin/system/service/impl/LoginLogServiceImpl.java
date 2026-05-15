@@ -12,8 +12,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-import top.wyhao.admin.system.mapper.LoginLogMapper;
 import top.wyhao.admin.system.entity.LoginLogDO;
+import top.wyhao.admin.system.mapper.LoginLogMapper;
 import top.wyhao.admin.system.model.enums.LoginDeviceEnum;
 import top.wyhao.admin.system.model.query.LoginLogQuery;
 import top.wyhao.admin.system.model.vo.log.LoginLogExportResult;
@@ -179,7 +179,7 @@ public class LoginLogServiceImpl implements LoginLogService {
         }
 
         try {
-            String location = IpUtils.getIpv4Address(ipAddress);
+            String location = IpUtils.getRegion(ipAddress);
             return CharSequenceUtil.isNotBlank(location) ? location : "未知地址";
         } catch (Exception e) {
             log.warn("解析IP地址失败: ip={}, error={}", ipAddress, e.getMessage());

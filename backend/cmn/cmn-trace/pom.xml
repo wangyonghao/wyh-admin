@@ -20,6 +20,10 @@
             <groupId>top.wyhao</groupId>
             <artifactId>cmn-base</artifactId>
         </dependency>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+        </dependency>
 
         <!-- TLog（轻量级的分布式日志标记追踪神器） -->
         <dependency>

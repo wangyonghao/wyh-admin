@@ -494,22 +494,9 @@
       <!-- 缓存模块 - Redisson -->
       <dependency>
         <groupId>top.wyhao</groupId>
-        <artifactId>cmn-redis</artifactId>
+        <artifactId>cmn-cache</artifactId>
         <version>${revision}</version>
       </dependency>
-      <!-- 缓存模块 - Spring Cache -->
-      <dependency>
-        <groupId>top.wyhao</groupId>
-        <artifactId>cmn-springcache</artifactId>
-        <version>${revision}</version>
-      </dependency>
-      <!-- 缓存模块 - JetCache -->
-      <dependency>
-        <groupId>top.wyhao</groupId>
-        <artifactId>cmn-jetcache</artifactId>
-        <version>${revision}</version>
-      </dependency>
-
       <!-- 认证模块 - SaToken -->
       <dependency>
         <groupId>top.wyhao</groupId>

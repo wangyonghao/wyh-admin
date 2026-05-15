@@ -22,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>top.wyhao</groupId>
-            <artifactId>cmn-redis</artifactId>
+            <artifactId>cmn-cache</artifactId>
         </dependency>
         <!-- Java 邮件支持 -->
         <dependency>

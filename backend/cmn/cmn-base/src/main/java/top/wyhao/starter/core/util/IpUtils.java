@@ -7,7 +7,6 @@ import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.http.HtmlUtil;
 import net.dreamlu.mica.ip2region.core.Ip2regionSearcher;
 import net.dreamlu.mica.ip2region.core.IpInfo;
-import top.wyhao.starter.core.constant.StringConstants;
 
 import java.util.Objects;
 import java.util.Set;
@@ -29,7 +28,7 @@ public class IpUtils {
      * @param ip IP 地址
      * @return IP 归属地
      */
-    public static String getIpv4Address(String ip) {
+    public static String getRegion(String ip) {
         if (isInnerIpv4(ip)) {
             return "内网IP";
         }
@@ -41,7 +40,7 @@ public class IpUtils {
         Set<String> regionSet = CollUtil.newLinkedHashSet(ipInfo.getCountry(), ipInfo.getRegion(), ipInfo
             .getProvince(), ipInfo.getCity(), ipInfo.getIsp());
         regionSet.removeIf(Objects::isNull);
-        return String.join(StringConstants.PIPE, regionSet);
+        return String.join("|", regionSet);
     }
 
     /**

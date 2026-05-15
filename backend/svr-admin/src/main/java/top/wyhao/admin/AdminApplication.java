@@ -53,13 +53,11 @@ public class AdminApplication implements ApplicationRunner {
         String contextPath = serverProperties.getServlet().getContextPath();
         String baseUrl = URLUtil.normalize("%s:%s%s".formatted(hostAddress, port, contextPath));
         log.info("--------------------------------------------------------");
-        log.info("{} server started successfully.", applicationProperties.getName());
+        log.info("{} 服务启动成功", applicationProperties.getName());
         log.info("当前版本: v{} (Profile: {})", applicationProperties.getVersion(), SpringUtil
                 .getProperty("spring.profiles.active"));
         log.info("服务地址: {}", baseUrl);
         log.info("接口文档: {}/doc.html", baseUrl);
-        log.info("Wyhao Admin: 持续迭代优化的，高质量多租户中后台管理系统框架");
-        log.info("Spring Boot: v{}", SpringUtil.getProperty("spring.boot.version"));
         log.info("--------------------------------------------------------");
     }
 }

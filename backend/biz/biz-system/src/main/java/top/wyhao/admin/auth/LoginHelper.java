@@ -47,7 +47,7 @@ public class LoginHelper {
         ServletRequestAttributes attrs = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attrs != null ? attrs.getRequest() : null;
         String ip = request != null ? JakartaServletUtil.getClientIP(request) : null;
-        String address = ExceptionUtils.exToNull(() -> IpUtils.getIpv4Address(ip));
+        String address = ExceptionUtils.exToNull(() -> IpUtils.getRegion(ip));
         UserAgent ua = request != null ? UserAgentUtil.parse(request.getHeader("User-Agent")) : null;
         String browser = ua != null ? ua.getBrowser().getName() : "Unknown";
         String os = ua != null ? ua.getOs().getName() : "Unknown";

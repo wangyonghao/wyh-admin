@@ -16,10 +16,22 @@
     <description>代码生成器插件</description>
 
     <dependencies>
-        <!-- 公共模块 -->
+        <!-- FreeMarker（模板引擎） -->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+        </dependency>
         <dependency>
             <groupId>top.wyhao</groupId>
-            <artifactId>biz-base</artifactId>
+            <artifactId>cmn-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>top.wyhao</groupId>
+            <artifactId>cmn-db</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>top.wyhao</groupId>
+            <artifactId>cmn-web</artifactId>
         </dependency>
     </dependencies>
 </project>

@@ -18,11 +18,14 @@ package top.wyhao.starter.encrypt.api.filter;
 
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpMethod;
-import top.wyhao.starter.core.util.SpringWebUtils;
+import org.springframework.web.method.HandlerMethod;
+import org.springframework.web.servlet.HandlerExecutionChain;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import top.wyhao.starter.encrypt.api.annotation.ApiEncrypt;
 import top.wyhao.starter.encrypt.api.autoconfigure.ApiEncryptProperties;
 
@@ -93,9 +96,35 @@ public class ApiEncryptFilter implements Filter {
      */
     private boolean isResponseEncrypt(HttpServletRequest request) {
         // 获取 API 加密注解
-        ApiEncrypt apiEncrypt = Optional.ofNullable(SpringWebUtils.getHandlerMethod(request))
+        ApiEncrypt apiEncrypt = Optional.ofNullable(getHandlerMethod(request))
             .map(h -> h.getMethodAnnotation(ApiEncrypt.class))
             .orElse(null);
         return apiEncrypt != null && apiEncrypt.response();
+    }
+
+    /**
+     * 获取处理器方法
+     *
+     * @param request 请求
+     * @return 处理器方法
+     * @since 2.14.0
+     */
+    public static HandlerMethod getHandlerMethod(HttpServletRequest request) {
+        try {
+            RequestMappingHandlerMapping handlerMapping = SpringUtil.getBean("requestMappingHandlerMapping", RequestMappingHandlerMapping.class);
+            HandlerExecutionChain handlerExecutionChain = handlerMapping.getHandler(request);
+            // 检查是否存在处理链
+            if (handlerExecutionChain == null) {
+                return null;
+            }
+            // 获取处理器
+            Object handler = handlerExecutionChain.getHandler();
+            if (handler instanceof HandlerMethod handlerMethod) {
+                return handlerMethod;
+            }
+            return null;
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

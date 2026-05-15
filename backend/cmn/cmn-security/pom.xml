@@ -24,7 +24,7 @@
         <!-- 缓存模块 - Redisson -->
         <dependency>
             <groupId>top.wyhao</groupId>
-            <artifactId>cmn-redis</artifactId>
+            <artifactId>cmn-cache</artifactId>
             <optional>true</optional>
         </dependency>
 

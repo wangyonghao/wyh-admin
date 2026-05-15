@@ -16,10 +16,9 @@
     <description>能力开放插件（包括应用管理、API开放授权、API开发等）</description>
 
     <dependencies>
-        <!-- 公共模块 -->
         <dependency>
             <groupId>top.wyhao</groupId>
-            <artifactId>biz-base</artifactId>
+            <artifactId>cmn-security</artifactId>
         </dependency>
         <dependency>
             <groupId>top.wyhao</groupId>

@@ -27,7 +27,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-json</artifactId>
         </dependency>
-
+        <!-- Spring AOP Starter -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>
@@ -75,6 +79,7 @@
             <artifactId>cmn-apidoc</artifactId>
         </dependency>
 
+
         <!-- Excel 模块 -->
         <dependency>
             <groupId>top.wyhao</groupId>
@@ -88,7 +93,7 @@
         </dependency>
       <dependency>
         <groupId>top.wyhao</groupId>
-        <artifactId>cmn-redis</artifactId>
+        <artifactId>cmn-cache</artifactId>
       </dependency>
     </dependencies>
 </project>

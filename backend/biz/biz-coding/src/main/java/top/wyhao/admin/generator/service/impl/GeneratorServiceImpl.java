@@ -38,20 +38,21 @@ import top.wyhao.admin.generator.model.query.GenConfigQuery;
 import top.wyhao.admin.generator.model.req.GenConfigReq;
 import top.wyhao.admin.generator.model.resp.GeneratePreviewResp;
 import top.wyhao.admin.generator.service.GeneratorService;
+import top.wyhao.cmn.db.dialect.DatabaseType;
+import top.wyhao.cmn.db.util.DBMetaUtils;
 import top.wyhao.starter.core.autoconfigure.application.ApplicationProperties;
 import top.wyhao.starter.core.constant.StringConstants;
 import top.wyhao.starter.core.enums.BaseEnum;
 import top.wyhao.starter.core.exception.SystemException;
 import top.wyhao.starter.core.util.CollUtils;
-import top.wyhao.starter.core.util.FileUploadUtils;
 import top.wyhao.starter.core.util.validation.BizAssert;
-import top.wyhao.cmn.db.dialect.DatabaseType;
-import top.wyhao.cmn.db.util.DBMetaUtils;
 import top.wyhao.starter.web.core.model.PageQuery;
 import top.wyhao.starter.web.core.model.PageResult;
+import top.wyhao.starter.web.util.HttpUtil;
 
 import javax.sql.DataSource;
 import java.io.File;
+import java.io.FileInputStream;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.function.Function;
@@ -232,7 +233,8 @@ public class GeneratorServiceImpl implements GeneratorService {
             File tempDirFile = new File(tempDir, applicationProperties.getId());
             String zipFilePath = tempDirFile.getPath() + jodd.io.ZipUtil.ZIP_EXT;
             ZipUtil.zip(tempDirFile.getPath(), zipFilePath);
-            FileUploadUtils.download(response, new File(zipFilePath));
+            File zipFile =  new File(zipFilePath);
+            HttpUtil.writeAttachmentToResponse(new FileInputStream(zipFile), zipFile.getName(),response);
         } catch (Exception e) {
             log.error("Generate code of table '{}' occurred an error. {}", tableNames, e.getMessage(), e);
             throw new SystemException("代码生成失败，请手动清理生成文件");

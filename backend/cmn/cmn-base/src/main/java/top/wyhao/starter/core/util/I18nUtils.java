@@ -1,5 +1,6 @@
 package top.wyhao.starter.core.util;
 
+import cn.hutool.extra.spring.SpringUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.springframework.context.MessageSource;
@@ -14,7 +15,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class I18nUtils {
 
-    private static final MessageSource MESSAGE_SOURCE = SpringUtils.getBean(MessageSource.class);
+    private static final MessageSource MESSAGE_SOURCE = SpringUtil.getBean(MessageSource.class);
 
     /**
      * 根据消息键和参数 获取消息 委托给spring messageSource

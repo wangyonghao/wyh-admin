@@ -16,10 +16,21 @@
   <description>租户插件</description>
 
   <dependencies>
-    <!-- 公共模块 -->
     <dependency>
       <groupId>top.wyhao</groupId>
-      <artifactId>biz-base</artifactId>
+      <artifactId>cmn-security</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>top.wyhao</groupId>
+      <artifactId>cmn-db</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>top.wyhao</groupId>
+      <artifactId>cmn-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>top.wyhao</groupId>
+      <artifactId>cmn-tenant</artifactId>
     </dependency>
   </dependencies>
 </project>

@@ -2,24 +2,36 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
-    <parent>
-        <groupId>top.wyhao</groupId>
-        <artifactId>cmn</artifactId>
-        <version>${revision}</version>
-    </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>top.wyhao</groupId>
+    <artifactId>cmn</artifactId>
+    <version>${revision}</version>
+  </parent>
 
-    <artifactId>cmn-encrypt-api</artifactId>
-    <packaging>jar</packaging>
+  <artifactId>cmn-encrypt-api</artifactId>
+  <packaging>jar</packaging>
 
-    <name>${project.artifactId}</name>
-    <description>ContiNew Starter 加密模块 - API 加密</description>
+  <name>${project.artifactId}</name>
+  <description>ContiNew Starter 加密模块 - API 加密</description>
 
-    <dependencies>
-        <!-- 加密模块 - 核心模块 -->
-        <dependency>
-            <groupId>top.wyhao</groupId>
-            <artifactId>cmn-encrypt-core</artifactId>
-        </dependency>
-    </dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+    </dependency>
+    <!-- 加密模块 - 核心模块 -->
+    <dependency>
+      <groupId>top.wyhao</groupId>
+      <artifactId>cmn-encrypt-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+    </dependency>
+  </dependencies>
 </project>

@@ -1,8 +1,8 @@
 
 package top.wyhao.starter.tenant.context;
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.alibaba.ttl.TransmittableThreadLocal;
-import top.wyhao.starter.core.util.SpringUtils;
 import top.wyhao.starter.tenant.config.TenantProperties;
 
 import java.util.Optional;
@@ -87,7 +87,7 @@ public class TenantContextHolder {
      * @return 是否启用了租户
      */
     public static boolean isTenantEnabled() {
-        TenantProperties tenantProperties = SpringUtils.getBean(TenantProperties.class);
+        TenantProperties tenantProperties = SpringUtil.getBean(TenantProperties.class);
         return tenantProperties != null && tenantProperties.isEnabled();
     }
 

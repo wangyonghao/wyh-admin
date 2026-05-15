@@ -24,7 +24,7 @@
         <!-- 缓存模块 - Redisson -->
         <dependency>
             <groupId>top.wyhao</groupId>
-            <artifactId>cmn-redis</artifactId>
+            <artifactId>cmn-cache</artifactId>
         </dependency>
 
         <!-- AJ-Captcha（行为验证码，包含滑动拼图、文字点选两种方式，UI支持弹出和嵌入两种方式） -->

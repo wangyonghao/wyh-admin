@@ -3,9 +3,9 @@ package top.wyhao.admin.system.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import top.wyhao.starter.web.excel.DictApi;
 import top.wyhao.admin.system.service.DictService;
 import top.wyhao.starter.web.core.model.LabelValueResult;
+import top.wyhao.starter.web.excel.DictApi;
 
 import java.util.List;
 

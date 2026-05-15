@@ -16,10 +16,10 @@ import top.wyhao.admin.system.model.bo.FileRequest;
 import top.wyhao.admin.system.model.query.FileQuery;
 import top.wyhao.admin.system.model.vo.file.FileResult;
 import top.wyhao.admin.system.service.FileService;
-import top.wyhao.starter.core.util.HttpUtil;
 import top.wyhao.starter.web.core.model.IdsRequest;
 import top.wyhao.starter.web.core.model.PageQuery;
 import top.wyhao.starter.web.core.model.PageResult;
+import top.wyhao.starter.web.util.HttpUtil;
 
 import java.util.List;
 

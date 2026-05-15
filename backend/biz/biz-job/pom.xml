@@ -14,11 +14,6 @@
   <description>任务调度插件</description>
 
   <dependencies>
-    <!-- 公共模块 -->
-    <dependency>
-      <groupId>top.wyhao</groupId>
-      <artifactId>cmn-base</artifactId>
-    </dependency>
     <!-- SnailJob（灵活，可靠和快速的分布式任务重试和分布式任务调度平台） -->
     <dependency>
       <groupId>com.aizuda</groupId>
@@ -40,15 +35,15 @@
     </dependency>
     <dependency>
       <groupId>top.wyhao</groupId>
-      <artifactId>biz-base</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>top.wyhao</groupId>
-      <artifactId>cmn-redis</artifactId>
+      <artifactId>cmn-cache</artifactId>
     </dependency>
     <dependency>
       <groupId>top.wyhao</groupId>
       <artifactId>cmn-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>top.wyhao</groupId>
+      <artifactId>cmn-security</artifactId>
     </dependency>
   </dependencies>
 </project>

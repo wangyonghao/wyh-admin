@@ -3,8 +3,8 @@ package top.wyhao.admin.tenant.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import top.wyhao.admin.modules.common.api.tenant.PackageMenuApi;
 import top.wyhao.admin.tenant.service.PackageMenuService;
+import top.wyhao.starter.core.spi.PackageMenuApi;
 
 import java.util.List;
 

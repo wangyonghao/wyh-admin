@@ -16,10 +16,32 @@
   <description>系统管理模块（存放系统管理相关业务功能，例如：部门管理、角色管理、用户管理等）</description>
 
   <dependencies>
-    <!-- 公共模块 -->
+    <!-- ContiNew Starter 认证模块 - SaToken -->
     <dependency>
       <groupId>top.wyhao</groupId>
-      <artifactId>biz-base</artifactId>
+      <artifactId>cmn-security</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-web</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <!-- JustAuth -->
+    <dependency>
+      <groupId>top.wyhao</groupId>
+      <artifactId>cmn-justauth</artifactId>
+    </dependency>
+    <!-- ContiNew Starter 验证码模块 - 图形验证码 -->
+    <dependency>
+      <groupId>top.wyhao</groupId>
+      <artifactId>cmn-captcha-graphic</artifactId>
+    </dependency>
+
+    <!-- ContiNew Starter 验证码模块 - 行为验证码 -->
+    <dependency>
+      <groupId>top.wyhao</groupId>
+      <artifactId>cmn-captcha-behavior</artifactId>
     </dependency>
 
     <!-- SMS4J（短信聚合框架，轻松集成多家短信服务，解决接入多个短信 SDK 的繁琐流程） -->
@@ -33,20 +55,6 @@
       <groupId>cn.sticki</groupId>
       <artifactId>spel-validator-jakarta</artifactId>
     </dependency>
-
-    <!-- Core 模块 -->
-    <dependency>
-      <groupId>top.wyhao</groupId>
-      <artifactId>cmn-base</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>top.wyhao</groupId>
-      <artifactId>cmn-oss</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>top.wyhao</groupId>
-      <artifactId>cmn-tenant</artifactId>
-    </dependency>
     <!-- Excel 模块 -->
     <dependency>
       <groupId>top.wyhao</groupId>
@@ -56,5 +64,26 @@
       <groupId>org.springframework.security</groupId>
       <artifactId>spring-security-crypto</artifactId>
     </dependency>
+    <dependency>
+      <groupId>top.wyhao</groupId>
+      <artifactId>cmn-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>top.wyhao</groupId>
+      <artifactId>cmn-websocket</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>top.wyhao</groupId>
+      <artifactId>cmn-oss</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>top.wyhao</groupId>
+      <artifactId>cmn-mail</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>top.wyhao</groupId>
+      <artifactId>cmn-tenant</artifactId>
+    </dependency>
+
   </dependencies>
 </project>

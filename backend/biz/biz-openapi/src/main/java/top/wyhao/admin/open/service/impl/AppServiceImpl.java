@@ -7,11 +7,13 @@ import cn.hutool.core.codec.Base64;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.ValidationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,11 +25,10 @@ import top.wyhao.admin.open.model.resp.AppDetailResp;
 import top.wyhao.admin.open.model.resp.AppResp;
 import top.wyhao.admin.open.model.resp.AppSecretResp;
 import top.wyhao.admin.open.service.AppService;
-import top.wyhao.starter.core.constant.StringConstants;
-import top.wyhao.starter.core.util.ReflectUtils;
-import top.wyhao.starter.core.util.validation.ValidationUtils;
 import top.wyhao.cmn.db.model.ServiceImpl;
 import top.wyhao.cmn.db.util.QueryWrapperUtil;
+import top.wyhao.starter.core.constant.StringConstants;
+import top.wyhao.starter.core.util.ReflectUtils;
 import top.wyhao.starter.excel.util.ExcelUtils;
 import top.wyhao.starter.web.core.model.PageQuery;
 import top.wyhao.starter.web.core.model.PageResult;
@@ -164,7 +165,10 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, AppDO> implements App
             Optional<Field> optional = getEntityFields().stream()
                 .filter(field -> checkProperty.equals(field.getName()))
                 .findFirst();
-            ValidationUtils.throwIf(optional.isEmpty(), "无效的排序字段 [{}]", property);
+
+            if(optional.isEmpty()){
+                throw new ValidationException(StrUtil.format("无效的排序字段 [{}]", property));
+            }
             queryWrapper.orderBy(true, order.isAscending(), CharSequenceUtil.toUnderlineCase(property));
         }
     }

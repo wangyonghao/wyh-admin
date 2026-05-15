@@ -22,12 +22,8 @@ import top.wyhao.admin.system.model.vo.user.UserResult;
 import top.wyhao.admin.system.service.UserService;
 import top.wyhao.starter.core.exception.SystemException;
 import top.wyhao.starter.core.model.R;
-import top.wyhao.starter.core.util.FileUploadUtils;
-import top.wyhao.starter.web.core.model.PageQuery;
-import top.wyhao.starter.web.core.model.PageResult;
-import top.wyhao.starter.web.core.model.SortQuery;
-import top.wyhao.starter.web.core.model.IdsRequest;
-import top.wyhao.starter.web.core.model.IdResult;
+import top.wyhao.starter.web.core.model.*;
+import top.wyhao.starter.web.util.HttpUtil;
 
 import java.io.IOException;
 import java.util.List;
@@ -140,7 +136,7 @@ public class UserController {
     @GetMapping("/download-template")
     public void downloadTemplate(HttpServletResponse response) {
         try {
-            FileUploadUtils.download(response, ResourceUtil.getStream("templates/import/user.xlsx"), "用户导入模板.xlsx");
+            HttpUtil.writeAttachmentToResponse(ResourceUtil.getStream("templates/import/user.xlsx"), "用户导入模板.xlsx", response);
         } catch (Exception e) {
             log.error("下载用户导入模板失败：{}", e.getMessage(), e);
             response.setCharacterEncoding(CharsetUtil.UTF_8);

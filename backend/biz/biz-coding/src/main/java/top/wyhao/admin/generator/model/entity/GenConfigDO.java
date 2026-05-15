@@ -11,7 +11,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import top.wyhao.starter.core.constant.RegexConstants;
-import top.wyhao.starter.core.constant.CharConstants;
 import top.wyhao.starter.core.util.StrUtils;
 
 import java.io.Serial;
@@ -115,7 +114,7 @@ public class GenConfigDO implements Serializable {
     public void setTableName(String tableName) {
         this.tableName = tableName;
         // 默认表前缀（sys_user -> sys_）
-        int underLineIndex = StrUtil.indexOf(tableName, CharConstants.UNDERLINE);
+        int underLineIndex = StrUtil.indexOf(tableName, '_');
         if (-1 != underLineIndex) {
             this.tablePrefix = StrUtil.subPre(tableName, underLineIndex + 1);
         }

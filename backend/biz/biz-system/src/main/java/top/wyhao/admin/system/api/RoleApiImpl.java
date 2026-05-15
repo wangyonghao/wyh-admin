@@ -3,8 +3,8 @@ package top.wyhao.admin.system.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import top.wyhao.admin.modules.common.api.system.RoleApi;
 import top.wyhao.admin.system.service.RoleService;
+import top.wyhao.starter.core.spi.RoleApi;
 
 /**
  * 角色业务 API 实现

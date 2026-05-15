@@ -36,17 +36,17 @@ import jakarta.servlet.http.HttpServletRequest;
  */
 public class TLogWebCommon extends TLogRPCHandler {
 
-    private static volatile TLogWebCommon tLogWebCommon;
+    private static volatile TLogWebCommon instance;
 
     public static TLogWebCommon loadInstance() {
-        if (tLogWebCommon == null) {
+        if (instance == null) {
             synchronized (TLogWebCommon.class) {
-                if (tLogWebCommon == null) {
-                    tLogWebCommon = new TLogWebCommon();
+                if (instance == null) {
+                    instance = new TLogWebCommon();
                 }
             }
         }
-        return tLogWebCommon;
+        return instance;
     }
 
     public void preHandle(HttpServletRequest request) {

@@ -24,13 +24,13 @@ import top.wyhao.admin.auth.handler.PhoneLoginHandler;
 import top.wyhao.admin.auth.handler.SocialLoginHandler;
 import top.wyhao.admin.auth.model.*;
 import top.wyhao.admin.auth.model.enums.AuthType;
-import top.wyhao.admin.modules.common.util.RsaUtils;
 import top.wyhao.admin.system.model.bo.user.UserPasswordResetRequest;
 import top.wyhao.admin.system.service.MenuService;
 import top.wyhao.admin.system.service.UserService;
 import top.wyhao.common.security.util.LoginUtil;
 import top.wyhao.starter.core.exception.BadRequestException;
 import top.wyhao.starter.core.exception.BusinessException;
+import top.wyhao.starter.core.util.RsaUtils;
 import top.wyhao.starter.core.util.validation.Validator;
 
 import java.util.Map;
