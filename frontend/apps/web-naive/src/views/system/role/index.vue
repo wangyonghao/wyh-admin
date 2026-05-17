@@ -31,8 +31,8 @@ import {
 import { roleApi } from '#/api/system/role';
 import { useUserStore } from '#/store';
 
-import RoleEditDrawer from './components/RoleEditDrawer.vue';
-import RolePermission from './components/RolePermission.vue';
+import RoleEditDrawer from './components/role-edit-drawer.vue';
+import RolePermission from './components/role-permission.vue';
 
 defineOptions({ name: 'SystemRole' });
 

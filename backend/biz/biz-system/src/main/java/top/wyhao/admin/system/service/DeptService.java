@@ -3,7 +3,7 @@ package top.wyhao.admin.system.service;
 
 import jakarta.servlet.http.HttpServletResponse;
 import top.wyhao.admin.system.model.bo.DeptReq;
-import top.wyhao.admin.system.entity.DeptDO;
+import top.wyhao.admin.system.entity.SysDept;
 import top.wyhao.admin.system.model.query.DeptQuery;
 import top.wyhao.admin.system.model.vo.DeptResp;
 import top.wyhao.starter.web.core.model.PageQuery;
@@ -86,7 +86,7 @@ public interface DeptService{
      * @param id ID
      * @return 子部门列表
      */
-    List<DeptDO> listChildren(Long id);
+    List<SysDept> listChildren(Long id);
 
-    DeptDO getById(Long deptId);
+    SysDept getById(Long deptId);
 }

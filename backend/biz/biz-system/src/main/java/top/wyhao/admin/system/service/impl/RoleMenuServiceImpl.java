@@ -5,7 +5,7 @@ import cn.hutool.core.collection.CollUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import top.wyhao.admin.system.entity.RoleMenuDO;
+import top.wyhao.admin.system.entity.SysRoleMenu;
 import top.wyhao.admin.system.mapper.RoleMenuMapper;
 import top.wyhao.admin.system.service.RoleMenuService;
 import top.wyhao.starter.core.util.CollUtils;
@@ -22,7 +22,7 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenuDO> implements RoleMenuService {
+public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, SysRoleMenu> implements RoleMenuService {
     private final RoleMenuMapper roleMenuMapper;
 
     @Override
@@ -30,26 +30,26 @@ public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenuDO>
     public boolean save(List<Long> menuIds, Long roleId) {
         // 检查是否有变更
         List<Long> oldMenuIdList = roleMenuMapper.lambdaQuery()
-            .select(RoleMenuDO::getMenuId)
-            .eq(RoleMenuDO::getRoleId, roleId)
+            .select(SysRoleMenu::getMenuId)
+            .eq(SysRoleMenu::getRoleId, roleId)
             .list()
             .stream()
-            .map(RoleMenuDO::getMenuId)
+            .map(SysRoleMenu::getMenuId)
             .toList();
         if (CollUtil.isEmpty(CollUtil.disjunction(menuIds, oldMenuIdList))) {
             return false;
         }
         // 删除原有关联
-        roleMenuMapper.lambdaUpdate().eq(RoleMenuDO::getRoleId, roleId).remove();
+        roleMenuMapper.lambdaUpdate().eq(SysRoleMenu::getRoleId, roleId).remove();
         // 保存最新关联
-        List<RoleMenuDO> roleMenuList = CollUtils.mapToList(menuIds, menuId -> new RoleMenuDO(roleId, menuId));
+        List<SysRoleMenu> roleMenuList = CollUtils.mapToList(menuIds, menuId -> new SysRoleMenu(roleId, menuId));
         return roleMenuMapper.insertBatch(roleMenuList);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void deleteByRoleId(Long roleId) {
-        roleMenuMapper.lambdaUpdate().in(RoleMenuDO::getRoleId, roleId).remove();
+        roleMenuMapper.lambdaUpdate().in(SysRoleMenu::getRoleId, roleId).remove();
     }
 
     @Override

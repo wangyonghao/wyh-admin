@@ -3,7 +3,7 @@ package top.wyhao.admin.system.mapper.user;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import top.wyhao.admin.system.entity.user.UserSocialDO;
+import top.wyhao.admin.system.entity.user.SysUserSocial;
 import top.wyhao.cmn.db.model.BaseMapper;
 
 /**
@@ -13,7 +13,7 @@ import top.wyhao.cmn.db.model.BaseMapper;
  * @since 2023/10/11 22:10
  */
 @Mapper
-public interface UserSocialMapper extends BaseMapper<UserSocialDO> {
+public interface UserSocialMapper extends BaseMapper<SysUserSocial> {
 
     /**
      * 根据来源和开放 ID 查询
@@ -22,5 +22,5 @@ public interface UserSocialMapper extends BaseMapper<UserSocialDO> {
      * @param openId 开放 ID
      * @return 用户社会化关联信息
      */
-    UserSocialDO selectBySourceAndOpenId(@Param("source") String source, @Param("openId") String openId);
+    SysUserSocial selectBySourceAndOpenId(@Param("source") String source, @Param("openId") String openId);
 }

@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import top.wyhao.admin.tenant.mapper.PackageMapper;
 import top.wyhao.admin.tenant.mapper.TenantMapper;
-import top.wyhao.admin.tenant.model.entity.PackageDO;
+import top.wyhao.admin.tenant.model.entity.TenantPackage;
 import top.wyhao.admin.tenant.model.query.PackageQuery;
 import top.wyhao.admin.tenant.model.req.PackageReq;
 import top.wyhao.admin.tenant.model.resp.PackageDetailResp;
@@ -91,8 +91,8 @@ public class PackageServiceImpl implements PackageService {
      */
     private void checkNameRepeat(String name, Long id) {
         BizAssert.isTrue(baseMapper.lambdaQuery()
-            .eq(PackageDO::getName, name)
-            .ne(id != null, PackageDO::getId, id)
+            .eq(TenantPackage::getName, name)
+            .ne(id != null, TenantPackage::getId, id)
             .exists(), "名称为 [{}] 的套餐已存在", name);
     }
 

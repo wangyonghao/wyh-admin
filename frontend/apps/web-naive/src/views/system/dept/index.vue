@@ -23,7 +23,7 @@ import {
 import { deptApi } from '#/api/system/dept';
 import { useDownload } from '#/hooks/app/useDownload';
 
-import EditModal from './DeptDrawer.vue';
+import EditModal from './dept-drawer.vue';
 
 // 搜索表单
 const searchForm = ref({

@@ -18,7 +18,7 @@ import me.zhyd.oauth.request.AuthRequest;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import top.wyhao.admin.system.entity.user.UserSocialDO;
+import top.wyhao.admin.system.entity.user.SysUserSocial;
 import top.wyhao.admin.system.model.bo.user.UserBasicInfoUpdateReq;
 import top.wyhao.admin.system.model.bo.user.UserEmailUpdateRequest;
 import top.wyhao.admin.system.model.bo.user.UserPasswordUpdateReq;
@@ -105,7 +105,7 @@ public class UserProfileController {
     @Operation(summary = "查询绑定的三方账号", description = "查询绑定的三方账号")
     @GetMapping("/user/profile/social")
     public List<UserSocialBindResp> listSocialBind() {
-        List<UserSocialDO> userSocialList = userSocialService.listByUserId(UserContextHolder.getUserId());
+        List<SysUserSocial> userSocialList = userSocialService.listByUserId(UserContextHolder.getUserId());
         return CollUtils.mapToList(userSocialList, userSocial -> {
             String source = userSocial.getSource();
             UserSocialBindResp userSocialBind = new UserSocialBindResp();

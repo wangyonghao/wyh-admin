@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.wyhao.admin.tenant.mapper.PackageMenuMapper;
-import top.wyhao.admin.tenant.model.entity.PackageMenuDO;
+import top.wyhao.admin.tenant.model.entity.TenantPackageMenu;
 import top.wyhao.admin.tenant.service.PackageMenuService;
 import top.wyhao.starter.core.util.CollUtils;
 
@@ -29,30 +29,30 @@ public class PackageMenuServiceImpl implements PackageMenuService {
     public boolean add(List<Long> menuIds, Long packageId) {
         // 检查是否有变更
         List<Long> oldMenuIdList = baseMapper.lambdaQuery()
-            .select(PackageMenuDO::getMenuId)
-            .eq(PackageMenuDO::getPackageId, packageId)
+            .select(TenantPackageMenu::getMenuId)
+            .eq(TenantPackageMenu::getPackageId, packageId)
             .list()
             .stream()
-            .map(PackageMenuDO::getMenuId)
+            .map(TenantPackageMenu::getMenuId)
             .toList();
         if (CollUtil.isEmpty(CollUtil.disjunction(menuIds, oldMenuIdList))) {
             return false;
         }
         // 删除原有关联
-        baseMapper.lambdaUpdate().eq(PackageMenuDO::getPackageId, packageId).remove();
+        baseMapper.lambdaUpdate().eq(TenantPackageMenu::getPackageId, packageId).remove();
         // 保存最新关联
-        List<PackageMenuDO> newList = CollUtils.mapToList(menuIds, menuId -> new PackageMenuDO(packageId, menuId));
+        List<TenantPackageMenu> newList = CollUtils.mapToList(menuIds, menuId -> new TenantPackageMenu(packageId, menuId));
         return baseMapper.insertBatch(newList);
     }
 
     @Override
     public List<Long> listMenuIdsByPackageId(Long packageId) {
         return baseMapper.lambdaQuery()
-            .select(PackageMenuDO::getMenuId)
-            .eq(PackageMenuDO::getPackageId, packageId)
+            .select(TenantPackageMenu::getMenuId)
+            .eq(TenantPackageMenu::getPackageId, packageId)
             .list()
             .stream()
-            .map(PackageMenuDO::getMenuId)
+            .map(TenantPackageMenu::getMenuId)
             .toList();
     }
 }

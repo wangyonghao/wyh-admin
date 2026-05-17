@@ -2,7 +2,7 @@
 package top.wyhao.admin.system.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import top.wyhao.admin.system.entity.NoticeLogDO;
+import top.wyhao.admin.system.entity.SysNoticeLog;
 import top.wyhao.cmn.db.model.BaseMapper;
 
 /**
@@ -12,5 +12,5 @@ import top.wyhao.cmn.db.model.BaseMapper;
  * @since 2025/5/18 19:17
  */
 @Mapper
-public interface NoticeLogMapper extends BaseMapper<NoticeLogDO> {
+public interface NoticeLogMapper extends BaseMapper<SysNoticeLog> {
 }

@@ -1,0 +1,1 @@
+【WYH Admin】您的注销账号验证码为：{code}，{expires_in}分钟内有效。警告：操作不可逆！

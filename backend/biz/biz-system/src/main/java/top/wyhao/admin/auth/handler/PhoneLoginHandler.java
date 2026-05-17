@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 import top.wyhao.admin.auth.LoginHelper;
 import top.wyhao.admin.auth.model.PhoneLoginRequest;
 import top.wyhao.admin.auth.model.LoginResult;
-import top.wyhao.admin.system.entity.DeptDO;
-import top.wyhao.admin.system.entity.user.UserDO;
+import top.wyhao.admin.system.entity.SysDept;
+import top.wyhao.admin.system.entity.user.SysUser;
 import top.wyhao.admin.system.service.DeptService;
 import top.wyhao.admin.system.service.LoginLogService;
 import top.wyhao.admin.system.service.OperationLogService;
@@ -35,7 +35,7 @@ public class PhoneLoginHandler implements LoginHandler<PhoneLoginRequest> {
     public LoginResult login(PhoneLoginRequest req) {
         this.preLogin(req);
         // 验证手机号
-        UserDO user = userService.getByPhone(req.getPhone());
+        SysUser user = userService.getByPhone(req.getPhone());
         ValidationUtils.throwIfNull(user, "此手机号未绑定本系统账号");
         // 检查用户状态
         checkUserStatus(user);
@@ -69,9 +69,9 @@ public class PhoneLoginHandler implements LoginHandler<PhoneLoginRequest> {
      *
      * @param user 用户信息
      */
-    private void checkUserStatus(UserDO user) {
+    private void checkUserStatus(SysUser user) {
         BizAssert.throwIfEqual(StatusEnum.DISABLE, user.getStatus(), "此账号已被禁用，如有疑问，请联系管理员");
-        DeptDO dept = deptService.getById(user.getDeptId());
+        SysDept dept = deptService.getById(user.getDeptId());
         BizAssert.throwIfEqual(StatusEnum.DISABLE, dept.getStatus(), "此账号所属部门已被禁用，如有疑问，请联系管理员");
     }
 }

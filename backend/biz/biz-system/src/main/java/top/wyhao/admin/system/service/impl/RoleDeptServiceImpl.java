@@ -5,7 +5,7 @@ import cn.hutool.core.collection.CollUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import top.wyhao.admin.system.entity.RoleDeptDO;
+import top.wyhao.admin.system.entity.SysRoleDept;
 import top.wyhao.admin.system.mapper.RoleDeptMapper;
 import top.wyhao.admin.system.service.RoleDeptService;
 import top.wyhao.starter.core.util.CollUtils;
@@ -29,25 +29,25 @@ public class RoleDeptServiceImpl implements RoleDeptService {
     public boolean add(List<Long> deptIds, Long roleId) {
         // 检查是否有变更
         List<Long> oldDeptIdList = roleDeptMapper.lambdaQuery()
-            .select(RoleDeptDO::getDeptId)
-            .eq(RoleDeptDO::getRoleId, roleId)
+            .select(SysRoleDept::getDeptId)
+            .eq(SysRoleDept::getRoleId, roleId)
             .list()
             .stream()
-            .map(RoleDeptDO::getDeptId)
+            .map(SysRoleDept::getDeptId)
             .toList();
         if (CollUtil.isEmpty(CollUtil.disjunction(deptIds, oldDeptIdList))) {
             return false;
         }
         // 删除原有关联
-        roleDeptMapper.lambdaUpdate().eq(RoleDeptDO::getRoleId, roleId).remove();
+        roleDeptMapper.lambdaUpdate().eq(SysRoleDept::getRoleId, roleId).remove();
         // 保存最新关联
-        List<RoleDeptDO> roleDeptList = CollUtils.mapToList(deptIds, deptId -> new RoleDeptDO(roleId, deptId));
+        List<SysRoleDept> roleDeptList = CollUtils.mapToList(deptIds, deptId -> new SysRoleDept(roleId, deptId));
         return roleDeptMapper.insertBatch(roleDeptList);
     }
 
     @Override
     public void deleteByRoleId(Long roleId) {
-        roleDeptMapper.lambdaUpdate().in(RoleDeptDO::getRoleId, roleId).remove();
+            roleDeptMapper.lambdaUpdate().in(SysRoleDept::getRoleId, roleId).remove();
     }
 
     @Override
@@ -56,7 +56,7 @@ public class RoleDeptServiceImpl implements RoleDeptService {
         if (CollUtil.isEmpty(deptIds)) {
             return;
         }
-        roleDeptMapper.lambdaUpdate().in(RoleDeptDO::getDeptId, deptIds).remove();
+        roleDeptMapper.lambdaUpdate().in(SysRoleDept::getDeptId, deptIds).remove();
     }
 
     @Override

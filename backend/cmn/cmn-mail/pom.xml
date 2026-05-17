@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
-    <description>ContiNew Starter 消息模块 - 邮件</description>
+    <description>邮件基础设施</description>
 
     <dependencies>
         <dependency>

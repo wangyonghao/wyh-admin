@@ -13,18 +13,16 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import top.wyhao.admin.system.entity.SysConfig;
 import top.wyhao.admin.system.mapper.ConfigMapper;
 import top.wyhao.admin.system.model.bo.ConfigRequest;
-import top.wyhao.admin.system.entity.ConfigDO;
 import top.wyhao.admin.system.model.query.ConfigQuery;
 import top.wyhao.admin.system.model.vo.ConfigResult;
 import top.wyhao.admin.system.model.vo.config.*;
 import top.wyhao.admin.system.service.ConfigService;
-import top.wyhao.starter.core.exception.BusinessException;
-import top.wyhao.starter.core.model.MailConfig;
-import top.wyhao.starter.core.model.OSSConfig;
-import top.wyhao.starter.core.util.validation.BizAssert;
 import top.wyhao.cmn.db.util.QueryWrapperUtil;
+import top.wyhao.starter.core.model.MailConfig;
+import top.wyhao.starter.core.util.validation.BizAssert;
 import top.wyhao.starter.excel.util.ExcelUtils;
 import top.wyhao.starter.web.core.model.PageQuery;
 import top.wyhao.starter.web.core.model.PageResult;
@@ -48,8 +46,8 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public PageResult<ConfigResult> page(ConfigQuery query, PageQuery pageQuery) {
-        QueryWrapper<ConfigDO> queryWrapper = this.buildQueryWrapper(query);
-        QueryWrapperUtil.applySort(queryWrapper, query.getSort(), ConfigDO.class);
+        QueryWrapper<SysConfig> queryWrapper = this.buildQueryWrapper(query);
+        QueryWrapperUtil.applySort(queryWrapper, query.getSort(), SysConfig.class);
         IPage<ConfigResult> page = configMapper.selectConfigPage(
                 new Page<>(pageQuery.getPage(), pageQuery.getSize()),
                 queryWrapper
@@ -59,7 +57,7 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public ConfigResult detail(Long id) {
-        ConfigDO configDO = configMapper.selectById(id);
+        SysConfig configDO = configMapper.selectById(id);
         BizAssert.notNull(configDO, "配置不存在");
 
         return BeanUtil.copyProperties(configDO, ConfigResult.class);
@@ -67,9 +65,9 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public ConfigResult getByKey(String configKey) {
-        QueryWrapper<ConfigDO> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<SysConfig> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("config_key", configKey);
-        ConfigDO configDO = configMapper.selectOne(queryWrapper);
+        SysConfig configDO = configMapper.selectOne(queryWrapper);
         BizAssert.notNull(configDO, "配置不存在");
 
         return BeanUtil.copyProperties(configDO, ConfigResult.class);
@@ -78,7 +76,7 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public SiteConfigVO getSiteConfig() {
-        return this.getConfig("site", SiteConfigVO.class);
+        return this.configMapper.getConfig("site", SiteConfigVO.class);
     }
 
     @Override
@@ -89,7 +87,7 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public LoginConfigVO getLoginConfig() {
-        return this.getConfig("login", LoginConfigVO.class);
+        return this.configMapper.getConfig("login", LoginConfigVO.class);
     }
 
     @Override
@@ -100,7 +98,7 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public RegisterConfigVO getRegisterConfig() {
-        return this.getConfig("register", RegisterConfigVO.class);
+        return this.configMapper.getConfig("register", RegisterConfigVO.class);
     }
 
     @Override
@@ -111,7 +109,7 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public MailConfig getMailConfig() {
-        return this.getConfig("mail", MailConfig.class);
+        return this.configMapper.getConfig("mail", MailConfig.class);
     }
 
     @Override
@@ -120,9 +118,17 @@ public class ConfigServiceImpl implements ConfigService {
         this.updateConfig("mail", config);
     }
 
+    public void checkMailConfig(MailConfig mailConfig) {
+        BizAssert.notNull(mailConfig, "邮件配置不存在");
+        BizAssert.notBlank(mailConfig.getHost(), "邮件服务器地址未配置");
+        BizAssert.notBlank(mailConfig.getUsername(), "发件人邮箱未配置");
+        BizAssert.notBlank(mailConfig.getPassword(), "邮箱密码未配置");
+
+    }
+
     @Override
     public SmsConfigVO getSmsConfig() {
-        return this.getConfig("sms", SmsConfigVO.class);
+        return this.configMapper.getConfig("sms", SmsConfigVO.class);
     }
 
     @Override
@@ -133,7 +139,7 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public StorageConfigVO getStorageConfig() {
-        return this.getConfig("storage", StorageConfigVO.class);
+        return this.configMapper.getConfig("storage", StorageConfigVO.class);
     }
 
     @Override
@@ -144,7 +150,7 @@ public class ConfigServiceImpl implements ConfigService {
 
     @Override
     public SecurityConfigVO getSecurityConfig() {
-        return this.getConfig("security", SecurityConfigVO.class);
+        return this.configMapper.getConfig("security", SecurityConfigVO.class);
     }
 
     @Override
@@ -159,7 +165,7 @@ public class ConfigServiceImpl implements ConfigService {
         // 检查唯一性
         this.checkUnique(request.getConfigKey(), null);
 
-        ConfigDO configDO = BeanUtil.copyProperties(request, ConfigDO.class);
+        SysConfig configDO = BeanUtil.copyProperties(request, SysConfig.class);
         configMapper.insert(configDO);
         return configDO.getId();
     }
@@ -167,7 +173,7 @@ public class ConfigServiceImpl implements ConfigService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(Long id, ConfigRequest request) {
-        ConfigDO oldConfig = configMapper.selectById(id);
+        SysConfig oldConfig = configMapper.selectById(id);
         BizAssert.notNull(oldConfig, "配置不存在");
 
         // 检查唯一性（排除自己）
@@ -175,7 +181,7 @@ public class ConfigServiceImpl implements ConfigService {
             this.checkUnique(request.getConfigKey(), id);
         }
 
-        ConfigDO configDO = BeanUtil.copyProperties(request, ConfigDO.class);
+        SysConfig configDO = BeanUtil.copyProperties(request, SysConfig.class);
         configDO.setId(id);
 
         int updated = configMapper.updateById(configDO);
@@ -185,12 +191,12 @@ public class ConfigServiceImpl implements ConfigService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateByKey(String configKey, ConfigRequest request) {
-        QueryWrapper<ConfigDO> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<SysConfig> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("config_key", configKey);
-        ConfigDO existConfig = configMapper.selectOne(queryWrapper);
+        SysConfig existConfig = configMapper.selectOne(queryWrapper);
         BizAssert.notNull(existConfig, "配置不存在");
 
-        ConfigDO configDO = new ConfigDO();
+        SysConfig configDO = new SysConfig();
         configDO.setId(existConfig.getId());
         configDO.setConfigValue(request.getConfigValue());
         configDO.setDescription(request.getDescription());
@@ -205,15 +211,14 @@ public class ConfigServiceImpl implements ConfigService {
         if (CollUtil.isEmpty(ids)) {
             return;
         }
-
         configMapper.deleteByIds(ids);
     }
 
     @Override
     public void export(ConfigQuery query, SortQuery sortQuery, HttpServletResponse response) {
-        QueryWrapper<ConfigDO> queryWrapper = this.buildQueryWrapper(query);
-        QueryWrapperUtil.applySort(queryWrapper, sortQuery.getSort(), ConfigDO.class);
-        List<ConfigDO> list = configMapper.selectList(queryWrapper);
+        QueryWrapper<SysConfig> queryWrapper = this.buildQueryWrapper(query);
+        QueryWrapperUtil.applySort(queryWrapper, sortQuery.getSort(), SysConfig.class);
+        List<SysConfig> list = configMapper.selectList(queryWrapper);
 
         List<ConfigResult> resultList = list.stream()
                 .map(config -> BeanUtil.copyProperties(config, ConfigResult.class))
@@ -223,46 +228,18 @@ public class ConfigServiceImpl implements ConfigService {
     }
 
     /**
-     * 获取配置并转换为指定类型
-     *
-     * @param configKey 配置键
-     * @param clazz     目标类型
-     * @param <T>       泛型类型
-     * @return 配置对象
-     */
-    private <T> T getConfig(String configKey, Class<T> clazz) {
-        ConfigDO configDO = configMapper.lambdaQuery().eq(ConfigDO::getConfigKey, configKey).one();
-
-        if (configDO == null || CharSequenceUtil.isBlank(configDO.getConfigValue())) {
-            try {
-                return clazz.getDeclaredConstructor().newInstance();
-            } catch (Exception e) {
-                log.error("创建配置对象失败", e);
-                throw new BusinessException("获取配置失败");
-            }
-        }
-
-        try {
-            return JSONUtil.toBean(configDO.getConfigValue(), clazz);
-        } catch (Exception e) {
-            log.error("解析配置失败: {}", configKey, e);
-            throw new BusinessException("配置格式错误");
-        }
-    }
-
-    /**
      * 更新配置
      *
      * @param configKey 配置键
      * @param config    配置对象
      */
     private void updateConfig(String configKey, Object config) {
-        ConfigDO existConfig = configMapper.lambdaQuery().eq(ConfigDO::getConfigKey, configKey).one();
+        SysConfig existConfig = configMapper.lambdaQuery().eq(SysConfig::getConfigKey, configKey).one();
         String configValue = JSONUtil.toJsonStr(config);
 
         if (existConfig != null) {
             // 更新现有配置
-            ConfigDO updateConfig = new ConfigDO();
+            SysConfig updateConfig = new SysConfig();
             updateConfig.setId(existConfig.getId());
             updateConfig.setConfigValue(configValue);
 
@@ -270,7 +247,7 @@ public class ConfigServiceImpl implements ConfigService {
             BizAssert.isTrue(updated > 0, "更新配置失败");
         } else {
             // 创建新配置
-            ConfigDO newConfig = new ConfigDO();
+            SysConfig newConfig = new SysConfig();
             newConfig.setConfigKey(configKey);
             newConfig.setConfigValue(configValue);
             newConfig.setDescription(configKey + "配置");
@@ -285,11 +262,11 @@ public class ConfigServiceImpl implements ConfigService {
      * @param query 查询条件
      * @return 查询包装器
      */
-    private QueryWrapper<ConfigDO> buildQueryWrapper(ConfigQuery query) {
+    private QueryWrapper<SysConfig> buildQueryWrapper(ConfigQuery query) {
         String configKey = query.getConfigKey();
         String searchWords = query.getSearchWords();
 
-        return new QueryWrapper<ConfigDO>()
+        return new QueryWrapper<SysConfig>()
                 .like(CharSequenceUtil.isNotBlank(configKey), "config_key", configKey)
                 .and(CharSequenceUtil.isNotBlank(searchWords), q -> q
                         .like("config_key", searchWords)
@@ -305,7 +282,7 @@ public class ConfigServiceImpl implements ConfigService {
      * @param id        当前配置ID（更新时传入，新增时传null）
      */
     private void checkUnique(String configKey, Long id) {
-        QueryWrapper<ConfigDO> queryWrapper = new QueryWrapper<>();
+        QueryWrapper<SysConfig> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("config_key", configKey);
         if (id != null) {
             queryWrapper.ne("id", id);
@@ -313,105 +290,5 @@ public class ConfigServiceImpl implements ConfigService {
 
         Long count = configMapper.selectCount(queryWrapper);
         BizAssert.isTrue(count == 0, "配置键已存在");
-    }
-
-    @Override
-    public OSSConfig getOSSConfig(String key) {
-        return this.getConfig("oss", OSSConfig.class);
-    }
-
-    @Override
-    public String getStorageProvider() {
-        return "local";
-    }
-
-    @Override
-    public String getStorageLocalPath() {
-        return "./data/file";
-    }
-
-    @Override
-    public String getStorageEndPoint() {
-        return "/api/fs/"; // 通过 FileAccessController 来访问本地文件
-    }
-
-    @Override
-    public String getStorageMinioEndpoint() {
-        return "";
-    }
-
-    @Override
-    public String getStorageMinioAccessKey() {
-        return "";
-    }
-
-    @Override
-    public String getStorageMinioSecretKey() {
-        return "";
-    }
-
-    @Override
-    public String getStorageMinioBucket() {
-        return "";
-    }
-
-    @Override
-    public String getStorageRustfsEndpoint() {
-        return "";
-    }
-
-    @Override
-    public String getStorageRustfsAccessKey() {
-        return "";
-    }
-
-    @Override
-    public String getStorageRustfsSecretKey() {
-        return "";
-    }
-
-    @Override
-    public String getStorageRustfsBucket() {
-        return "";
-    }
-
-    @Override
-    public String getStorageAliyunEndpoint() {
-        return "";
-    }
-
-    @Override
-    public String getStorageAliyunAccessKey() {
-        return "";
-    }
-
-    @Override
-    public String getStorageAliyunSecretKey() {
-        return "";
-    }
-
-    @Override
-    public String getStorageAliyunBucket() {
-        return "";
-    }
-
-    @Override
-    public String getStorageTencentSecretId() {
-        return "";
-    }
-
-    @Override
-    public String getStorageTencentSecretKey() {
-        return "";
-    }
-
-    @Override
-    public String getStorageTencentRegion() {
-        return "";
-    }
-
-    @Override
-    public String getStorageTencentBucket() {
-        return "";
     }
 }

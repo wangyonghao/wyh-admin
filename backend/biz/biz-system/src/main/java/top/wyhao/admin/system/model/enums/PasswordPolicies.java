@@ -8,7 +8,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import top.wyhao.admin.system.entity.user.UserDO;
+import top.wyhao.admin.system.entity.user.SysUser;
 import top.wyhao.admin.system.model.vo.config.SecurityConfigVO;
 import top.wyhao.admin.system.service.ConfigService;
 import top.wyhao.admin.system.service.UserPasswordHistoryService;
@@ -68,7 +68,7 @@ public enum PasswordPolicies {
      */
     PASSWORD_MIN_LENGTH("密码最小长度取值范围为 %d-%d", 8, 32, "密码最小长度为 %d 个字符") {
         @Override
-        public void validate(String password, int value, UserDO user) {
+        public void validate(String password, int value, SysUser user) {
             // 最小长度校验
             ValidationUtils.throwIf(StrUtil.length(password) < value, this.getMsg().formatted(value));
             // 完整校验
@@ -90,7 +90,7 @@ public enum PasswordPolicies {
         }
 
         @Override
-        public void validate(String password, int value, UserDO user) {
+        public void validate(String password, int value, SysUser user) {
             ValidationUtils.throwIf(value == GlobalConstants.Boolean.YES && !ReUtil
                 .isMatch(RegexConstants.SPECIAL_CHARACTER, password), this.getMsg());
         }
@@ -108,7 +108,7 @@ public enum PasswordPolicies {
         }
 
         @Override
-        public void validate(String password, int value, UserDO user) {
+        public void validate(String password, int value, SysUser user) {
             if (value <= GlobalConstants.Boolean.NO) {
                 String username = user.getUsername();
                 ValidationUtils.throwIf(CharSequenceUtil.containsAnyIgnoreCase(password, username, StrUtil
@@ -122,7 +122,7 @@ public enum PasswordPolicies {
      */
     PASSWORD_REPETITION_TIMES("历史密码重复校验次数取值范围为 %d-%d", 3, 32, "新密码不得与历史前 %d 次密码重复") {
         @Override
-        public void validate(String password, int value, UserDO user) {
+        public void validate(String password, int value, SysUser user) {
             UserPasswordHistoryService userPasswordHistoryService = SpringUtil
                 .getBean(UserPasswordHistoryService.class);
             ValidationUtils.throwIf(userPasswordHistoryService.isPasswordReused(user.getId(), password, value), this
@@ -199,7 +199,7 @@ public enum PasswordPolicies {
      * @param value    策略值
      * @param user     用户信息
      */
-    public void validate(String password, int value, UserDO user) {
+    public void validate(String password, int value, SysUser user) {
         // 无需校验
     }
 }

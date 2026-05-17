@@ -2,8 +2,8 @@
 package top.wyhao.admin.generator.service;
 
 import jakarta.servlet.http.HttpServletResponse;
-import top.wyhao.admin.generator.model.entity.FieldConfigDO;
-import top.wyhao.admin.generator.model.entity.GenConfigDO;
+import top.wyhao.admin.generator.model.entity.GenFieldConfig;
+import top.wyhao.admin.generator.model.entity.GenConfig;
 import top.wyhao.admin.generator.model.query.GenConfigQuery;
 import top.wyhao.admin.generator.model.req.GenConfigReq;
 import top.wyhao.admin.generator.model.resp.GeneratePreviewResp;
@@ -28,7 +28,7 @@ public interface GeneratorService {
      * @param pageQuery 分页查询条件
      * @return 分页列表信息
      */
-    PageResult<GenConfigDO> pageGenConfig(GenConfigQuery query, PageQuery pageQuery);
+    PageResult<GenConfig> pageGenConfig(GenConfigQuery query, PageQuery pageQuery);
 
     /**
      * 查询生成配置信息
@@ -37,7 +37,7 @@ public interface GeneratorService {
      * @return 生成配置信息
      * @throws SQLException /
      */
-    GenConfigDO getGenConfig(String tableName) throws SQLException;
+    GenConfig getGenConfig(String tableName) throws SQLException;
 
     /**
      * 查询字段配置列表
@@ -46,7 +46,7 @@ public interface GeneratorService {
      * @param requireSync 是否需要同步
      * @return 字段配置列表
      */
-    List<FieldConfigDO> listFieldConfig(String tableName, Boolean requireSync);
+    List<GenFieldConfig> listFieldConfig(String tableName, Boolean requireSync);
 
     /**
      * 保存代码生成配置信息

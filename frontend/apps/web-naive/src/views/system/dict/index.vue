@@ -21,7 +21,7 @@ import {
 
 import { dictApi } from '#/api/system';
 
-import DictEditDrawer from './components/DictEditDrawer.vue';
+import DictEditDrawer from './components/dict-edit-drawer.vue';
 
 const message = useMessage();
 const dialog = useDialog();

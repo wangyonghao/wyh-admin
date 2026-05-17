@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.web.multipart.MultipartFile;
 import top.wyhao.admin.system.model.bo.user.*;
-import top.wyhao.admin.system.entity.user.UserDO;
+import top.wyhao.admin.system.entity.user.SysUser;
 import top.wyhao.admin.system.model.query.UserQuery;
 import top.wyhao.admin.system.model.vo.user.UserDetailResult;
 import top.wyhao.admin.system.model.vo.user.UserImportParseResp;
@@ -116,7 +116,7 @@ public interface UserService extends PermissionProvider {
      * @param username 用户名
      * @return 用户信息
      */
-    UserDO getByUsername(String username);
+    SysUser getByUsername(String username);
 
     /**
      * 根据手机号查询
@@ -124,7 +124,7 @@ public interface UserService extends PermissionProvider {
      * @param phone 手机号
      * @return 用户信息
      */
-    UserDO getByPhone(String phone);
+    SysUser getByPhone(String phone);
 
     /**
      * 根据邮箱查询
@@ -132,7 +132,7 @@ public interface UserService extends PermissionProvider {
      * @param email 邮箱
      * @return 用户信息
      */
-    UserDO getByEmail(String email);
+    SysUser getByEmail(String email);
 
     /**
      * 根据部门 ID 列表查询
@@ -146,7 +146,7 @@ public interface UserService extends PermissionProvider {
 
     PageResult<UserResult> page(UserQuery query, PageQuery pageQuery);
 
-    Long save(UserDO user);
+    Long save(SysUser user);
 
     Long create(@Valid UserRequest req);
 

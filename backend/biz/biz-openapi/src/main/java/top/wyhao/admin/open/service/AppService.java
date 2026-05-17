@@ -3,7 +3,7 @@ package top.wyhao.admin.open.service;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-import top.wyhao.admin.open.model.entity.AppDO;
+import top.wyhao.admin.open.model.entity.SysApp;
 import top.wyhao.admin.open.model.query.AppQuery;
 import top.wyhao.admin.open.model.req.AppReq;
 import top.wyhao.admin.open.model.resp.AppResp;
@@ -70,7 +70,7 @@ public interface AppService {
      * @param accessKey Access Key
      * @return 应用信息
      */
-    AppDO getByAccessKey(String accessKey);
+    SysApp getByAccessKey(String accessKey);
 
     void export(AppQuery query, SortQuery sortQuery, HttpServletResponse response);
 

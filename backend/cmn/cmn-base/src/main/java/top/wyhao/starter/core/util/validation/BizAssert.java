@@ -171,7 +171,7 @@ public class BizAssert extends Validator {
      * @param params    参数值
      */
     public static void isTrue(boolean condition, String messageTemplate, Object... params) {
-        throwIf(condition, CharSequenceUtil.format(messageTemplate, params), EXCEPTION_TYPE);
+        throwIf(!condition, CharSequenceUtil.format(messageTemplate, params), EXCEPTION_TYPE);
     }
 
     /**

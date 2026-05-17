@@ -8,7 +8,7 @@ import me.zhyd.oauth.model.AuthUser;
 import org.springframework.stereotype.Service;
 import top.wyhao.admin.system.model.enums.SocialSource;
 import top.wyhao.admin.system.mapper.user.UserSocialMapper;
-import top.wyhao.admin.system.entity.user.UserSocialDO;
+import top.wyhao.admin.system.entity.user.SysUserSocial;
 import top.wyhao.admin.system.service.UserSocialService;
 import top.wyhao.starter.core.util.CollUtils;
 import top.wyhao.starter.core.util.validation.BizAssert;
@@ -30,40 +30,40 @@ public class UserSocialServiceImpl implements UserSocialService {
     private final UserSocialMapper baseMapper;
 
     @Override
-    public UserSocialDO getBySourceAndOpenId(String source, String openId) {
+    public SysUserSocial getBySourceAndOpenId(String source, String openId) {
         return baseMapper.selectBySourceAndOpenId(source, openId);
     }
 
     @Override
-    public void saveOrUpdate(UserSocialDO userSocial) {
+    public void saveOrUpdate(SysUserSocial userSocial) {
         if (userSocial.getCreateTime() == null) {
             baseMapper.insert(userSocial);
         } else {
             baseMapper.lambdaUpdate()
-                .set(UserSocialDO::getMetaJson, userSocial.getMetaJson())
-                .set(UserSocialDO::getLastLoginTime, userSocial.getLastLoginTime())
-                .eq(UserSocialDO::getSource, userSocial.getSource())
-                .eq(UserSocialDO::getOpenId, userSocial.getOpenId())
+                .set(SysUserSocial::getMetaJson, userSocial.getMetaJson())
+                .set(SysUserSocial::getLastLoginTime, userSocial.getLastLoginTime())
+                .eq(SysUserSocial::getSource, userSocial.getSource())
+                .eq(SysUserSocial::getOpenId, userSocial.getOpenId())
                 .update();
         }
     }
 
     @Override
-    public List<UserSocialDO> listByUserId(Long userId) {
-        return baseMapper.lambdaQuery().eq(UserSocialDO::getUserId, userId).list();
+    public List<SysUserSocial> listByUserId(Long userId) {
+        return baseMapper.lambdaQuery().eq(SysUserSocial::getUserId, userId).list();
     }
 
     @Override
     public void bind(AuthUser authUser, Long userId) {
         String source = authUser.getSource();
         String openId = authUser.getUuid();
-        List<UserSocialDO> userSocialList = this.listByUserId(userId);
-        Set<String> boundSocialSet = CollUtils.mapToSet(userSocialList, UserSocialDO::getSource);
+        List<SysUserSocial> userSocialList = this.listByUserId(userId);
+        Set<String> boundSocialSet = CollUtils.mapToSet(userSocialList, SysUserSocial::getSource);
         String description = SocialSource.valueOf(source).getDescription();
         BizAssert.isTrue(boundSocialSet.contains(source), "您已经绑定过了 [{}] 平台，请先解绑", description);
-        UserSocialDO userSocial = this.getBySourceAndOpenId(source, openId);
+        SysUserSocial userSocial = this.getBySourceAndOpenId(source, openId);
         BizAssert.throwIfNotNull(userSocial, "[{}] 平台账号 [{}] 已被其他用户绑定", description, authUser.getUsername());
-        userSocial = new UserSocialDO();
+        userSocial = new SysUserSocial();
         userSocial.setUserId(userId);
         userSocial.setSource(source);
         userSocial.setOpenId(openId);
@@ -74,7 +74,7 @@ public class UserSocialServiceImpl implements UserSocialService {
 
     @Override
     public void deleteBySourceAndUserId(String source, Long userId) {
-        baseMapper.lambdaUpdate().eq(UserSocialDO::getSource, source).eq(UserSocialDO::getUserId, userId).remove();
+        baseMapper.lambdaUpdate().eq(SysUserSocial::getSource, source).eq(SysUserSocial::getUserId, userId).remove();
     }
 
     @Override
@@ -82,6 +82,6 @@ public class UserSocialServiceImpl implements UserSocialService {
         if (CollUtil.isEmpty(userIds)) {
             return;
         }
-        baseMapper.lambdaUpdate().in(UserSocialDO::getUserId, userIds).remove();
+        baseMapper.lambdaUpdate().in(SysUserSocial::getUserId, userIds).remove();
     }
 }

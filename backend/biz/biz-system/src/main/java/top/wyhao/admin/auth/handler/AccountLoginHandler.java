@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
 import top.wyhao.admin.auth.LoginHelper;
 import top.wyhao.admin.auth.model.AccountLoginRequest;
 import top.wyhao.admin.auth.model.LoginResult;
-import top.wyhao.admin.system.entity.DeptDO;
-import top.wyhao.admin.system.entity.user.UserDO;
+import top.wyhao.admin.system.entity.SysDept;
+import top.wyhao.admin.system.entity.user.SysUser;
 import top.wyhao.admin.system.model.vo.config.LoginConfigVO;
 import top.wyhao.admin.system.service.*;
 import top.wyhao.starter.cache.redisson.util.RedisUtils;
@@ -65,7 +65,7 @@ public class AccountLoginHandler implements LoginHandler<AccountLoginRequest> {
             checkRetryLimit(retryKey);
 
             // 3. 用户验证
-            UserDO user = userService.getByUsername(req.getUsername());
+            SysUser user = userService.getByUsername(req.getUsername());
 
             if (Objects.isNull(user)) {
                 incrementRetry(retryKey);
@@ -187,9 +187,9 @@ public class AccountLoginHandler implements LoginHandler<AccountLoginRequest> {
      *
      * @param user 用户信息
      */
-    private void checkUserStatus(UserDO user) {
+    private void checkUserStatus(SysUser user) {
         BizAssert.throwIfEqual(StatusEnum.DISABLE, user.getStatus(), "此账号已被禁用，如有疑问，请联系管理员");
-        DeptDO dept = deptService.getById(user.getDeptId());
+        SysDept dept = deptService.getById(user.getDeptId());
         BizAssert.throwIfEqual(StatusEnum.DISABLE, dept.getStatus(), "此账号所属部门已被禁用，如有疑问，请联系管理员");
     }
 

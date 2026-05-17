@@ -12,6 +12,8 @@ import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.handler.DataPermissionHandler;
 import com.baomidou.mybatisplus.extension.plugins.inner.*;
 import jakarta.annotation.PostConstruct;
+import org.apache.ibatis.type.OffsetDateTimeTypeHandler;
+import org.apache.ibatis.type.OffsetTimeTypeHandler;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

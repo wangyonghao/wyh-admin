@@ -1,7 +1,7 @@
 package top.wyhao.admin.system.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import top.wyhao.admin.system.entity.LoginLogDO;
+import top.wyhao.admin.system.entity.SysLoginLog;
 import top.wyhao.cmn.db.model.BaseMapper;
 
 /**
@@ -11,5 +11,5 @@ import top.wyhao.cmn.db.model.BaseMapper;
  * @since 2026/05/08
  */
 @Mapper
-public interface LoginLogMapper extends BaseMapper<LoginLogDO> {
+public interface LoginLogMapper extends BaseMapper<SysLoginLog> {
 }

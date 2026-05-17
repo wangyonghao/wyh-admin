@@ -6,7 +6,7 @@ import cn.dev33.satoken.sign.template.SaSignTemplate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import top.wyhao.starter.core.enums.StatusEnum;
-import top.wyhao.admin.open.model.entity.AppDO;
+import top.wyhao.admin.open.model.entity.SysApp;
 import top.wyhao.admin.open.service.AppService;
 import top.wyhao.starter.core.util.validation.ValidationUtils;
 
@@ -39,7 +39,7 @@ public class ApiSignTemplate extends SaSignTemplate {
         ValidationUtils.throwIfBlank(nonceValue, "nonce不能为空");
         ValidationUtils.throwIfBlank(signValue, "sign不能为空");
         ValidationUtils.throwIfBlank(accessKeyValue, "accessKey不能为空");
-        AppDO app = appService.getByAccessKey(accessKeyValue);
+        SysApp app = appService.getByAccessKey(accessKeyValue);
         ValidationUtils.throwIfNull(app, "accessKey无效");
         ValidationUtils.throwIfEqual(StatusEnum.DISABLE, app.getStatus(), "应用已被禁用, 请联系管理员");
         ValidationUtils.throwIf(app.isExpired(), "应用已过期, 请联系管理员");

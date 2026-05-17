@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 import top.wyhao.admin.auth.LoginHelper;
 import top.wyhao.admin.auth.model.EmailLoginRequest;
 import top.wyhao.admin.auth.model.LoginResult;
-import top.wyhao.admin.system.entity.DeptDO;
-import top.wyhao.admin.system.entity.user.UserDO;
+import top.wyhao.admin.system.entity.SysDept;
+import top.wyhao.admin.system.entity.user.SysUser;
 import top.wyhao.admin.system.service.DeptService;
 import top.wyhao.admin.system.service.LoginLogService;
 import top.wyhao.admin.system.service.OperationLogService;
@@ -41,7 +41,7 @@ public class EmailLoginHandler implements LoginHandler<EmailLoginRequest> {
         ValidationUtils.throwIfNotEqualIgnoreCase(req.getCaptcha(), captcha, "验证码不正确");
         RedisUtils.delete(captchaKey);
         // 验证邮箱
-        UserDO user = userService.getByEmail(req.getEmail());
+        SysUser user = userService.getByEmail(req.getEmail());
         ValidationUtils.throwIfNull(user, "此邮箱未绑定本系统账号");
         // 检查用户状态
         checkUserStatus(user);
@@ -66,9 +66,9 @@ public class EmailLoginHandler implements LoginHandler<EmailLoginRequest> {
      *
      * @param user 用户信息
      */
-    private void checkUserStatus(UserDO user) {
+    private void checkUserStatus(SysUser user) {
         BizAssert.throwIfEqual(StatusEnum.DISABLE, user.getStatus(), "此账号已被禁用，如有疑问，请联系管理员");
-        DeptDO dept = deptService.getById(user.getDeptId());
+        SysDept dept = deptService.getById(user.getDeptId());
         BizAssert.throwIfEqual(StatusEnum.DISABLE, dept.getStatus(), "此账号所属部门已被禁用，如有疑问，请联系管理员");
     }
 }

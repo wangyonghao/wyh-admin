@@ -2,7 +2,7 @@
 package top.wyhao.admin.system.service;
 
 import top.wyhao.admin.system.model.enums.NoticeMethods;
-import top.wyhao.admin.system.entity.NoticeDO;
+import top.wyhao.admin.system.entity.SysNotice;
 import top.wyhao.admin.system.model.query.NoticeQuery;
 import top.wyhao.admin.system.model.bo.NoticeRequest;
 import top.wyhao.admin.system.model.vo.dashboard.DashboardNoticeResp;
@@ -67,7 +67,7 @@ public interface NoticeService {
      *
      * @param notice 公告信息
      */
-    void publish(NoticeDO notice);
+    void publish(SysNotice notice);
 
     /**
      * 查询未读公告 ID 列表

@@ -26,8 +26,8 @@ import {
 import { noticeApi } from '#/api/system/notice';
 import { useDict } from '#/hooks';
 
-import NoticeForm from './components/NoticeForm.vue';
-import NoticeView from './components/NoticeView.vue';
+import NoticeForm from './components/notice-form.vue';
+import NoticeView from './components/notice-view.vue';
 
 const message = useMessage();
 

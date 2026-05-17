@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.wyhao.admin.tenant.constant.TenantConstants;
 import top.wyhao.admin.tenant.mapper.TenantMapper;
-import top.wyhao.admin.tenant.model.entity.TenantDO;
+import top.wyhao.admin.tenant.model.entity.Tenant;
 import top.wyhao.admin.tenant.model.query.TenantQuery;
 import top.wyhao.admin.tenant.model.req.TenantReq;
 import top.wyhao.admin.tenant.model.resp.TenantDetailResp;
@@ -69,7 +69,7 @@ public class TenantServiceImpl implements TenantService {
         // 生成租户编码
         req.setCode(this.generateCode());
         // 新增信息
-        TenantDO entity = BeanUtil.copyProperties(req, TenantDO.class);
+        Tenant entity = BeanUtil.copyProperties(req, Tenant.class);
         baseMapper.insert(entity);
         // 初始化租户数据
         req.setId(entity.getId());
@@ -81,14 +81,14 @@ public class TenantServiceImpl implements TenantService {
     public void beforeUpdate(TenantReq req, Long id) {
         this.checkNameRepeat(req.getName(), id);
         this.checkDomainRepeat(req.getDomain(), id);
-        TenantDO tenant = baseMapper.selectById(id);
+        Tenant tenant = baseMapper.selectById(id);
         // 变更套餐
         if (!tenant.getPackageId().equals(req.getPackageId())) {
             packageService.checkStatus(req.getPackageId());
         }
     }
 
-    public void afterUpdate(TenantReq req, TenantDO entity) {
+    public void afterUpdate(TenantReq req, Tenant entity) {
         RedisUtils.deleteByPattern(TenantConstants.TENANT_KEY_PREFIX + StringConstants.ASTERISK);
     }
 
@@ -109,10 +109,10 @@ public class TenantServiceImpl implements TenantService {
     @Cached(name = TenantConstants.TENANT_KEY_PREFIX, key = "#domain")
     public Long getIdByDomain(String domain) {
         return baseMapper.lambdaQuery()
-            .select(TenantDO::getId)
-            .eq(TenantDO::getDomain, domain)
+            .select(Tenant::getId)
+            .eq(Tenant::getDomain, domain)
             .oneOpt()
-            .map(TenantDO::getId)
+            .map(Tenant::getId)
             .orElse(null);
     }
 
@@ -120,10 +120,10 @@ public class TenantServiceImpl implements TenantService {
     @Cached(name = TenantConstants.TENANT_KEY_PREFIX, key = "#code")
     public Long getIdByCode(String code) {
         return baseMapper.lambdaQuery()
-            .select(TenantDO::getId)
-            .eq(TenantDO::getCode, code)
+            .select(Tenant::getId)
+            .eq(Tenant::getCode, code)
             .oneOpt()
-            .map(TenantDO::getId)
+            .map(Tenant::getId)
             .orElse(null);
     }
 
@@ -133,7 +133,7 @@ public class TenantServiceImpl implements TenantService {
         if (tenantProperties.getDefaultTenantId().equals(id)) {
             return;
         }
-        TenantDO tenant = baseMapper.selectById(id);
+        Tenant tenant = baseMapper.selectById(id);
         BizAssert.throwIfEqual(StatusEnum.DISABLE, tenant.getStatus(), "租户已被禁用");
         BizAssert.isTrue(tenant.getExpireTime() != null && tenant.getExpireTime()
             .isBefore(LocalDateTime.now()), "租户已过期");
@@ -175,8 +175,8 @@ public class TenantServiceImpl implements TenantService {
      */
     private void checkNameRepeat(String name, Long id) {
         BizAssert.isTrue(baseMapper.lambdaQuery()
-            .eq(TenantDO::getName, name)
-            .ne(id != null, TenantDO::getId, id)
+            .eq(Tenant::getName, name)
+            .ne(id != null, Tenant::getId, id)
             .exists(), "名称为 [{}] 的租户已存在", name);
     }
 
@@ -188,8 +188,8 @@ public class TenantServiceImpl implements TenantService {
      */
     private void checkDomainRepeat(String domain, Long id) {
         BizAssert.isTrue(baseMapper.lambdaQuery()
-            .eq(TenantDO::getDomain, domain)
-            .ne(id != null, TenantDO::getId, id)
+            .eq(Tenant::getDomain, domain)
+            .ne(id != null, Tenant::getId, id)
             .exists(), "域名为 [{}] 的租户已存在", domain);
     }
 
@@ -202,7 +202,7 @@ public class TenantServiceImpl implements TenantService {
         String code;
         do {
             code = idGeneratorProvider.getRequired(TenantConstants.CODE_GENERATOR_KEY).generateAsString();
-        } while (baseMapper.lambdaQuery().eq(TenantDO::getCode, code).exists());
+        } while (baseMapper.lambdaQuery().eq(Tenant::getCode, code).exists());
         return code;
     }
 
@@ -214,11 +214,11 @@ public class TenantServiceImpl implements TenantService {
      */
     private List<Long> listIdByPackageId(Long id) {
         return baseMapper.lambdaQuery()
-            .select(TenantDO::getId)
-            .eq(TenantDO::getPackageId, id)
+            .select(Tenant::getId)
+            .eq(Tenant::getPackageId, id)
             .list()
             .stream()
-            .map(TenantDO::getId)
+            .map(Tenant::getId)
             .toList();
     }
 

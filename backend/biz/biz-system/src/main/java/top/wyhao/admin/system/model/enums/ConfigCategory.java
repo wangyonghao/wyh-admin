@@ -19,7 +19,7 @@ public enum ConfigCategory {
     /**
      * 邮箱配置
      */
-    MAIL,
+    EMAIL,
 
     /**
      * 登录配置

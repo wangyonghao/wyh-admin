@@ -14,7 +14,7 @@ import top.wyhao.admin.schedule.model.annotation.ConditionalOnEnabledScheduleJob
 import top.wyhao.admin.system.model.enums.NoticeMethods;
 import top.wyhao.admin.system.model.enums.NoticeStatus;
 import top.wyhao.admin.system.mapper.NoticeMapper;
-import top.wyhao.admin.system.entity.NoticeDO;
+import top.wyhao.admin.system.entity.SysNotice;
 import top.wyhao.admin.system.service.NoticeService;
 import top.wyhao.starter.core.constant.PropertiesConstants;
 import top.wyhao.starter.core.util.CollUtils;
@@ -68,15 +68,15 @@ public class NoticePublishJob {
     private static void publishNotice() {
         NoticeMapper noticeMapper = SpringUtil.getBean(NoticeMapper.class);
         // 查询待发布公告
-        List<NoticeDO> list = noticeMapper.lambdaQuery()
-            .eq(NoticeDO::getStatus, NoticeStatus.PENDING)
-            .le(NoticeDO::getPublishTime, LocalDateTime.now())
+        List<SysNotice> list = noticeMapper.lambdaQuery()
+            .eq(SysNotice::getStatus, NoticeStatus.PENDING)
+            .le(SysNotice::getPublishTime, LocalDateTime.now())
             .list();
         if (CollUtil.isEmpty(list)) {
             return;
         }
         // 筛选需要发送消息的公告并发送
-        List<NoticeDO> needSendMessageList = list.stream()
+        List<SysNotice> needSendMessageList = list.stream()
             .filter(notice -> CollUtil.isNotEmpty(notice.getNoticeMethods()))
             .filter(notice -> notice.getNoticeMethods().contains(NoticeMethods.SYSTEM_MESSAGE.getValue()))
             .toList();
@@ -87,8 +87,8 @@ public class NoticePublishJob {
         }
         // 更新状态
         noticeMapper.lambdaUpdate()
-            .set(NoticeDO::getStatus, NoticeStatus.PUBLISHED)
-            .in(NoticeDO::getId, CollUtils.mapToList(list, NoticeDO::getId))
+            .set(SysNotice::getStatus, NoticeStatus.PUBLISHED)
+            .in(SysNotice::getId, CollUtils.mapToList(list, SysNotice::getId))
             .update();
     }
 }

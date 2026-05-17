@@ -4,7 +4,7 @@ package top.wyhao.admin.system.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import top.wyhao.admin.system.entity.RoleDeptDO;
+import top.wyhao.admin.system.entity.SysRoleDept;
 import top.wyhao.cmn.db.model.BaseMapper;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
  * @since 2023/2/18 21:57
  */
 @Mapper
-public interface RoleDeptMapper extends BaseMapper<RoleDeptDO> {
+public interface RoleDeptMapper extends BaseMapper<SysRoleDept> {
 
     /**
      * 根据角色 ID 查询

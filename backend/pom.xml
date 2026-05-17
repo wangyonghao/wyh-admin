@@ -44,8 +44,7 @@
     <justauth.version>1.16.7</justauth.version>
 
     <!-- Database and ORM Versions -->
-    <mybatis-plus.version>3.5.14</mybatis-plus.version>
-    <mybatis-flex.version>1.11.3</mybatis-flex.version>
+    <mybatis-plus.version>3.5.16</mybatis-plus.version>
     <p6spy.version>3.9.1</p6spy.version>
 
     <!-- ID Generator and Job Scheduler Versions -->

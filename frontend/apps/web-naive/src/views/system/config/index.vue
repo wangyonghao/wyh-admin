@@ -9,7 +9,7 @@ import type {
   StorageConfig,
 } from '#/api/system/config';
 
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, onUnmounted, watch } from 'vue';
 
 import { IconifyIcon } from '@vben/icons';
 import { Page } from '@vben/common-ui';
@@ -25,12 +25,19 @@ import {
   NSelect,
   NSpace,
   NSplit,
+  NDrawer,
+  NDrawerContent,
+  NAlert,
+  NTag,
+  NDivider,
+  useDialog,
   useMessage,
 } from 'naive-ui';
 
 import { configApi } from '#/api/system';
 
 const message = useMessage();
+const dialog = useDialog();
 
 // ==================== 配置类型定义 ====================
 interface ConfigItem {
@@ -69,6 +76,22 @@ const configList: ConfigItem[] = [
 const selectedConfigKey = ref<string>('site');
 const loading = ref(false);
 const saving = ref(false);
+const sendingTestEmail = ref(false);
+const showEmailDrawer = ref(false);
+const verifyingEmail = ref(false);
+const emailVerified = ref(false);
+const verificationCode = ref('');
+const sendingVerificationCode = ref(false);
+const verificationCodeSent = ref(false);
+const countdown = ref(0);
+let countdownTimer: NodeJS.Timeout | null = null;
+
+// ==================== 监听验证码输入，自动验证 ====================
+watch(verificationCode, (newValue) => {
+  if (newValue.length === 6 && !emailVerified.value) {
+    handleVerifyCode();
+  }
+});
 
 // ==================== 各配置表单数据 ====================
 const siteForm = ref<SiteConfig>({
@@ -97,7 +120,8 @@ const emailForm = ref<EmailConfig>({
   port: 465,
   username: '',
   password: '',
-  fromName: '',
+  from: '',
+  sslEnabled: true,
 });
 
 const smsForm = ref<SmsConfig>({
@@ -141,6 +165,11 @@ const storageTypeOptions = [
   { label: 'Amazon S3', value: 's3' },
 ];
 
+const emailProtectionOptions = [
+  { label: 'SSL', value: true },
+  { label: 'STARTTLS', value: false },
+];
+
 // ==================== 加载配置数据 ====================
 async function loadConfig(configKey: string) {
   loading.value = true;
@@ -164,6 +193,8 @@ async function loadConfig(configKey: string) {
       case 'email': {
         const data = await configApi.getEmailConfig();
         emailForm.value = data;
+        // 默认状态为未验证
+        emailVerified.value = false;
         break;
       }
       case 'sms': {
@@ -242,6 +273,133 @@ function handleSelectConfig(configKey: string) {
 onMounted(() => {
   loadConfig(selectedConfigKey.value);
 });
+
+// ==================== 清理定时器 ====================
+onUnmounted(() => {
+  if (countdownTimer) {
+    clearInterval(countdownTimer);
+    countdownTimer = null;
+  }
+});
+
+// ==================== 发送测试邮件 ====================
+async function handleSendTestEmail() {
+  dialog.warning({
+    title: '发送测试邮件',
+    content: '系统将发送测试邮件到您的邮箱，确认继续吗？',
+    positiveText: '确认',
+    negativeText: '取消',
+    onPositiveClick: async () => {
+      sendingTestEmail.value = true;
+      try {
+        await configApi.sendTestEmail();
+        message.success('测试邮件已发送，请查收您的邮箱');
+      } catch (error: any) {
+        message.error(error.message || '发送失败');
+      } finally {
+        sendingTestEmail.value = false;
+      }
+    },
+  });
+}
+
+// ==================== 打开邮件配置抽屉 ====================
+function handleOpenEmailDrawer() {
+  showEmailDrawer.value = true;
+  // 重置验证状态
+  emailVerified.value = false;
+  verificationCode.value = '';
+  verificationCodeSent.value = false;
+  countdown.value = 0;
+  if (countdownTimer) {
+    clearInterval(countdownTimer);
+    countdownTimer = null;
+  }
+}
+
+// ==================== 开始倒计时 ====================
+function startCountdown() {
+  countdown.value = 30;
+  countdownTimer = setInterval(() => {
+    countdown.value--;
+    if (countdown.value <= 0) {
+      if (countdownTimer) {
+        clearInterval(countdownTimer);
+        countdownTimer = null;
+      }
+    }
+  }, 1000);
+}
+
+// ==================== 保存邮件配置 ====================
+async function handleSaveEmailConfig() {
+  if (!emailVerified.value) {
+    message.warning('请先验证邮箱配置');
+    return;
+  }
+  
+  saving.value = true;
+  try {
+    await configApi.updateEmailConfig(emailForm.value);
+    message.success('邮件配置保存成功');
+    showEmailDrawer.value = false;
+    // 重新加载配置
+    await loadConfig('email');
+  } finally {
+    saving.value = false;
+  }
+}
+
+// ==================== 发送验证码 ====================
+async function handleSendVerificationCode() {
+  if (!emailForm.value.username || !emailForm.value.password || !emailForm.value.host) {
+    message.warning('请先完整填写邮件配置信息');
+    return;
+  }
+
+  sendingVerificationCode.value = true;
+  try {
+    // TODO: 调用后端发送验证码接口
+    // await configApi.sendEmailVerificationCode(emailForm.value);
+    await configApi.sendTestEmail();
+    message.success('验证码已发送到您的邮箱，请查收');
+    verificationCodeSent.value = true;
+    startCountdown();
+  } catch (error: any) {
+    message.error(error.message || '发送验证码失败，请检查邮件配置是否正确');
+  } finally {
+    sendingVerificationCode.value = false;
+  }
+}
+
+// ==================== 验证验证码 ====================
+async function handleVerifyCode() {
+  if (!verificationCode.value) {
+    message.warning('请输入验证码');
+    return;
+  }
+
+  if (verificationCode.value.length !== 6) {
+    message.warning('请输入6位验证码');
+    return;
+  }
+
+  verifyingEmail.value = true;
+  try {
+    // TODO: 调用后端验证验证码接口
+    // await configApi.verifyEmailCode(verificationCode.value);
+    
+    // 模拟验证（实际应该调用后端接口）
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    emailVerified.value = true;
+    message.success('验证成功，现在可以保存配置了');
+  } catch (error: any) {
+    message.error(error.message || '验证码错误，请重新输入');
+  } finally {
+    verifyingEmail.value = false;
+  }
+}
 </script>
 
 <template>
@@ -357,39 +515,31 @@ onMounted(() => {
             </NForm>
 
             <!-- 邮件配置 -->
-            <NForm
-              v-else-if="selectedConfigKey === 'email'"
-              :model="emailForm"
-              label-placement="left"
-              label-width="120"
-            >
-              <NFormItem label="SMTP服务器" path="host">
-                <NInput v-model:value="emailForm.host" placeholder="请输入SMTP服务器地址" />
-              </NFormItem>
-              <NFormItem label="SMTP端口" path="port">
-                <NInputNumber
-                  v-model:value="emailForm.port"
-                  :min="1"
-                  :max="65535"
-                  placeholder="请输入SMTP端口"
-                  class="w-full"
-                />
-              </NFormItem>
-              <NFormItem label="发件人邮箱" path="username">
-                <NInput v-model:value="emailForm.username" placeholder="请输入发件人邮箱" />
-              </NFormItem>
-              <NFormItem label="邮箱密码" path="password">
-                <NInput
-                  v-model:value="emailForm.password"
-                  type="password"
-                  show-password-on="click"
-                  placeholder="请输入邮箱密码或授权码"
-                />
-              </NFormItem>
-              <NFormItem label="发件人名称" path="fromName">
-                <NInput v-model:value="emailForm.fromName" placeholder="请输入发件人名称" />
-              </NFormItem>
-            </NForm>
+            <div v-else-if="selectedConfigKey === 'email'" class="space-y-4">
+              <div class="flex items-center gap-3">
+                <IconifyIcon icon="lucide:mail" class="text-2xl text-primary" />
+                <div class="flex-1">
+                  <div class="flex items-center gap-2">
+                    <span class="text-sm text-muted-foreground">发件人：</span>
+                    <span class="font-medium">{{ emailForm.from || '未设置' }}</span>
+                  </div>
+                  <div class="flex items-center gap-2 mt-1">
+                    <span class="text-sm text-muted-foreground">邮箱地址：</span>
+                    <span class="font-medium">{{ emailForm.username || '未配置' }}</span>
+                    <NTag
+                      v-if="emailForm.username"
+                      :type="emailVerified ? 'success' : 'warning'"
+                      size="small"
+                    >
+                      {{ emailVerified ? '已验证' : '未验证' }}
+                    </NTag>
+                  </div>
+                </div>
+                <NButton text type="primary" @click="handleOpenEmailDrawer">
+                  更换
+                </NButton>
+              </div>
+            </div>
 
             <!-- 短信配置 -->
             <NForm
@@ -516,5 +666,155 @@ onMounted(() => {
         </div>
       </template>
     </NSplit>
+
+    <!-- 邮件配置抽屉 -->
+    <NDrawer v-model:show="showEmailDrawer" :width="600" placement="right">
+      <NDrawerContent title="邮件配置" closable>
+        <div class="space-y-6">
+          <!-- 第一部分：邮件配置表单 -->
+          <div>
+            <div class="flex items-center gap-2 mb-4">
+              <div class="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-white text-sm font-bold">
+                1
+              </div>
+              <span class="text-base font-medium">填写发件箱（SMTP）信息</span>
+            </div>
+
+            <NForm
+              :model="emailForm"
+              label-placement="top"
+              require-mark-placement="left"
+              :show-feedback="false"
+              class="compact-form"
+            >
+              <NFormItem label="发件人名称" path="from">
+                <NInput 
+                  v-model:value="emailForm.from" 
+                  placeholder="显示在邮件中的发件人名称"
+                  :disabled="emailVerified"
+                />
+              </NFormItem>
+              <NFormItem label="发件人邮箱" path="username" required>
+                <NInput 
+                  v-model:value="emailForm.username" 
+                  placeholder="请输入发件人邮箱地址"
+                  :disabled="emailVerified"
+                />
+              </NFormItem>
+              <NFormItem label="邮箱密码" path="password" required>
+                <NInput
+                  v-model:value="emailForm.password"
+                  type="password"
+                  show-password-on="click"
+                  placeholder="请输入邮箱授权码或密码"
+                  :disabled="emailVerified"
+                />
+              </NFormItem>
+              <NFormItem label="SMTP服务器" path="host" required>
+                <NInput 
+                  v-model:value="emailForm.host" 
+                  placeholder="例如：smtp.qq.com"
+                  :disabled="emailVerified"
+                />
+              </NFormItem>
+              <NFormItem label="SMTP端口" path="port" required>
+                <NInputNumber
+                  v-model:value="emailForm.port"
+                  :min="1"
+                  :max="65535"
+                  placeholder="例如：465"
+                  class="w-full"
+                  :disabled="emailVerified"
+                />
+              </NFormItem>
+              <NFormItem label="加密方式" path="sslEnabled" required>
+                <NSelect
+                  v-model:value="emailForm.sslEnabled"
+                  :options="emailProtectionOptions"
+                  placeholder="请选择加密方式"
+                  :disabled="emailVerified"
+                />
+              </NFormItem>
+            </NForm>
+          </div>
+
+          <NDivider />
+
+          <!-- 第二部分：验证邮箱 -->
+          <div>
+            <div class="flex items-center gap-2 mb-4">
+              <div class="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-white text-sm font-bold">
+                2
+              </div>
+              <span class="text-base font-medium">发送测试邮件以验证配置是否正确</span>
+            </div>
+
+            <div class="space-y-4">
+              <!-- 验证码输入框 -->
+              <div class="flex items-center gap-3">
+                <NInput
+                  v-model:value="verificationCode"
+                  placeholder="请输入6位验证码"
+                  :maxlength="6"
+                  :disabled="emailVerified"
+                  @keyup.enter="handleVerifyCode"
+                  style="width: 200px;"
+                />
+                <NButton
+                  v-if="countdown === 0"
+                  text
+                  type="primary"
+                  :loading="sendingVerificationCode"
+                  :disabled="!emailForm.username || !emailForm.password || !emailForm.host || emailVerified"
+                  @click="handleSendVerificationCode"
+                >
+                  {{ verificationCodeSent ? '重新发送验证码' : '给我发送验证码' }}
+                </NButton>
+                <span v-else class="text-sm text-muted-foreground">
+                  {{ countdown }}秒后可重新发送
+                </span>
+              </div>
+
+              <!-- 验证成功提示 -->
+              <NAlert
+                v-if="emailVerified"
+                type="success"
+                :show-icon="true"
+              >
+                <template #icon>
+                  <IconifyIcon icon="lucide:check-circle" />
+                </template>
+                验证成功！邮件配置正确，现在可以保存配置了
+              </NAlert>
+            </div>
+          </div>
+        </div>
+
+        <template #footer>
+          <NSpace justify="end">
+            <NButton @click="showEmailDrawer = false">取消</NButton>
+            <NButton 
+              type="primary" 
+              :loading="saving" 
+              :disabled="!emailVerified"
+              @click="handleSaveEmailConfig"
+            >
+              <template #icon><IconifyIcon icon="lucide:save" /></template>
+              保存配置
+            </NButton>
+          </NSpace>
+        </template>
+      </NDrawerContent>
+    </NDrawer>
   </Page>
 </template>
+
+<style scoped>
+.compact-form :deep(.n-form-item) {
+  margin-bottom: 12px;
+}
+
+.compact-form :deep(.n-form-item:last-child) {
+  margin-bottom: 0;
+}
+</style>

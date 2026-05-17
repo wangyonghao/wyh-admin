@@ -22,9 +22,9 @@ import top.wyhao.admin.auth.model.SocialLoginRequest;
 import top.wyhao.admin.auth.model.LoginResult;
 import top.wyhao.admin.system.model.SystemConstants;
 import top.wyhao.admin.system.model.bo.MessageReq;
-import top.wyhao.admin.system.entity.DeptDO;
-import top.wyhao.admin.system.entity.user.UserDO;
-import top.wyhao.admin.system.entity.user.UserSocialDO;
+import top.wyhao.admin.system.entity.SysDept;
+import top.wyhao.admin.system.entity.user.SysUser;
+import top.wyhao.admin.system.entity.user.SysUserSocial;
 import top.wyhao.admin.system.model.enums.MessageTemplates;
 import top.wyhao.admin.system.model.enums.MessageType;
 import top.wyhao.admin.system.service.*;
@@ -75,12 +75,12 @@ public class SocialLoginHandler implements LoginHandler<SocialLoginRequest> {
         // 如未绑定则自动注册新用户，保存或更新关联信息
         String source = authUser.getSource();
         String openId = authUser.getUuid();
-        UserSocialDO userSocial = userSocialService.getBySourceAndOpenId(source, openId);
-        UserDO user;
+        SysUserSocial userSocial = userSocialService.getBySourceAndOpenId(source, openId);
+        SysUser user;
         if (userSocial == null) {
             String username = authUser.getUsername();
             String nickname = authUser.getNickname();
-            UserDO existsUser = userService.getByUsername(username);
+            SysUser existsUser = userService.getByUsername(username);
             String randomStr = RandomUtil.randomString(RandomUtil.BASE_CHAR, 5);
             if (existsUser != null || !ReUtil.isMatch(RegexConstants.USERNAME, username)) {
                 username = randomStr + IdUtil.fastSimpleUUID();
@@ -88,7 +88,7 @@ public class SocialLoginHandler implements LoginHandler<SocialLoginRequest> {
             if (!ReUtil.isMatch(RegexConstants.GENERAL_NAME, nickname)) {
                 nickname = source.toLowerCase() + randomStr;
             }
-            user = new UserDO();
+            user = new SysUser();
             user.setUsername(username);
             user.setNickname(nickname);
             if (authUser.getGender() != null) {
@@ -101,13 +101,13 @@ public class SocialLoginHandler implements LoginHandler<SocialLoginRequest> {
             Long userId = user.getId();
             roleService.assignRolesToUser(Collections.singletonList(roleService
                 .getIdByCode(RoleCodeEnum.GENERAL_USER.getCode())), userId);
-            userSocial = new UserSocialDO();
+            userSocial = new SysUserSocial();
             userSocial.setUserId(userId);
             userSocial.setSource(source);
             userSocial.setOpenId(openId);
             this.sendSecurityMsg(user);
         } else {
-            user = BeanUtil.copyProperties(userService.detail(userSocial.getUserId()), UserDO.class);
+            user = BeanUtil.copyProperties(userService.detail(userSocial.getUserId()), SysUser.class);
         }
         // 检查用户状态
         checkUserStatus(user);
@@ -150,7 +150,7 @@ public class SocialLoginHandler implements LoginHandler<SocialLoginRequest> {
      *
      * @param user 用户信息
      */
-    private void sendSecurityMsg(UserDO user) {
+    private void sendSecurityMsg(SysUser user) {
         MessageTemplates template = MessageTemplates.SOCIAL_REGISTER;
         MessageReq req = new MessageReq(MessageType.SECURITY);
         req.setTitle(template.getTitle().formatted(applicationProperties.getName()));
@@ -163,9 +163,9 @@ public class SocialLoginHandler implements LoginHandler<SocialLoginRequest> {
      *
      * @param user 用户信息
      */
-    private void checkUserStatus(UserDO user) {
+    private void checkUserStatus(SysUser user) {
         BizAssert.throwIfEqual(StatusEnum.DISABLE, user.getStatus(), "此账号已被禁用，如有疑问，请联系管理员");
-        DeptDO dept = deptService.getById(user.getDeptId());
+        SysDept dept = deptService.getById(user.getDeptId());
         BizAssert.throwIfEqual(StatusEnum.DISABLE, dept.getStatus(), "此账号所属部门已被禁用，如有疑问，请联系管理员");
     }
 

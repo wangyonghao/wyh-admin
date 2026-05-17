@@ -54,8 +54,7 @@ public class AdminApplication implements ApplicationRunner {
         String baseUrl = URLUtil.normalize("%s:%s%s".formatted(hostAddress, port, contextPath));
         log.info("--------------------------------------------------------");
         log.info("{} 服务启动成功", applicationProperties.getName());
-        log.info("当前版本: v{} (Profile: {})", applicationProperties.getVersion(), SpringUtil
-                .getProperty("spring.profiles.active"));
+        log.info("当前版本: v{} (Profile: {})", applicationProperties.getVersion(), SpringUtil.getProperty("spring.profiles.active"));
         log.info("服务地址: {}", baseUrl);
         log.info("接口文档: {}/doc.html", baseUrl);
         log.info("--------------------------------------------------------");

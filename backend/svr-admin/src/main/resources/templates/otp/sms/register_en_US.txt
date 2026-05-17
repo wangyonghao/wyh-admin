@@ -1,0 +1,1 @@
+[WYH Admin] Your registration verification code is: {code}, valid for {expires_in} minutes. Do not share.

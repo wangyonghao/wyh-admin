@@ -1,0 +1,1 @@
+[WYH Admin] Your email change code is: {code}, valid for {expires_in} minutes. Do not share.

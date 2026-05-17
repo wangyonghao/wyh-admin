@@ -5,7 +5,7 @@ import cn.hutool.core.lang.tree.Tree;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import top.wyhao.admin.system.model.bo.SmsConfigReq;
-import top.wyhao.admin.system.entity.SmsConfigDO;
+import top.wyhao.admin.system.entity.SysSmsConfig;
 import top.wyhao.admin.system.model.query.SmsConfigQuery;
 import top.wyhao.admin.system.model.vo.SmsConfigResp;
 import top.wyhao.starter.web.core.model.PageQuery;
@@ -35,7 +35,7 @@ public interface SmsConfigService {
      *
      * @return 默认短信配置
      */
-    SmsConfigDO getDefaultConfig();
+    SysSmsConfig getDefaultConfig();
 
     PageResult<SmsConfigResp> findPage(@Valid SmsConfigQuery query, @Valid PageQuery pageQuery);
 

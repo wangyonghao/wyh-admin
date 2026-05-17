@@ -3,7 +3,7 @@ package top.wyhao.admin.system.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import top.wyhao.cmn.db.model.BaseMapper;
-import top.wyhao.admin.system.entity.SmsLogDO;
+import top.wyhao.admin.system.entity.SysSmsLog;
 
 /**
  * 短信日志 Mapper
@@ -12,4 +12,4 @@ import top.wyhao.admin.system.entity.SmsLogDO;
  * @since 2025/03/15 22:15
  */
 @Mapper
-public interface SmsLogMapper extends BaseMapper<SmsLogDO> {}
+public interface SmsLogMapper extends BaseMapper<SysSmsLog> {}

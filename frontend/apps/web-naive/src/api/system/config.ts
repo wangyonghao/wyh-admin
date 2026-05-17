@@ -27,12 +27,13 @@ export interface RegisterConfig {
 }
 
 /** 邮件配置 */
-export interface EmailConfig {
+export interface MailConfig {
   host: string;
   port: number;
   username: string;
   password: string;
-  fromName: string;
+  from: string;
+  sslEnabled?: boolean;
 }
 
 /** 短信配置 */
@@ -91,10 +92,13 @@ export const configApi = {
 
   // 邮件配置
   getEmailConfig: () => {
-    return http.get<EmailConfig>('/system/config/email');
+    return http.get<MailConfig>('/system/config/mail');
   },
-  updateEmailConfig: (data: EmailConfig) => {
-    return http.put('/system/config/email', data);
+  updateEmailConfig: (data: MailConfig) => {
+    return http.put('/system/config/mail', data);
+  },
+  sendTestEmail: () => {
+    return http.post('/system/config/mail/test');
   },
 
   // 短信配置

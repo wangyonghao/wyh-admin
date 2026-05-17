@@ -15,8 +15,8 @@ import { NButton, NDataTable, NDropdown, NIcon, NInput, NModal, NSpace, NSplit, 
 
 import { deptApi,roleApi,userApi } from '#/api/system';
 
-import UserDetailDrawer from './components/UserDetailDrawer.vue';
-import UserEditDrawer from './components/UserEditDrawer.vue';
+import UserDetailDrawer from './components/user-detail-drawer.vue';
+import UserEditDrawer from './components/user-edit-drawer.vue';
 
 const message = useMessage();
 const dialog = useDialog();

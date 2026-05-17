@@ -26,7 +26,7 @@ public class CaptchaProperties {
     /**
      * 邮箱验证码配置
      */
-    private CaptchaMail mail;
+    private CaptchaEmail email;
 
     /**
      * 短信验证码配置
@@ -37,7 +37,7 @@ public class CaptchaProperties {
      * 邮箱验证码配置
      */
     @Data
-    public static class CaptchaMail {
+    public static class CaptchaEmail {
         /**
          * 内容长度
          */

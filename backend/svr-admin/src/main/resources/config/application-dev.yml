@@ -151,13 +151,13 @@ wyhao-starter.captcha:
 ## 其他验证码配置
 captcha:
   ## 邮箱验证码配置
-  mail:
+  email:
     # 内容长度
     length: 6
     # 过期时间
     expirationInMinutes: 5
     # 模板路径
-    templatePath: mail/captcha.ftl
+    templatePath: email/captcha.ftl
   ## 短信验证码配置
   sms:
     # 内容长度
@@ -266,3 +266,36 @@ snail-job:
       username: ${SCHEDULE_USERNAME:admin}
       # 密码
       password: ${SCHEDULE_PASSWORD:admin}
+
+--- ### OTP 验证码配置
+otp:
+  # 验证码配置
+  code:
+    length: 6                    # 验证码长度
+    expires-in: 300              # 有效期（秒）
+  # 限流配置
+  rate-limit:
+    global:
+      max: 1000                  # 全局限流（次/分钟）
+      window: 60                 # 时间窗口（秒）
+    ip:
+      max: 10                    # IP 限流（次/小时）
+      window: 3600
+    target:
+      max: 3                     # 目标地址限流（次/分钟）
+      window: 60
+    max-fail: 5                  # 最大失败次数
+  # 模板配置
+  template:
+    base-path: templates/otp     # 模板基础路径
+    default-locale: zh_CN        # 默认语言
+  # 渠道配置
+  channel:
+    email:
+      enabled: true              # 是否启用邮件渠道
+      from: noreply@example.com  # 发件人（请修改为实际发件人）
+      subject-prefix: "【WYH Admin】"
+    sms:
+      enabled: false             # 是否启用短信渠道（需配置短信服务商）
+      provider: aliyun           # 短信服务商
+      sign-name: "WYH Admin"     # 短信签名

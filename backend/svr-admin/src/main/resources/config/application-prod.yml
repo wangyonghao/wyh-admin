@@ -157,13 +157,13 @@ wyhao-starter.captcha:
 ## 其他验证码配置
 captcha:
   ## 邮箱验证码配置
-  mail:
+  email:
     # 内容长度
     length: 6
     # 过期时间
     expirationInMinutes: 5
     # 模板路径
-    templatePath: mail/captcha.ftl
+    templatePath: email/captcha.ftl
   ## 短信验证码配置
   sms:
     # 内容长度

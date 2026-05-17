@@ -21,7 +21,7 @@ import java.util.List;
  * @author Yonghao Wang
  * @since 2024/04/26
  */
-public interface ConfigService extends MailConfigProvider, OSSConfigProvider {
+public interface ConfigService {
 
     /**
      * 分页查询列表

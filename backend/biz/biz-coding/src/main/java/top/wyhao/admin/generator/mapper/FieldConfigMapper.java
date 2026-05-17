@@ -4,7 +4,7 @@ package top.wyhao.admin.generator.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import top.wyhao.admin.generator.model.entity.FieldConfigDO;
+import top.wyhao.admin.generator.model.entity.GenFieldConfig;
 import top.wyhao.cmn.db.model.BaseMapper;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
  * @since 2023/4/12 23:56
  */
 @Mapper
-public interface FieldConfigMapper extends BaseMapper<FieldConfigDO> {
+public interface FieldConfigMapper extends BaseMapper<GenFieldConfig> {
 
     /**
      * 根据表名称查询
@@ -25,5 +25,5 @@ public interface FieldConfigMapper extends BaseMapper<FieldConfigDO> {
      * @return 字段配置信息
      */
     @Select("SELECT * FROM gen_field_config WHERE table_name = #{tableName} ORDER BY field_sort ASC")
-    List<FieldConfigDO> selectListByTableName(@Param("tableName") String tableName);
+    List<GenFieldConfig> selectListByTableName(@Param("tableName") String tableName);
 }

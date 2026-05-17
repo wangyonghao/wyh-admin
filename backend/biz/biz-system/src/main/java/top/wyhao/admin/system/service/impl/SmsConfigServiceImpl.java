@@ -13,7 +13,7 @@ import top.wyhao.admin.system.model.query.SmsConfigQuery;
 import top.wyhao.admin.system.mapper.SmsConfigMapper;
 import top.wyhao.starter.core.enums.StatusEnum;
 import top.wyhao.admin.system.config.sms.SmsConfigUtil;
-import top.wyhao.admin.system.entity.SmsConfigDO;
+import top.wyhao.admin.system.entity.SysSmsConfig;
 import top.wyhao.admin.system.model.bo.SmsConfigReq;
 import top.wyhao.admin.system.model.vo.SmsConfigResp;
 import top.wyhao.admin.system.service.SmsConfigService;
@@ -36,11 +36,11 @@ import java.util.List;
 public class SmsConfigServiceImpl implements SmsConfigService {
     private final SmsConfigMapper baseMapper;
 
-    public void afterCreate(SmsConfigReq req, SmsConfigDO entity) {
+    public void afterCreate(SmsConfigReq req, SysSmsConfig entity) {
         this.load(entity);
     }
 
-    public void afterUpdate(SmsConfigReq req, SmsConfigDO entity) {
+    public void afterUpdate(SmsConfigReq req, SysSmsConfig entity) {
         // 重新加载配置
         // 先卸载
         this.unload(entity.getId().toString());
@@ -57,21 +57,21 @@ public class SmsConfigServiceImpl implements SmsConfigService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void setDefaultConfig(Long id) {
-        SmsConfigDO smsConfig = baseMapper.selectById(id);
+        SysSmsConfig smsConfig = baseMapper.selectById(id);
         if (Boolean.TRUE.equals(smsConfig.getIsDefault())) {
             return;
         }
         // 启用状态才能设为默认配置
         BizAssert.throwIfEqual(StatusEnum.DISABLE, smsConfig.getStatus(), "请先启用所选配置");
-        baseMapper.lambdaUpdate().eq(SmsConfigDO::getIsDefault, true).set(SmsConfigDO::getIsDefault, false).update();
-        baseMapper.lambdaUpdate().eq(SmsConfigDO::getId, id).set(SmsConfigDO::getIsDefault, true).update();
+        baseMapper.lambdaUpdate().eq(SysSmsConfig::getIsDefault, true).set(SysSmsConfig::getIsDefault, false).update();
+        baseMapper.lambdaUpdate().eq(SysSmsConfig::getId, id).set(SysSmsConfig::getIsDefault, true).update();
     }
 
     @Override
-    public SmsConfigDO getDefaultConfig() {
+    public SysSmsConfig getDefaultConfig() {
         return baseMapper.lambdaQuery()
-            .eq(SmsConfigDO::getIsDefault, true)
-            .eq(SmsConfigDO::getStatus, StatusEnum.ENABLE)
+            .eq(SysSmsConfig::getIsDefault, true)
+            .eq(SysSmsConfig::getStatus, StatusEnum.ENABLE)
             .one();
     }
 
@@ -125,8 +125,8 @@ public class SmsConfigServiceImpl implements SmsConfigService {
      *
      * @param entity 配置信息
      */
-    private void load(SmsConfigDO entity) {
-        SmsConfigDO smsConfigDO = baseMapper.selectById(entity.getId());
+    private void load(SysSmsConfig entity) {
+        SysSmsConfig smsConfigDO = baseMapper.selectById(entity.getId());
         SmsConfigResp smsConfig = BeanUtil.copyProperties(smsConfigDO, SmsConfigResp.class);
         BaseConfig config = SmsConfigUtil.from(smsConfig);
         if (config != null) {

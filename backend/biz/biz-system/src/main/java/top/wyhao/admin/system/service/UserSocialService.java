@@ -2,7 +2,7 @@
 package top.wyhao.admin.system.service;
 
 import me.zhyd.oauth.model.AuthUser;
-import top.wyhao.admin.system.entity.user.UserSocialDO;
+import top.wyhao.admin.system.entity.user.SysUserSocial;
 
 import java.util.List;
 
@@ -21,14 +21,14 @@ public interface UserSocialService {
      * @param openId 开放 ID
      * @return 用户社会化关联信息
      */
-    UserSocialDO getBySourceAndOpenId(String source, String openId);
+    SysUserSocial getBySourceAndOpenId(String source, String openId);
 
     /**
      * 保存
      *
      * @param userSocial 用户社会化关联信息
      */
-    void saveOrUpdate(UserSocialDO userSocial);
+    void saveOrUpdate(SysUserSocial userSocial);
 
     /**
      * 根据用户 ID 查询
@@ -36,7 +36,7 @@ public interface UserSocialService {
      * @param userId 用户 ID
      * @return 用户社会化关联信息
      */
-    List<UserSocialDO> listByUserId(Long userId);
+    List<SysUserSocial> listByUserId(Long userId);
 
     /**
      * 绑定

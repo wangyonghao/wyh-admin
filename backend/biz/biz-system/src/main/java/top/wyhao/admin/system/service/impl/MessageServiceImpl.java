@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 import top.wyhao.admin.system.mapper.MessageLogMapper;
 import top.wyhao.admin.system.mapper.MessageMapper;
 import top.wyhao.admin.system.model.bo.MessageReq;
-import top.wyhao.admin.system.entity.MessageDO;
-import top.wyhao.admin.system.entity.MessageLogDO;
+import top.wyhao.admin.system.entity.SysMessage;
+import top.wyhao.admin.system.entity.SysMessageLog;
 import top.wyhao.admin.system.model.enums.MessageType;
 import top.wyhao.admin.system.model.enums.NoticeScopes;
 import top.wyhao.admin.system.model.query.MessageQuery;
@@ -60,8 +60,8 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public void readMessage(List<Long> ids, Long userId) {
         // 查询当前用户的未读消息
-        List<MessageDO> list = baseMapper.selectUnreadListByUserId(userId);
-        List<Long> unreadIds = CollUtils.mapToList(list, MessageDO::getId);
+        List<SysMessage> list = baseMapper.selectUnreadListByUserId(userId);
+        List<Long> unreadIds = CollUtils.mapToList(list, SysMessage::getId);
         this.addWithUserId(CollUtil.isNotEmpty(ids)
             ? CollUtil.intersection(unreadIds, ids).stream().toList()
             : unreadIds, userId);
@@ -74,8 +74,8 @@ public class MessageServiceImpl implements MessageService {
         if (CollUtil.isEmpty(messageIds)) {
             return;
         }
-        List<MessageLogDO> list = CollUtils
-                .mapToList(messageIds, messageId -> new MessageLogDO(messageId, userId, LocalDateTime.now()));
+        List<SysMessageLog> list = CollUtils
+                .mapToList(messageIds, messageId -> new SysMessageLog(messageId, userId, LocalDateTime.now()));
         messageLogMapper.insert(list);
     }
 
@@ -104,7 +104,7 @@ public class MessageServiceImpl implements MessageService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void add(MessageReq req, List<String> userIdList) {
-        MessageDO message = BeanUtil.copyProperties(req, MessageDO.class);
+        SysMessage message = BeanUtil.copyProperties(req, SysMessage.class);
         message.setScope(CollUtil.isEmpty(userIdList) ? NoticeScopes.ALL : NoticeScopes.USER);
         message.setUsers(userIdList);
         baseMapper.insert(message);
@@ -131,6 +131,6 @@ public class MessageServiceImpl implements MessageService {
         if (CollUtil.isEmpty(messageIds)) {
             return;
         }
-        messageLogMapper.lambdaUpdate().in(MessageLogDO::getMessageId, messageIds).remove();
+        messageLogMapper.lambdaUpdate().in(SysMessageLog::getMessageId, messageIds).remove();
     }
 }

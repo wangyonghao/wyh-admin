@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Constants;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import top.wyhao.admin.system.entity.UserRoleDO;
+import top.wyhao.admin.system.entity.SysUserRole;
 import top.wyhao.admin.system.model.vo.role.RoleUserResult;
 import top.wyhao.cmn.db.model.BaseMapper;
 
@@ -17,7 +17,7 @@ import top.wyhao.cmn.db.model.BaseMapper;
  * @since 2023/2/13 23:13
  */
 @Mapper
-public interface UserRoleMapper extends BaseMapper<UserRoleDO> {
+public interface UserRoleMapper extends BaseMapper<SysUserRole> {
 
     /**
      * 分页查询列表
@@ -26,8 +26,8 @@ public interface UserRoleMapper extends BaseMapper<UserRoleDO> {
      * @param queryWrapper 查询条件
      * @return 分页列表信息
      */
-    IPage<RoleUserResult> selectUserPage(@Param("page") IPage<UserRoleDO> page,
-                                         @Param(Constants.WRAPPER) QueryWrapper<UserRoleDO> queryWrapper);
+    IPage<RoleUserResult> selectUserPage(@Param("page") IPage<SysUserRole> page,
+                                         @Param(Constants.WRAPPER) QueryWrapper<SysUserRole> queryWrapper);
 
 
 

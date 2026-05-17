@@ -11,7 +11,7 @@
   <packaging>jar</packaging>
 
   <name>${project.artifactId}</name>
-  <description>任务调度插件</description>
+  <description>任务调度</description>
 
   <dependencies>
     <!-- SnailJob（灵活，可靠和快速的分布式任务重试和分布式任务调度平台） -->

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import top.wyhao.admin.system.entity.NoticeDO;
+import top.wyhao.admin.system.entity.SysNotice;
 import top.wyhao.admin.system.model.query.NoticeQuery;
 import top.wyhao.admin.system.model.vo.dashboard.DashboardNoticeResp;
 import top.wyhao.admin.system.model.vo.NoticeResult;
@@ -20,7 +20,7 @@ import java.util.List;
  * @since 2023/8/20 10:55
  */
 @Mapper
-public interface NoticeMapper extends BaseMapper<NoticeDO> {
+public interface NoticeMapper extends BaseMapper<SysNotice> {
 
     /**
      * 分页查询公告列表
@@ -29,7 +29,7 @@ public interface NoticeMapper extends BaseMapper<NoticeDO> {
      * @param query 查询条件
      * @return 公告列表
      */
-    IPage<NoticeResult> selectNoticePage(@Param("page") Page<NoticeDO> page, @Param("query") NoticeQuery query);
+    IPage<NoticeResult> selectNoticePage(@Param("page") Page<SysNotice> page, @Param("query") NoticeQuery query);
 
     /**
      * 查询未读公告 ID 列表

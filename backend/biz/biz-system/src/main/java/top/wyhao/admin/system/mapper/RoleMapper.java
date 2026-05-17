@@ -2,7 +2,7 @@
 package top.wyhao.admin.system.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import top.wyhao.admin.system.entity.RoleDO;
+import top.wyhao.admin.system.entity.SysRole;
 import top.wyhao.cmn.db.model.BaseMapper;
 
 /**
@@ -12,12 +12,12 @@ import top.wyhao.cmn.db.model.BaseMapper;
  * @since 2023/2/8 23:17
  */
 @Mapper
-public interface RoleMapper extends BaseMapper<RoleDO> {
+public interface RoleMapper extends BaseMapper<SysRole> {
 
     default boolean isBuiltIn(Long roleId) {
         return this.lambdaQuery()
-                .select(RoleDO::getName, RoleDO::getIsBuiltin)
-                .eq(RoleDO::getId, roleId)
+                .select(SysRole::getName, SysRole::getIsBuiltin)
+                .eq(SysRole::getId, roleId)
                 .exists();
     }
 }

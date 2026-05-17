@@ -19,7 +19,7 @@ export const captchaApi = {
   /** 获取邮箱验证码 */
   getEmail: (email: string, captchaReq: BehaviorCaptchaReq) => {
     return http.get<boolean>(
-      `/captcha/mail?email=${email}&captchaVerification=${encodeURIComponent(captchaReq.captchaVerification || '')}`,
+      `/captcha/email?email=${email}&captchaVerification=${encodeURIComponent(captchaReq.captchaVerification || '')}`,
     );
   },
   /** 获取行为验证码 */

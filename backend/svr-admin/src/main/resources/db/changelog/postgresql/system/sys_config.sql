@@ -8,8 +8,8 @@ CREATE TABLE IF NOT EXISTS "sys_config"
     "config_key"   VARCHAR(100) NOT NULL UNIQUE,
     "config_value" JSONB,
     "description"  VARCHAR(255),
-    "create_time"   TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
-    "update_time"   TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+    "create_time"   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "update_time"   TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 COMMENT ON TABLE "sys_config" IS '系统配置中心主表';

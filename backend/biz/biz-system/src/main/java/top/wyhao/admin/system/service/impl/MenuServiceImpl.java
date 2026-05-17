@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.wyhao.admin.system.model.SystemConstants;
 import top.wyhao.admin.system.model.bo.MenuRequest;
-import top.wyhao.admin.system.entity.MenuDO;
+import top.wyhao.admin.system.entity.SysMenu;
 import top.wyhao.admin.system.model.enums.MenuType;
 import top.wyhao.admin.system.model.query.MenuQuery;
 import top.wyhao.admin.system.model.vo.MenuTreeVO;
@@ -43,15 +43,15 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuTreeVO> tree(MenuQuery query) {
-        LambdaQueryWrapper<MenuDO> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(MenuDO::getStatus, StatusEnum.ENABLE.getValue())
-                .orderByAsc(MenuDO::getParentId)
-                .orderByAsc(MenuDO::getSort);
+        LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysMenu::getStatus, StatusEnum.ENABLE.getValue())
+                .orderByAsc(SysMenu::getParentId)
+                .orderByAsc(SysMenu::getSort);
 
         if (query != null) {
-            QueryWrapperUtil.applySort(wrapper, query.getSort(), MenuDO.class);
+            QueryWrapperUtil.applySort(wrapper, query.getSort(), SysMenu.class);
         }
-        List<MenuDO> menus = menuMapper.selectList(wrapper);
+        List<SysMenu> menus = menuMapper.selectList(wrapper);
         return buildPermissionTree(menus);
     }
 
@@ -61,16 +61,16 @@ public class MenuServiceImpl implements MenuService {
         List<String> roleCodes = userService.findUserRoles(userId);
         // 超级管理员
         if (roleCodes.contains(RoleCodeEnum.SUPER_ADMIN.getCode())) {
-            LambdaQueryWrapper<MenuDO> wrapper = new LambdaQueryWrapper<>();
-            wrapper.eq(MenuDO::getStatus, 1)
-                    .in(MenuDO::getType, 1, 2)
-                    .orderByAsc(MenuDO::getParentId)
-                    .orderByAsc(MenuDO::getSort);
-            List<MenuDO> menus = menuMapper.selectList(wrapper);
+            LambdaQueryWrapper<SysMenu> wrapper = new LambdaQueryWrapper<>();
+            wrapper.eq(SysMenu::getStatus, 1)
+                    .in(SysMenu::getType, 1, 2)
+                    .orderByAsc(SysMenu::getParentId)
+                    .orderByAsc(SysMenu::getSort);
+            List<SysMenu> menus = menuMapper.selectList(wrapper);
             return this.buildPermissionTree(menus);
         }
         // 普通用户
-        List<MenuDO> menus = menuMapper.selectMenusByUserId(userId);
+        List<SysMenu> menus = menuMapper.selectMenusByUserId(userId);
         return this.buildPermissionTree(menus);
     }
 
@@ -82,16 +82,16 @@ public class MenuServiceImpl implements MenuService {
 
         // 如果包含超级管理员角色，则返回所有启用的菜单
         if (roleIds.contains(SystemConstants.SUPER_ADMIN_ROLE_ID)) {
-            List<MenuDO> menuList = menuMapper.lambdaQuery()
-                    .eq(MenuDO::getStatus, "1")
+            List<SysMenu> menuList = menuMapper.lambdaQuery()
+                    .eq(SysMenu::getStatus, "1")
                     .list();
             return BeanUtil.copyToList(menuList, MenuVO.class);
         }
 
         // 否则根据角色ID列表获取菜单 - 遍历每个角色ID并合并菜单列表
-        List<MenuDO> allMenus = new ArrayList<>();
+        List<SysMenu> allMenus = new ArrayList<>();
         for (Long roleId : roleIds) {
-            List<MenuDO> menusForRole = menuMapper.selectListByRoleId(roleId);
+            List<SysMenu> menusForRole = menuMapper.selectListByRoleId(roleId);
             allMenus.addAll(menusForRole);
         }
 
@@ -113,7 +113,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public MenuVO get(Long id) {
-        MenuDO menuDO = menuMapper.selectById(id);
+        SysMenu menuDO = menuMapper.selectById(id);
         BizAssert.isNull(menuDO, "菜单不存在");
         return BeanUtil.copyProperties(menuDO, MenuVO.class);
     }
@@ -127,7 +127,7 @@ public class MenuServiceImpl implements MenuService {
             req.setComponent(CharSequenceUtil.blankToDefault(req.getComponent(), "Layout"));
         }
         RedisUtils.deleteByPattern(CacheConstants.ROLE_MENU_KEY_PREFIX + StringConstants.ASTERISK);
-        MenuDO menuDO = BeanUtil.copyProperties(req, MenuDO.class);
+        SysMenu menuDO = BeanUtil.copyProperties(req, SysMenu.class);
         menuMapper.insert(menuDO);
         return menuDO.getId();
     }
@@ -135,10 +135,10 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public void update(Long id, MenuRequest req) {
         this.checkNameUnique(req.getName(), req.getParentId(), id);
-        MenuDO oldMenu = menuMapper.selectById(id);
+        SysMenu oldMenu = menuMapper.selectById(id);
         BizAssert.throwIfNotEqual(req.getType(), oldMenu.getType(), "不允许修改菜单类型");
 
-        MenuDO entity = BeanUtil.copyProperties(req, MenuDO.class);
+        SysMenu entity = BeanUtil.copyProperties(req, SysMenu.class);
         entity.setId(id);
         menuMapper.updateById(entity);
         RedisUtils.deleteByPattern(CacheConstants.ROLE_MENU_KEY_PREFIX + StringConstants.ASTERISK);
@@ -185,11 +185,11 @@ public class MenuServiceImpl implements MenuService {
     private List<Long> listDescendantIds(List<Long> ids) {
         List<Long> menuIds = new ArrayList<>(ids);
         List<Long> childIdList = menuMapper.lambdaQuery()
-                .select(MenuDO::getId)
-                .in(MenuDO::getParentId, menuIds)
+                .select(SysMenu::getId)
+                .in(SysMenu::getParentId, menuIds)
                 .list()
                 .stream()
-                .map(MenuDO::getId)
+                .map(SysMenu::getId)
                 .toList();
         if (childIdList.isEmpty()) {
             return menuIds;
@@ -199,7 +199,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
 
-    private List<MenuTreeVO> buildPermissionTree(List<MenuDO> menus) {
+    private List<MenuTreeVO> buildPermissionTree(List<SysMenu> menus) {
         List<MenuTreeVO> flat = BeanUtil.copyToList(menus, MenuTreeVO.class);
         return TreeUtils.flatToTree(flat,
                 MenuTreeVO::getId,

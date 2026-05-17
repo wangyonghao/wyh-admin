@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.wyhao.admin.system.mapper.NoticeLogMapper;
-import top.wyhao.admin.system.entity.NoticeLogDO;
+import top.wyhao.admin.system.entity.SysNoticeLog;
 import top.wyhao.admin.system.service.NoticeLogService;
 import top.wyhao.starter.core.util.CollUtils;
 
@@ -31,11 +31,11 @@ public class NoticeLogServiceImpl implements NoticeLogService {
     public boolean add(List<Long> userIds, Long noticeId) {
         // 检查是否有变更
         List<Long> oldUserIdList = baseMapper.lambdaQuery()
-            .select(NoticeLogDO::getUserId)
-            .eq(NoticeLogDO::getNoticeId, noticeId)
+            .select(SysNoticeLog::getUserId)
+            .eq(SysNoticeLog::getNoticeId, noticeId)
             .list()
             .stream()
-            .map(NoticeLogDO::getUserId)
+            .map(SysNoticeLog::getUserId)
             .toList();
         Collection<Long> subtract = CollUtil.subtract(userIds, oldUserIdList);
         if (CollUtil.isEmpty(subtract)) {
@@ -43,7 +43,7 @@ public class NoticeLogServiceImpl implements NoticeLogService {
         }
         // 新增没有关联的
         LocalDateTime now = LocalDateTime.now();
-        List<NoticeLogDO> list = CollUtils.mapToList(subtract, userId -> new NoticeLogDO(noticeId, userId, now));
+        List<SysNoticeLog> list = CollUtils.mapToList(subtract, userId -> new SysNoticeLog(noticeId, userId, now));
         return baseMapper.insertBatch(list);
     }
 
@@ -52,17 +52,17 @@ public class NoticeLogServiceImpl implements NoticeLogService {
         if (CollUtil.isEmpty(noticeIds)) {
             return;
         }
-        baseMapper.lambdaUpdate().in(NoticeLogDO::getNoticeId, noticeIds).remove();
+        baseMapper.lambdaUpdate().in(SysNoticeLog::getNoticeId, noticeIds).remove();
     }
 
     @Override
     public List<Long> listUserIdByNoticeId(Long noticeId) {
         return baseMapper.lambdaQuery()
-            .select(NoticeLogDO::getUserId)
-            .eq(NoticeLogDO::getNoticeId, noticeId)
+            .select(SysNoticeLog::getUserId)
+            .eq(SysNoticeLog::getNoticeId, noticeId)
             .list()
             .stream()
-            .map(NoticeLogDO::getUserId)
+            .map(SysNoticeLog::getUserId)
             .toList();
     }
 }

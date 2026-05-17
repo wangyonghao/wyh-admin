@@ -6,8 +6,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
-import top.wyhao.admin.generator.model.entity.FieldConfigDO;
-import top.wyhao.admin.generator.model.entity.GenConfigDO;
+import top.wyhao.admin.generator.model.entity.GenFieldConfig;
+import top.wyhao.admin.generator.model.entity.GenConfig;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -33,7 +33,7 @@ public class GenConfigReq implements Serializable {
     @Valid
     @Schema(description = "字段配置信息")
     @NotEmpty(message = "字段配置不能为空")
-    private List<FieldConfigDO> fieldConfigs = new ArrayList<>();
+    private List<GenFieldConfig> fieldConfigs = new ArrayList<>();
 
     /**
      * 生成配置信息
@@ -41,5 +41,5 @@ public class GenConfigReq implements Serializable {
     @Valid
     @Schema(description = "生成配置信息")
     @NotNull(message = "生成配置不能为空")
-    private GenConfigDO genConfig;
+    private GenConfig genConfig;
 }

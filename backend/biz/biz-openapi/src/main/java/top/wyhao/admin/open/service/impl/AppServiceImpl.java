@@ -18,7 +18,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.wyhao.admin.open.mapper.AppMapper;
-import top.wyhao.admin.open.model.entity.AppDO;
+import top.wyhao.admin.open.model.entity.SysApp;
 import top.wyhao.admin.open.model.query.AppQuery;
 import top.wyhao.admin.open.model.req.AppReq;
 import top.wyhao.admin.open.model.resp.AppDetailResp;
@@ -46,7 +46,7 @@ import java.util.Optional;
  * @since 2024/10/17 16:03
  */
 @Service
-public class AppServiceImpl extends ServiceImpl<AppMapper, AppDO> implements AppService {
+public class AppServiceImpl extends ServiceImpl<AppMapper, SysApp> implements AppService {
 
     private List<Field> queryFields;
 
@@ -59,7 +59,7 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, AppDO> implements App
                 .substring(0, 30));
         req.setSecretKey(this.generateSecret());
 
-        AppDO entity = BeanUtil.copyProperties(req, getEntityClass());
+        SysApp entity = BeanUtil.copyProperties(req, getEntityClass());
         baseMapper.insert(entity);
         return entity.getId();
     }
@@ -67,7 +67,7 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, AppDO> implements App
 
     @Override
     public AppSecretResp getSecret(Long id) {
-        AppDO app = super.getById(id);
+        SysApp app = super.getById(id);
         AppSecretResp appSecretResp = new AppSecretResp();
         appSecretResp.setAccessKey(app.getAccessKey());
         appSecretResp.setSecretKey(app.getSecretKey());
@@ -77,13 +77,13 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, AppDO> implements App
     @Override
     public void resetSecret(Long id) {
         super.getById(id);
-        AppDO app = new AppDO();
+        SysApp app = new SysApp();
         app.setSecretKey(this.generateSecret());
-        baseMapper.update(app, Wrappers.lambdaQuery(AppDO.class).eq(AppDO::getId, id));
+        baseMapper.update(app, Wrappers.lambdaQuery(SysApp.class).eq(SysApp::getId, id));
     }
 
     @Override
-    public AppDO getByAccessKey(String accessKey) {
+    public SysApp getByAccessKey(String accessKey) {
         return baseMapper.selectByAccessKey(accessKey);
     }
 
@@ -101,18 +101,18 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, AppDO> implements App
     // 实现 CrudService 的其他方法
     @Override
     public PageResult<AppResp> findPage(AppQuery query, PageQuery pageQuery) {
-        QueryWrapper<AppDO> queryWrapper = this.buildQueryWrapper(query);
-        QueryWrapperUtil.applySort(queryWrapper, query.getSort(),AppDO.class);
-        IPage<AppDO> page = baseMapper.selectPage(new Page<>(pageQuery.getPage(), pageQuery.getSize()), queryWrapper);
+        QueryWrapper<SysApp> queryWrapper = this.buildQueryWrapper(query);
+        QueryWrapperUtil.applySort(queryWrapper, query.getSort(),SysApp.class);
+        IPage<SysApp> page = baseMapper.selectPage(new Page<>(pageQuery.getPage(), pageQuery.getSize()), queryWrapper);
         return PageResult.build(page, AppResp.class);
     }
 
     @Override
     public List<AppResp> list(AppQuery query, SortQuery sortQuery) {
-        QueryWrapper<AppDO> queryWrapper = this.buildQueryWrapper(query);
+        QueryWrapper<SysApp> queryWrapper = this.buildQueryWrapper(query);
         // 设置排序
-        QueryWrapperUtil.applySort(queryWrapper, sortQuery.getSort(),AppDO.class);
-        List<AppDO> entityList = baseMapper.selectList(queryWrapper);
+        QueryWrapperUtil.applySort(queryWrapper, sortQuery.getSort(),SysApp.class);
+        List<SysApp> entityList = baseMapper.selectList(queryWrapper);
         return BeanUtil.copyToList(entityList, AppResp.class);
     }
 
@@ -120,7 +120,7 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, AppDO> implements App
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void update(AppReq req, Long id) {
-        AppDO entity = this.getById(id);
+        SysApp entity = this.getById(id);
         BeanUtil.copyProperties(req, entity, CopyOptions.create().ignoreNullValue());
         baseMapper.updateById(entity);
     }
@@ -133,10 +133,10 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, AppDO> implements App
 
     @Override
     public void export(AppQuery query, SortQuery sortQuery, HttpServletResponse response) {
-        QueryWrapper<AppDO> queryWrapper = this.buildQueryWrapper(query);
+        QueryWrapper<SysApp> queryWrapper = this.buildQueryWrapper(query);
         // 设置排序
         this.sort(queryWrapper, sortQuery);
-        List<AppDO> entityList = baseMapper.selectList(queryWrapper);
+        List<SysApp> entityList = baseMapper.selectList(queryWrapper);
         List<AppDetailResp> list = BeanUtil.copyToList(entityList, AppDetailResp.class);
         ExcelUtils.export(list, "导出数据", AppDetailResp.class, response);
     }
@@ -148,7 +148,7 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, AppDO> implements App
         return queryFields;
     }
 
-    protected void sort(QueryWrapper<AppDO> queryWrapper, SortQuery sortQuery) {
+    protected void sort(QueryWrapper<SysApp> queryWrapper, SortQuery sortQuery) {
         if (sortQuery == null || sortQuery.getSort().isUnsorted()) {
             return;
         }
@@ -173,8 +173,8 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, AppDO> implements App
         }
     }
 
-    protected QueryWrapper<AppDO> buildQueryWrapper(AppQuery query) {
-        QueryWrapper<AppDO> queryWrapper = new QueryWrapper<>();
+    protected QueryWrapper<SysApp> buildQueryWrapper(AppQuery query) {
+        QueryWrapper<SysApp> queryWrapper = new QueryWrapper<>();
         // 解析并拼接查询条件
         return QueryWrapperUtil.build(query, this.getQueryFields(), queryWrapper);
     }

@@ -1,0 +1,15 @@
+【WYH Admin】注册验证码
+
+尊敬的用户：
+
+您正在注册 WYH Admin 账号，验证码为：
+
+{code}
+
+验证码有效期为 {expires_in} 分钟，请勿泄露给他人。
+
+如非本人操作，请忽略此邮件。
+
+---
+WYH Admin 团队
+{timestamp}

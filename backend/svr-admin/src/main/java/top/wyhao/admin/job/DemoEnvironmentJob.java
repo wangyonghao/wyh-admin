@@ -10,10 +10,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import top.wyhao.admin.open.mapper.AppMapper;
-import top.wyhao.admin.open.model.entity.AppDO;
+import top.wyhao.admin.open.model.entity.SysApp;
 import top.wyhao.admin.system.entity.*;
-import top.wyhao.admin.system.entity.user.UserDO;
-import top.wyhao.admin.system.entity.user.UserSocialDO;
+import top.wyhao.admin.system.entity.user.SysUser;
+import top.wyhao.admin.system.entity.user.SysUserSocial;
 import top.wyhao.admin.system.mapper.*;
 import top.wyhao.admin.system.mapper.user.UserMapper;
 import top.wyhao.admin.system.mapper.user.UserSocialMapper;
@@ -74,19 +74,19 @@ public class DemoEnvironmentJob {
             SnailJobLog.REMOTE.info("开始检测演示环境待清理数据项，请稍候...");
             Long dictCount = dictMapper.lambdaQuery().gt(SysDict::getId, DELETE_FLAG).count();
             this.log(dictCount, "字典");
-            Long noticeCount = noticeMapper.lambdaQuery().gt(NoticeDO::getId, DELETE_FLAG).count();
+            Long noticeCount = noticeMapper.lambdaQuery().gt(SysNotice::getId, DELETE_FLAG).count();
             this.log(noticeCount, "公告");
             Long messageCount = messageMapper.lambdaQuery().count();
             this.log(messageCount, "通知");
-            Long userCount = userMapper.lambdaQuery().notIn(UserDO::getId, USER_FLAG).count();
+            Long userCount = userMapper.lambdaQuery().notIn(SysUser::getId, USER_FLAG).count();
             this.log(userCount, "用户");
-            Long roleCount = roleMapper.lambdaQuery().notIn(RoleDO::getId, ROLE_FLAG).count();
+            Long roleCount = roleMapper.lambdaQuery().notIn(SysRole::getId, ROLE_FLAG).count();
             this.log(roleCount, "角色");
-            Long menuCount = menuMapper.lambdaQuery().gt(MenuDO::getId, DELETE_FLAG).count();
+            Long menuCount = menuMapper.lambdaQuery().gt(SysMenu::getId, DELETE_FLAG).count();
             this.log(menuCount, "菜单");
-            Long deptCount = deptMapper.lambdaQuery().gt(DeptDO::getId, DEPT_FLAG).count();
+            Long deptCount = deptMapper.lambdaQuery().gt(SysDept::getId, DEPT_FLAG).count();
             this.log(deptCount, "部门");
-            Long appCount = appMapper.lambdaQuery().gt(AppDO::getId, DELETE_FLAG).count();
+            Long appCount = appMapper.lambdaQuery().gt(SysApp::getId, DELETE_FLAG).count();
             this.log(appCount, "应用");
             Long tenantCount = tenantMapper.lambdaQuery().count();
             this.log(tenantCount, "租户");
@@ -95,31 +95,31 @@ public class DemoEnvironmentJob {
             InterceptorIgnoreHelper.handle(IgnoreStrategy.builder().blockAttack(true).build());
             SnailJobLog.REMOTE.info("演示环境待清理数据项检测完成，开始执行清理。");
             // 清理关联数据
-            noticeLogMapper.lambdaUpdate().gt(NoticeLogDO::getNoticeId, DELETE_FLAG).remove();
-            messageLogMapper.lambdaUpdate().gt(MessageLogDO::getMessageId, MESSAGE_FLAG).remove();
-            userRoleMapper.lambdaUpdate().notIn(UserRoleDO::getRoleId, ROLE_FLAG).remove();
-            userRoleMapper.lambdaUpdate().notIn(UserRoleDO::getUserId, USER_FLAG).remove();
-            roleDeptMapper.lambdaUpdate().notIn(RoleDeptDO::getRoleId, ROLE_FLAG).remove();
-            roleMenuMapper.lambdaUpdate().notIn(RoleMenuDO::getRoleId, ROLE_FLAG).remove();
-            userSocialMapper.lambdaUpdate().notIn(UserSocialDO::getUserId, USER_FLAG).remove();
+            noticeLogMapper.lambdaUpdate().gt(SysNoticeLog::getNoticeId, DELETE_FLAG).remove();
+            messageLogMapper.lambdaUpdate().gt(SysMessageLog::getMessageId, MESSAGE_FLAG).remove();
+            userRoleMapper.lambdaUpdate().notIn(SysUserRole::getRoleId, ROLE_FLAG).remove();
+            userRoleMapper.lambdaUpdate().notIn(SysUserRole::getUserId, USER_FLAG).remove();
+            roleDeptMapper.lambdaUpdate().notIn(SysRoleDept::getRoleId, ROLE_FLAG).remove();
+            roleMenuMapper.lambdaUpdate().notIn(SysRoleMenu::getRoleId, ROLE_FLAG).remove();
+            userSocialMapper.lambdaUpdate().notIn(SysUserSocial::getUserId, USER_FLAG).remove();
             packageMenuMapper.lambdaUpdate().remove();
             // 清理具体数据
             this.clean(dictCount, "字典", CacheConstants.DICT_KEY_PREFIX, () -> dictMapper.lambdaUpdate()
                 .gt(SysDict::getId, DELETE_FLAG)
                 .remove());
             this.clean(noticeCount, "公告", null, () -> noticeMapper.lambdaUpdate()
-                .gt(NoticeDO::getId, DELETE_FLAG)
+                .gt(SysNotice::getId, DELETE_FLAG)
                 .remove());
             this.clean(messageCount, "通知", null, () -> messageMapper.lambdaUpdate()
-                .gt(MessageDO::getId, MESSAGE_FLAG)
+                .gt(SysMessage::getId, MESSAGE_FLAG)
                 .remove());
-            this.clean(userCount, "用户", null, () -> userMapper.lambdaUpdate().notIn(UserDO::getId, USER_FLAG).remove());
-            this.clean(roleCount, "角色", null, () -> roleMapper.lambdaUpdate().notIn(RoleDO::getId, ROLE_FLAG).remove());
+            this.clean(userCount, "用户", null, () -> userMapper.lambdaUpdate().notIn(SysUser::getId, USER_FLAG).remove());
+            this.clean(roleCount, "角色", null, () -> roleMapper.lambdaUpdate().notIn(SysRole::getId, ROLE_FLAG).remove());
             this.clean(menuCount, "菜单", CacheConstants.ROLE_MENU_KEY_PREFIX, () -> menuMapper.lambdaUpdate()
-                .gt(MenuDO::getId, DELETE_FLAG)
+                .gt(SysMenu::getId, DELETE_FLAG)
                 .remove());
-            this.clean(deptCount, "部门", null, () -> deptMapper.lambdaUpdate().gt(DeptDO::getId, DEPT_FLAG).remove());
-            this.clean(appCount, "应用", null, () -> appMapper.lambdaUpdate().gt(AppDO::getId, DEPT_FLAG).remove());
+            this.clean(deptCount, "部门", null, () -> deptMapper.lambdaUpdate().gt(SysDept::getId, DEPT_FLAG).remove());
+            this.clean(appCount, "应用", null, () -> appMapper.lambdaUpdate().gt(SysApp::getId, DEPT_FLAG).remove());
             this.clean(tenantCount, "租户", null, () -> tenantMapper.lambdaUpdate().remove());
             this.clean(packageCount, "套餐", null, () -> packageMapper.lambdaUpdate().remove());
             SnailJobLog.REMOTE.info("演示环境数据已清理完成。");

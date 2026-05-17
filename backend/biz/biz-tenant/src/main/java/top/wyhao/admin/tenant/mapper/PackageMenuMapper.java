@@ -2,7 +2,7 @@
 package top.wyhao.admin.tenant.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import top.wyhao.admin.tenant.model.entity.PackageMenuDO;
+import top.wyhao.admin.tenant.model.entity.TenantPackageMenu;
 import top.wyhao.cmn.db.model.BaseMapper;
 
 /**
@@ -12,5 +12,5 @@ import top.wyhao.cmn.db.model.BaseMapper;
  * @since 2025/7/13 20:24
  */
 @Mapper
-public interface PackageMenuMapper extends BaseMapper<PackageMenuDO> {
+public interface PackageMenuMapper extends BaseMapper<TenantPackageMenu> {
 }

@@ -35,7 +35,7 @@ import {
 } from 'naive-ui';
 
 import { menuApi } from '#/api/system/menu';
-import IconSelect from '#/components/IconSelect.vue';
+import IconSelect from '#/components/icon-select.vue';
 import { useUserStore } from '#/store/user';
 
 const message = useMessage();

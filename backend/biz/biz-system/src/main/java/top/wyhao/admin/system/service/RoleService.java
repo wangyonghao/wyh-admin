@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import top.wyhao.admin.system.model.bo.RolePermissionUpdateRequest;
 import top.wyhao.admin.system.model.bo.RoleRequest;
-import top.wyhao.admin.system.entity.RoleDO;
+import top.wyhao.admin.system.entity.SysRole;
 import top.wyhao.admin.system.model.query.RoleQuery;
 import top.wyhao.admin.system.model.query.RoleUserQuery;
 import top.wyhao.admin.system.model.vo.MenuVO;
@@ -106,7 +106,7 @@ public interface RoleService {
      * @param list 名称列表
      * @return 角色列表
      */
-    List<RoleDO> listByNames(List<String> list);
+    List<SysRole> listByNames(List<String> list);
 
     /**
      * 根据角色名称查询数量

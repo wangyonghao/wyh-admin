@@ -14,9 +14,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
-import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -24,11 +22,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import top.wyhao.admin.system.otp.exception.OtpException;
 import top.wyhao.starter.core.constant.StringConstants;
-import top.wyhao.starter.core.exception.BadRequestException;
 import top.wyhao.starter.core.exception.BusinessException;
 import top.wyhao.starter.core.model.R;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -38,6 +38,33 @@ import java.util.stream.Collectors;
 @Order(100)
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    /**
+     * OTP 异常处理
+     */
+    @ExceptionHandler(OtpException.class)
+    public R<Map<String, Object>> handleOtpException(OtpException e, HttpServletRequest request) {
+        log.debug("OTP 异常：request={} {} code={}, message={}", request.getMethod(), request.getRequestURI(), e.getCode(), e.getMessage());
+        
+        Map<String, Object> data = new HashMap<>();
+        if (e.getRetryAfter() != null) {
+            data.put("retry_after", e.getRetryAfter());
+        }
+        
+        // 根据错误码返回不同的 HTTP 状态码
+        HttpStatus status = switch (e.getCode()) {
+            case "OTP_NOT_FOUND" -> HttpStatus.NOT_FOUND;
+            case "OTP_ALREADY_USED" -> HttpStatus.GONE;
+            case "RATE_LIMIT_EXCEEDED" -> HttpStatus.TOO_MANY_REQUESTS;
+            case "OTP_LOCKED" -> HttpStatus.LOCKED;
+            default -> HttpStatus.BAD_REQUEST;
+        };
+        R<Map<String, Object>> r = new R<>();
+        r.setData(data);
+        r.setCode(e.getCode());
+        r.setMsg(e.getMessage());
+        return r;
+    }
 
     /**
      * 业务校验异常处理(如密码错误、库存不足)

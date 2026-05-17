@@ -4,7 +4,7 @@ package top.wyhao.admin.system.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
-import top.wyhao.admin.system.entity.MenuDO;
+import top.wyhao.admin.system.entity.SysMenu;
 import top.wyhao.admin.system.model.enums.MenuType;
 import top.wyhao.cmn.db.model.BaseMapper;
 
@@ -17,7 +17,7 @@ import java.util.List;
  * @since 2023/2/15 20:30
  */
 @Mapper
-public interface MenuMapper extends BaseMapper<MenuDO> {
+public interface MenuMapper extends BaseMapper<SysMenu> {
 
     /**
      * 根据用户 ID 查询权限码
@@ -33,7 +33,7 @@ public interface MenuMapper extends BaseMapper<MenuDO> {
      * @param roleId 角色 ID
      * @return 菜单列表
      */
-    List<MenuDO> selectListByRoleId(@Param("roleId") Long roleId);
+    List<SysMenu> selectListByRoleId(@Param("roleId") Long roleId);
 
     /**
      * 根据用户ID获取菜单列表
@@ -44,23 +44,23 @@ public interface MenuMapper extends BaseMapper<MenuDO> {
             "INNER JOIN sys_role r ON ur.role_id = r.id " +
             "WHERE ur.user_id = #{userId} AND m.status = 1 AND m.type in (1,2)" +
             "ORDER BY m.sort")
-    List<MenuDO> selectMenusByUserId(@Param("userId") Long userId);
+    List<SysMenu> selectMenusByUserId(@Param("userId") Long userId);
 
 
     default boolean isNameExists(String name, Long selfId){
         return this.lambdaQuery()
-                .eq(MenuDO::getName, name)
-                .ne(MenuDO::getType, MenuType.BUTTON)
-                .ne(selfId != null, MenuDO::getId, selfId)
+                .eq(SysMenu::getName, name)
+                .ne(SysMenu::getType, MenuType.BUTTON)
+                .ne(selfId != null, SysMenu::getId, selfId)
                 .exists();
     }
 
     default boolean isNameExists(String title, Long parentId, Long selfId) {
         return this.lambdaQuery()
-                .eq(MenuDO::getName, title)
-                .eq(MenuDO::getParentId, parentId)
-                .ne(MenuDO::getType, MenuType.BUTTON)
-                .ne(selfId != null, MenuDO::getId, selfId)
+                .eq(SysMenu::getName, title)
+                .eq(SysMenu::getParentId, parentId)
+                .ne(SysMenu::getType, MenuType.BUTTON)
+                .ne(selfId != null, SysMenu::getId, selfId)
                 .exists();
     }
 }

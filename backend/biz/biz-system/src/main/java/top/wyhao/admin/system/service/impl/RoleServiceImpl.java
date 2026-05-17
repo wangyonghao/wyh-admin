@@ -22,10 +22,10 @@ import top.wyhao.admin.system.mapper.UserRoleMapper;
 import top.wyhao.admin.system.mapper.user.UserMapper;
 import top.wyhao.admin.system.model.bo.RolePermissionUpdateRequest;
 import top.wyhao.admin.system.model.bo.RoleRequest;
-import top.wyhao.admin.system.entity.MenuDO;
-import top.wyhao.admin.system.entity.RoleDO;
-import top.wyhao.admin.system.entity.UserRoleDO;
-import top.wyhao.admin.system.entity.user.UserDO;
+import top.wyhao.admin.system.entity.SysMenu;
+import top.wyhao.admin.system.entity.SysRole;
+import top.wyhao.admin.system.entity.SysUserRole;
+import top.wyhao.admin.system.entity.user.SysUser;
 import top.wyhao.admin.system.model.query.RoleQuery;
 import top.wyhao.admin.system.model.query.RoleUserQuery;
 import top.wyhao.admin.system.model.vo.MenuVO;
@@ -58,7 +58,7 @@ import java.util.stream.Collectors;
  */
 @Service
 @RequiredArgsConstructor
-public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements RoleService {
+public class RoleServiceImpl extends ServiceImpl<RoleMapper, SysRole> implements RoleService {
     /**
      * 超级管理员角色 ID（内置且仅有一位超级管理员用户）
      */
@@ -73,15 +73,15 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
 
     @Override
     public PageResult<RoleResp> page(RoleQuery query, PageQuery pageQuery) {
-        QueryWrapper<RoleDO> wrapper = QueryWrapperUtil.build(query, query.getSort());
-        IPage<RoleDO> page = roleMapper.selectPage(new Page<>(pageQuery.getPage(), pageQuery.getSize()), wrapper);
+        QueryWrapper<SysRole> wrapper = QueryWrapperUtil.build(query, query.getSort());
+        IPage<SysRole> page = roleMapper.selectPage(new Page<>(pageQuery.getPage(), pageQuery.getSize()), wrapper);
         return PageResult.build(page, RoleResp.class);
     }
 
     @Override
     public List<RoleResp> list(RoleQuery query, SortQuery sortQuery) {
-        QueryWrapper<RoleDO> wrapper = QueryWrapperUtil.build(query, sortQuery.getSort());
-        List<RoleDO> entities = roleMapper.selectList(wrapper);
+        QueryWrapper<SysRole> wrapper = QueryWrapperUtil.build(query, sortQuery.getSort());
+        List<SysRole> entities = roleMapper.selectList(wrapper);
         return entities.stream()
                 .map(this::convertToRoleResp)
                 .collect(Collectors.toList());
@@ -89,7 +89,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
 
     @Override
     public RoleDetailResult detail(Long id) {
-        RoleDO entity = roleMapper.selectById(id);
+        SysRole entity = roleMapper.selectById(id);
         if (entity == null) {
             throw new BusinessException("ROLE_NOT_FOUND", "角色不存在");
         }
@@ -106,7 +106,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
         // 防止租户添加超级管理员
         BizAssert.throwIfEqual(RoleCodeEnum.SUPER_ADMIN.getCode(), req.getCode(), "编码 [{}] 禁止使用", code);
         // 新增信息
-        RoleDO entity = new RoleDO();
+        SysRole entity = new SysRole();
         updateEntityFromReq(entity, req);
         int result = roleMapper.insert(entity);
         if (result <= 0) {
@@ -120,14 +120,14 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
     @Override
     public void update(RoleRequest req, Long id) {
         this.checkNameExists(req.getName(), id);
-        RoleDO oldRole = roleMapper.selectById(id);
+        SysRole oldRole = roleMapper.selectById(id);
         BizAssert.throwIfNotEqual(req.getCode(), oldRole.getCode(), "角色编码不允许修改", oldRole.getName());
         DataScopeEnum oldDataScope = oldRole.getDataScope();
         if (Boolean.TRUE.equals(oldRole.getIsBuiltin())) {
             BizAssert.throwIfNotEqual(req.getDataScope(), oldDataScope, "[{}] 是系统内置角色，不允许修改角色数据权限", oldRole.getName());
         }
         // 更新信息
-        RoleDO entity = roleMapper.selectById(id);
+        SysRole entity = roleMapper.selectById(id);
         updateEntityFromReq(entity, req);
         int result = roleMapper.updateById(entity);
         if (result <= 0) {
@@ -152,7 +152,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
 
     @Override
     public void delete(Long id) {
-        RoleDO role = roleMapper.selectById(id);
+        SysRole role = roleMapper.selectById(id);
         if (role == null) {
             throw new BusinessException("ROLE_NOT_FOUND", "角色不存在");
         }
@@ -184,19 +184,19 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
     @Transactional(rollbackFor = Exception.class)
     @CacheInvalidate(key = "#roleId", name = CacheConstants.ROLE_MENU_KEY_PREFIX)
     public void updatePermission(Long roleId, RolePermissionUpdateRequest req) {
-        RoleDO role = roleMapper.selectById(roleId);
+        SysRole role = roleMapper.selectById(roleId);
         BizAssert.isTrue(role.getIsBuiltin(), "[{}] 是系统内置角色，不允许修改角色功能权限", role.getName());
         // 保存角色和菜单关联
         roleMenuService.save(req.getMenuIds(), roleId);
         roleMapper.lambdaUpdate()
-                .set(RoleDO::getMenuCheckStrictly, req.getMenuCheckStrictly())
-                .eq(RoleDO::getId, roleId)
+                .set(SysRole::getMenuCheckStrictly, req.getMenuCheckStrictly())
+                .eq(SysRole::getId, roleId)
                 .update();
     }
 
     @Override
     public void assignToUsers(Long roleId, List<Long> userIds) {
-        RoleDO role = roleMapper.selectById(roleId);
+        SysRole role = roleMapper.selectById(roleId);
         BizAssert.isTrue(Boolean.TRUE.equals(role.getIsBuiltin()), "[{}] 是系统内置角色，不允许分配角色给其他用户", role.getName());
         // 保存用户和角色关联
         this.assignRoleToUsers(roleId, userIds);
@@ -205,7 +205,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
     }
 
     private void assignRoleToUsers(Long roleId, List<Long> userIds) {
-        List<UserRoleDO> userRoleList = CollUtils.mapToList(userIds, userId -> new UserRoleDO(userId, roleId));
+        List<SysUserRole> userRoleList = CollUtils.mapToList(userIds, userId -> new SysUserRole(userId, roleId));
         userRoleMapper.insertBatch(userRoleList);
     }
 
@@ -217,15 +217,15 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
 
     @Override
     public Long getIdByCode(String code) {
-        return roleMapper.lambdaQuery().eq(RoleDO::getCode, code).oneOpt().map(RoleDO::getId).orElse(null);
+        return roleMapper.lambdaQuery().eq(SysRole::getCode, code).oneOpt().map(SysRole::getId).orElse(null);
     }
 
     @Override
-    public List<RoleDO> listByNames(List<String> list) {
+    public List<SysRole> listByNames(List<String> list) {
         if (CollUtil.isEmpty(list)) {
             return Collections.emptyList();
         }
-        return roleMapper.selectList(Wrappers.<RoleDO>lambdaQuery().in(RoleDO::getName, list));
+        return roleMapper.selectList(Wrappers.<SysRole>lambdaQuery().in(SysRole::getName, list));
     }
 
     @Override
@@ -233,11 +233,11 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
         if (CollUtil.isEmpty(roleNames)) {
             return 0;
         }
-        return roleMapper.selectCount(Wrappers.<RoleDO>lambdaQuery().in(RoleDO::getName, roleNames)).intValue();
+        return roleMapper.selectCount(Wrappers.<SysRole>lambdaQuery().in(SysRole::getName, roleNames)).intValue();
     }
 
     private boolean hasMember(Long roleId) {
-        return userRoleMapper.lambdaQuery().eq(UserRoleDO::getRoleId, roleId).exists();
+        return userRoleMapper.lambdaQuery().eq(SysUserRole::getRoleId, roleId).exists();
     }
 
     private void fill(Object obj) {
@@ -252,33 +252,33 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean assignRolesToUser(List<Long> newRoleIds, Long userId) {
-        UserDO userDO = userMapper.selectById(userId);
+        SysUser userDO = userMapper.selectById(userId);
         // 检查是否有变更
         List<Long> oldRoleIds = userRoleMapper.lambdaQuery()
-                .select(UserRoleDO::getRoleId)
-                .eq(UserRoleDO::getUserId, userId)
+                .select(SysUserRole::getRoleId)
+                .eq(SysUserRole::getUserId, userId)
                 .list()
                 .stream()
-                .map(UserRoleDO::getRoleId)
+                .map(SysUserRole::getRoleId)
                 .toList();
         if (CollUtil.isEmpty(CollUtil.disjunction(newRoleIds, oldRoleIds))) {
             return false;
         }
         // 删除原有关联
-        userRoleMapper.lambdaUpdate().eq(UserRoleDO::getUserId, userId).remove();
+        userRoleMapper.lambdaUpdate().eq(SysUserRole::getUserId, userId).remove();
         // 保存最新关联
-        List<UserRoleDO> userRoleList = CollUtils.mapToList(newRoleIds, roleId -> new UserRoleDO(userId, roleId));
+        List<SysUserRole> userRoleList = CollUtils.mapToList(newRoleIds, roleId -> new SysUserRole(userId, roleId));
         return userRoleMapper.insertBatch(userRoleList);
     }
 
     @Override
     public List<Long> findRoleIdsByUserId(Long userId) {
         return userRoleMapper.lambdaQuery()
-                .select(UserRoleDO::getRoleId)
-                .eq(UserRoleDO::getUserId, userId)
+                .select(SysUserRole::getRoleId)
+                .eq(SysUserRole::getUserId, userId)
                 .list()
                 .stream()
-                .map(UserRoleDO::getRoleId)
+                .map(SysUserRole::getRoleId)
                 .toList();
     }
 
@@ -287,9 +287,9 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
     @Override
     @Cached(key = "#roleId", name = CacheConstants.ROLE_MENU_KEY_PREFIX)
     public List<MenuVO> listMenuByRoleId(Long roleId) {
-        List<MenuDO> menuList;
+        List<SysMenu> menuList;
         if (SUPERADMIN_ROLE_ID.equals(roleId)) {
-            menuList = menuMapper.lambdaQuery().eq(MenuDO::getStatus, "1").list();
+            menuList = menuMapper.lambdaQuery().eq(SysMenu::getStatus, "1").list();
         } else {
             menuList = menuMapper.selectListByRoleId(roleId);
         }
@@ -300,35 +300,35 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
     @Override
     public List<Long> listMemberIds(Long roleId) {
         return userRoleMapper.lambdaQuery()
-                .select(UserRoleDO::getUserId)
-                .eq(UserRoleDO::getRoleId, roleId)
+                .select(SysUserRole::getUserId)
+                .eq(SysUserRole::getRoleId, roleId)
                 .list()
                 .stream()
-                .map(UserRoleDO::getUserId)
+                .map(SysUserRole::getUserId)
                 .toList();
     }
 
     @Override
     public List<RoleUserResult> pageMember(Long roleId, RoleUserQuery query) {
-        QueryWrapper<UserRoleDO> wrapper = Wrappers.query();
+        QueryWrapper<SysUserRole> wrapper = Wrappers.query();
         wrapper.eq("role_id", roleId)
                 .and(StrUtil.isNotBlank(query.getKeyword()),
                         w -> w.like("su.username", query.getKeyword())
                                 .or().like("su.nickname", query.getKeyword()));
-        IPage<UserRoleDO> page = new Page<>(query.getPage(), query.getSize());
+        IPage<SysUserRole> page = new Page<>(query.getPage(), query.getSize());
         return userRoleMapper.selectUserPage(page, wrapper).getRecords();
     }
 
     @Override
     public void deleteMember(Long roleId, List<Long> userIds) {
-        RoleDO role = roleMapper.selectById(roleId);
+        SysRole role = roleMapper.selectById(roleId);
         if (role == null) {
             throw new BusinessException("ROLE_NOT_FOUND", "角色不存在");
         }
-        userRoleMapper.lambdaUpdate().eq(UserRoleDO::getRoleId, roleId).in(UserRoleDO::getUserId, userIds).remove();
+        userRoleMapper.lambdaUpdate().eq(SysUserRole::getRoleId, roleId).in(SysUserRole::getUserId, userIds).remove();
     }
 
-    private RoleResp convertToRoleResp(RoleDO entity) {
+    private RoleResp convertToRoleResp(SysRole entity) {
         RoleResp resp = new RoleResp();
         resp.setId(entity.getId());
         resp.setName(entity.getName());
@@ -340,7 +340,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
         return resp;
     }
 
-    private RoleDetailResult convertToRoleDetailResp(RoleDO entity) {
+    private RoleDetailResult convertToRoleDetailResp(SysRole entity) {
         RoleDetailResult resp = new RoleDetailResult();
         resp.setId(entity.getId());
         resp.setName(entity.getName());
@@ -354,7 +354,7 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, RoleDO> implements 
         return resp;
     }
 
-    private void updateEntityFromReq(RoleDO entity, RoleRequest req) {
+    private void updateEntityFromReq(SysRole entity, RoleRequest req) {
         entity.setName(req.getName());
         entity.setCode(req.getCode());
         entity.setDescription(req.getDescription());

@@ -1,0 +1,1 @@
+[WYH Admin] Your account deletion code is: {code}, valid for {expires_in} minutes. WARNING: Irreversible action!

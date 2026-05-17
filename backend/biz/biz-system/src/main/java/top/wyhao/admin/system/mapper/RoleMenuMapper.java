@@ -2,7 +2,7 @@
 package top.wyhao.admin.system.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import top.wyhao.admin.system.entity.RoleMenuDO;
+import top.wyhao.admin.system.entity.SysRoleMenu;
 import top.wyhao.cmn.db.model.BaseMapper;
 
 import java.util.List;
@@ -14,7 +14,7 @@ import java.util.List;
  * @since 2023/2/15 20:30
  */
 @Mapper
-public interface RoleMenuMapper extends BaseMapper<RoleMenuDO> {
+public interface RoleMenuMapper extends BaseMapper<SysRoleMenu> {
 
     /**
      * 根据角色 ID 列表查询

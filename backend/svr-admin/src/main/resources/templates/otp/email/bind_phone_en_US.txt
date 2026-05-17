@@ -1,0 +1,15 @@
+[WYH Admin] Phone Binding Verification Code
+
+Dear User,
+
+You are binding a new phone number to your WYH Admin account. Your verification code is:
+
+{code}
+
+This code will expire in {expires_in} minutes. Please do not share it with others.
+
+If this was not you, please contact the administrator immediately.
+
+---
+WYH Admin Team
+{timestamp}

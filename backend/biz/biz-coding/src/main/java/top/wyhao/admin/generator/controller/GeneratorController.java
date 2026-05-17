@@ -10,8 +10,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import top.wyhao.admin.generator.model.entity.FieldConfigDO;
-import top.wyhao.admin.generator.model.entity.GenConfigDO;
+import top.wyhao.admin.generator.model.entity.GenFieldConfig;
+import top.wyhao.admin.generator.model.entity.GenConfig;
 import top.wyhao.admin.generator.model.query.GenConfigQuery;
 import top.wyhao.admin.generator.model.req.GenConfigReq;
 import top.wyhao.admin.generator.model.resp.GeneratePreviewResp;
@@ -39,7 +39,7 @@ public class GeneratorController {
     @Operation(summary = "分页查询生成配置", description = "分页查询生成配置列表")
     @SaCheckPermission("code:generator:list")
     @GetMapping("/config")
-    public PageResult<GenConfigDO> pageGenConfig(@Valid GenConfigQuery query, @Valid PageQuery pageQuery) {
+    public PageResult<GenConfig> pageGenConfig(@Valid GenConfigQuery query, @Valid PageQuery pageQuery) {
         return baseService.pageGenConfig(query, pageQuery);
     }
 
@@ -47,7 +47,7 @@ public class GeneratorController {
     @Parameter(name = "tableName", description = "表名称", required = true, example = "sys_user", in = ParameterIn.PATH)
     @SaCheckPermission("code:generator:list")
     @GetMapping("/config/{tableName}")
-    public GenConfigDO getGenConfig(@PathVariable String tableName) throws SQLException {
+    public GenConfig getGenConfig(@PathVariable String tableName) throws SQLException {
         return baseService.getGenConfig(tableName);
     }
 
@@ -56,7 +56,7 @@ public class GeneratorController {
     @Parameter(name = "requireSync", description = "是否需要同步", example = "false", in = ParameterIn.QUERY)
     @SaCheckPermission("code:generator:config")
     @GetMapping("/field/{tableName}")
-    public List<FieldConfigDO> listFieldConfig(@PathVariable String tableName,
+    public List<GenFieldConfig> listFieldConfig(@PathVariable String tableName,
                                                @RequestParam(required = false, defaultValue = "false") Boolean requireSync) {
         return baseService.listFieldConfig(tableName, requireSync);
     }

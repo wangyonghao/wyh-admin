@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import top.wyhao.admin.system.mapper.NoticeMapper;
 import top.wyhao.admin.system.model.bo.MessageReq;
 import top.wyhao.admin.system.model.bo.NoticeRequest;
-import top.wyhao.admin.system.entity.NoticeDO;
+import top.wyhao.admin.system.entity.SysNotice;
 import top.wyhao.admin.system.model.enums.*;
 import top.wyhao.admin.system.model.query.NoticeQuery;
 import top.wyhao.admin.system.model.vo.NoticeDetailResult;
@@ -52,11 +52,11 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public NoticeDetailResult detail(Long id) {
-        NoticeDO entity = noticeMapper.selectById(id);
+        SysNotice entity = noticeMapper.selectById(id);
         if (entity == null) {
             throw new BadRequestException("NOTICE_NOT_FOUND", "公告不存在");
         }
-        // 将 NoticeDO 转换为 NoticeDetailResp
+        // 将 SysNotice 转换为 NoticeDetailResp
         return convertToNoticeDetailResp(entity);
     }
 
@@ -72,7 +72,7 @@ public class NoticeServiceImpl implements NoticeService {
                 req.setPublishTime(LocalDateTime.now());
             }
         }
-        NoticeDO entity = new NoticeDO();
+        SysNotice entity = new SysNotice();
         // 设置实体属性
         updateEntityFromReq(entity, req);
         int result = noticeMapper.insert(entity);
@@ -88,7 +88,7 @@ public class NoticeServiceImpl implements NoticeService {
 
     @Override
     public void update(NoticeRequest req, Long id) {
-        NoticeDO oldNotice = noticeMapper.selectById(id);
+        SysNotice oldNotice = noticeMapper.selectById(id);
         switch (oldNotice.getStatus()) {
             case PUBLISHED -> {
                 BizAssert.throwIfNotEqual(req.getStatus(), oldNotice.getStatus(), "公告已发布，不允许修改状态");
@@ -121,7 +121,7 @@ public class NoticeServiceImpl implements NoticeService {
             }
             default -> throw new IllegalArgumentException("状态无效");
         }
-        NoticeDO entity = noticeMapper.selectById(id);
+        SysNotice entity = noticeMapper.selectById(id);
         if (entity == null) {
             throw new BadRequestException("NOTICE_NOT_FOUND", "公告不存在");
         }
@@ -134,7 +134,7 @@ public class NoticeServiceImpl implements NoticeService {
         // 重置定时发布时间
         if (!NoticeStatus.PUBLISHED.equals(entity.getStatus()) && Boolean.FALSE.equals(entity
                 .getIsTiming()) && entity.getPublishTime() != null) {
-            noticeMapper.lambdaUpdate().set(NoticeDO::getPublishTime, null).eq(NoticeDO::getId, entity.getId()).update();
+            noticeMapper.lambdaUpdate().set(SysNotice::getPublishTime, null).eq(SysNotice::getId, entity.getId()).update();
         }
         // 发送消息
         if (Boolean.FALSE.equals(entity.getIsTiming()) && NoticeStatus.PUBLISHED.equals(entity.getStatus())) {
@@ -157,7 +157,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     @Override
-    public void publish(NoticeDO notice) {
+    public void publish(SysNotice notice) {
         List<Integer> noticeMethods = notice.getNoticeMethods();
         if (CollUtil.isNotEmpty(noticeMethods) && noticeMethods.contains(NoticeMethods.SYSTEM_MESSAGE.getValue())) {
             MessageTemplates template = MessageTemplates.NOTICE_PUBLISH;
@@ -186,7 +186,7 @@ public class NoticeServiceImpl implements NoticeService {
         return noticeMapper.selectDashboardList(userId);
     }
 
-    private NoticeDetailResult convertToNoticeDetailResp(NoticeDO entity) {
+    private NoticeDetailResult convertToNoticeDetailResp(SysNotice entity) {
         NoticeDetailResult resp = new NoticeDetailResult();
         resp.setId(entity.getId());
         resp.setTitle(entity.getTitle());
@@ -198,7 +198,7 @@ public class NoticeServiceImpl implements NoticeService {
         return resp;
     }
 
-    private void updateEntityFromReq(NoticeDO entity, NoticeRequest req) {
+    private void updateEntityFromReq(SysNotice entity, NoticeRequest req) {
         entity.setTitle(req.getTitle());
         entity.setContent(req.getContent());
         entity.setStatus(req.getStatus());
