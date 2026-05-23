@@ -1,5 +1,4 @@
-# name: Dependabot post-update
-name: Frontend Build detection
+name: Frontend Build
 on:
   pull_request_target:
     types: [opened, synchronize, reopened]
