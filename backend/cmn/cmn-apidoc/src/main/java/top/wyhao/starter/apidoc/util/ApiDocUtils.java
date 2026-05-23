@@ -15,8 +15,8 @@ import java.util.stream.Collectors;
 /**
  * 接口文档工具类
  *
- * @author echo
- * @author Charles7c
+
+
  * @since 2.5.2
  */
 public class ApiDocUtils {

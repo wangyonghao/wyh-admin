@@ -25,7 +25,7 @@ import com.fasterxml.jackson.databind.type.ClassKey;
  * 4. 同默认 3。
  * </p>
  *
- * @author Charles7c
+
  * @since 2.4.0
  */
 public class SimpleDeserializersWrapper extends SimpleDeserializers {

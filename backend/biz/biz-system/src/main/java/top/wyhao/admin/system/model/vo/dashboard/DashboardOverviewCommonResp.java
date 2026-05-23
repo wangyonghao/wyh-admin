@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 仪表盘-通用总览响应参数
  *
- * @author Charles7c
+
  * @since 2024/10/19 12:19
  */
 @Data

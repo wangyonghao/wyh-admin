@@ -18,7 +18,7 @@ import java.util.function.Function;
 /**
  * 反射工具类
  *
- * @author Charles7c
+
  * @since 1.0.0
  */
 public class ReflectUtils {
@@ -64,7 +64,7 @@ public class ReflectUtils {
      * @param <K>        返回值类型
      * @return Function<T, K> 方法引用
      * @throws IllegalArgumentException 如果参数不合法
-     * @author lishuyan
+    
      * @since 2.13.2
      */
     @SuppressWarnings("unchecked")

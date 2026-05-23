@@ -10,7 +10,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 /**
  * 获取国际化资源文件
  *
- * @author wyhao
+
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class I18nUtils {

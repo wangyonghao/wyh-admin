@@ -4,7 +4,7 @@ package top.wyhao.starter.web.ratelimit;
 /**
  * 限流类型
  *
- * @author KAI
+
  * @since 2.2.0
  */
 public enum LimitType {

@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.wyhao.admin.system.entity.SysDept;
 import top.wyhao.admin.system.mapper.SysDeptMapper;
-import top.wyhao.admin.system.model.bo.DeptReq;
+import top.wyhao.admin.system.model.bo.DeptRequest;
 import top.wyhao.admin.system.model.query.DeptQuery;
 import top.wyhao.admin.system.model.vo.DeptResp;
 import top.wyhao.admin.system.service.DeptService;
@@ -38,7 +38,7 @@ import java.util.Optional;
 /**
  * 部门业务实现
  *
- * @author Charles7c
+
  * @since 2023/1/22 17:55
  */
 @Service
@@ -52,12 +52,12 @@ public class DeptServiceImpl implements DeptService {
     private final SysDeptMapper baseMapper;
 
 
-    public void beforeCreate(DeptReq req) {
+    public void beforeCreate(DeptRequest req) {
         this.checkNameRepeat(req.getName(), req.getParentId(), null);
         req.setAncestors(this.getAncestors(req.getParentId()));
     }
 
-    public void beforeUpdate(DeptReq req, Long id) {
+    public void beforeUpdate(DeptRequest req, Long id) {
         this.checkNameRepeat(req.getName(), req.getParentId(), id);
         SysDept oldDept = baseMapper.selectById(id);
         String oldName = oldDept.getName();
@@ -134,7 +134,7 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long create(DeptReq req) {
+    public Long create(DeptRequest req) {
         this.beforeCreate(req);
         SysDept entity = BeanUtil.copyProperties(req, SysDept.class);
         baseMapper.insert(entity);
@@ -143,7 +143,7 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void update(DeptReq req, Long id) {
+    public void update(DeptRequest req, Long id) {
         this.beforeUpdate(req, id);
         SysDept entity = baseMapper.selectById(id);
         BeanUtil.copyProperties(req, entity, CopyOptions.create().ignoreNullValue());

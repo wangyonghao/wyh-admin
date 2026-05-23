@@ -7,7 +7,7 @@ import top.wyhao.starter.core.util.I18nUtils;
 /**
  * 业务异常基类
  *
- * @author wyhao
+
  */
 @Data
 public class BusinessException extends RuntimeException {

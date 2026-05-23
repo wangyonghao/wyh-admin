@@ -130,7 +130,7 @@ public class JSONUtils {
      * @return 是否为JSON类型字符串
      * @since 2.13.2
      * @see cn.hutool.json.JSONUtil#isTypeJSON(String)
-     * @author Looly（<a href="https://gitee.com/dromara/hutool">Hutool</a>）
+    
      */
     public static boolean isTypeJSON(String str) {
         return isTypeJSONObject(str) || isTypeJSONArray(str);
@@ -143,7 +143,7 @@ public class JSONUtils {
      * @return 是否为JSON字符串
      * @since 2.13.2
      * @see cn.hutool.json.JSONUtil#isTypeJSONObject(String)
-     * @author Looly（<a href="https://gitee.com/dromara/hutool">Hutool</a>）
+    
      */
     public static boolean isTypeJSONObject(String str) {
         if (CharSequenceUtil.isBlank(str)) {
@@ -159,7 +159,7 @@ public class JSONUtils {
      * @return 是否为JSONArray类型字符串
      * @since 2.13.2
      * @see cn.hutool.json.JSONUtil#isTypeJSONArray(String)
-     * @author Looly（<a href="https://gitee.com/dromara/hutool">Hutool</a>）
+    
      */
     public static boolean isTypeJSONArray(String str) {
         if (CharSequenceUtil.isBlank(str)) {

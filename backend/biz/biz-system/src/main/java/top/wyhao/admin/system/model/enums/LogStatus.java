@@ -8,7 +8,7 @@ import top.wyhao.starter.core.enums.BaseEnum;
 /**
  * 操作状态枚举
  *
- * @author Charles7c
+
  * @since 2022/12/25 9:09
  */
 @Getter

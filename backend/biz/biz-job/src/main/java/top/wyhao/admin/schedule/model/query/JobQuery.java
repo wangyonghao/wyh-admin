@@ -10,8 +10,7 @@ import java.io.Serial;
 
 /**
  * 任务查询条件
- *
- * @author KAI
+
  * @since 2024/6/25 16:43
  */
 @Data
@@ -24,7 +23,7 @@ public class JobQuery extends JobPageQuery {
     /**
      * 任务组
      */
-    @Schema(description = "任务组", example = "continew-admin")
+    @Schema(description = "任务组", example = "tide-admin")
     private String groupName;
 
     /**

@@ -30,7 +30,7 @@ import top.wyhao.starter.license.service.LicenseCreateService;
 /**
  * license 生成模块 自动配置
  *
- * @author loach
+
  * @since 2.12.0
  */
 @AutoConfiguration
@@ -51,6 +51,6 @@ public class LicenseGenerateAutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[ContiNew Starter] - Auto Configuration 'License-Generator' completed initialization.");
+        log.debug("[Tide Starter] - Auto Configuration 'License-Generator' completed initialization.");
     }
 }

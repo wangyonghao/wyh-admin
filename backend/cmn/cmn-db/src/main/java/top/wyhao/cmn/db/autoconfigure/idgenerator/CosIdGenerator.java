@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Lazy;
 /**
  * MyBatis Plus ID 生成器 - CosId
  *
- * @author Charles7c
+
  * @since 1.4.0
  */
 public class CosIdGenerator implements IdentifierGenerator {

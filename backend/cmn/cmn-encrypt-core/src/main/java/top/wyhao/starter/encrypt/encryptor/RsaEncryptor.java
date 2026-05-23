@@ -12,8 +12,8 @@ import top.wyhao.starter.encrypt.context.CryptoContext;
  * 非对称加密算法，由罗纳德·李维斯特（Ron Rivest）、阿迪·沙米尔（Adi Shamir）和伦纳德·阿德曼（Leonard Adleman）于1977年提出，安全性基于大数因子分解问题的困难性。
  * </p>
  *
- * @author Charles7c
- * @author lishuyan
+
+
  * @since 1.4.0
  */
 public class RsaEncryptor extends AbstractEncryptor {

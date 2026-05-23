@@ -11,7 +11,7 @@ import java.awt.*;
 /**
  * 图形验证码服务接口
  *
- * @author Charles7c
+
  * @since 1.4.0
  */
 public class GraphicCaptchaService {

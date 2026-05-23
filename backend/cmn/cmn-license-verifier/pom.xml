@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
-    <description>ContiNew Starter License 模块 - 校验器</description>
+    <description>Tide Starter License 模块 - 校验器</description>
 
     <dependencies>
         <!-- License 模块 - 核心模块 -->

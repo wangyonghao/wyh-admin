@@ -24,7 +24,7 @@ import top.wyhao.starter.web.core.model.SortQuery;
 /**
  * 操作日志 API
  *
- * @author Yonghao Wang
+
  */
 @Tag(name = "操作日志 API")
 @RestController

@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import top.wyhao.admin.system.entity.SysNotice;
 import top.wyhao.admin.system.mapper.SysNoticeMapper;
-import top.wyhao.admin.system.model.bo.MessageReq;
+import top.wyhao.admin.system.model.bo.MessageRequest;
 import top.wyhao.admin.system.model.bo.NoticeRequest;
 import top.wyhao.admin.system.model.enums.*;
 import top.wyhao.admin.system.model.query.NoticeQuery;
@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * 公告管理 Service 实现
  *
- * @author Yonghao Wang
+
  * @since 2026/5/8
  */
 @Service
@@ -161,7 +161,7 @@ public class NoticeServiceImpl implements NoticeService {
         List<Integer> noticeMethods = notice.getNoticeMethods();
         if (CollUtil.isNotEmpty(noticeMethods) && noticeMethods.contains(NoticeMethods.SYSTEM_MESSAGE.getValue())) {
             MessageTemplates template = MessageTemplates.NOTICE_PUBLISH;
-            MessageReq req = new MessageReq(MessageType.SYSTEM);
+            MessageRequest req = new MessageRequest(MessageType.SYSTEM);
             req.setTitle(template.getTitle());
             req.setContent(template.getContent().formatted(notice.getTitle()));
             req.setPath(template.getPath().formatted(notice.getId()));

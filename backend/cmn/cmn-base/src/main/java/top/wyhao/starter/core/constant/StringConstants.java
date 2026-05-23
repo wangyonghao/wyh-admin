@@ -6,8 +6,8 @@ package top.wyhao.starter.core.constant;
  *
  * @see cn.hutool.core.text.StrPool
  *
- * @author looly（<a href="https://gitee.com/dromara/hutool">Hutool</a>）
- * @author Charles7c
+
+
  * @since 1.0.0
  */
 public class StringConstants {

@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * 公告查询条件
  *
- * @author Charles7c
+
  * @since 2023/8/20 10:55
  */
 @Data

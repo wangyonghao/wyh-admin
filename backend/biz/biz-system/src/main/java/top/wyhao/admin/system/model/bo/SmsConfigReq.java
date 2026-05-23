@@ -16,8 +16,8 @@ import java.io.Serializable;
 /**
  * 短信配置创建或修改请求参数
  *
- * @author luoqiz
- * @author Charles7c
+
+
  * @since 2025/03/15 18:41
  */
 @Data

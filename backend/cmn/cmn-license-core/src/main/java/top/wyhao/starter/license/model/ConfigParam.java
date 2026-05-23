@@ -19,7 +19,7 @@ package top.wyhao.starter.license.model;
 /**
  * config参数
  *
- * @author loach
+
  * @since 2.12.0
  */
 public class ConfigParam {

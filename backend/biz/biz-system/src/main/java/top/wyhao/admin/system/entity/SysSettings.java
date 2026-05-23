@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 /**
  * 系统配置表
  *
- * @author Bull-BCLS
+
  * @since 2023/8/26 19:20
  */
 @Data

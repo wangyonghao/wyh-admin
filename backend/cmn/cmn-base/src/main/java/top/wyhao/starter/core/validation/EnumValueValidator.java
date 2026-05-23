@@ -15,8 +15,8 @@ import java.util.Arrays;
 /**
  * 枚举校验器
  *
- * @author Charles7c
- * @author Jasmine
+
+
  * @since 2.7.3
  */
 public class EnumValueValidator implements ConstraintValidator<EnumValue, Object> {

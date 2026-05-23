@@ -26,8 +26,7 @@ import java.util.List;
 
 /**
  * 在线用户 API
- *
- * @author Yonghao Wang
+
  * @since 2026/4/27
  */
 @Tag(name = "在线用户 API")

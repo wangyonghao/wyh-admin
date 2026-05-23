@@ -134,7 +134,7 @@ backend/cmn/
 │           ├── doc/          # 接口文档配置
 │           └── exception/    # 全局异常处理
 │
-├── cmn-base/         # ContiNew Starter 核心模块
+├── cmn-base/         # Tide Starter 核心模块
 ├── cmn-web/          # Web 模块（跨域、异常处理等）
 ├── cmn-json/         # JSON 处理模块（Jackson）
 ├── cmn-apidoc/       # API 文档模块（NextDoc4j）
@@ -159,7 +159,7 @@ backend/cmn/
 ├── cmn-storage/      # 文件存储（本地、S3 等）
 │
 ├── cmn-trace/        # 链路追踪（TLog）
-├── cmn-mail/         # 邮件发送
+├── cmn-email/        # 邮件发送
 ├── cmn-websocket/    # WebSocket 支持
 ├── cmn-tenant/       # 多租户支持
 ├── cmn-license/      # License 管理

@@ -43,8 +43,8 @@ import java.util.function.Function;
  *
  * @param <M> Mapper 接口
  * @param <T> 实体类型
- * @author hubin （<a href="https://gitee.com/baomidou/mybatis-plus">MyBatis Plus</a>）
- * @author Charles7c
+
+
  * @since 1.5.0
  */
 public abstract class BaseServiceImpl<M extends BaseMapper<T>, T> implements BaseService<T> {

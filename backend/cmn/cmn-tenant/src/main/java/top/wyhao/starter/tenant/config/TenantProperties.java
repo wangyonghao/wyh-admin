@@ -7,7 +7,7 @@ import top.wyhao.starter.core.constant.PropertiesConstants;
 /**
  * 租户配置属性
  *
- * @author Charles7c
+
  * @since 2.7.0
  */
 @ConfigurationProperties(PropertiesConstants.TENANT)

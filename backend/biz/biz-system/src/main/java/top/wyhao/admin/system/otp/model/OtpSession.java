@@ -12,7 +12,7 @@ import java.io.Serializable;
 /**
  * OTP 会话数据模型
  *
- * @author wyhao
+
  */
 @Data
 @Builder

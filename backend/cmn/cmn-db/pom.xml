@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
-    <description>ContiNew Starter 数据访问模块 - MyBatis Plus</description>
+    <description>Tide Starter 数据访问模块 - MyBatis Plus</description>
 
     <dependencies>
 <!--      <dependency>-->

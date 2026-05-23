@@ -8,11 +8,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import top.wyhao.admin.system.model.bo.DeptReq;
+import top.wyhao.admin.system.model.bo.DeptRequest;
 import top.wyhao.admin.system.model.query.DeptQuery;
 import top.wyhao.admin.system.model.vo.DeptResp;
 import top.wyhao.admin.system.service.DeptService;
-import top.wyhao.starter.core.model.R;
+import top.wyhao.starter.core.model.Result;
 import top.wyhao.starter.web.core.model.IdResult;
 import top.wyhao.starter.web.core.model.IdsRequest;
 import top.wyhao.starter.web.core.model.PageQuery;
@@ -89,7 +89,7 @@ public class DeptController {
      */
     @Operation(summary = "创建数据", description = "创建数据")
     @PostMapping
-    public IdResult<Long> create(@RequestBody @Valid DeptReq req) {
+    public IdResult<Long> create(@RequestBody @Valid DeptRequest req) {
         return new IdResult<>(deptService.create(req));
     }
 
@@ -102,7 +102,7 @@ public class DeptController {
     @Operation(summary = "修改数据", description = "修改数据")
     @Parameter(name = "id", description = "ID", example = "1", in = ParameterIn.PATH)
     @PutMapping("/{id}")
-    public void update(@RequestBody @Valid DeptReq req, @PathVariable Long id) {
+    public void update(@RequestBody @Valid DeptRequest req, @PathVariable Long id) {
         deptService.update(req, id);
     }
 
@@ -150,7 +150,7 @@ public class DeptController {
      */
     @Operation(summary = "查询部门树", description = "查询树型结构字典列表（树型结构下拉选项等场景）")
     @GetMapping("/dict/tree")
-    public R<List<DeptResp>> treeDict(@Valid DeptQuery query) {
-        return R.ok(deptService.tree(query));
+    public Result<List<DeptResp>> treeDict(@Valid DeptQuery query) {
+        return Result.ok(deptService.tree(query));
     }
 }

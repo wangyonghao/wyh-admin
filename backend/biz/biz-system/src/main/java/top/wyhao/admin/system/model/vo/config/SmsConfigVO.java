@@ -11,15 +11,12 @@ import java.io.Serializable;
 /**
  * 短信配置
  *
- * @author wyhao
+
  * @since 2024/04/26
  */
 @Data
 @Schema(description = "短信配置")
-public class SmsConfigVO implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class SmsConfigVO {
 
     /**
      * 短信服务商

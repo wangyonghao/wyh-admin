@@ -10,8 +10,7 @@ import top.wyhao.admin.schedule.api.JobClient;
 
 /**
  * Feign 请求拦截器
- *
- * @author Charles7c
+
  * @since 2025/3/28 21:17
  */
 @Component

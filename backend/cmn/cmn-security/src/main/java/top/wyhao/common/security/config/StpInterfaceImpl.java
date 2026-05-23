@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 获取用户角色和权限
  *
- * @author wyh
+
  */
 @RequiredArgsConstructor
 public class StpInterfaceImpl implements StpInterface {

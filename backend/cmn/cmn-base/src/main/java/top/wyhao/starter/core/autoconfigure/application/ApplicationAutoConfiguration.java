@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
 /**
  * 应用自动配置
  *
- * @author Charles7c
+
  * @since 1.0.0
  */
 @AutoConfiguration

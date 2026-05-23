@@ -21,10 +21,10 @@ import top.wyhao.admin.auth.LoginHelper;
 import top.wyhao.admin.auth.model.SocialLoginRequest;
 import top.wyhao.admin.auth.model.LoginResult;
 import top.wyhao.admin.system.model.SystemConstants;
-import top.wyhao.admin.system.model.bo.MessageReq;
+import top.wyhao.admin.system.model.bo.MessageRequest;
 import top.wyhao.admin.system.entity.SysDept;
-import top.wyhao.admin.system.entity.user.SysUser;
-import top.wyhao.admin.system.entity.user.SysUserSocial;
+import top.wyhao.admin.system.entity.SysUser;
+import top.wyhao.admin.system.entity.SysUserSocial;
 import top.wyhao.admin.system.model.enums.MessageTemplates;
 import top.wyhao.admin.system.model.enums.MessageType;
 import top.wyhao.admin.system.service.*;
@@ -152,7 +152,7 @@ public class SocialLoginHandler implements LoginHandler<SocialLoginRequest> {
      */
     private void sendSecurityMsg(SysUser user) {
         MessageTemplates template = MessageTemplates.SOCIAL_REGISTER;
-        MessageReq req = new MessageReq(MessageType.SECURITY);
+        MessageRequest req = new MessageRequest(MessageType.SECURITY);
         req.setTitle(template.getTitle().formatted(applicationProperties.getName()));
         req.setContent(template.getContent().formatted(user.getNickname()));
         messageService.add(req, CollUtil.toList(user.getId().toString()));

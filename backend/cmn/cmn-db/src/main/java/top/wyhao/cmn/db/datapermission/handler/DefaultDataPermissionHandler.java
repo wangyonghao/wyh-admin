@@ -38,8 +38,8 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 默认数据权限处理器
  *
- * @author <a href="https://gitee.com/baomidou/mybatis-plus/issues/I37I90">DataPermissionInterceptor 如何使用？</a>
- * @author Charles7c
+
+
  * @since 1.1.0
  */
 public class DefaultDataPermissionHandler implements DataPermissionHandler {

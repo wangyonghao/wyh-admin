@@ -23,7 +23,7 @@ import top.wyhao.starter.core.constant.PropertiesConstants;
 /**
  * 链路追踪配置属性
  *
- * @author Charles7c
+
  * @since 1.3.0
  */
 @ConfigurationProperties(PropertiesConstants.TRACE)

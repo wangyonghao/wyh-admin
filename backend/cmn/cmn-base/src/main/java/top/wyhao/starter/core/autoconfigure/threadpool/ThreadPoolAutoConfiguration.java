@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Lazy;
 /**
  * 线程池自动配置
  *
- * @author Charles7c
+
  * @since 1.0.0
  */
 @Lazy

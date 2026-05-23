@@ -16,7 +16,7 @@ import top.wyhao.starter.core.constant.PropertiesConstants;
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for {@link TaskScheduler}.
  *
- * @author Charles7c
+
  * @since 1.0.0
  */
 @Configuration(proxyBeanMethods = false)
@@ -35,6 +35,6 @@ class TaskSchedulingConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[ContiNew Starter] - Auto Configuration 'TaskScheduler' completed initialization.");
+        log.debug("[Tide Starter] - Auto Configuration 'TaskScheduler' completed initialization.");
     }
 }

@@ -4,8 +4,8 @@ package top.wyhao.starter.encrypt.encryptor;
 /**
  * 加密器接口
  *
- * @author Charles7c
- * @author lishuyan
+
+
  * @since 1.4.0
  */
 public interface IEncryptor {

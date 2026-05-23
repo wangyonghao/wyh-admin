@@ -8,7 +8,7 @@ import top.wyhao.starter.core.constant.PropertiesConstants;
 /**
  * 图形验证码配置属性
  *
- * @author Charles7c
+
  * @since 1.0.0
  */
 @ConfigurationProperties(PropertiesConstants.CAPTCHA_GRAPHIC)

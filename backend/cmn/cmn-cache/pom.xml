@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
-    <description>ContiNew Starter 缓存模块 - Redisson</description>
+    <description>Tide Starter 缓存模块 - Redisson</description>
 
     <dependencies>
         <!-- 核心模块 -->

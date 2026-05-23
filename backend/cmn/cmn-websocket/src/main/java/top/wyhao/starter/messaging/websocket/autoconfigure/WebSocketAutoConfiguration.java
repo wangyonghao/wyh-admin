@@ -23,8 +23,8 @@ import top.wyhao.starter.messaging.websocket.dao.WebSocketSessionDaoDefaultImpl;
 /**
  * WebSocket 自动配置
  *
- * @author WeiRan
- * @author Charles7c
+
+
  * @since 2.1.0
  */
 @AutoConfiguration
@@ -79,6 +79,6 @@ public class WebSocketAutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[ContiNew Starter] - Auto Configuration 'Messaging-WebSocket' completed initialization.");
+        log.debug("[Tide Starter] - Auto Configuration 'Messaging-WebSocket' completed initialization.");
     }
 }

@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 参数查询条件
  *
- * @author Bull-BCLS
+
  * @since 2023/8/26 19:38
  */
 @Data

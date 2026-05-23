@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * 消息实体
  *
- * @author Bull-BCLS
+
  * @since 2023/10/15 19:05
  */
 @Data

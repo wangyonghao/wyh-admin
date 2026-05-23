@@ -14,8 +14,8 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 对称加密器
  *
- * @author Charles7c
- * @author lishuyan
+
+
  * @since 1.4.0
  */
 public abstract class AbstractSymmetricCryptoEncryptor extends AbstractEncryptor {

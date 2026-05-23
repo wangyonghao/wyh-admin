@@ -6,7 +6,7 @@ import org.springframework.http.server.ServletServerHttpRequest;
 /**
  * WebSocket 客户端服务
  *
- * @author Charles7c
+
  * @since 2.1.0
  */
 public interface WebSocketClientService {

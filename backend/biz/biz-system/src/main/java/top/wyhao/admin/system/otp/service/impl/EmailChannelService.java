@@ -3,9 +3,8 @@ package top.wyhao.admin.system.otp.service.impl;
 import cn.hutool.core.util.ReUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import top.wyhao.admin.cmn.mail.MailClient;
 import top.wyhao.admin.system.otp.config.OtpProperties;
 import top.wyhao.admin.system.otp.enums.OtpChannel;
 import top.wyhao.admin.system.otp.exception.OtpException;
@@ -14,7 +13,7 @@ import top.wyhao.admin.system.otp.service.ChannelService;
 /**
  * 邮件渠道服务实现
  *
- * @author wyhao
+
  */
 @Slf4j
 @Service
@@ -23,7 +22,7 @@ public class EmailChannelService implements ChannelService {
 
     private static final String EMAIL_PATTERN = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$";
 
-    private final JavaMailSender mailSender;
+    private final MailClient mailService;
     private final OtpProperties otpProperties;
 
     @Override
@@ -38,13 +37,7 @@ public class EmailChannelService implements ChannelService {
         }
 
         try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom(otpProperties.getChannel().getEmail().getFrom());
-            message.setTo(target);
-            message.setSubject(otpProperties.getChannel().getEmail().getSubjectPrefix() + subject);
-            message.setText(content);
-
-            mailSender.send(message);
+            mailService.sendText(target, otpProperties.getChannel().getEmail().getSubjectPrefix() + subject, content);
             log.info("邮件发送成功: target={}", target);
         } catch (Exception e) {
             log.error("邮件发送失败: target={}, error={}", target, e.getMessage(), e);

@@ -9,7 +9,7 @@ import java.io.Serial;
 /**
  * ${table.comment!}
  *
- * @author ${author}
+
  * @since ${date}
  */
 @Data

@@ -35,8 +35,8 @@ import java.util.Optional;
 /**
  * API 加密过滤器
  *
- * @author lishuyan
- * @author Charles7c
+
+
  * @since 2.14.0
  */
 public class ApiEncryptFilter implements Filter {

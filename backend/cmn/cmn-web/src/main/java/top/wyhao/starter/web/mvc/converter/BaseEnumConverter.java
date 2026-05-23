@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * BaseEnum 参数转换器
  *
- * @author Charles7c
+
  * @since 2.4.0
  */
 public class BaseEnumConverter<T extends BaseEnum> implements Converter<String, T> {

@@ -9,7 +9,7 @@ import top.wyhao.starter.core.enums.StatusEnum;
 /**
  * 部门实体
  *
- * @author Charles7c
+
  * @since 2023/1/22 13:50
  */
 @Data

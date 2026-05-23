@@ -28,8 +28,8 @@ import java.util.Date;
 /**
  * 自定义服务端证书管理类(生成证书)
  *
- * @author loach
- * @author echo
+
+
  * @since 2.12.0
  */
 public class ServerLicenseManager extends LicenseManager {

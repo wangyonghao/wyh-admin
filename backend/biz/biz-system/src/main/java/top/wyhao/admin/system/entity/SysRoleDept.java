@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 /**
  * 角色和部门关联实体
  *
- * @author Charles7c
+
  * @since 2023/2/18 21:57
  */
 @Data

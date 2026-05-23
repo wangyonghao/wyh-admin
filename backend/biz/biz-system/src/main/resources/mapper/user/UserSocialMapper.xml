@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="top.wyhao.admin.system.mapper.user.UserSocialMapper">
+<mapper namespace="top.wyhao.admin.system.mapper.SysUserSocialMapper">
     <select id="selectBySourceAndOpenId"
-            resultType="top.wyhao.admin.system.entity.user.UserSocialDO">
+            resultType="top.wyhao.admin.system.entity.SysUserSocial">
         SELECT t1.*
         FROM sys_user_social AS t1
             LEFT JOIN sys_user AS t2 ON t2.id = t1.user_id

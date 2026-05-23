@@ -10,7 +10,7 @@ import top.wyhao.starter.core.enums.StatusEnum;
 /**
  * 菜单实体
  *
- * @author Charles7c
+
  * @since 2023/2/15 20:14
  */
 @Data

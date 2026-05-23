@@ -23,7 +23,7 @@ import top.wyhao.starter.core.constant.PropertiesConstants;
 /**
  * license 校验模块配置属性
  *
- * @author loach
+
  * @since 2.12.0
  */
 @ConfigurationProperties(PropertiesConstants.LICENSE_VERIFIER)

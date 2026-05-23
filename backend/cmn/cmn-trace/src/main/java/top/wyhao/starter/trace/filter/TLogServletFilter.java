@@ -35,8 +35,8 @@ import java.io.IOException;
  *
  * @see com.yomahub.tlog.web.filter.TLogServletFilter
  *
- * @author Bryan.Zhang
- * @author Jasmine
+
+
  * @since 1.3.0
  */
 public class TLogServletFilter implements Filter {

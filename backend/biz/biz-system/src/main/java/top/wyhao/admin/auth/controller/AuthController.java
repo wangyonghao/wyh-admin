@@ -37,8 +37,7 @@ import java.util.Map;
 
 /**
  * 认证 API
- *
- * @author Yonghao Wang
+
  */
 @Tag(name = "认证 API")
 @RestController

@@ -16,8 +16,8 @@ import java.nio.charset.StandardCharsets;
  * 可重复读取响应内容的包装器
  * 支持缓存响应内容，便于日志记录和后续处理 (不缓存SSE)
  *
- * @author echo
- * @author Charles7c
+
+
  * @since 2.10.0
  */
 public class RepeatReadResponseWrapper extends HttpServletResponseWrapper {

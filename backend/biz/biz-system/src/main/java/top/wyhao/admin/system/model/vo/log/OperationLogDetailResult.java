@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 /**
  * 日志详情响应参数
  *
- * @author Charles7c
+
  * @since 2023/1/18 20:19
  */
 @Data

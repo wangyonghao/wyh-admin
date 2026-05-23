@@ -8,7 +8,7 @@ import top.wyhao.cmn.db.model.BaseMapper;
 /**
  * 短信日志 Mapper
  *
- * @author luoqiz
+
  * @since 2025/03/15 22:15
  */
 @Mapper

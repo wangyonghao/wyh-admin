@@ -16,7 +16,7 @@
   <description>系统管理模块（存放系统管理相关业务功能，例如：部门管理、角色管理、用户管理等）</description>
 
   <dependencies>
-    <!-- ContiNew Starter 认证模块 - SaToken -->
+    <!-- Tide Starter 认证模块 - SaToken -->
     <dependency>
       <groupId>top.wyhao</groupId>
       <artifactId>cmn-security</artifactId>
@@ -32,16 +32,10 @@
       <groupId>top.wyhao</groupId>
       <artifactId>cmn-justauth</artifactId>
     </dependency>
-    <!-- ContiNew Starter 验证码模块 - 图形验证码 -->
+    <!-- Tide Starter 验证码模块 - 图形验证码 -->
     <dependency>
       <groupId>top.wyhao</groupId>
       <artifactId>cmn-captcha-graphic</artifactId>
-    </dependency>
-
-    <!-- ContiNew Starter 验证码模块 - 行为验证码 -->
-    <dependency>
-      <groupId>top.wyhao</groupId>
-      <artifactId>cmn-captcha-behavior</artifactId>
     </dependency>
 
     <!-- SMS4J（短信聚合框架，轻松集成多家短信服务，解决接入多个短信 SDK 的繁琐流程） -->
@@ -79,6 +73,10 @@
     <dependency>
       <groupId>top.wyhao</groupId>
       <artifactId>cmn-mail</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>top.wyhao</groupId>
+      <artifactId>cmn-sms</artifactId>
     </dependency>
     <dependency>
       <groupId>top.wyhao</groupId>

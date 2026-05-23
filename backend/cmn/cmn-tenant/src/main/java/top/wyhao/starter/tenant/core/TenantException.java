@@ -7,7 +7,7 @@ import java.io.Serial;
 
 /**
  * 租户化的实体基类
- * @author wyhao
+
  */
 public class TenantException extends BusinessException {
 

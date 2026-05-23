@@ -29,7 +29,7 @@ import java.util.List;
  * API 层只处理元数据与权限，底层路由到OSS（Object Storage Service - 文件存储服务），如 本地文件存储/MinIO/腾讯云COS/阿里云OSS/
  * </p>
  *
- * @author Yonghao Wang
+
  * @since 2026/5/13
  */
 @Tag(name = "文件管理 API")

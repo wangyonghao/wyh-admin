@@ -26,7 +26,7 @@ import java.io.LineNumberReader;
 /**
  * 运行命令行工具类
  *
- * @author loach
+
  * @since 2.12.0
  */
 public class ExecCmdUtil {

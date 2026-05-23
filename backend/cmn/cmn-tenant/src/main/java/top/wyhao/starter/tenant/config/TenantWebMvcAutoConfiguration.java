@@ -14,7 +14,7 @@ import top.wyhao.starter.tenant.servlet.TenantInterceptor;
 /**
  * 租户 Web MVC 自动配置
  *
- * @author Charles7c
+
  * @since 2.7.0
  */
 @AutoConfiguration

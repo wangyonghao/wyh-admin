@@ -19,8 +19,7 @@ import java.time.LocalDateTime;
 
 /**
  * 生成配置实体
- *
- * @author Charles7c
+
  * @since 2023/4/12 20:21
  */
 @Data
@@ -50,7 +49,7 @@ public class GenConfig implements Serializable {
     /**
      * 模块名称
      */
-    @Schema(description = "模块名称", example = "continew-admin-system")
+    @Schema(description = "模块名称", example = "tide-admin-system")
     @NotBlank(message = "模块名称不能为空")
     @Length(max = 60, message = "模块名称不能超过 {max} 个字符")
     private String moduleName;

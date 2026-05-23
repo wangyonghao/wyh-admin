@@ -10,19 +10,11 @@ import top.wyhao.admin.system.otp.enums.OtpScene;
 /**
  * 发送 OTP 验证码请求
  *
- * @author wyhao
+
  */
 @Data
 @Schema(description = "发送 OTP 验证码请求")
 public class OtpSendRequest {
-
-    /**
-     * 发送渠道
-     */
-    @Schema(description = "发送渠道（EMAIL-邮件，SMS-短信）", example = "EMAIL")
-    @NotNull(message = "发送渠道不能为空")
-    private OtpChannel channel;
-
     /**
      * 业务场景
      */

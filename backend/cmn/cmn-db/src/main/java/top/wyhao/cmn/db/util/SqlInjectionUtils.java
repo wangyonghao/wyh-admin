@@ -10,9 +10,9 @@ import java.util.regex.Pattern;
 /**
  * SQL 注入验证工具类
  *
- * @author hubin（<a href="https://github.com/baomidou/mybatis-plus">MyBatis Plus</a>）
- * @author zhoujf（<a href="https://github.com/jeecgboot/JeecgBoot">JeecgBoot</a>）
- * @author Charles7c
+
+
+
  * @since 2.5.2
  */
 public class SqlInjectionUtils {

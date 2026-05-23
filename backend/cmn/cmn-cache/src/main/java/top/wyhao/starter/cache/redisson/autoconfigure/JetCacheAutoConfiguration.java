@@ -12,7 +12,7 @@ import top.wyhao.starter.core.util.GeneralPropertySourceFactory;
 /**
  * JetCache 自动配置
  *
- * @author Yonghao Wang
+
  * @since 2026/5/14
  */
 @AutoConfiguration

@@ -16,9 +16,8 @@ import java.util.List;
 
 /**
  * 应用业务接口
- *
- * @author chengzi
- * @author Charles7c
+
+
  * @since 2024/10/17 16:03
  */
 public interface AppService {

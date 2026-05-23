@@ -32,13 +32,13 @@ import top.wyhao.admin.system.entity.SysDept;
 import top.wyhao.admin.system.entity.SysFile;
 import top.wyhao.admin.system.entity.SysRole;
 import top.wyhao.admin.system.entity.SysUserRole;
-import top.wyhao.admin.system.entity.user.SysUser;
-import top.wyhao.admin.system.entity.user.SysUserPasswordHistory;
+import top.wyhao.admin.system.entity.SysUser;
+import top.wyhao.admin.system.entity.SysUserPasswordHistory;
 import top.wyhao.admin.system.mapper.SysDeptMapper;
 import top.wyhao.admin.system.mapper.SysMenuMapper;
 import top.wyhao.admin.system.mapper.SysUserRoleMapper;
-import top.wyhao.admin.system.mapper.user.SysUserMapper;
-import top.wyhao.admin.system.mapper.user.SysUserPasswordHistoryMapper;
+import top.wyhao.admin.system.mapper.SysUserMapper;
+import top.wyhao.admin.system.mapper.SysUserPasswordHistoryMapper;
 import top.wyhao.admin.system.model.SystemConstants;
 import top.wyhao.admin.system.model.bo.FileRequest;
 import top.wyhao.admin.system.model.bo.user.*;
@@ -82,7 +82,7 @@ import static top.wyhao.admin.system.model.enums.PasswordPolicies.*;
 /**
  * 用户业务实现
  *
- * @author Charles7c
+
  * @since 2022/12/21 21:49
  */
 @Slf4j

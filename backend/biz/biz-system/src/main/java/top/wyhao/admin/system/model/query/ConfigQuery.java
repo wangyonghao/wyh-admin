@@ -8,7 +8,7 @@ import top.wyhao.starter.web.core.model.SortQuery;
 /**
  * 系统配置查询条件
  *
- * @author wyhao
+
  * @since 2024/04/26
  */
 @Data

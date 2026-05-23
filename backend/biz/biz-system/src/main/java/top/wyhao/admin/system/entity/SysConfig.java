@@ -12,7 +12,7 @@ import java.time.OffsetDateTime;
 /**
  * 系统配置实体
  *
- * @author Yonghao Wang
+
  * @since 2024/04/26
  */
 @Data

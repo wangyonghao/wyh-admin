@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * 仪表盘业务接口
  *
- * @author Charles7c
+
  * @since 2023/9/8 21:32
  */
 public interface DashboardService {

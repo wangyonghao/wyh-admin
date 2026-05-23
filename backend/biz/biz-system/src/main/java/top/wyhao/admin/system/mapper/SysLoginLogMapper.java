@@ -7,7 +7,7 @@ import top.wyhao.cmn.db.model.BaseMapper;
 /**
  * 登录日志 Mapper
  *
- * @author Yonghao Wang
+
  * @since 2026/05/08
  */
 @Mapper

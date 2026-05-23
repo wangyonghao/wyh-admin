@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * 数据库类型枚举
  *
- * @author Charles7c
+
  * @since 1.4.1
  */
 public enum DatabaseType implements ISqlFunction {

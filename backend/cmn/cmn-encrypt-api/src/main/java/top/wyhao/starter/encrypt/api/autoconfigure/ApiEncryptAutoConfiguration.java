@@ -33,8 +33,8 @@ import top.wyhao.starter.encrypt.api.filter.ApiEncryptFilter;
 /**
  * API 加密自动配置
  *
- * @author lishuyan
- * @author Charles7c
+
+
  * @since 2.14.0
  */
 @AutoConfiguration
@@ -59,6 +59,6 @@ public class ApiEncryptAutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[ContiNew Starter] - Auto Configuration 'Encrypt-API' completed initialization.");
+        log.debug("[Tide Starter] - Auto Configuration 'Encrypt-API' completed initialization.");
     }
 }

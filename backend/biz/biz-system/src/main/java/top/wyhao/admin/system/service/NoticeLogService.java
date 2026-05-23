@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * 公告日志业务接口
  *
- * @author Charles7c
+
  * @since 2025/5/18 19:12
  */
 public interface NoticeLogService {

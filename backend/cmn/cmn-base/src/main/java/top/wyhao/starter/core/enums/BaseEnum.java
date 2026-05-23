@@ -6,7 +6,7 @@ import java.util.Objects;
 /**
  * 枚举接口
  *
- * @author wyhao
+
  */
 public interface BaseEnum {
 

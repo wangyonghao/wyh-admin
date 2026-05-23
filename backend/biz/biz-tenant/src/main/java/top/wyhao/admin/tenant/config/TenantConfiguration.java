@@ -12,7 +12,7 @@ import top.wyhao.starter.tenant.config.TenantProvider;
 /**
  * 租户配置
  *
- * @author Charles7c
+
  * @since 2025/7/12 13:30
  */
 @Configuration

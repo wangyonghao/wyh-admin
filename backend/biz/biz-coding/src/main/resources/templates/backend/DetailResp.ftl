@@ -25,7 +25,7 @@ import java.math.BigDecimal;
 /**
  * ${businessName}详情信息
  *
- * @author ${author}
+
  * @since ${datetime}
  */
 @Data

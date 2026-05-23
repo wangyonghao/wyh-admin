@@ -12,11 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import top.wyhao.admin.open.mapper.SysAppMapper;
 import top.wyhao.admin.open.model.entity.SysApp;
 import top.wyhao.admin.system.entity.*;
-import top.wyhao.admin.system.entity.user.SysUser;
-import top.wyhao.admin.system.entity.user.SysUserSocial;
+import top.wyhao.admin.system.entity.SysUser;
+import top.wyhao.admin.system.entity.SysUserSocial;
 import top.wyhao.admin.system.mapper.*;
-import top.wyhao.admin.system.mapper.user.SysUserMapper;
-import top.wyhao.admin.system.mapper.user.SysUserSocialMapper;
+import top.wyhao.admin.system.mapper.SysUserMapper;
+import top.wyhao.admin.system.mapper.SysUserSocialMapper;
 import top.wyhao.admin.tenant.mapper.SysTenantMapper;
 import top.wyhao.admin.tenant.mapper.TenantPackageMapper;
 import top.wyhao.admin.tenant.mapper.TenantPackageMenuMapper;
@@ -30,7 +30,7 @@ import java.util.function.BooleanSupplier;
 /**
  * 演示环境任务（任务示例）
  *
- * @author Charles7c
+
  * @since 2024/8/4 15:30
  */
 @Component

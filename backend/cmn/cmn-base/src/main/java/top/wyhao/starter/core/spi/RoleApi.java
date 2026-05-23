@@ -4,7 +4,7 @@ package top.wyhao.starter.core.spi;
 /**
  * 角色业务 API
  *
- * @author Charles7c
+
  * @since 2025/7/26 9:39
  */
 public interface RoleApi {

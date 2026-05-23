@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * 公告详情响应信息
  *
- * @author Yonghao Wang
+
  * @since 2026/5/8
  */
 @Data

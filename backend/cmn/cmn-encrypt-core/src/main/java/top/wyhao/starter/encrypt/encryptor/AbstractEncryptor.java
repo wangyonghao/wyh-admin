@@ -6,7 +6,7 @@ import top.wyhao.starter.encrypt.context.CryptoContext;
 /**
  * 加密器基类
  *
- * @author lishuyan
+
  * @since 2.13.2
  */
 public abstract class AbstractEncryptor implements IEncryptor {

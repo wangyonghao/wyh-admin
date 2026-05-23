@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * 仪表盘-公告响应参数
  *
- * @author Charles7c
+
  * @since 2023/8/20 10:55
  */
 @Data

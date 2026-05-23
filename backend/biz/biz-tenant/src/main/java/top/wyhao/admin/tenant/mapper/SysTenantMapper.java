@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * 租户 Mapper
  *
- * @author 小熊
+
  * @since 2024/11/26 17:20
  */
 @Mapper

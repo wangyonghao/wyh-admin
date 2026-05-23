@@ -8,7 +8,7 @@ import lombok.Data;
 /**
  * 验证码响应参数
  *
- * @author Charles7c
+
  * @since 2022/12/11 13:55
  */
 @Data

@@ -13,8 +13,8 @@ import top.wyhao.admin.system.model.enums.NoticeMethods;
 import top.wyhao.admin.system.model.enums.NoticeScopes;
 import top.wyhao.admin.system.model.query.MessageQuery;
 import top.wyhao.admin.system.model.query.NoticeQuery;
-import top.wyhao.admin.system.model.vo.message.MessageDetailResp;
-import top.wyhao.admin.system.model.vo.message.MessageResp;
+import top.wyhao.admin.system.model.vo.message.MessageDetailResult;
+import top.wyhao.admin.system.model.vo.message.MessageResult;
 import top.wyhao.admin.system.model.vo.message.MessageUnreadResp;
 import top.wyhao.admin.system.model.vo.NoticeDetailResult;
 import top.wyhao.admin.system.model.vo.NoticeResult;
@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * 个人消息 API
  *
- * @author Charles7c
+
  * @since 2025/4/5 21:30
  */
 @Tag(name = "个人消息 API")
@@ -54,7 +54,7 @@ public class UserMessageController {
 
     @Operation(summary = "分页查询消息列表", description = "分页查询消息列表")
     @GetMapping
-    public PageResult<MessageResp> page(@Valid MessageQuery query, @Valid PageQuery pageQuery) {
+    public PageResult<MessageResult> page(@Valid MessageQuery query, @Valid PageQuery pageQuery) {
         query.setUserId(LoginUtil.getUserId());
         return messageService.page(query, pageQuery);
     }
@@ -62,8 +62,8 @@ public class UserMessageController {
     @Operation(summary = "查询消息", description = "查询消息详情")
     @Parameter(name = "id", description = "ID", example = "1", in = ParameterIn.PATH)
     @GetMapping("/{id}")
-    public MessageDetailResp getMessage(@PathVariable Long id) {
-        MessageDetailResp detail = messageService.get(id);
+    public MessageDetailResult getMessage(@PathVariable Long id) {
+        MessageDetailResult detail = messageService.get(id);
         BizAssert.isTrue(detail == null || (NoticeScopes.USER.equals(detail.getScope()) && !CollUtil
             .contains(detail.getUsers(), LoginUtil.getUserId().toString())), "消息不存在或无权限访问");
         messageService.readMessage(Collections.singletonList(id), LoginUtil.getUserId());

@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 /**
  * API 文档扩展配置属性
  *
- * @author Charles7c
+
  * @since 1.0.1
  */
 @ConfigurationProperties("springdoc")

@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.Length;
 /**
  * 用户邮箱修改请求参数
  *
- * @author Charles7c
+
  * @since 2023/1/12 20:18
  */
 @Data

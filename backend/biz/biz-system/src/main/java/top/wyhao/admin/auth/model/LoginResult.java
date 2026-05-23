@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * 登录响应参数
  *
- * @author Charles7c
+
  * @since 2022/12/21 20:42
  */
 @Data

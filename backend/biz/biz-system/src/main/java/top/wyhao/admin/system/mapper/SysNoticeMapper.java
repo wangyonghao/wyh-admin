@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * 公告 Mapper
  *
- * @author Charles7c
+
  * @since 2023/8/20 10:55
  */
 @Mapper

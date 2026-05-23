@@ -13,8 +13,8 @@ import java.io.Serializable;
 /**
  * 套餐查询条件
  *
- * @author 小熊
- * @author Charles7c
+
+
  * @since 2024/11/26 11:25
  */
 @Data

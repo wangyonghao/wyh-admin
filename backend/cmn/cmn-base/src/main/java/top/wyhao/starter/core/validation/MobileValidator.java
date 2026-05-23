@@ -13,7 +13,7 @@ import jakarta.validation.ConstraintValidatorContext;
  * 校验中国大陆手机号码
  * </p>
  *
- * @author Charles7c
+
  * @since 2.10.0
  */
 public class MobileValidator implements ConstraintValidator<Mobile, String> {

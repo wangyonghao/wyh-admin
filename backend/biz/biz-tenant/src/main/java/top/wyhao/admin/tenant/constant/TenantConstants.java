@@ -4,7 +4,7 @@ package top.wyhao.admin.tenant.constant;
 /**
  * 租户相关常量
  *
- * @author Charles7c
+
  * @since 2025/7/14 20:27
  */
 public class TenantConstants {

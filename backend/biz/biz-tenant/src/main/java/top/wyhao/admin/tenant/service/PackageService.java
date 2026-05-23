@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * 套餐业务接口
  *
- * @author 小熊
+
  * @since 2024/11/26 11:25
  */
 public interface PackageService {

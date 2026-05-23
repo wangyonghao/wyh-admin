@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * 第三方账号绑定响应参数
  *
- * @author Yonghao Wang
+
  */
 @Data
 @Schema(description = "第三方账号绑定响应参数")

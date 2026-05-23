@@ -34,7 +34,7 @@ spring.datasource:
 ## Liquibase 配置
 spring.liquibase:
   # 是否启用
-  enabled: true
+  enabled: false
   # 配置文件路径
   change-log: classpath:/db/changelog/postgresql/db.changelog-master.yaml
 
@@ -47,9 +47,9 @@ spring.data:
     # 端口（默认 6379）
     port: ${REDIS_PORT:6379}
     # 密码（未设置密码时请注释掉）
-    password: ${REDIS_PWD:}
+    password: ${REDIS_PWD:redis@2026}
     # 数据库索引
-    database: ${REDIS_DB:0}
+    database: ${REDIS_DB:15}
     # 连接超时时间
     timeout: 10s
     # 是否开启 SSL
@@ -166,36 +166,14 @@ captcha:
     expirationInMinutes: 5
 
 --- ### 短信配置
-## 提示：配置文件方式和 [系统管理/系统配置/短信配置] 功能可任选其一方式使用，也可共同使用，但实际开发时建议选择一种，注释或删除另一方
+
+## sms4j 基础配置，https://sms4j.com/doc3/config.html
 sms:
   http-log: true
-  is-print: true
-#  # 从 YAML 读取配置
-#  config-type: YAML
-#  blends:
-#    cloopen:
-#      # 短信厂商
-#      supplier: cloopen
-#      base-url: https://app.cloopen.com:8883/2013-12-26
-#      access-key-id: 你的Access Key
-#      access-key-secret: 你的Secret Key
-#      sdk-app-id: 你的应用ID
-
---- ### 邮件配置
-## 提示：配置文件方式和 [系统管理/系统配置/邮件配置] 功能可任选其一方式使用，实际开发时请注释或删除另一方
-#spring.mail:
-#  # 根据需要更换
-#  host: smtp.126.com
-#  port: 465
-#  username: 你的邮箱
-#  password: 你的邮箱授权码
-#  properties:
-#    mail:
-#      smtp:
-#        auth: true
-#        socketFactory:
-#          class: javax.net.ssl.SSLSocketFactory
-#          port: 465
+  is-print: false
+  config-type: interface
+  corePoolSize: 5
+  maxPoolSize: 20
 
 --- ### WebSocket 配置
 wyhao-starter.messaging.websocket:
@@ -249,7 +227,7 @@ snail-job:
   # 命名空间 ID
   namespace: ${SCHEDULE_NAMESPACE:764d604ec6fc45f68cd92514c40e9e1a}
   # 分组名
-  group: ${SCHEDULE_GROUP:continew-admin}
+  group: ${SCHEDULE_GROUP:tide-admin}
   # 令牌
   token: ${SCHEDULE_TOKEN:SJ_Wyz3dmsdbDOkDujOTSSoBjGQP1BMsVnj}
   ## 服务端配置（任务调度中心）

@@ -12,7 +12,7 @@ import top.wyhao.admin.system.otp.service.ChannelService;
 /**
  * 短信渠道服务实现
  *
- * @author wyhao
+
  */
 @Slf4j
 @Service

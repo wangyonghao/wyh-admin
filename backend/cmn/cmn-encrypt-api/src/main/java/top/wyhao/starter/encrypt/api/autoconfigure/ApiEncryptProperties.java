@@ -22,7 +22,7 @@ import top.wyhao.starter.core.constant.PropertiesConstants;
 /**
  * API 加密配置属性
  *
- * @author lishuyan
+
  * @since 2.14.0
  */
 @ConfigurationProperties(PropertiesConstants.ENCRYPT_API)

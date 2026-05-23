@@ -15,7 +15,7 @@ import top.wyhao.starter.core.enums.BaseEnum;
  *
  * @see BaseEnum
  *
- * @author Charles7c
+
  * @since 1.2.0
  */
 public class ExcelBaseEnumConverter implements Converter<BaseEnum> {

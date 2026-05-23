@@ -19,7 +19,7 @@ import static java.lang.annotation.ElementType.*;
  * {@code @Mobile(message = "手机号格式不正确")} <br />
  * </p>
  *
- * @author Charles7c
+
  * @since 2.10.0
  */
 @Documented

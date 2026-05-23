@@ -7,8 +7,7 @@ import top.wyhao.starter.core.enums.BaseEnum;
 
 /**
  * 任务触发类型枚举
- *
- * @author Charles7c
+
  * @since 2024/7/11 22:28
  */
 @Getter

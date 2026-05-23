@@ -10,15 +10,12 @@ import java.io.Serializable;
 /**
  * 注册配置
  *
- * @author wyhao
+
  * @since 2024/04/26
  */
 @Data
 @Schema(description = "注册配置")
-public class RegisterConfigVO implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class RegisterConfigVO {
 
     /**
      * 是否开启注册

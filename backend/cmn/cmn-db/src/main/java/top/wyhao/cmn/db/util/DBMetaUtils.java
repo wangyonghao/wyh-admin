@@ -74,7 +74,7 @@ public class DBMetaUtils {
      * @param dataSource 数据源
      * @param tableName  表名称
      * @return 表信息列表
-     * @author looly
+    
      * @since 2.7.2
      */
     public static List<Table> getTables(DataSource dataSource, String tableName) {

@@ -40,8 +40,8 @@ import top.wyhao.starter.trace.handler.TraceIdGenerator;
 /**
  * 链路追踪自动配置
  *
- * @author Jasmine
- * @author Charles7c
+
+
  * @since 1.3.0
  */
 @AutoConfiguration
@@ -95,6 +95,6 @@ public class TraceAutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[ContiNew Starter] - Auto Configuration 'Trace' completed initialization.");
+        log.debug("[Tide Starter] - Auto Configuration 'Trace' completed initialization.");
     }
 }

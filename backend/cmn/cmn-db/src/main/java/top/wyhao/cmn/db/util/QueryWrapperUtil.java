@@ -34,7 +34,7 @@ import java.util.function.Consumer;
 /**
  * QueryWrapper 工具类
  *
- * @author Yonghao wang
+
  */
 public class QueryWrapperUtil {
 

@@ -7,7 +7,7 @@ import java.lang.annotation.*;
  * 日志注解
  * <p>用于接口方法或类上，辅助 Spring Doc 使用效果最佳</p>
  *
- * @author Charles7c
+
  * @since 1.1.0
  */
 @Documented

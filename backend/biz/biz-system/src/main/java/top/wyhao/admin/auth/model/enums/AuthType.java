@@ -8,8 +8,8 @@ import top.wyhao.starter.core.constant.UiConstants;
 /**
  * 认证类型枚举
  *
- * @author KAI
- * @author Charles7c
+
+
  * @since 2024/12/22 14:52
  */
 @Getter

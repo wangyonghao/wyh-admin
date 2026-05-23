@@ -5,7 +5,7 @@ import top.wyhao.admin.system.otp.enums.OtpChannel;
 /**
  * 渠道服务接口
  *
- * @author wyhao
+
  */
 public interface ChannelService {
 

@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 /**
  * OTP 业务场景枚举
  *
- * @author wyhao
+
  */
 @Getter
 @RequiredArgsConstructor

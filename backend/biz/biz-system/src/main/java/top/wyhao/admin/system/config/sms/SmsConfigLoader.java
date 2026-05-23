@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 /**
  * 短信配置加载器
  *
- * @author luoqiz
- * @author Charles7c
+
+
  * @since 2025/03/15 22:15
  */
 @Slf4j
@@ -21,13 +21,17 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class SmsConfigLoader implements ApplicationRunner {
 
-    private final SmsReadConfigDatabaseImpl smsReadConfig;
+    private final SmsConfigProvider smsReadConfig;
     private final SmsLogProcessor smsLogProcessor;
 
     @Override
     public void run(ApplicationArguments args) {
+        if(smsReadConfig.getSupplierConfigList().isEmpty()){
+            log.warn("[cmn-sms]从数据库中加载短信配置失败，短信服务暂不可用，请前往管理台进行配置");
+            return;
+        }
         SmsFactory.createSmsBlend(smsReadConfig);
         SmsProxyFactory.addPreProcessor(smsLogProcessor);
-        log.debug("短信配置初始化完成");
+        log.debug("[cmn-sms]短信初始化完成");
     }
 }

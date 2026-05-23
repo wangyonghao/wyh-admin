@@ -14,7 +14,7 @@ import java.io.IOException;
  *
  * @see BaseEnum
  *
- * @author Charles7c
+
  * @since 2.4.0
  */
 @JacksonStdImpl

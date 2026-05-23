@@ -12,7 +12,7 @@ import java.io.Serializable;
 /**
  * 用户导入结果响应参数
  *
- * @author kils
+
  * @since 2024/6/18 14:37
  */
 @Data

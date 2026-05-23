@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.web.multipart.MultipartFile;
 import top.wyhao.admin.system.model.bo.user.*;
-import top.wyhao.admin.system.entity.user.SysUser;
+import top.wyhao.admin.system.entity.SysUser;
 import top.wyhao.admin.system.model.query.UserQuery;
 import top.wyhao.admin.system.model.vo.user.UserDetailResult;
 import top.wyhao.admin.system.model.vo.user.UserImportParseResp;
@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * 用户业务接口
  */
-public interface UserService extends PermissionProvider {
+public interface UserService {
 
 
     /**
@@ -155,4 +155,20 @@ public interface UserService extends PermissionProvider {
     void update(Long id, @Valid UserRequest req);
 
     void delete(List<Long> id);
+
+    /**
+     * 获取用户权限码集合
+     *
+     * @param userId 用户ID
+     * @return 权限码集合
+     */
+    List<String> findUserPermissions(Long userId);
+
+    /**
+     * 获取用户角色码集合
+     *
+     * @param userId 用户ID
+     * @return 角色码集合
+     */
+    List<String> findUserRoles(Long userId);
 }

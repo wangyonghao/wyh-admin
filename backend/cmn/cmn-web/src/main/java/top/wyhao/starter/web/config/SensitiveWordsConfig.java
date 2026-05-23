@@ -28,8 +28,8 @@ import java.util.List;
 /**
  * 敏感词自动配置
  *
- * @author luoqiz
- * @author Charles7c
+
+
  * @since 2.9.0
  */
 @AutoConfiguration

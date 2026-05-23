@@ -33,7 +33,7 @@ import top.wyhao.starter.license.manager.CustomLicenseManager;
 /**
  * license 校验模块 自动配置
  *
- * @author loach
+
  * @since 2.12.0
  */
 @AutoConfiguration
@@ -79,7 +79,7 @@ public class LicenseVerifyAutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[ContiNew Starter] - Auto Configuration 'License-Verifier' completed initialization.");
+        log.debug("[Tide Starter] - Auto Configuration 'License-Verifier' completed initialization.");
     }
 
 }

@@ -3,7 +3,7 @@ package top.wyhao.admin.system.otp.service;
 /**
  * 限流器接口
  *
- * @author wyhao
+
  */
 public interface RateLimiter {
 
@@ -15,7 +15,7 @@ public interface RateLimiter {
      * @param window 时间窗口（秒）
      * @return 是否允许
      */
-    boolean isAllowed(String key, int max, int window);
+    boolean isLimited(String key, int max, int window);
 
     /**
      * 增加计数

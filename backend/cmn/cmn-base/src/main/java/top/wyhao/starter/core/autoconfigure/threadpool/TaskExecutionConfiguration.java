@@ -27,7 +27,7 @@ import java.util.concurrent.Executor;
 /**
  * {@link EnableAutoConfiguration Auto-configuration} for {@link TaskExecutor}.
  *
- * @author Charles7c
+
  * @since 1.0.0
  */
 @Configuration(proxyBeanMethods = false)
@@ -93,12 +93,12 @@ class TaskExecutionConfiguration {
 
         @PostConstruct
         public void postConstruct() {
-            log.debug("[ContiNew Starter] - Auto Configuration 'TaskExecutor-@Async' completed initialization.");
+            log.debug("[Tide Starter] - Auto Configuration 'TaskExecutor-@Async' completed initialization.");
         }
     }
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[ContiNew Starter] - Auto Configuration 'TaskExecutor' completed initialization.");
+        log.debug("[Tide Starter] - Auto Configuration 'TaskExecutor' completed initialization.");
     }
 }

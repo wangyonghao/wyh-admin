@@ -9,8 +9,7 @@ import top.wyhao.cmn.db.model.BaseMapper;
 
 /**
  * 应用 Mapper
- *
- * @author chengzi
+
  * @since 2024/10/17 16:03
  */
 @Mapper

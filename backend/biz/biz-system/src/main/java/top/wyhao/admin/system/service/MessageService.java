@@ -2,9 +2,9 @@
 package top.wyhao.admin.system.service;
 
 import top.wyhao.admin.system.model.query.MessageQuery;
-import top.wyhao.admin.system.model.bo.MessageReq;
-import top.wyhao.admin.system.model.vo.message.MessageDetailResp;
-import top.wyhao.admin.system.model.vo.message.MessageResp;
+import top.wyhao.admin.system.model.bo.MessageRequest;
+import top.wyhao.admin.system.model.vo.message.MessageDetailResult;
+import top.wyhao.admin.system.model.vo.message.MessageResult;
 import top.wyhao.admin.system.model.vo.message.MessageUnreadResp;
 import top.wyhao.starter.web.core.model.PageQuery;
 import top.wyhao.starter.web.core.model.PageResult;
@@ -14,8 +14,8 @@ import java.util.List;
 /**
  * 消息业务接口
  *
- * @author Bull-BCLS
- * @author Charles7c
+
+
  * @since 2023/10/15 19:05
  */
 public interface MessageService {
@@ -27,7 +27,7 @@ public interface MessageService {
      * @param pageQuery 分页查询条件
      * @return 分页列表信息
      */
-    PageResult<MessageResp> page(MessageQuery query, PageQuery pageQuery);
+    PageResult<MessageResult> page(MessageQuery query, PageQuery pageQuery);
 
     /**
      * 查询详情
@@ -35,7 +35,7 @@ public interface MessageService {
      * @param id ID
      * @return 详情信息
      */
-    MessageDetailResp get(Long id);
+    MessageDetailResult get(Long id);
 
     /**
      * 将消息标记已读
@@ -60,7 +60,7 @@ public interface MessageService {
      * @param req        请求参数
      * @param userIdList 接收人列表
      */
-    void add(MessageReq req, List<String> userIdList);
+    void add(MessageRequest req, List<String> userIdList);
 
     /**
      * 删除

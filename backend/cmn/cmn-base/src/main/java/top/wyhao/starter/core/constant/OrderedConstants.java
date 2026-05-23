@@ -6,7 +6,7 @@ import org.springframework.core.Ordered;
 /**
  * 过滤器和拦截器相关顺序常量
  *
- * @author Charles7c
+
  * @since 2.13.3
  */
 public class OrderedConstants {

@@ -19,7 +19,7 @@ import static java.lang.annotation.ElementType.TYPE_USE;
  * {@code @JsonString(message = "必须为有效的 JSON 格式")} <br />
  * </p>
  *
- * @author Charles7c
+
  * @since 2.12.0
  */
 @Documented

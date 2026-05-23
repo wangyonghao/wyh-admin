@@ -9,7 +9,7 @@ import top.wyhao.starter.web.core.model.PageResult;
 /**
  * 登录日志 Service
  *
- * @author WYH Admin
+
  * @since 2026/05/08
  */
 public interface LoginLogService {
@@ -23,7 +23,7 @@ public interface LoginLogService {
      * @param loginStatus   登录状态
      * @param failureReason 失败原因（可选）
      */
-    void create(String username, String ipAddress, String userAgent, String loginStatus, String failureReason);
+    void asyncLog(String username, String ipAddress, String userAgent, String loginStatus, String failureReason);
 
     /**
      * 分页查询登录日志
@@ -40,7 +40,7 @@ public interface LoginLogService {
      * @param id ID
      * @return 详情信息
      */
-    LoginLogResult get(Long id);
+    LoginLogResult detail(Long id);
 
     /**
      * 导出登录日志

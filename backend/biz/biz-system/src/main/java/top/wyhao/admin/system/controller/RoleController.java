@@ -16,11 +16,11 @@ import top.wyhao.admin.system.model.query.RoleQuery;
 import top.wyhao.admin.system.model.query.RoleUserQuery;
 import top.wyhao.admin.system.model.vo.MenuTreeVO;
 import top.wyhao.admin.system.model.vo.role.RoleDetailResult;
-import top.wyhao.admin.system.model.vo.role.RoleResp;
+import top.wyhao.admin.system.model.vo.role.RoleResult;
 import top.wyhao.admin.system.model.vo.role.RoleUserResult;
 import top.wyhao.admin.system.service.MenuService;
 import top.wyhao.admin.system.service.RoleService;
-import top.wyhao.starter.core.model.R;
+import top.wyhao.starter.core.model.Result;
 import top.wyhao.starter.web.core.model.PageQuery;
 import top.wyhao.starter.web.core.model.PageResult;
 import top.wyhao.starter.web.core.model.SortQuery;
@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * 角色管理 API
  *
- * @author Charles7c
+
  * @since 2023/2/18 14:29
  */
 @Tag(name = "角色管理 API")
@@ -51,7 +51,7 @@ public class RoleController {
      */
     @Operation(summary = "分页查询列表", description = "分页查询列表")
     @GetMapping("/system/role")
-    public PageResult<RoleResp> page(@Valid RoleQuery query, @Valid PageQuery pageQuery) {
+    public PageResult<RoleResult> page(@Valid RoleQuery query, @Valid PageQuery pageQuery) {
         return roleService.page(query, pageQuery);
     }
 
@@ -64,7 +64,7 @@ public class RoleController {
      */
     @Operation(summary = "查询列表", description = "查询列表")
     @GetMapping("/system/role/list")
-    public List<RoleResp> list(@Valid RoleQuery query, @Valid SortQuery sortQuery) {
+    public List<RoleResult> list(@Valid RoleQuery query, @Valid SortQuery sortQuery) {
         return roleService.list(query, sortQuery);
     }
     /**
@@ -88,8 +88,8 @@ public class RoleController {
      */
     @Operation(summary = "创建数据", description = "创建数据")
     @PostMapping("/system/role")
-    public R<IdResult<Long>> create(@RequestBody @Valid RoleRequest req) {
-        return R.ok(new IdResult<>(roleService.create(req)));
+    public Result<IdResult<Long>> create(@RequestBody @Valid RoleRequest req) {
+        return Result.ok(new IdResult<>(roleService.create(req)));
     }
 
     /**

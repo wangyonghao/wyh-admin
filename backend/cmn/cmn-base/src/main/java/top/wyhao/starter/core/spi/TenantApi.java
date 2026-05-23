@@ -4,7 +4,7 @@ package top.wyhao.starter.core.spi;
 /**
  * 租户业务 API
  * 
- * @author Charles7c
+
  * @since 2025/7/23 21:13
  */
 public interface TenantApi {

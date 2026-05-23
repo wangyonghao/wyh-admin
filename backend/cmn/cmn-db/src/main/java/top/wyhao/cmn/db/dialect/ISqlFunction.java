@@ -6,7 +6,7 @@ import java.io.Serializable;
 /**
  * SQL 函数接口
  *
- * @author Charles7c
+
  * @since 1.4.1
  */
 public interface ISqlFunction {

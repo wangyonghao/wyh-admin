@@ -11,9 +11,9 @@ mvn -f ../pom.xml clean package -DskipTests
 # 2. 构建 Docker 镜像
 echo "Building Docker images..."
 
-# 构建 continew-admin-server 镜像
-echo "Building continew-admin-server image..."
-container build -f ../continew-admin-server/Dockerfile -t wangyonghao/wyh-admin ../continew-admin-server
+# 构建 tide-admin-server 镜像
+echo "Building tide-admin-server image..."
+container build -f ../tide-admin-server/Dockerfile -t wangyonghao/wyh-admin ../tide-admin-server
 
 # 构建 continew-schedule-server 镜像
 echo "Building continew-schedule-server image..."

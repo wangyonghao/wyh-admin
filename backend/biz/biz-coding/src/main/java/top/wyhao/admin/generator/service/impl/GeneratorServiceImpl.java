@@ -60,8 +60,7 @@ import java.util.stream.Collectors;
 
 /**
  * 代码生成业务实现
- *
- * @author Charles7c
+
  * @since 2023/4/12 23:58
  */
 @Slf4j
@@ -250,10 +249,10 @@ public class GeneratorServiceImpl implements GeneratorService {
                 List<GeneratePreviewResp> generatePreviewList = this.preview(tableName);
                 // 生成代码
                 for (GeneratePreviewResp generatePreview : generatePreviewList) {
-                    // 后端：continew-admin/continew-system/src/main/java/top.wyhao/system/service/impl/XxxServiceImpl.java
-                    // 前端：continew-admin/continew-admin-ui/src/views/system/user/index.vue
+                    // 后端：tide-admin/continew-system/src/main/java/top.wyhao/system/service/impl/XxxServiceImpl.java
+                    // 前端：tide-admin/tide-admin-ui/src/views/system/user/index.vue
                     File file = new File(projectPath + generatePreview.getPath()
-                        .replace("continew-admin\\continew-admin", ""), generatePreview.getFileName());
+                        .replace("tide-admin\\tide-admin", ""), generatePreview.getFileName());
                     // 如果已经存在，且不允许覆盖，则跳过
                     if (!file.exists() || Boolean.TRUE.equals(genConfigMapper.selectById(tableName).getIsOverride())) {
                         FileUtil.writeUtf8String(generatePreview.getContent(), file);
@@ -374,14 +373,14 @@ public class GeneratorServiceImpl implements GeneratorService {
             .getId(), applicationProperties.getId() + "-ui");
         String packagePath;
         if (generatePreview.isBackend()) {
-            // 例如：continew-admin/continew-system/src/main/java/top.wyhao/system/service/impl
+            // 例如：tide-admin/continew-system/src/main/java/top.wyhao/system/service/impl
             packagePath = String.join(File.separator, backendBasicPackagePath, templateConfig.getPackageName()
                 .replace(StringConstants.DOT, File.separator));
         } else {
-            // 例如：continew-admin/continew-admin-ui/src/views/system
+            // 例如：tide-admin/tide-admin-ui/src/views/system
             packagePath = String.join(File.separator, frontendBasicPackagePath, templateConfig.getPackageName()
                 .replace(StringConstants.SLASH, File.separator), genConfig.getApiModuleName());
-            // 例如：continew-admin/continew-admin-ui/src/views/system/user
+            // 例如：tide-admin/tide-admin-ui/src/views/system/user
             packagePath = ".vue".equals(templateConfig.getExtension())
                 ? packagePath + File.separator + StrUtil.lowerFirst(genConfig.getClassNamePrefix())
                 : packagePath;
@@ -397,8 +396,8 @@ public class GeneratorServiceImpl implements GeneratorService {
      */
     private void generateCode(List<GeneratePreviewResp> generatePreviewList, GenConfig genConfig) {
         for (GeneratePreviewResp generatePreview : generatePreviewList) {
-            // 后端：continew-admin/continew-system/src/main/java/top.wyhao/system/service/impl/XxxServiceImpl.java
-            // 前端：continew-admin/continew-admin-ui/src/views/system/user/index.vue
+            // 后端：tide-admin/continew-system/src/main/java/top.wyhao/system/service/impl/XxxServiceImpl.java
+            // 前端：tide-admin/tide-admin-ui/src/views/system/user/index.vue
             File file = new File(SystemUtil.getUserInfo().getTempDir() + generatePreview.getPath(), generatePreview
                 .getFileName());
             // 如果已经存在，且不允许覆盖，则跳过
@@ -418,7 +417,7 @@ public class GeneratorServiceImpl implements GeneratorService {
     private String buildBackendBasicPackagePath(GenConfig genConfig,
                                                 GeneratorProperties.TemplateConfig templateConfig) {
         String extension = templateConfig.getExtension();
-        // 例如：continew-admin/continew-system/src/main/java/top.wyhao/system
+        // 例如：tide-admin/continew-system/src/main/java/top.wyhao/system
         return String.join(File.separator, applicationProperties.getId(), applicationProperties.getId(), genConfig
             .getModuleName(), "src", "main", FileNameUtil.EXT_JAVA.equals(extension)
                 ? "java"

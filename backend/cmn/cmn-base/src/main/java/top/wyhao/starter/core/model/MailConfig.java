@@ -7,7 +7,7 @@ import lombok.Data;
 /**
  * 邮件配置
  *
- * @author Yonghao Wang
+
  * @since 2024/4/26
  */
 @Data

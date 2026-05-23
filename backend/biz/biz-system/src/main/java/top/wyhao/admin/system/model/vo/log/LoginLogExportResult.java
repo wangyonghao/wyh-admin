@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 /**
  * 登录日志导出响应信息
  *
- * @author Yonghao Wang
+
  */
 @Data
 @ExcelIgnoreUnannotated

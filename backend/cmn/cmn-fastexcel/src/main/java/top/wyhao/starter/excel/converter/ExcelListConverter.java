@@ -20,7 +20,7 @@ import java.util.List;
  * 仅适合 List<基本类型> <=> xxx,xxx 转换
  * </p>
  *
- * @author Charles7c
+
  * @since 2.0.2
  */
 public class ExcelListConverter implements Converter<List> {

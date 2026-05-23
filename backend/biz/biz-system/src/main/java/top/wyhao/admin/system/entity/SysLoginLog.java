@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 /**
  * 登录日志实体
  *
- * @author Yonghao Wang
+
  * @since 2026/05/08
  */
 @Data

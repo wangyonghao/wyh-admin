@@ -6,7 +6,7 @@ import top.wyhao.starter.core.exception.BusinessException;
 /**
  * OTP 自定义异常
  *
- * @author wyhao
+
  */
 @Getter
 public class OtpException extends BusinessException {

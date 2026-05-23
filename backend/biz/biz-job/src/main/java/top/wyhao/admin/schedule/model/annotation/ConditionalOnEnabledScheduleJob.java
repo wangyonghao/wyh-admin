@@ -8,8 +8,7 @@ import java.lang.annotation.*;
 
 /**
  * 是否启用 Snail Job 判断注解
- *
- * @author Charles7c
+
  * @since 2025/5/18 12:03
  */
 @Retention(RetentionPolicy.RUNTIME)

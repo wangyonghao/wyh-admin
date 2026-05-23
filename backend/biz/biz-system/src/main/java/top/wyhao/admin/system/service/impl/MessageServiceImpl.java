@@ -13,13 +13,13 @@ import top.wyhao.admin.system.entity.SysMessage;
 import top.wyhao.admin.system.entity.SysMessageLog;
 import top.wyhao.admin.system.mapper.SysMessageLogMapper;
 import top.wyhao.admin.system.mapper.SysMessageMapper;
-import top.wyhao.admin.system.model.bo.MessageReq;
+import top.wyhao.admin.system.model.bo.MessageRequest;
 import top.wyhao.admin.system.model.enums.MessageType;
 import top.wyhao.admin.system.model.enums.NoticeScopes;
 import top.wyhao.admin.system.model.query.MessageQuery;
-import top.wyhao.admin.system.model.vo.message.MessageDetailResp;
-import top.wyhao.admin.system.model.vo.message.MessageResp;
-import top.wyhao.admin.system.model.vo.message.MessageTypeUnreadResp;
+import top.wyhao.admin.system.model.vo.message.MessageDetailResult;
+import top.wyhao.admin.system.model.vo.message.MessageResult;
+import top.wyhao.admin.system.model.vo.message.MessageUnreadResult;
 import top.wyhao.admin.system.model.vo.message.MessageUnreadResp;
 import top.wyhao.admin.system.service.MessageService;
 import top.wyhao.starter.core.util.CollUtils;
@@ -34,8 +34,8 @@ import java.util.List;
 /**
  * 消息业务实现
  *
- * @author Bull-BCLS
- * @author Charles7c
+
+
  * @since 2023/10/15 19:05
  */
 @Service
@@ -46,14 +46,14 @@ public class MessageServiceImpl implements MessageService {
     private final SysMessageLogMapper messageLogMapper;
 
     @Override
-    public PageResult<MessageResp> page(MessageQuery query, PageQuery pageQuery) {
-        IPage<MessageResp> page = baseMapper.selectMessagePage(new Page<>(pageQuery.getPage(), pageQuery
+    public PageResult<MessageResult> page(MessageQuery query, PageQuery pageQuery) {
+        IPage<MessageResult> page = baseMapper.selectMessagePage(new Page<>(pageQuery.getPage(), pageQuery
             .getSize()), query);
         return PageResult.build(page);
     }
 
     @Override
-    public MessageDetailResp get(Long id) {
+    public MessageDetailResult get(Long id) {
         return baseMapper.selectMessageById(id);
     }
 
@@ -84,9 +84,9 @@ public class MessageServiceImpl implements MessageService {
         MessageUnreadResp result = new MessageUnreadResp();
         Long total = 0L;
         if (Boolean.TRUE.equals(isDetail)) {
-            List<MessageTypeUnreadResp> detailList = new ArrayList<>();
+            List<MessageUnreadResult> detailList = new ArrayList<>();
             for (MessageType messageType : MessageType.values()) {
-                MessageTypeUnreadResp resp = new MessageTypeUnreadResp();
+                MessageUnreadResult resp = new MessageUnreadResult();
                 resp.setType(messageType);
                 Long count = baseMapper.selectUnreadCountByUserIdAndType(userId, messageType.getValue());
                 resp.setCount(count);
@@ -103,7 +103,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public void add(MessageReq req, List<String> userIdList) {
+    public void add(MessageRequest req, List<String> userIdList) {
         SysMessage message = BeanUtil.copyProperties(req, SysMessage.class);
         message.setScope(CollUtil.isEmpty(userIdList) ? NoticeScopes.ALL : NoticeScopes.USER);
         message.setUsers(userIdList);

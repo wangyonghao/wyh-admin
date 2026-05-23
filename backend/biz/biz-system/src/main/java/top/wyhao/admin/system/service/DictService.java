@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * 字典业务接口
  *
- * @author Charles7c
+
  * @since 2023/9/11 21:29
  */
 public interface DictService extends BaseService<SysDict> {

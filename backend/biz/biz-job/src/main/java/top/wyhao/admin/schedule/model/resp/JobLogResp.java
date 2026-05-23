@@ -12,9 +12,8 @@ import java.time.LocalDateTime;
 
 /**
  * 任务日志响应参数
- *
- * @author KAI
- * @author Charles7c
+
+
  * @since 2024/6/27 22:50
  */
 @Data
@@ -33,7 +32,7 @@ public class JobLogResp implements Serializable {
     /**
      * 任务组
      */
-    @Schema(description = "任务组", example = "continew-admin")
+    @Schema(description = "任务组", example = "tide-admin")
     private String groupName;
 
     /**

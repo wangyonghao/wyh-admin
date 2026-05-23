@@ -9,7 +9,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
-import top.wyhao.admin.cmn.mail.MailService;
+import top.wyhao.admin.cmn.mail.MailClient;
+import top.wyhao.admin.cmn.sms.SmsConfig;
 import top.wyhao.admin.system.model.query.ConfigQuery;
 import top.wyhao.admin.system.model.vo.ConfigResult;
 import top.wyhao.admin.system.model.vo.config.*;
@@ -24,7 +25,7 @@ import top.wyhao.starter.web.core.model.SortQuery;
 /**
  * 系统配置 API
  *
- * @author wyhao
+
  * @since 2024/04/26
  */
 @Tag(name = "系统配置 API")
@@ -34,7 +35,7 @@ import top.wyhao.starter.web.core.model.SortQuery;
 public class ConfigController {
 
     private final ConfigService configService;
-    private final MailService mailService;
+    private final MailClient mailService;
     private final UserService userService;
 
     // ==================== 配置项专用接口 ====================
@@ -162,7 +163,7 @@ public class ConfigController {
     @Operation(summary = "获取短信配置")
     @SaCheckPermission("system:config:list")
     @GetMapping("/system/config/sms")
-    public SmsConfigVO getSmsConfig() {
+    public SmsConfig getSmsConfig() {
         return configService.getSmsConfig();
     }
 

@@ -12,7 +12,7 @@ import top.wyhao.starter.core.enums.GenderEnum;
 /**
  * 用户基础信息修改请求参数
  *
- * @author Charles7c
+
  * @since 2023/1/7 23:08
  */
 @Data

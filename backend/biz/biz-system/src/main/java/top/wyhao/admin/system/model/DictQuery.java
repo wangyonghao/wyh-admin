@@ -9,7 +9,7 @@ import top.wyhao.cmn.db.query.QueryType;
 /**
  * 字典查询条件
  *
- * @author Yonghao Wang
+
  * @since 2026/5/13
  */
 @Data

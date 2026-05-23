@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * 租户管理员密码修改请求参数
  * 
- * @author 小熊
+
  * @since 2024/12/2 20:41
  */
 @Data

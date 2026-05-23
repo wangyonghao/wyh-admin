@@ -4,12 +4,12 @@ package top.wyhao.starter.core.constant;
 /**
  * 配置属性相关常量
  *
- * @author Charles7c
+
  * @since 1.1.1
  */
 public interface PropertiesConstants {
     /**
-     * ContiNew Starter
+     * Tide Starter
      */
     String WYHAO_STARTER = "wyhao-starter";
 

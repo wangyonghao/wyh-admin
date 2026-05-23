@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 /**
  * 短信配置实体
  *
- * @author luoqiz
- * @author Charles7c
+
+
  * @since 2025/03/15 18:41
  */
 @Data

@@ -8,7 +8,7 @@ import top.wyhao.admin.auth.LoginHelper;
 import top.wyhao.admin.auth.model.EmailLoginRequest;
 import top.wyhao.admin.auth.model.LoginResult;
 import top.wyhao.admin.system.entity.SysDept;
-import top.wyhao.admin.system.entity.user.SysUser;
+import top.wyhao.admin.system.entity.SysUser;
 import top.wyhao.admin.system.service.DeptService;
 import top.wyhao.admin.system.service.LoginLogService;
 import top.wyhao.admin.system.service.OperationLogService;

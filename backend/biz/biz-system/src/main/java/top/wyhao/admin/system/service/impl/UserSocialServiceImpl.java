@@ -6,8 +6,8 @@ import cn.hutool.json.JSONUtil;
 import lombok.RequiredArgsConstructor;
 import me.zhyd.oauth.model.AuthUser;
 import org.springframework.stereotype.Service;
-import top.wyhao.admin.system.entity.user.SysUserSocial;
-import top.wyhao.admin.system.mapper.user.SysUserSocialMapper;
+import top.wyhao.admin.system.entity.SysUserSocial;
+import top.wyhao.admin.system.mapper.SysUserSocialMapper;
 import top.wyhao.admin.system.model.enums.SocialSource;
 import top.wyhao.admin.system.service.UserSocialService;
 import top.wyhao.starter.core.util.CollUtils;
@@ -20,7 +20,7 @@ import java.util.Set;
 /**
  * 用户社交账号服务类
  *
- * @author wyhao
+
  * @since 2025/12/7
  */
 @Service

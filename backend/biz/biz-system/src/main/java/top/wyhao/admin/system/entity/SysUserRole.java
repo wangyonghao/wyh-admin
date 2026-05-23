@@ -12,7 +12,7 @@ import java.io.Serializable;
 /**
  * 用户和角色实体
  *
- * @author Charles7c
+
  * @since 2023/2/13 23:13
  */
 @Data

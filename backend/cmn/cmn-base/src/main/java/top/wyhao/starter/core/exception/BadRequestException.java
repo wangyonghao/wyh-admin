@@ -4,7 +4,7 @@ package top.wyhao.starter.core.exception;
 /**
  * 自定义验证异常-错误请求
  *
- * @author Charles7c
+
  * @since 1.0.0
  */
 public class BadRequestException extends BusinessException {

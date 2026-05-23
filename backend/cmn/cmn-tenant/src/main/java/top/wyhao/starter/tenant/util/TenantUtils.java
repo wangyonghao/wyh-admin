@@ -9,8 +9,8 @@ import top.wyhao.starter.tenant.context.TenantContextHolder;
 /**
  * 租户工具类
  *
- * @author 小熊
- * @author Charles7c
+
+
  * @since 2.13.1
  */
 public class TenantUtils {

@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 /**
  * MyBatis Plus 扩展配置属性
  *
- * @author Charles7c
+
  * @since 1.0.0
  */
 @ConfigurationProperties("mybatis-plus.extension")

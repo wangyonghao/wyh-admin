@@ -22,7 +22,7 @@ import top.wyhao.starter.core.constant.PropertiesConstants;
 /**
  * license 生成模块配置属性
  *
- * @author Jasmine
+
  * @since 2.12.0
  */
 @ConfigurationProperties(PropertiesConstants.LICENSE_GENERATOR)

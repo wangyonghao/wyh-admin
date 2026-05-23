@@ -14,8 +14,7 @@ import top.wyhao.admin.schedule.model.annotation.ConditionalOnEnabledScheduleJob
 
 /**
  * Snail Job 配置
- *
- * @author KAI
+
  * @since 2024/6/26 9:19
  */
 @Configuration

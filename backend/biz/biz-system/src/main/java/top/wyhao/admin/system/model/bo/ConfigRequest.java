@@ -12,15 +12,13 @@ import java.io.Serializable;
 /**
  * 系统配置请求信息
  *
- * @author wyhao
+
  * @since 2024/04/26
  */
 @Data
 @Schema(description = "系统配置请求信息")
-public class ConfigRequest implements Serializable {
+public class ConfigRequest {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
 
     /**
      * 配置键

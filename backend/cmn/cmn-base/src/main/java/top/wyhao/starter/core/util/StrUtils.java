@@ -8,7 +8,7 @@ import java.util.function.Function;
 /**
  * 字符串工具类
  *
- * @author Charles7c
+
  * @since 2.0.1
  */
 public class StrUtils {

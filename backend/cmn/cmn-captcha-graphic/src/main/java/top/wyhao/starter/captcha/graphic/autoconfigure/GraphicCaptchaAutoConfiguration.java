@@ -15,7 +15,7 @@ import top.wyhao.starter.core.constant.PropertiesConstants;
 /**
  * 图形验证码自动配置
  *
- * @author Charles7c
+
  * @since 1.0.0
  */
 @AutoConfiguration
@@ -36,6 +36,6 @@ public class GraphicCaptchaAutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[ContiNew Starter] - Auto Configuration 'Captcha-Graphic' completed initialization.");
+        log.debug("[Tide Starter] - Auto Configuration 'Captcha-Graphic' completed initialization.");
     }
 }

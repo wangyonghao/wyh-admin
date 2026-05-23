@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import top.wyhao.starter.core.model.R;
+import top.wyhao.starter.core.model.Result;
 
 @Slf4j
 @Order(0)
@@ -21,10 +21,10 @@ public class SaTokenExceptionHandler {
      */
     @ExceptionHandler(NotPermissionException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public R<Void> handleNotPermissionException(NotPermissionException e, HttpServletRequest request) {
+    public Result<Void> handleNotPermissionException(NotPermissionException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',权限码校验失败'{}'", requestURI, e.getMessage());
-        return R.fail(HttpStatus.FORBIDDEN.name(), "没有访问权限，请联系管理员授权");
+        return Result.fail(HttpStatus.FORBIDDEN.name(), "没有访问权限，请联系管理员授权");
     }
 
     /**
@@ -32,10 +32,10 @@ public class SaTokenExceptionHandler {
      */
     @ExceptionHandler(NotRoleException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    public R<Void> handleNotRoleException(NotRoleException e, HttpServletRequest request) {
+    public Result<Void> handleNotRoleException(NotRoleException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',角色权限校验失败'{}'", requestURI, e.getMessage());
-        return R.fail(HttpStatus.FORBIDDEN.name(), "没有访问权限，请联系管理员授权");
+        return Result.fail(HttpStatus.FORBIDDEN.name(), "没有访问权限，请联系管理员授权");
     }
 
     /**
@@ -43,7 +43,7 @@ public class SaTokenExceptionHandler {
      */
     @ExceptionHandler(NotLoginException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public R<Void> handleNotLoginException(NotLoginException e, HttpServletRequest request) {
+    public Result<Void> handleNotLoginException(NotLoginException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',认证失败'{}',无法访问系统资源", requestURI, e.getMessage());
 
@@ -52,6 +52,6 @@ public class SaTokenExceptionHandler {
             case NotLoginException.BE_REPLACED -> "您已被顶下线";
             default -> "您的登录状态已过期，请重新登录";
         };
-        return R.fail(HttpStatus.UNAUTHORIZED.name(), errorMsg);
+        return Result.fail(HttpStatus.UNAUTHORIZED.name(), errorMsg);
     }
 }

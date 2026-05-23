@@ -21,7 +21,7 @@ import java.lang.annotation.*;
 /**
  * API 加密注解
  *
- * @author lishuyan
+
  * @since 2.14.0
  */
 @Documented

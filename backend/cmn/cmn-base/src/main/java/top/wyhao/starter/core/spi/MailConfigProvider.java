@@ -9,7 +9,7 @@ import top.wyhao.starter.core.model.MailConfig;
  * 由biz-system提供邮件配置
  * </p>
  *
- * @author Yonghao Wang
+
  * @since 2026/5/10
  */
 public interface MailConfigProvider {

@@ -2,7 +2,7 @@
 package top.wyhao.admin.system.service;
 
 import jakarta.servlet.http.HttpServletResponse;
-import top.wyhao.admin.system.model.bo.DeptReq;
+import top.wyhao.admin.system.model.bo.DeptRequest;
 import top.wyhao.admin.system.entity.SysDept;
 import top.wyhao.admin.system.model.query.DeptQuery;
 import top.wyhao.admin.system.model.vo.DeptResp;
@@ -55,7 +55,7 @@ public interface DeptService{
      * @param req 创建请求参数
      * @return 自增 ID
      */
-    Long create(DeptReq req);
+    Long create(DeptRequest req);
 
     /**
      * 修改
@@ -63,7 +63,7 @@ public interface DeptService{
      * @param req 修改请求参数
      * @param id  ID
      */
-    void update(DeptReq req, Long id);
+    void update(DeptRequest req, Long id);
 
     /**
      * 删除

@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 /**
  * 全局鉴权参数定制器
  *
- * @author echo
+
  * @since 2024/12/31 13:36
  */
 @Slf4j

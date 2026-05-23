@@ -22,7 +22,7 @@ import top.wyhao.starter.license.bean.LicenseInstallerBean;
 /**
  * 启动校验 License
  *
- * @author loach
+
  * @since 1.2.0
  */
 public class LicenseStarterInitializingBean implements InitializingBean {

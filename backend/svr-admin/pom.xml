@@ -50,10 +50,16 @@
             <artifactId>biz-coding</artifactId>
         </dependency>
 
-        <!-- ContiNew Starter 链路追踪模块 -->
+        <!-- Tide Starter 链路追踪模块 -->
         <dependency>
             <groupId>top.wyhao</groupId>
             <artifactId>cmn-trace</artifactId>
+        </dependency>
+
+        <!-- 短信基础设施 -->
+        <dependency>
+            <groupId>top.wyhao</groupId>
+            <artifactId>cmn-sms</artifactId>
         </dependency>
 
         <!-- Liquibase（用于管理数据库版本，跟踪、管理和应用数据库变化） -->

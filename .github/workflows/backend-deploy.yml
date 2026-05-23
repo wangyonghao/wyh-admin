@@ -1,0 +1,75 @@
+name: Deploy
+
+on:
+  # 推送时执行
+  push:
+    branches: [dev]
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-deploy.yml'
+  # 可手动执行
+  workflow_dispatch:
+
+jobs:
+  deploy-server:
+    runs-on: ubuntu-latest
+    steps:
+      # 1、检出源码
+      - name: Checkout
+        uses: actions/checkout@v4
+      # 2、安装 Java 环境
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: "adopt"
+          java-version: 17
+          cache: "maven"
+      # 3、打包
+      - name: Build
+        run: |
+          sed -i.bak '/<repositories>/,/<\/repositories>/d' pom.xml
+          sed -i.bak '/<pluginRepositories>/,/<\/pluginRepositories>/d' pom.xml
+          mvn -B package --file pom.xml
+      # 4、拷贝到服务器
+      - name: Copy apiserver
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: ./continew-admin-server/target/app/*
+          target: /opt/wyh-admin/apiserver/app
+          strip_components: 3
+      - name: Copy jobserver
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: ./continew-schedule-server/target/*.jar
+          target: /opt/wyh-admin/jobserver/app
+          strip_components: 2
+      - name: Copy scripts
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          source: ./scripts/docker/*
+          target: /opt/wyh-admin/
+          strip_components: 2
+      # 5、启动
+      - name: Start
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd /opt/wyh-admin
+            docker-compose up -d --force-recreate --build apiserver
+            docker images | grep none | awk '{print $3}' | xargs -r docker rmi

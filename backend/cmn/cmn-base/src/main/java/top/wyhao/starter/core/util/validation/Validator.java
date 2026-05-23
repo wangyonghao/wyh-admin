@@ -14,7 +14,7 @@ import java.util.function.BooleanSupplier;
 /**
  * 校验器
  *
- * @author Charles7c
+
  * @since 1.0.0
  */
 public class Validator {

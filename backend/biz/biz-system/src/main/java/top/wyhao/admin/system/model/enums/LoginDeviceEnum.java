@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 /**
  * 设备类型枚举
  *
- * @author Yonghao Wang
+
  * @since 2026/05/08
  */
 @Getter

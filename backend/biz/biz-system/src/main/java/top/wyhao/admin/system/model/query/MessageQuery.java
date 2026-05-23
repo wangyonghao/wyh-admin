@@ -10,7 +10,7 @@ import java.io.Serializable;
 /**
  * 消息查询条件
  *
- * @author Bull-BCLS
+
  * @since 2023/10/15 19:05
  */
 @Data

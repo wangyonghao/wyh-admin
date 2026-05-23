@@ -27,8 +27,8 @@ import java.util.List;
 /**
  * Redisson 自动配置
  *
- * @author gengwei.zheng（<a href="https://gitee.com/herodotus/dante-engine">Dante Engine</a>）
- * @author Charles7c
+
+
  * @since 1.0.0
  */
 @AutoConfiguration

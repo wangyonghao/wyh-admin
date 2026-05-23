@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * 公告管理 API
  *
- * @author Yonghao Wang
+
  * @since 2026/5/8
  */
 @Tag(name = "公告管理 API")

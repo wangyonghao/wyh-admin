@@ -16,7 +16,7 @@ import top.wyhao.starter.web.core.model.PageResult;
 /**
  * 登录日志 API
  *
- * @author Yonghao Wang
+
  * @since 2026/05/08
  */
 @Tag(name = "登录日志 API")
@@ -37,7 +37,7 @@ public class LoginLogController {
     @Parameter(name = "id", description = "ID", example = "1")
     @GetMapping("/system/login-log/{id}")
     public LoginLogResult get(@PathVariable Long id) {
-        return loginLogService.get(id);
+        return loginLogService.detail(id);
     }
 
     @Operation(summary = "导出", description = "导出登录日志数据")

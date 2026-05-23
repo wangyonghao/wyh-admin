@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 /**
  * 系统配置响应信息
  *
- * @author Yonghao Wang
+
  * @since 2024/4/26
  */
 @Data

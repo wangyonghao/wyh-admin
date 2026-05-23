@@ -4,7 +4,7 @@ package top.wyhao.cmn.db.query;
 /**
  * 查询类型枚举
  *
- * @author Charles7c
+
  * @since 1.0.0
  */
 public enum QueryType {

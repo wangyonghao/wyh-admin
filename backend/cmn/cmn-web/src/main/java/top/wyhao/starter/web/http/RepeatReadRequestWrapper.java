@@ -26,7 +26,7 @@ import java.util.Map;
  * 虽然这里可以多次读取流里面的数据， 但是建议还是调用getContentAsString()/getCachedContent() 方法， 已经把内容缓存在内存中了。
  * </p>
  *
- * @author Jasmine
+
  * @since 2.12.1
  */
 public class RepeatReadRequestWrapper extends HttpServletRequestWrapper {

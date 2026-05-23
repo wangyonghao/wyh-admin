@@ -17,8 +17,8 @@ import java.util.List;
 /**
  * 租户业务接口
  *
- * @author 小熊
- * @author Charles7c
+
+
  * @since 2024/11/26 17:20
  */
 public interface TenantService {

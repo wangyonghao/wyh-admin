@@ -10,7 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 /**
  * 系统管理配置
  *
- * @author Charles7c
+
  * @since 2025/6/14 21:22
  */
 @Configuration

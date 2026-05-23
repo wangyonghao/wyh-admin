@@ -113,9 +113,9 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public MenuVO get(Long id) {
-        SysMenu menuDO = menuMapper.selectById(id);
-        BizAssert.isNull(menuDO, "菜单不存在");
-        return BeanUtil.copyProperties(menuDO, MenuVO.class);
+        SysMenu sysMenu = menuMapper.selectById(id);
+        BizAssert.isNull(sysMenu, "菜单不存在");
+        return BeanUtil.copyProperties(sysMenu, MenuVO.class);
     }
 
     @Override

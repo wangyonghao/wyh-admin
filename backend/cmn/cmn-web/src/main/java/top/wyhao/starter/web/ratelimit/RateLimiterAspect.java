@@ -23,8 +23,8 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 限流器切面
  *
- * @author KAI
- * @author Charles7c
+
+
  * @since 2.2.0
  */
 @Aspect

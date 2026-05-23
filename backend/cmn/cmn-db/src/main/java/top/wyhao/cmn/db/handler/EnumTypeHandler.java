@@ -32,8 +32,8 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @see com.baomidou.mybatisplus.core.handlers.MybatisEnumTypeHandler
  *
- * @author hubin（<a href="https://gitee.com/baomidou/mybatis-plus">MyBatis Plus</a>）
- * @author Charles7c
+
+
  * @since 2.4.0
  */
 public class EnumTypeHandler<E extends Enum<E>> extends BaseTypeHandler<E> {

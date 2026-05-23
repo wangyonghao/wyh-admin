@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 /**
  * 租户响应参数
  *
- * @author 小熊
- * @author Charles7c
+
+
  * @since 2024/11/26 17:20
  */
 @Data
@@ -100,7 +100,7 @@ public class TenantResp implements Serializable {
     /**
      * 域名
      */
-    @Schema(description = "域名", example = "T0sL6RWv0vFh.continew.top")
+    @Schema(description = "域名", example = "T0sL6RWv0vFh.wyhao.top")
     @ExcelProperty(value = "域名", order = 4)
     private String domain;
 

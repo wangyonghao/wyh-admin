@@ -12,7 +12,7 @@ import java.io.Serializable;
 /**
  * 仪表盘-通用图表响应参数
  *
- * @author Charles7c
+
  * @since 2024/10/17 21:37
  */
 @Data

@@ -8,8 +8,8 @@ import org.dromara.sms4j.api.entity.SmsResponse;
 import org.dromara.sms4j.api.proxy.CoreMethodProcessor;
 import org.springframework.stereotype.Component;
 import top.wyhao.starter.core.enums.ResultStatusEnum;
-import top.wyhao.admin.system.model.bo.SmsLogReq;
-import top.wyhao.admin.system.service.SmsLogService;
+import top.wyhao.admin.system.model.bo.SmsLogRequest;
+import top.wyhao.admin.system.service.SmsService;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,26 +17,26 @@ import java.util.List;
 /**
  * 短信日志处理器
  *
- * @author luoqiz
- * @author Charles7c
+
+
  * @since 2025/03/15 22:15
  */
 @Component
 @RequiredArgsConstructor
 public class SmsLogProcessor implements CoreMethodProcessor {
 
-    private final SmsLogService smsLogService;
+    private final SmsService smsService;
 
     @Override
     public Object postProcessor(SmsResponse result, Object[] param) {
         if (NumberUtil.isNumber(result.getConfigId())) {
-            SmsLogReq req = new SmsLogReq();
+            SmsLogRequest req = new SmsLogRequest();
             req.setConfigId(Long.parseLong(result.getConfigId()));
             req.setPhone(param[0].toString());
             req.setParams(JSONUtil.toJsonStr(param[1]));
             req.setStatus(result.isSuccess() ? ResultStatusEnum.SUCCESS : ResultStatusEnum.FAILURE);
             req.setResMsg(JSONUtil.toJsonStr(result.getData()));
-            smsLogService.create(req);
+            smsService.logAsync(req);
         }
         return CoreMethodProcessor.super.postProcessor(result, param);
     }

@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * 字典实体
  *
- * @author Yonghao Wang
+
  * @since 2026/5/13
  */
 @Data

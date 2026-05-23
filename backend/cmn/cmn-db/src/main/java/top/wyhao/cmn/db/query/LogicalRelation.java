@@ -4,7 +4,7 @@ package top.wyhao.cmn.db.query;
 /**
  * 逻辑关系枚举
  *
- * @author Charles7c
+
  * @since 2.13.3
  */
 public enum LogicalRelation {

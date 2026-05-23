@@ -8,7 +8,7 @@ import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.ReUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.spring.SpringUtil;
-import top.wyhao.admin.system.entity.user.SysUser;
+import top.wyhao.admin.system.entity.SysUser;
 import top.wyhao.admin.system.model.vo.config.SecurityConfigVO;
 import top.wyhao.admin.system.service.ConfigService;
 import top.wyhao.admin.system.service.UserPasswordHistoryService;
@@ -21,8 +21,8 @@ import java.util.Map;
 /**
  * 密码策略枚举
  *
- * @author Kils
- * @author Charles7c
+
+
  * @since 2024/5/9 11:25
  */
 public enum PasswordPolicies {

@@ -18,7 +18,7 @@ import java.io.IOException;
  * 配置文件读取，详见：<a href="https://docs.spring.io/spring-boot/docs/2.0.6.RELEASE/reference/html/boot-features-external-config.html#boot-features-external-config-yaml-shortcomings">YAMLShortcomings</a>
  * </p>
  *
- * @author Charles7c
+
  * @since 1.0.0
  */
 public class GeneralPropertySourceFactory extends DefaultPropertySourceFactory {

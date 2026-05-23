@@ -10,8 +10,8 @@ import java.util.List;
 /**
  * 套餐详情响应参数
  *
- * @author 小熊
- * @author Charles7c
+
+
  * @since 2024/11/26 11:25
  */
 @Data

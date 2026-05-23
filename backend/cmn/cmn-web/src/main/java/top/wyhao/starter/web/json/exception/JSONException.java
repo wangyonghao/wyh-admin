@@ -7,7 +7,7 @@ import top.wyhao.starter.core.exception.SystemException;
 /**
  * JSON 异常
  *
- * @author Charles7c
+
  * @since 2.13.2
  */
 public class JSONException extends SystemException {

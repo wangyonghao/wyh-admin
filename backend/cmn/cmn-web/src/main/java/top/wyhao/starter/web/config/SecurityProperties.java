@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 /**
  * SaToken 安全配置属性
  *
- * @author Charles7c
+
  * @since 1.0.0
  */
 @ConfigurationProperties("web.security")

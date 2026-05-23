@@ -15,8 +15,8 @@ import java.io.Serializable;
 /**
  * 登录请求参数基类
  *
- * @author KAI
- * @author Charles7c
+
+
  * @since 2024/12/22 15:16
  */
 @Data

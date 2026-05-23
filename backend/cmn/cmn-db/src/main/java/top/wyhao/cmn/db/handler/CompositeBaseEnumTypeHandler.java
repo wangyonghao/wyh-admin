@@ -19,8 +19,8 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @see com.baomidou.mybatisplus.core.handlers.CompositeEnumTypeHandler
  *
- * @author miemie（<a href="https://gitee.com/baomidou/mybatis-plus">MyBatis Plus</a>）
- * @author Charles7c
+
+
  * @since 2.7.3
  */
 public class CompositeBaseEnumTypeHandler<E extends Enum<E>> implements TypeHandler<E> {

@@ -9,7 +9,7 @@ import top.wyhao.starter.core.enums.BaseEnum;
 /**
  * 登录状态枚举
  *
- * @author Yonghao Wang
+
  * @since 2026/05/08
  */
 @Getter

@@ -17,8 +17,7 @@ import top.wyhao.starter.core.util.IpUtils;
 
 /**
  * 登录帮助类
- *
- * @author Yonghao Wang
+
  */
 public class LoginHelper {
     public static void doLogin(LoginUser loginUser) {
@@ -37,7 +36,7 @@ public class LoginHelper {
 
         LoginLogService loginLogService = SpringUtil.getBean(LoginLogService.class);
         // 记录登录日志
-        loginLogService.create(loginUser.getUsername(), info.ip(), info.userAgent(), "SUCCESS", null);
+        loginLogService.asyncLog(loginUser.getUsername(), info.ip(), info.userAgent(), "SUCCESS", null);
     }
 
     /**

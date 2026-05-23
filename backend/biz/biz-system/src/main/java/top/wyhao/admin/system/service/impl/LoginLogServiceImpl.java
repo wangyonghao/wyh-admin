@@ -33,7 +33,7 @@ import java.util.List;
 /**
  * 登录日志 Service 实现
  *
- * @author Yonghao Wang
+
  * @since 2026/05/08
  */
 @Slf4j
@@ -45,7 +45,7 @@ public class LoginLogServiceImpl implements LoginLogService {
 
     @Async
     @Override
-    public void create(String username, String ipAddress, String userAgent, String loginStatus, String failureReason) {
+    public void asyncLog(String username, String ipAddress, String userAgent, String loginStatus, String failureReason) {
         try {
             SysLoginLog loginLog = new SysLoginLog();
             loginLog.setUsername(username);
@@ -57,8 +57,7 @@ public class LoginLogServiceImpl implements LoginLogService {
             loginLog.setDeviceType(LoginDeviceEnum.WEB.getValue());
 
             // 解析地理位置
-            String location = parseLocation(ipAddress);
-            loginLog.setLocation(location);
+            loginLog.setLocation(parseLocation(ipAddress));
 
             // 解析User-Agent
             if (CharSequenceUtil.isNotBlank(userAgent)) {
@@ -101,7 +100,7 @@ public class LoginLogServiceImpl implements LoginLogService {
     }
 
     @Override
-    public LoginLogResult get(Long id) {
+    public LoginLogResult detail(Long id) {
         SysLoginLog loginLog = loginLogMapper.selectById(id);
         BizAssert.throwIfNotExists(loginLog, "SysLoginLog", "ID", id);
         return BeanUtil.copyProperties(loginLog, LoginLogResult.class);

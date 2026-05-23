@@ -10,7 +10,7 @@ import top.wyhao.admin.system.model.query.RoleQuery;
 import top.wyhao.admin.system.model.query.RoleUserQuery;
 import top.wyhao.admin.system.model.vo.MenuVO;
 import top.wyhao.admin.system.model.vo.role.RoleDetailResult;
-import top.wyhao.admin.system.model.vo.role.RoleResp;
+import top.wyhao.admin.system.model.vo.role.RoleResult;
 import top.wyhao.admin.system.model.vo.role.RoleUserResult;
 import top.wyhao.starter.web.core.model.PageQuery;
 import top.wyhao.starter.web.core.model.PageResult;
@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * 角色业务接口
  *
- * @author Charles7c
+
  * @since 2023/2/8 23:15
  */
 public interface RoleService {
@@ -33,7 +33,7 @@ public interface RoleService {
      * @param pageQuery 分页查询条件
      * @return 分页列表信息
      */
-    PageResult<RoleResp> page(@Valid RoleQuery query, @Valid PageQuery pageQuery);
+    PageResult<RoleResult> page(@Valid RoleQuery query, @Valid PageQuery pageQuery);
 
     /**
      * 查询列表
@@ -42,7 +42,7 @@ public interface RoleService {
      * @param sortQuery 排序查询条件
      * @return 列表信息
      */
-    List<RoleResp> list(@Valid RoleQuery query, @Valid SortQuery sortQuery);
+    List<RoleResult> list(@Valid RoleQuery query, @Valid SortQuery sortQuery);
 
     /**
      * 查询详情

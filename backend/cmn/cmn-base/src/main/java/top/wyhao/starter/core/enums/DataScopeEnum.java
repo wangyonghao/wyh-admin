@@ -9,7 +9,7 @@ import top.wyhao.starter.core.enums.BaseEnum;
 /**
  * 数据权限枚举
  *
- * @author Charles7c
+
  * @since 2023/2/8 22:58
  */
 @Getter

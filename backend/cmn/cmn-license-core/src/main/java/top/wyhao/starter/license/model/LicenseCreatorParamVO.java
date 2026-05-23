@@ -21,7 +21,7 @@ import java.util.Date;
 /**
  * 为用户生成证书需要的具体参数
  *
- * @author loach
+
  * @since 2.12.0
  */
 public class LicenseCreatorParamVO {

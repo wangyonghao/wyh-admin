@@ -10,7 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import top.wyhao.common.security.util.LoginUtil;
 import top.wyhao.starter.core.model.LoginUser;
-import top.wyhao.starter.core.model.R;
+import top.wyhao.starter.core.model.Result;
 import top.wyhao.starter.tenant.context.TenantContextHolder;
 import top.wyhao.starter.web.http.ServletUtils;
 import top.wyhao.starter.web.json.util.JSONUtils;
@@ -18,7 +18,7 @@ import top.wyhao.starter.web.json.util.JSONUtils;
 /**
  * Sa-Token 扩展拦截器
  *
- * @author Charles7c
+
  * @since 2024/10/10 20:25
  */
 @Slf4j
@@ -42,8 +42,8 @@ public class SaExtensionInterceptor extends SaInterceptor {
             return true;
         }
         if (!loginUser.getTenantId().equals(TenantContextHolder.getTenantId())) {
-            R<Void> r = R.fail(String.valueOf(HttpStatus.FORBIDDEN.value()), "您当前没有访问该租户的权限");
-            ServletUtils.writeJSON(response, JSONUtils.toJsonStr(r));
+            Result<Void> result = Result.fail(String.valueOf(HttpStatus.FORBIDDEN.value()), "您当前没有访问该租户的权限");
+            ServletUtils.writeJSON(response, JSONUtils.toJsonStr(result));
             return false;
         }
 

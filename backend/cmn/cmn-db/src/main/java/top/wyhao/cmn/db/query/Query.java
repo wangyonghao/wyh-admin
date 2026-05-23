@@ -6,8 +6,8 @@ import java.lang.annotation.*;
 /**
  * 查询注解
  *
- * @author Charles7c
- * @author Jasmine
+
+
  * @since 1.0.0
  */
 @Target(ElementType.FIELD)

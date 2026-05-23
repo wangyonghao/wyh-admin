@@ -6,8 +6,8 @@ import top.wyhao.starter.core.model.TenantBO;
 /**
  * 租户数据 API
  * 
- * @author 小熊
- * @author Charles7c
+
+
  * @since 2024/12/2 20:08
  */
 public interface TenantDataApi {

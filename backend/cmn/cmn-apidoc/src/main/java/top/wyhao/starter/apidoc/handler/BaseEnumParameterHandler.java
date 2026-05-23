@@ -28,7 +28,7 @@ import java.util.List;
  * 针对实现了 BaseEnum 的枚举，优化其枚举值和描述展示
  * </p>
  *
- * @author echo
+
  * @since 2.5.2
  */
 public class BaseEnumParameterHandler extends ModelResolver implements ParameterCustomizer {

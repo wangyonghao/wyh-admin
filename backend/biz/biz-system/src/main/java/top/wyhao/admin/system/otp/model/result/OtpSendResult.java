@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 /**
  * 发送 OTP 验证码响应
  *
- * @author wyhao
+
  */
 @Data
 @Builder

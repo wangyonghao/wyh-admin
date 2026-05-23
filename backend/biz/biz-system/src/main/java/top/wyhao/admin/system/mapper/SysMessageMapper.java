@@ -7,8 +7,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import top.wyhao.admin.system.entity.SysMessage;
 import top.wyhao.admin.system.model.query.MessageQuery;
-import top.wyhao.admin.system.model.vo.message.MessageDetailResp;
-import top.wyhao.admin.system.model.vo.message.MessageResp;
+import top.wyhao.admin.system.model.vo.message.MessageDetailResult;
+import top.wyhao.admin.system.model.vo.message.MessageResult;
 import top.wyhao.cmn.db.model.BaseMapper;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * 消息 Mapper
  *
- * @author Bull-BCLS
+
  * @since 2023/10/15 19:05
  */
 @Mapper
@@ -29,7 +29,7 @@ public interface SysMessageMapper extends BaseMapper<SysMessage> {
      * @param query 查询条件
      * @return 消息列表
      */
-    IPage<MessageResp> selectMessagePage(@Param("page") Page<SysMessage> page, @Param("query") MessageQuery query);
+    IPage<MessageResult> selectMessagePage(@Param("page") Page<SysMessage> page, @Param("query") MessageQuery query);
 
     /**
      * 查询消息详情
@@ -37,7 +37,7 @@ public interface SysMessageMapper extends BaseMapper<SysMessage> {
      * @param id ID
      * @return 消息详情
      */
-    MessageDetailResp selectMessageById(@Param("id") Long id);
+    MessageDetailResult selectMessageById(@Param("id") Long id);
 
     /**
      * 查询未读消息列表

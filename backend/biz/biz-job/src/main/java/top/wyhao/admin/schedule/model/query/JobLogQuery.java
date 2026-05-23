@@ -12,8 +12,7 @@ import java.time.LocalDateTime;
 
 /**
  * 任务日志查询条件
- *
- * @author KAI
+
  * @since 2024/6/27 23:58
  */
 @Data
@@ -32,7 +31,7 @@ public class JobLogQuery extends JobPageQuery {
     /**
      * 任务组
      */
-    @Schema(description = "任务组", example = "continew-admin")
+    @Schema(description = "任务组", example = "tide-admin")
     private String groupName;
 
     /**

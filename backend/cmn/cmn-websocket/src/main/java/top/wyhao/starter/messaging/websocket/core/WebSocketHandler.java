@@ -16,8 +16,8 @@ import java.io.IOException;
 /**
  * WebSocket 处理器
  *
- * @author WeiRan
- * @author Charles7c
+
+
  * @since 2.1.0
  */
 public class WebSocketHandler extends TextWebSocketHandler {

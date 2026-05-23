@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 /**
  * 限流器名称生成器
  *
- * @author Charles7c
+
  * @since 2.2.0
  */
 public interface RateLimiterNameGenerator {

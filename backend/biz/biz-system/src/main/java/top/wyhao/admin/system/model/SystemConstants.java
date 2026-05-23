@@ -4,7 +4,7 @@ package top.wyhao.admin.system.model;
 /**
  * 系统管理相关常量
  *
- * @author Charles7c
+
  * @since 2025/7/26 12:05
  */
 public class SystemConstants {

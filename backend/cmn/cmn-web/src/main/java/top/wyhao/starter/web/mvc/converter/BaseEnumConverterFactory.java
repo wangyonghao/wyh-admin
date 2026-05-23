@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * BaseEnum 参数转换器工厂
  *
- * @author Charles7c
+
  * @since 2.4.0
  */
 public class BaseEnumConverterFactory implements ConverterFactory<String, BaseEnum> {

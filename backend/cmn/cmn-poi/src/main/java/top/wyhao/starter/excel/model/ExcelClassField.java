@@ -21,7 +21,7 @@ import java.util.LinkedHashMap;
 /**
  * Excel 字段信息
  *
- * @author jiang4yu
+
  * @since 2.13.0
  */
 public class ExcelClassField {

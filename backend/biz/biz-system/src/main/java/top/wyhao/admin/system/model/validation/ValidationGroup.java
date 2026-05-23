@@ -6,7 +6,7 @@ import jakarta.validation.groups.Default;
 /**
  * 分组校验
  *
- * @author Charles7c
+
  * @since 2024/7/3 22:01
  */
 public interface ValidationGroup extends Default {

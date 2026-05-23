@@ -10,7 +10,7 @@ import top.wyhao.admin.system.service.LoginLogService;
 /**
  * 登录日志清理定时任务
  *
- * @author WYH Admin
+
  * @since 2026/05/08
  */
 @Component

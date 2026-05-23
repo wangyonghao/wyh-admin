@@ -12,7 +12,7 @@ import java.io.Serializable;
 /**
  * 参数响应参数
  *
- * @author Bull-BCLS
+
  * @since 2023/8/26 19:38
  */
 @Data
@@ -43,7 +43,7 @@ public class SettingsResult implements Serializable {
     /**
      * 值
      */
-    @Schema(description = "值", example = "ContiNew Admin")
+    @Schema(description = "值", example = "Tide Admin")
     private String value;
 
     /**

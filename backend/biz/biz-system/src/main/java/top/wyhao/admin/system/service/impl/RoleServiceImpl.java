@@ -19,18 +19,18 @@ import org.springframework.transaction.annotation.Transactional;
 import top.wyhao.admin.system.entity.SysMenu;
 import top.wyhao.admin.system.entity.SysRole;
 import top.wyhao.admin.system.entity.SysUserRole;
-import top.wyhao.admin.system.entity.user.SysUser;
+import top.wyhao.admin.system.entity.SysUser;
 import top.wyhao.admin.system.mapper.SysMenuMapper;
 import top.wyhao.admin.system.mapper.SysRoleMapper;
 import top.wyhao.admin.system.mapper.SysUserRoleMapper;
-import top.wyhao.admin.system.mapper.user.SysUserMapper;
+import top.wyhao.admin.system.mapper.SysUserMapper;
 import top.wyhao.admin.system.model.bo.RolePermissionUpdateRequest;
 import top.wyhao.admin.system.model.bo.RoleRequest;
 import top.wyhao.admin.system.model.query.RoleQuery;
 import top.wyhao.admin.system.model.query.RoleUserQuery;
 import top.wyhao.admin.system.model.vo.MenuVO;
 import top.wyhao.admin.system.model.vo.role.RoleDetailResult;
-import top.wyhao.admin.system.model.vo.role.RoleResp;
+import top.wyhao.admin.system.model.vo.role.RoleResult;
 import top.wyhao.admin.system.model.vo.role.RoleUserResult;
 import top.wyhao.admin.system.service.RoleDeptService;
 import top.wyhao.admin.system.service.RoleMenuService;
@@ -72,14 +72,14 @@ public class RoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impleme
     private final SysRoleMapper roleMapper;
 
     @Override
-    public PageResult<RoleResp> page(RoleQuery query, PageQuery pageQuery) {
+    public PageResult<RoleResult> page(RoleQuery query, PageQuery pageQuery) {
         QueryWrapper<SysRole> wrapper = QueryWrapperUtil.build(query, query.getSort());
         IPage<SysRole> page = roleMapper.selectPage(new Page<>(pageQuery.getPage(), pageQuery.getSize()), wrapper);
-        return PageResult.build(page, RoleResp.class);
+        return PageResult.build(page, RoleResult.class);
     }
 
     @Override
-    public List<RoleResp> list(RoleQuery query, SortQuery sortQuery) {
+    public List<RoleResult> list(RoleQuery query, SortQuery sortQuery) {
         QueryWrapper<SysRole> wrapper = QueryWrapperUtil.build(query, sortQuery.getSort());
         List<SysRole> entities = roleMapper.selectList(wrapper);
         return entities.stream()
@@ -175,9 +175,9 @@ public class RoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impleme
     @Override
     public void export(RoleQuery query, SortQuery sortQuery, HttpServletResponse response) {
         // 实现导出逻辑
-        List<RoleResp> list = list(query, sortQuery);
+        List<RoleResult> list = list(query, sortQuery);
         // 使用Excel工具导出数据到response
-        ExcelUtils.export(list, "角色数据", RoleResp.class, response);
+        ExcelUtils.export(list, "角色数据", RoleResult.class, response);
     }
 
     @Override
@@ -328,8 +328,8 @@ public class RoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impleme
         userRoleMapper.lambdaUpdate().eq(SysUserRole::getRoleId, roleId).in(SysUserRole::getUserId, userIds).remove();
     }
 
-    private RoleResp convertToRoleResp(SysRole entity) {
-        RoleResp resp = new RoleResp();
+    private RoleResult convertToRoleResp(SysRole entity) {
+        RoleResult resp = new RoleResult();
         resp.setId(entity.getId());
         resp.setName(entity.getName());
         resp.setCode(entity.getCode());

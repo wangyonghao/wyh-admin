@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * 全局描述定制器 - 处理 sa-token 的注解权限码
  *
- * @author echo
+
  * @since 2025/1/24 14:59
  */
 @Slf4j

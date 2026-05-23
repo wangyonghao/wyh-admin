@@ -24,8 +24,8 @@ import java.lang.annotation.*;
 /**
  * 敏感词注解
  *
- * @author luoqiz
- * @author Charles7c
+
+
  * @since 2.9.0
  */
 @Target({ElementType.FIELD, ElementType.CONSTRUCTOR, ElementType.PARAMETER, ElementType.TYPE_USE})

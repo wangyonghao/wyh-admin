@@ -13,9 +13,8 @@ import java.io.Serializable;
 
 /**
  * 任务创建或修改请求参数
- *
- * @author KAI
- * @author Charles7c
+
+
  * @since 2024/6/25 16:40
  */
 @Data
@@ -28,7 +27,7 @@ public class JobReq implements Serializable {
     /**
      * 任务组
      */
-    @Schema(description = "任务组", example = "continew-admin")
+    @Schema(description = "任务组", example = "tide-admin")
     @NotBlank(message = "任务组不能为空")
     private String groupName;
 

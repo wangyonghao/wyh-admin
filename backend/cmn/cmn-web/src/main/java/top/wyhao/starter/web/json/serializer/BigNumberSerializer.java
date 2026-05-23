@@ -14,7 +14,7 @@ import java.io.IOException;
  * 将 JS 取值范围之外的数值转换为字符串
  * </p>
  *
- * @author Charles7c
+
  * @since 1.0.0
  */
 @JacksonStdImpl

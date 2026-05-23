@@ -16,7 +16,7 @@ import java.util.Objects;
  *
  * @see ObjectMapper
  *
- * @author echo
+
  * @since 2.11.0
  */
 public class JSONBuilder {

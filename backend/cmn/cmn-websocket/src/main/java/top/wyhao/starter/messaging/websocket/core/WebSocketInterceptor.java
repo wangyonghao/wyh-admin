@@ -13,8 +13,8 @@ import java.util.Map;
 /**
  * WebSocket 拦截器
  *
- * @author WeiRan
- * @author Charles7c
+
+
  * @since 2.1.0
  */
 public class WebSocketInterceptor extends HttpSessionHandshakeInterceptor {

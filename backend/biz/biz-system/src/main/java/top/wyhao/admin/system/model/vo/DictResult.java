@@ -10,7 +10,7 @@ import java.util.Map;
 /**
  * 字典响应参数
  *
- * @author Yonghao Wang
+
  * @since 2026/5/13
  */
 @Data

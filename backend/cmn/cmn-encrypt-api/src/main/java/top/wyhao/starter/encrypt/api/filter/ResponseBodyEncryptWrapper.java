@@ -34,7 +34,7 @@ import java.io.PrintWriter;
 /**
  * 响应体加密包装类
  *
- * @author lishuyan
+
  * @since 2.14.0
  */
 public class ResponseBodyEncryptWrapper extends HttpServletResponseWrapper {

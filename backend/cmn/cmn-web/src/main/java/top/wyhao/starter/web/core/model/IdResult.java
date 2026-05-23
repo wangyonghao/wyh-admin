@@ -8,7 +8,7 @@ import java.io.Serializable;
 /**
  * ID 响应参数
  *
- * @author Charles7c
+
  * @since 2.5.0
  */
 public class IdResult<T> {

@@ -13,7 +13,7 @@ import java.util.Collection;
 
 /**
  * 通用 Mapper
- * @author Yonghao Wang
+
  */
 public interface BaseMapper<T> extends com.baomidou.mybatisplus.core.mapper.BaseMapper<T> {
 

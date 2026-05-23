@@ -8,7 +8,7 @@ import top.wyhao.starter.core.enums.BaseEnum;
 /**
  * 菜单类型枚举
  *
- * @author Charles7c
+
  * @since 2023/2/15 20:12
  */
 @Getter

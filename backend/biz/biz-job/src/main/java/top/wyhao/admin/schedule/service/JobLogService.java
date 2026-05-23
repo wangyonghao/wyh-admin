@@ -7,9 +7,8 @@ import top.wyhao.starter.web.core.model.PageResult;
 
 /**
  * 任务日志业务接口
- *
- * @author KAI
- * @author Charles7c
+
+
  * @since 2024/6/27 22:52
  */
 public interface JobLogService {

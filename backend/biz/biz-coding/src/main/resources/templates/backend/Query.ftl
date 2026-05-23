@@ -23,7 +23,7 @@ import java.math.BigDecimal;
 /**
  * ${businessName}查询条件
  *
- * @author ${author}
+
  * @since ${datetime}
  */
 @Data

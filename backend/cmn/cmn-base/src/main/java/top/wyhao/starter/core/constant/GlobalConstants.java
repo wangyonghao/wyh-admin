@@ -4,7 +4,7 @@ package top.wyhao.starter.core.constant;
 /**
  * 全局常量
  *
- * @author Charles7c
+
  * @since 2023/2/9 22:11
  */
 public class GlobalConstants {

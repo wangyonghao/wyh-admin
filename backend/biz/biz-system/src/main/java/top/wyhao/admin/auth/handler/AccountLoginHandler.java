@@ -12,7 +12,7 @@ import top.wyhao.admin.auth.LoginHelper;
 import top.wyhao.admin.auth.model.AccountLoginRequest;
 import top.wyhao.admin.auth.model.LoginResult;
 import top.wyhao.admin.system.entity.SysDept;
-import top.wyhao.admin.system.entity.user.SysUser;
+import top.wyhao.admin.system.entity.SysUser;
 import top.wyhao.admin.system.model.vo.config.LoginConfigVO;
 import top.wyhao.admin.system.service.*;
 import top.wyhao.starter.cache.redisson.util.RedisUtils;
@@ -30,21 +30,18 @@ import java.util.Objects;
 
 /**
  * 账号登录处理器
- *
- * @author KAI
- * @author Charles7c
- * @since 2024/12/22 14:58
+
+ * @since 2025/5/18
  */
 @Component
 @RequiredArgsConstructor
 public class AccountLoginHandler implements LoginHandler<AccountLoginRequest> {
 
-    private static final String LOGIN_RETRY_KEY = "login:retry:";
+    private static final String RETRY_KEY_PREFIX = "login:retry:";
     private static final String CAPTCHA_KEY = "login:captcha:";
 
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
-    private final OperationLogService operationLogService;
     private final LoginLogService loginLogService;
     private final DeptService deptService;
     private final ConfigService configService;
@@ -61,7 +58,7 @@ public class AccountLoginHandler implements LoginHandler<AccountLoginRequest> {
             validateCaptcha(req);
 
             // 2. 重试次数检查
-            String retryKey = LOGIN_RETRY_KEY + req.getUsername() + ":" + ip;
+            String retryKey = RETRY_KEY_PREFIX + req.getUsername() + ":" + ip;
             checkRetryLimit(retryKey);
 
             // 3. 用户验证
@@ -70,7 +67,7 @@ public class AccountLoginHandler implements LoginHandler<AccountLoginRequest> {
             if (Objects.isNull(user)) {
                 incrementRetry(retryKey);
                 // 记录登录失败日志
-                loginLogService.create(req.getUsername(), ip, userAgent, "FAILURE", "用户不存在");
+                loginLogService.asyncLog(req.getUsername(), ip, userAgent, "FAILURE", "用户不存在");
                 // 防止用户名探测，统一提示：用户名或密码错误
                 throw new BusinessException("USERNAME_PASSWORD_ERROR", "用户名或密码错误");
             }
@@ -82,7 +79,7 @@ public class AccountLoginHandler implements LoginHandler<AccountLoginRequest> {
                 int remaining = loginConfig.getMaxRetry() - getRetryCount(retryKey);
                 String msg = remaining > 0 ? "用户名或密码错误，还剩" + remaining + "次机会" : "用户名或密码错误，账号已锁定";
                 // 记录登录失败日志
-                loginLogService.create(req.getUsername(), ip, userAgent, "FAILURE", "密码错误");
+                loginLogService.asyncLog(req.getUsername(), ip, userAgent, "FAILURE", "密码错误");
                 throw new BusinessException("USERNAME_PASSWORD_ERROR", msg);
             } else {
                 // 如账号密码匹配，清除错误次数
@@ -93,10 +90,10 @@ public class AccountLoginHandler implements LoginHandler<AccountLoginRequest> {
             checkUserStatus(user);
 
             // 6. 密码过期时，强制用户修改密码
-            if (user.getPwdExpireDate() != null && LocalDate.now().isAfter(user.getPwdExpireDate())) {
+            if (user.getPwdExpireDate() != null && user.getPwdExpireDate().isBefore(LocalDate.now())) {
                 String tempToken = SaTempUtil.createToken(user.getId(), 600); // 10分钟
                 // 记录登录失败日志（密码过期）
-                loginLogService.create(req.getUsername(), ip, userAgent, "FAILURE", "密码已过期");
+                loginLogService.asyncLog(req.getUsername(), ip, userAgent, "FAILURE", "密码已过期");
                 return LoginResult.builder().code("PASSWORD_EXPIRED").token(tempToken).build();
             }
 
@@ -113,12 +110,12 @@ public class AccountLoginHandler implements LoginHandler<AccountLoginRequest> {
         } catch (BusinessException e) {
             // 如果是业务异常且还没记录日志，记录失败日志
             if (!"USERNAME_PASSWORD_ERROR".equals(e.getCode())) {
-                loginLogService.create(req.getUsername(), ip, userAgent, "FAILURE", e.getMessage());
+                loginLogService.asyncLog(req.getUsername(), ip, userAgent, "FAILURE", e.getMessage());
             }
             throw e;
         } catch (Exception e) {
             // 其他异常也记录失败日志
-            loginLogService.create(req.getUsername(), ip, userAgent, "FAILURE", "系统异常: " + e.getMessage());
+            loginLogService.asyncLog(req.getUsername(), ip, userAgent, "FAILURE", "系统异常: " + e.getMessage());
             throw e;
         }
     }

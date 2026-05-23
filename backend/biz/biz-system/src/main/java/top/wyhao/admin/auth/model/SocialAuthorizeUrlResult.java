@@ -8,7 +8,7 @@ import lombok.Data;
 /**
  * 三方账号授权认证响应参数
  *
- * @author Charles7c
+
  * @since 2024/3/6 22:26
  */
 @Data

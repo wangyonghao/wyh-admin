@@ -9,7 +9,7 @@ import java.time.Duration;
 /**
  * 默认 State 缓存 Redis 实现
  *
- * @author Charles7c
+
  * @since 1.0.0
  */
 public class AuthStateCacheRedisDefaultImpl implements AuthStateCache {

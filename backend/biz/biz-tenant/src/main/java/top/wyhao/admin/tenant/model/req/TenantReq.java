@@ -19,8 +19,8 @@ import java.time.LocalDateTime;
 /**
  * 租户创建或修改请求参数
  *
- * @author 小熊
- * @author Charles7c
+
+
  * @since 2024/11/26 17:20
  */
 @Data
@@ -41,7 +41,7 @@ public class TenantReq implements Serializable {
     /**
      * 域名
      */
-    @Schema(description = "域名", example = "https://T0sL6RWv0vFh.continew.top/")
+    @Schema(description = "域名", example = "https://T0sL6RWv0vFh.wyhao.top/")
     @Length(max = 255, message = "域名长度不能超过 {max} 个字符")
     @Pattern(regexp = RegexConstants.HTTP_HOST, message = "域名格式不正确")
     private String domain;

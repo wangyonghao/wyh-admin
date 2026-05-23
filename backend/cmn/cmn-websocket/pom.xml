@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
-    <description>ContiNew Starter 消息模块 - WebSocket</description>
+    <description>Tide Starter 消息模块 - WebSocket</description>
 
     <dependencies>
         <!-- WebSocket 支持 -->

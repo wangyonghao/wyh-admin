@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * 字典业务 API
  *
- * @author Charles7c
+
  * @since 2025/4/9 20:17
  */
 public interface DictApi {

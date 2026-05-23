@@ -13,30 +13,50 @@ import top.wyhao.admin.system.otp.model.request.OtpVerifyRequest;
 import top.wyhao.admin.system.otp.model.result.OtpSendResult;
 import top.wyhao.admin.system.otp.model.result.OtpVerifyResult;
 import top.wyhao.admin.system.otp.service.OtpService;
+import top.wyhao.starter.web.ratelimit.LimitType;
+import top.wyhao.starter.web.ratelimit.RateLimiter;
+import top.wyhao.starter.web.ratelimit.RateLimiters;
+
+import java.util.concurrent.TimeUnit;
 
 /**
- * OTP 验证码 API
+ * OTP(One-Time Password) 验证码 API
+ * 使用场景：用户注册/安全登录/找回密码/手机绑定/身份验证/支付认证
  * 解决“凭证安全/防冒充”问题
  *
  *
- * @author wyhao
+
  */
 @Tag(name = "OTP 验证码")
 @RestController
-@RequestMapping("/api/v1/otp")
+@RequestMapping("")
 @RequiredArgsConstructor
 public class OtpController {
+    private static final String OTP_KEY_PREFIX = "otp:captcha:";
 
     private final OtpService otpService;
 
     @Operation(summary = "发送验证码", description = "发送邮件或短信验证码")
-    @PostMapping("/send")
-    public OtpSendResult send(@Valid @RequestBody OtpSendRequest req) {
-        return otpService.send(req);
+    @RateLimiters({
+            @RateLimiter(name = OTP_KEY_PREFIX + "MIN", key = "#req + ':' + T(cn.hutool.extra.spring.SpringUtil).getProperty('captcha.sms.templateId')", rate = 2, interval = 1, unit = TimeUnit.MINUTES, message = "获取验证码操作太频繁，请稍后再试"),
+            @RateLimiter(name = OTP_KEY_PREFIX + "HOUR", key = "#phone + ':' + T(cn.hutool.extra.spring.SpringUtil).getProperty('captcha.sms.templateId')", rate = 8, interval = 1, unit = TimeUnit.HOURS, message = "获取验证码操作太频繁，请稍后再试"),
+            @RateLimiter(name = OTP_KEY_PREFIX + "DAY'", key = "#phone + ':' + T(cn.hutool.extra.spring.SpringUtil).getProperty('captcha.sms.templateId')", rate = 20, interval = 24, unit = TimeUnit.HOURS, message = "获取验证码操作太频繁，请稍后再试"),
+            @RateLimiter(name = OTP_KEY_PREFIX, key = "#phone", rate = 100, interval = 24, unit = TimeUnit.HOURS, message = "获取验证码操作太频繁，请稍后再试"),
+            @RateLimiter(name = OTP_KEY_PREFIX, key = "#phone", rate = 30, interval = 1, unit = TimeUnit.MINUTES, type = LimitType.IP, message = "获取验证码操作太频繁，请稍后再试")})
+
+    @PostMapping("/v1/otp/mail/send")
+    public OtpSendResult sendByMail(@Valid @RequestBody OtpSendRequest req) {
+        return otpService.sendByMail(req);
     }
 
+    @PostMapping("/v1/otp/sms/send")
+    public OtpSendResult sendBySms(@Valid @RequestBody OtpSendRequest req) {
+        return otpService.sendBySms(req);
+    }
+
+
     @Operation(summary = "验证验证码", description = "验证用户输入的验证码")
-    @PostMapping("/verify")
+    @PostMapping("/v1/otp/verify")
     public OtpVerifyResult verify(@Valid @RequestBody OtpVerifyRequest req) {
         return otpService.verify(req);
     }

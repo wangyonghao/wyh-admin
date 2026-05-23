@@ -11,7 +11,7 @@ import top.wyhao.starter.web.core.model.SortQuery;
 /**
  * 部门查询条件
  *
- * @author Charles7c
+
  * @since 2023/1/22 17:52
  */
 @Data

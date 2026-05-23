@@ -4,7 +4,7 @@ package top.wyhao.cmn.db.datapermission.exception;
 /**
  * 数据权限异常
  *
- * @author Charles7c
+
  * @since 2.13.2
  */
 public class DataPermissionException extends RuntimeException {

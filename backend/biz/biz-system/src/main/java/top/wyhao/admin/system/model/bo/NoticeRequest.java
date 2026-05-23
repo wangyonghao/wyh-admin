@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * 公告创建或修改请求参数
  *
- * @author Charles7c
+
  * @since 2023/8/20 10:55
  */
 @Data

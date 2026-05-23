@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * OTP 配置属性
  *
- * @author wyhao
+
  */
 @Data
 @Component

@@ -22,8 +22,7 @@ import java.util.List;
 
 /**
  * 应用管理 API
- *
- * @author Charles7c
+
  * @since 2023/12/24 22:56
  */
 @Tag(name = "应用管理 API")

@@ -30,7 +30,7 @@ import java.nio.file.Paths;
 /**
  * 证书安装业务类
  *
- * @author loach
+
  * @since 1.2.0
  */
 public class LicenseInstallerBean {

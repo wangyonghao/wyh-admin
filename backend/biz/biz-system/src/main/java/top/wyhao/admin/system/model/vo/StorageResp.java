@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 /**
  * 存储响应参数
  *
- * @author Charles7c
+
  * @since 2023/12/26 22:09
  */
 @Data
@@ -112,7 +112,7 @@ public class StorageResp implements Serializable {
     /**
      * Bucket/存储路径
      */
-    @Schema(description = "Bucket/存储路径", example = "C:/continew-admin/data/file/")
+    @Schema(description = "Bucket/存储路径", example = "C:/tide-admin/data/file/")
     private String bucketName;
 
     /**

@@ -39,7 +39,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * MyBatis Plus 自动配置
  *
- * @author Charles7c
+
  * @since 1.0.0
  */
 @AutoConfiguration

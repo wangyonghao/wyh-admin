@@ -2,14 +2,14 @@
 package top.wyhao.admin.system.service;
 
 import me.zhyd.oauth.model.AuthUser;
-import top.wyhao.admin.system.entity.user.SysUserSocial;
+import top.wyhao.admin.system.entity.SysUserSocial;
 
 import java.util.List;
 
 /**
  * 用户社会化关联业务接口
  *
- * @author Charles7c
+
  * @since 2023/10/11 22:10
  */
 public interface UserSocialService {

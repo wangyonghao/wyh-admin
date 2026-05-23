@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 /**
  * 角色和菜单实体
  *
- * @author Charles7c
+
  * @since 2023/2/15 20:20
  */
 @Data

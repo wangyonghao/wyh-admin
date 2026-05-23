@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 /**
  * 验证码配置属性
  *
- * @author Charles7c
+
  * @since 2022/12/11 13:35
  */
 @Data

@@ -7,7 +7,7 @@ import com.wf.captcha.base.Captcha;
 /**
  * 图形验证码类型枚举
  *
- * @author Charles7c
+
  * @since 1.0.0
  */
 public enum GraphicCaptchaType {

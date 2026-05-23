@@ -4,7 +4,7 @@ package top.wyhao.starter.core.constant;
 /**
  * UI 相关常量
  *
- * @author Charles7c
+
  * @since 2023/9/17 14:12
  */
 public class UiConstants {

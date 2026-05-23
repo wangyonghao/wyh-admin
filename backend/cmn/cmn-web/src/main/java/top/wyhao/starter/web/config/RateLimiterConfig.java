@@ -20,7 +20,7 @@ import top.wyhao.starter.web.ratelimit.RateLimiterNameGenerator;
 /**
  * 限流器自动配置
  *
- * @author Yonghao Wang
+
  */
 @AutoConfiguration(after = RedissonAutoConfiguration.class)
 @EnableConfigurationProperties(RateLimiterConfig.RateLimiterProperties.class)

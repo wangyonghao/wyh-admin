@@ -11,9 +11,8 @@ import java.io.Serializable;
 
 /**
  * 任务状态修改请求参数
- *
- * @author KAI
- * @author Charles7c
+
+
  * @since 2024/6/27 9:24
  */
 @Data

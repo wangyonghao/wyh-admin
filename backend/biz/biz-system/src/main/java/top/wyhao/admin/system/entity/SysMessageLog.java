@@ -11,8 +11,8 @@ import java.time.LocalDateTime;
 /**
  * 消息日志实体
  *
- * @author Charles7c
- * @author Bull-BCLS
+
+
  * @since 2023/10/15 20:25
  */
 @Data

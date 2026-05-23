@@ -5,7 +5,7 @@ import java.security.SecureRandom;
 /**
  * OTP 验证码生成器
  *
- * @author wyhao
+
  */
 public class OtpCodeGenerator {
 

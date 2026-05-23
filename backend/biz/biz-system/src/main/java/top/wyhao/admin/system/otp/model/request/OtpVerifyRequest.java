@@ -8,7 +8,7 @@ import lombok.Data;
 /**
  * 验证 OTP 验证码请求
  *
- * @author wyhao
+
  */
 @Data
 @Schema(description = "验证 OTP 验证码请求")

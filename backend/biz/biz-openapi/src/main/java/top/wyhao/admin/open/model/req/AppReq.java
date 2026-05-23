@@ -14,9 +14,8 @@ import java.time.LocalDateTime;
 
 /**
  * 应用创建或修改请求参数
- *
- * @author chengzi
- * @author Charles7c
+
+
  * @since 2024/10/17 16:03
  */
 @Data

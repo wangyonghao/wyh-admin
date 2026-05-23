@@ -6,8 +6,8 @@ import top.wyhao.starter.encrypt.encryptor.*;
 /**
  * 加密算法枚举
  *
- * @author Charles7c
- * @author lishuyan
+
+
  * @since 1.4.0
  */
 public enum Algorithm {

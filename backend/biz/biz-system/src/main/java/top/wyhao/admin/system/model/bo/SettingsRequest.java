@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.Length;
 /**
  * 参数修改请求参数
  *
- * @author Bull-BCLS
+
  * @since 2023/8/26 19:38
  */
 @Data
@@ -34,6 +34,6 @@ public class SettingsRequest {
     /**
      * 值
      */
-    @Schema(description = "值", example = "ContiNew Admin")
+    @Schema(description = "值", example = "Tide Admin")
     private String value;
 }

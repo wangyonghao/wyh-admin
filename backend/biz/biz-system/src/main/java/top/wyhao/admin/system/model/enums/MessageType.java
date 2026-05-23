@@ -9,7 +9,7 @@ import top.wyhao.starter.core.enums.BaseEnum;
 /**
  * 消息类型枚举
  *
- * @author Charles7c
+
  * @since 2023/11/2 20:08
  */
 @Getter

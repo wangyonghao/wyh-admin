@@ -10,7 +10,7 @@ import top.wyhao.starter.encrypt.context.CryptoContext;
  * 混合加密算法，结合了 MD5 散列算法和 DES（Data Encryption Standard）加密算法
  * </p>
  *
- * @author Charles7c
+
  * @since 1.4.0
  */
 public class PbeWithMd5AndDesEncryptor extends AbstractSymmetricCryptoEncryptor {

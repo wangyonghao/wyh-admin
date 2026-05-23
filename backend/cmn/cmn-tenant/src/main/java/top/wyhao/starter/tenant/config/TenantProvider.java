@@ -6,8 +6,8 @@ import top.wyhao.starter.tenant.context.TenantContext;
 /**
  * 租户提供者
  *
- * @author Charles7c
- * @author 小熊
+
+
  * @since 2.7.0
  */
 public interface TenantProvider {

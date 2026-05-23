@@ -23,7 +23,7 @@ import java.util.List;
 /**
  * 跨域自动配置
  *
- * @author Charles7c
+
  * @since 1.0.0
  */
 @Lazy

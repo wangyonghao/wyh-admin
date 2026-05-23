@@ -2,6 +2,7 @@
 package top.wyhao.admin.system.service;
 
 import jakarta.servlet.http.HttpServletResponse;
+import top.wyhao.admin.cmn.sms.SmsConfig;
 import top.wyhao.admin.system.model.bo.ConfigRequest;
 import top.wyhao.admin.system.model.query.ConfigQuery;
 import top.wyhao.admin.system.model.vo.ConfigResult;
@@ -18,7 +19,7 @@ import java.util.List;
 /**
  * 系统配置业务
  *
- * @author Yonghao Wang
+
  * @since 2024/04/26
  */
 public interface ConfigService {
@@ -109,7 +110,7 @@ public interface ConfigService {
      *
      * @return 短信配置
      */
-    SmsConfigVO getSmsConfig();
+    SmsConfig getSmsConfig();
 
     /**
      * 更新短信配置
@@ -185,4 +186,6 @@ public interface ConfigService {
      * @param response  响应对象
      */
     void export(ConfigQuery query, SortQuery sortQuery, HttpServletResponse response);
+
+    String getSmsTemplate(String name);
 }

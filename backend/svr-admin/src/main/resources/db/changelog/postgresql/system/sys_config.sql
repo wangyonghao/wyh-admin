@@ -8,11 +8,11 @@ CREATE TABLE IF NOT EXISTS "sys_config"
     "config_key"   VARCHAR(100) NOT NULL UNIQUE,
     "config_value" JSONB,
     "description"  VARCHAR(255),
-    "create_time"   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    "update_time"   TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    "create_time"  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "update_time"  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-COMMENT ON TABLE "sys_config" IS '系统配置中心主表';
+COMMENT ON TABLE "sys_config" IS '系统配置主表';
 COMMENT ON COLUMN "sys_config"."id" IS 'ID';
 COMMENT ON COLUMN "sys_config"."config_key" IS '配置键，如 site, login, email, sms, storage, security';
 COMMENT ON COLUMN "sys_config"."config_value" IS '配置值，JSON格式存储';
@@ -52,7 +52,7 @@ VALUES
     }'::jsonb, '登录配置'),
     
     -- 邮件配置
-    ('email', '{
+    ('mail', '{
         "host": "",
         "port": 465,
         "username": "",
@@ -62,7 +62,7 @@ VALUES
     
     -- 短信配置
     ('sms', '{
-        "provider": "aliyun",
+        "supplier": "alibaba",
         "accessKey": "",
         "secretKey": "",
         "signName": ""
@@ -92,9 +92,9 @@ VALUES
 -- INSERT INTO sys_settings
 -- ("id", "category", "name", "code", "value", "default_value", "description")
 -- VALUES
---     (1, 'SITE', '系统名称', 'SITE_TITLE', NULL, 'ContiNew Admin', '显示在浏览器标题栏和登录界面的系统名称'),
+--     (1, 'SITE', '系统名称', 'SITE_TITLE', NULL, 'Tide Admin', '显示在浏览器标题栏和登录界面的系统名称'),
 --     (2, 'SITE', '系统描述', 'SITE_DESCRIPTION', NULL, '持续迭代优化的前后端分离中后台管理系统框架', '用于 SEO 的网站元描述'),
---     (3, 'SITE', '版权声明', 'SITE_COPYRIGHT', NULL, 'Copyright © 2022 - present ContiNew Admin 版权所有', '显示在页面底部的版权声明文本'),
+--     (3, 'SITE', '版权声明', 'SITE_COPYRIGHT', NULL, 'Copyright © 2022 - present Tide Admin 版权所有', '显示在页面底部的版权声明文本'),
 --     (4, 'SITE', '备案号', 'SITE_BEIAN', NULL, NULL, '工信部 ICP 备案编号（如：京ICP备12345678号）'),
 --     (5, 'SITE', '系统图标', 'SITE_FAVICON', NULL, '/favicon.ico', '浏览器标签页显示的网站图标（建议 .ico 格式）'),
 --     (6, 'SITE', '系统LOGO', 'SITE_LOGO', NULL, '/logo.svg', '显示在登录页面和系统导航栏的网站图标（建议 .svg 格式）'),

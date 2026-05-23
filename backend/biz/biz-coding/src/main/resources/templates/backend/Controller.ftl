@@ -14,7 +14,7 @@ import ${packageName}.service.${classNamePrefix}Service;
 /**
  * ${businessName}管理 API
  *
- * @author ${author}
+
  * @since ${datetime}
  */
 @Tag(name = "${businessName}管理 API")

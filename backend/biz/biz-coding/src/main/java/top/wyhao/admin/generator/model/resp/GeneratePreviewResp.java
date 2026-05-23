@@ -10,8 +10,7 @@ import java.io.Serializable;
 
 /**
  * 生成预览响应参数
- *
- * @author Charles7c
+
  * @since 2023/12/19 21:34
  */
 @Data
@@ -21,7 +20,7 @@ public class GeneratePreviewResp implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-    @Schema(description = "生成的文件路径", example = "continew-admin\\continew-admin\\continew-admin-generator\\src\\main\\java\\top\\continew\\admin\\generator\\service")
+    @Schema(description = "生成的文件路径", example = "tide-admin\\tide-admin\\tide-admin-generator\\src\\main\\java\\top\\continew\\admin\\generator\\service")
     private String path;
 
     /**

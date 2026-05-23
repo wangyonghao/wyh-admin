@@ -12,16 +12,13 @@ import java.util.List;
 /**
  * 未读消息响应参数
  *
- * @author Charles7c
+
  * @since 2023/11/2 23:00
  */
 @Data
 @Schema(description = "未读消息响应参数")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
-public class MessageUnreadResp implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class MessageUnreadResp {
 
     /**
      * 未读消息数量
@@ -33,5 +30,5 @@ public class MessageUnreadResp implements Serializable {
      * 各类型未读消息数量
      */
     @Schema(description = "各类型未读消息数量")
-    private List<MessageTypeUnreadResp> details;
+    private List<MessageUnreadResult> details;
 }

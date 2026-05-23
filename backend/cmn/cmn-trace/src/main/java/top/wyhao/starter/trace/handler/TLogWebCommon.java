@@ -30,8 +30,8 @@ import jakarta.servlet.http.HttpServletRequest;
  *
  * @see com.yomahub.tlog.web.common.TLogWebCommon
  *
- * @author Bryan.Zhang
- * @author Jasmine
+
+
  * @since 1.3.0
  */
 public class TLogWebCommon extends TLogRPCHandler {

@@ -11,7 +11,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * WebSocket 会话 DAO 默认实现
  *
- * @author Charles7c
+
  * @since 2.1.0
  */
 public class WebSocketSessionDaoDefaultImpl implements WebSocketSessionDao {

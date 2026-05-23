@@ -67,6 +67,6 @@ public class TenantAutoConfiguration {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[ContiNew Starter] - Auto Configuration 'Tenant' completed initialization.");
+        log.debug("[Tide Starter] - Auto Configuration 'Tenant' completed initialization.");
     }
 }

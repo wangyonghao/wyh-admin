@@ -11,7 +11,7 @@ import model.top.wyhao.cmn.db.IService;
 /**
  * ${businessName}业务接口
  *
- * @author ${author}
+
  * @since ${datetime}
  */
 public interface ${className} extends BaseService<${classNamePrefix}Resp, ${classNamePrefix}DetailResp, ${classNamePrefix}Query, ${classNamePrefix}Req>, IService<${classNamePrefix}DO> {}

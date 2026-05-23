@@ -8,7 +8,7 @@ import top.wyhao.starter.core.enums.BaseEnum;
 /**
  * 公告通知方式枚举
  *
- * @author Charles7c
+
  * @since 2025/5/8 21:18
  */
 @Getter

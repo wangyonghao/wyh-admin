@@ -9,7 +9,7 @@ import jakarta.validation.ConstraintValidatorContext;
 /**
  * JSON 格式字符串校验器
  *
- * @author Charles7c
+
  * @since 2.12.0
  */
 public class JsonStringValidator implements ConstraintValidator<JsonString, String> {

@@ -9,9 +9,8 @@ import top.wyhao.starter.web.core.model.SortQuery;
 
 /**
  * 应用查询条件
- *
- * @author chengzi
- * @author Charles7c
+
+
  * @since 2024/10/17 16:03
  */
 @Data

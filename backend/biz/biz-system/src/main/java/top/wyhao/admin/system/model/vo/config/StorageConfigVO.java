@@ -11,7 +11,7 @@ import java.io.Serializable;
 /**
  * 存储配置
  *
- * @author wyhao
+
  * @since 2024/04/26
  */
 @Data

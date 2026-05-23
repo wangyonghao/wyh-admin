@@ -3,18 +3,20 @@ package top.wyhao.starter.core.util;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.net.NetUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.http.HtmlUtil;
 import net.dreamlu.mica.ip2region.core.Ip2regionSearcher;
 import net.dreamlu.mica.ip2region.core.IpInfo;
 
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 /**
  * IP 工具类
  *
- * @author Charles7c
+
  * @since 1.0.0
  */
 public class IpUtils {
@@ -29,13 +31,17 @@ public class IpUtils {
      * @return IP 归属地
      */
     public static String getRegion(String ip) {
+        if (CharSequenceUtil.isBlank(ip)) {
+            return "未知地址";
+        }
         if (isInnerIpv4(ip)) {
             return "内网IP";
         }
+
         Ip2regionSearcher ip2regionSearcher = SpringUtil.getBean(Ip2regionSearcher.class);
         IpInfo ipInfo = ip2regionSearcher.memorySearch(ip);
         if (ipInfo == null) {
-            return null;
+            return "未知地址";
         }
         Set<String> regionSet = CollUtil.newLinkedHashSet(ipInfo.getCountry(), ipInfo.getRegion(), ipInfo
             .getProvince(), ipInfo.getCity(), ipInfo.getIsp());

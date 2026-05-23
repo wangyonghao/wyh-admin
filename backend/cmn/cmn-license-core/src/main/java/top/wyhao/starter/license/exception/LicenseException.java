@@ -23,8 +23,8 @@ import java.io.Serial;
 /**
  * 自定义证书认证异常
  *
- * @author loach
- * @author echo
+
+
  * @since 2.12.0
  */
 public class LicenseException extends SystemException {

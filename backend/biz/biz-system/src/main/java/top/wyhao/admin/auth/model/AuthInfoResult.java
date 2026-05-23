@@ -10,8 +10,7 @@ import java.util.List;
 
 /**
  * 用户认证信息
- *
- * @author Yonghao Wang
+
  */
 @Data
 @Schema(description = "用户认证信息")

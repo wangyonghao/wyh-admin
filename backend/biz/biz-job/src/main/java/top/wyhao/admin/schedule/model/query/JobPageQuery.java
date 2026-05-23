@@ -11,8 +11,7 @@ import java.io.Serializable;
 
 /**
  * 任务分页查询条件
- *
- * @author Charles7c
+
  * @since 2025/3/28 21:55
  */
 @Data

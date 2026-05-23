@@ -17,8 +17,8 @@ import java.util.List;
 /**
  * WebSocket 工具类
  *
- * @author WeiRan
- * @author Charles7c
+
+
  * @since 2.1.0
  */
 public class WebSocketUtils {

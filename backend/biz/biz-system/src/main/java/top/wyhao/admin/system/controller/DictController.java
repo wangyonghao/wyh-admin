@@ -16,7 +16,7 @@ import top.wyhao.admin.system.model.vo.DictResult;
 import top.wyhao.admin.system.service.DictService;
 import top.wyhao.starter.cache.redisson.util.RedisUtils;
 import top.wyhao.starter.core.constant.CacheConstants;
-import top.wyhao.starter.core.model.R;
+import top.wyhao.starter.core.model.Result;
 import top.wyhao.starter.core.util.validation.BizAssert;
 import top.wyhao.starter.web.core.model.PageQuery;
 import top.wyhao.starter.web.core.model.PageResult;
@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * 字典管理 API
  *
- * @author Charles7c
+
  * @since 2023/9/11 21:29
  */
 @Tag(name = "字典管理 API")
@@ -62,7 +62,7 @@ public class DictController {
     @Operation(summary = "新增", description = "新增")
     @SaCheckPermission("system:dict:create")
     @PostMapping
-    public R<Void> create(@Valid @RequestBody DictRequest req) {
+    public Result<Void> create(@Valid @RequestBody DictRequest req) {
         // 检查字典类型+值是否重复
         BizAssert.isTrue(dictService.lambdaQuery()
                 .eq(SysDict::getDictType, req.getDictType())
@@ -78,7 +78,7 @@ public class DictController {
         dict.setEnabled(req.getEnabled() != null ? req.getEnabled() : true);
         dict.setDescription(req.getDescription());
         dictService.save(dict);
-        return R.ok();
+        return Result.ok();
     }
 
     @Operation(summary = "修改", description = "修改")

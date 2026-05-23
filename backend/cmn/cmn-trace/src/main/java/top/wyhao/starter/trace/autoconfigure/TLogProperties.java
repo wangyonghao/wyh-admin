@@ -25,8 +25,8 @@ package top.wyhao.starter.trace.autoconfigure;
  *
  * @see com.yomahub.tlog.springboot.property.TLogProperty
  *
- * @author Bryan.Zhang
- * @author Jasmine
+
+
  * @since 1.3.0
  */
 public class TLogProperties {

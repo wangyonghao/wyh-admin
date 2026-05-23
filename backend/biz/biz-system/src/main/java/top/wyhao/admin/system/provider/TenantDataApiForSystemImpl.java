@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.wyhao.admin.system.entity.SysDept;
 import top.wyhao.admin.system.entity.SysRole;
-import top.wyhao.admin.system.entity.user.SysUser;
+import top.wyhao.admin.system.entity.SysUser;
 import top.wyhao.admin.system.mapper.*;
-import top.wyhao.admin.system.mapper.user.SysUserMapper;
-import top.wyhao.admin.system.mapper.user.SysUserPasswordHistoryMapper;
-import top.wyhao.admin.system.mapper.user.SysUserSocialMapper;
+import top.wyhao.admin.system.mapper.SysUserMapper;
+import top.wyhao.admin.system.mapper.SysUserPasswordHistoryMapper;
+import top.wyhao.admin.system.mapper.SysUserSocialMapper;
 import top.wyhao.admin.system.service.FileService;
 import top.wyhao.admin.system.service.RoleMenuService;
 import top.wyhao.admin.system.service.RoleService;
@@ -38,8 +38,8 @@ import java.util.List;
 /**
  * 租户数据 API 实现
  *
- * @author 小熊
- * @author Charles7c
+
+
  * @since 2024/12/2 20:12
  */
 @Service

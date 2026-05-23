@@ -13,8 +13,8 @@ import java.io.Serializable;
 /**
  * 短信配置查询条件
  *
- * @author luoqiz
- * @author Charles7c
+
+
  * @since 2025/03/15 18:41
  */
 @Data

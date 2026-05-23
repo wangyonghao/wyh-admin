@@ -15,7 +15,7 @@ import top.wyhao.admin.tenant.service.TenantService;
 /**
  * 公共 API
  *
- * @author Charles7c
+
  * @since 2025/7/15 20:32
  */
 @Tag(name = "公共 API")

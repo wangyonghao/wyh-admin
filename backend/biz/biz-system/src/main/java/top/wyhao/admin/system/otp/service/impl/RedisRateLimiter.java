@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Redis 限流器实现
  *
- * @author wyhao
+
  */
 @Component
 @RequiredArgsConstructor
@@ -19,11 +19,11 @@ public class RedisRateLimiter implements RateLimiter {
     private final StringRedisTemplate stringRedisTemplate;
 
     @Override
-    public boolean isAllowed(String key, int max, int window) {
+    public boolean isLimited(String key, int max, int window) {
         Long count = stringRedisTemplate.opsForValue().get(key) != null
             ? Long.parseLong(stringRedisTemplate.opsForValue().get(key))
             : 0L;
-        return count < max;
+        return count >= max;
     }
 
     @Override

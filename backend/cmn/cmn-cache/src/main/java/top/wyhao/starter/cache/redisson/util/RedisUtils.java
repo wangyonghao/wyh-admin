@@ -16,7 +16,7 @@ import java.util.function.Consumer;
 /**
  * Redis 工具类
  *
- * @author Charles7c
+
  * @since 1.0.0
  */
 public class RedisUtils {
@@ -258,7 +258,7 @@ public class RedisUtils {
      * @param key   Hash 键
      * @param field 字段
      * @param value 值
-     * @author KAI
+    
      * @since 2.13.4
      */
     public static <T> void hSet(String key, String field, T value) {
@@ -272,7 +272,7 @@ public class RedisUtils {
      * @param key   Hash 键
      * @param field 字段
      * @return 值
-     * @author KAI
+    
      * @since 2.13.4
      */
     public static <T> T hGet(String key, String field) {
@@ -285,7 +285,7 @@ public class RedisUtils {
      *
      * @param key Hash 键
      * @return Map
-     * @author KAI
+    
      * @since 2.13.4
      */
     public static <T> Map<String, T> hGetAll(String key) {
@@ -299,7 +299,7 @@ public class RedisUtils {
      * @param key   Hash 键
      * @param field 字段
      * @return true：存在；false：不存在
-     * @author KAI
+    
      * @since 2.13.4
      */
     public static boolean hExists(String key, String field) {
@@ -313,7 +313,7 @@ public class RedisUtils {
      * @param key    Hash 键
      * @param fields 字段数组
      * @return 删除成功的字段数量
-     * @author KAI
+    
      * @since 2.13.4
      */
     public static long hDel(String key, String... fields) {
@@ -516,7 +516,7 @@ public class RedisUtils {
      * @param name     主题名称
      * @param msg      发送数据
      * @param consumer 自定义处理
-     * @author lishuyan
+    
      * @since 2.13.4
      */
     public static <T> void publish(String name, T msg, Consumer<T> consumer) {
@@ -530,7 +530,7 @@ public class RedisUtils {
      *
      * @param name 主题名称
      * @param msg  发送数据
-     * @author lishuyan
+    
      * @since 2.13.4
      */
     public static <T> void publish(String name, T msg) {
@@ -544,7 +544,7 @@ public class RedisUtils {
      * @param name     主题名称
      * @param clazz    消息类型
      * @param consumer 自定义处理
-     * @author lishuyan
+    
      * @since 2.13.4
      */
     public static <T> void subscribe(String name, Class<T> clazz, Consumer<T> consumer) {

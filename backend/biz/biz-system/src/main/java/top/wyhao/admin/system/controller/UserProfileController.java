@@ -18,7 +18,7 @@ import me.zhyd.oauth.request.AuthRequest;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import top.wyhao.admin.system.entity.user.SysUserSocial;
+import top.wyhao.admin.system.entity.SysUserSocial;
 import top.wyhao.admin.system.model.bo.user.UserBasicInfoUpdateReq;
 import top.wyhao.admin.system.model.bo.user.UserEmailUpdateRequest;
 import top.wyhao.admin.system.model.bo.user.UserPasswordUpdateReq;
@@ -42,7 +42,7 @@ import java.util.List;
 /**
  * 个人信息 API
  *
- * @author Charles7c
+
  * @since 2023/1/2 11:41
  */
 @Tag(name = "个人信息 API")

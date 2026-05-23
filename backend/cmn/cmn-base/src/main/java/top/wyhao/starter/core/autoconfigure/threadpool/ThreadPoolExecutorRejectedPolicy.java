@@ -7,7 +7,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 /**
  * 线程池拒绝策略
  *
- * @author Charles7c
+
  * @since 2.2.0
  */
 public enum ThreadPoolExecutorRejectedPolicy {

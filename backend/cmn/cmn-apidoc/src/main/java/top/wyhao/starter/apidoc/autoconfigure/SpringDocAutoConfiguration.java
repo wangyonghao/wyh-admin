@@ -34,7 +34,7 @@ import java.util.Map;
 /**
  * API 文档自动配置
  *
- * @author Charles7c
+
  * @since 1.0.0
  */
 @EnableWebMvc
@@ -121,6 +121,6 @@ public class SpringDocAutoConfiguration implements WebMvcConfigurer {
 
     @PostConstruct
     public void postConstruct() {
-        log.debug("[ContiNew Starter] - Auto Configuration 'ApiDoc' completed initialization.");
+        log.debug("[Tide Starter] - Auto Configuration 'ApiDoc' completed initialization.");
     }
 }

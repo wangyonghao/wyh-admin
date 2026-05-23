@@ -14,7 +14,7 @@ import top.wyhao.starter.tenant.context.TenantContextHolder;
 /**
  * 默认租户行级隔离处理器
  *
- * @author Charles7c
+
  * @since 2.7.0
  */
 @RequiredArgsConstructor

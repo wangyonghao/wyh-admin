@@ -7,8 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import top.wyhao.admin.system.entity.user.SysUserPasswordHistory;
-import top.wyhao.admin.system.mapper.user.SysUserPasswordHistoryMapper;
+import top.wyhao.admin.system.entity.SysUserPasswordHistory;
+import top.wyhao.admin.system.mapper.SysUserPasswordHistoryMapper;
 import top.wyhao.admin.system.service.UserPasswordHistoryService;
 import top.wyhao.starter.core.util.CollUtils;
 
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * 用户历史密码业务实现
  *
- * @author Charles7c
+
  * @since 2024/5/16 21:58
  */
 @Service

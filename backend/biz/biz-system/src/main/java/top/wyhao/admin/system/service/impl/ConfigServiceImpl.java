@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import top.wyhao.admin.cmn.sms.SmsConfig;
 import top.wyhao.admin.system.entity.SysConfig;
 import top.wyhao.admin.system.mapper.SysConfigMapper;
 import top.wyhao.admin.system.model.bo.ConfigRequest;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
 /**
  * 系统配置业务实现
  *
- * @author wyhao
+
  * @since 2024/04/26
  */
 @Slf4j
@@ -123,18 +124,23 @@ public class ConfigServiceImpl implements ConfigService {
         BizAssert.notBlank(mailConfig.getHost(), "邮件服务器地址未配置");
         BizAssert.notBlank(mailConfig.getUsername(), "发件人邮箱未配置");
         BizAssert.notBlank(mailConfig.getPassword(), "邮箱密码未配置");
-
     }
 
     @Override
-    public SmsConfigVO getSmsConfig() {
-        return this.configMapper.getConfig("sms", SmsConfigVO.class);
+    public SmsConfig getSmsConfig() {
+        return this.configMapper.getConfig("sms", SmsConfig.class);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateSmsConfig(SmsConfigVO config) {
         this.updateConfig("sms", config);
+    }
+
+    @Override
+    public String getSmsTemplate(String scene) {
+        String templateId = configMapper.getConfig("sms-template-" + scene, String.class);
+        return templateId;
     }
 
     @Override

@@ -18,7 +18,7 @@ import java.util.Objects;
  *
  * @see BaseEnum
  *
- * @author Charles7c
+
  * @since 2.4.0
  */
 @JacksonStdImpl

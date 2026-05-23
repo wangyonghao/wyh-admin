@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 /**
  * 性别枚举
  *
- * @author Charles7c
+
  * @since 2022/12/29 21:59
  */
 @Getter

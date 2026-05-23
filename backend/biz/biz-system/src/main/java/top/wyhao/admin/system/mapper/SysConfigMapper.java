@@ -12,11 +12,12 @@ import top.wyhao.admin.system.entity.SysConfig;
 import top.wyhao.admin.system.model.vo.ConfigResult;
 import top.wyhao.cmn.db.model.BaseMapper;
 import top.wyhao.starter.core.exception.BusinessException;
+import top.wyhao.starter.web.json.util.JSONUtils;
 
 /**
  * 系统配置 Mapper
  *
- * @author wyhao
+
  * @since 2024/04/26
  */
 @Mapper
@@ -42,12 +43,9 @@ public interface SysConfigMapper extends BaseMapper<SysConfig> {
         SysConfig configDO = lambdaQuery().eq(SysConfig::getConfigKey, configKey).one();
 
         if (configDO == null || CharSequenceUtil.isBlank(configDO.getConfigValue())) {
-            try {
-                return clazz.getDeclaredConstructor().newInstance();
-            } catch (Exception e) {
-                throw new BusinessException("获取配置失败");
-            }
+            return null;
         }
-        return JSONUtil.toBean(configDO.getConfigValue(), clazz);
+
+        return JSONUtils.toBean(configDO.getConfigValue(), clazz);
     }
 }

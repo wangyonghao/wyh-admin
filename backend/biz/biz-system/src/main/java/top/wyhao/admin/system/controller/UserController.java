@@ -21,7 +21,7 @@ import top.wyhao.admin.system.model.vo.user.UserDetailResult;
 import top.wyhao.admin.system.model.vo.user.UserResult;
 import top.wyhao.admin.system.service.UserService;
 import top.wyhao.starter.core.exception.SystemException;
-import top.wyhao.starter.core.model.R;
+import top.wyhao.starter.core.model.Result;
 import top.wyhao.starter.web.core.model.*;
 import top.wyhao.starter.web.util.HttpUtil;
 
@@ -142,7 +142,7 @@ public class UserController {
             response.setCharacterEncoding(CharsetUtil.UTF_8);
             response.setContentType(ContentType.JSON.toString());
             try {
-                response.getWriter().write(JSONUtil.toJsonStr(R.fail("DOWNLOAD_FAILED","下载用户导入模板失败")));
+                response.getWriter().write(JSONUtil.toJsonStr(Result.fail("DOWNLOAD_FAILED","下载用户导入模板失败")));
             } catch (IOException ex) {
                 throw new SystemException("下载用户导入模板失败：" + e.getMessage(), ex);
             }

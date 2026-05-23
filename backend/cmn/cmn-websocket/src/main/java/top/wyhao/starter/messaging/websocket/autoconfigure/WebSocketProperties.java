@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * WebSocket 配置属性
  *
- * @author Charles7c
+
  * @since 2.1.0
  */
 @ConfigurationProperties(PropertiesConstants.MESSAGING_WEBSOCKET)

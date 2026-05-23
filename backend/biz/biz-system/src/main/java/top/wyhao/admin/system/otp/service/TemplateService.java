@@ -21,11 +21,10 @@ import java.util.Map;
 /**
  * 模板服务
  *
- * @author wyhao
+
  */
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class TemplateService {
 
     private final OtpProperties otpProperties;
@@ -36,6 +35,7 @@ public class TemplateService {
         // 初始化模板引擎
         TemplateConfig config = new TemplateConfig();
         config.setResourceMode(TemplateConfig.ResourceMode.CLASSPATH);
+        config.setPath(otpProperties.getTemplate().getBasePath());
         this.templateEngine = TemplateUtil.createEngine(config);
     }
 

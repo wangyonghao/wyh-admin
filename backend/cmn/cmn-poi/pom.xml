@@ -11,7 +11,7 @@
     <packaging>jar</packaging>
 
     <name>${project.artifactId}</name>
-    <description>ContiNew Starter Excel 文件处理模块 - POI</description>
+    <description>Tide Starter Excel 文件处理模块 - POI</description>
 
     <dependencies>
         <!-- Apache POI（适用于 Microsoft 文档的 Java API） -->

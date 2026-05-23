@@ -20,7 +20,6 @@
     <module>cmn-justauth</module>
     <module>cmn-cache</module>
     <module>cmn-captcha-graphic</module>
-    <module>cmn-captcha-behavior</module>
     <module>cmn-base</module>
     <module>cmn-db</module>
     <module>cmn-encrypt-core</module>
@@ -32,6 +31,7 @@
     <module>cmn-license-generator</module>
     <module>cmn-license-verifier</module>
     <module>cmn-mail</module>
+    <module>cmn-sms</module>
     <module>cmn-websocket</module>
     <module>cmn-oss</module>
     <module>cmn-trace</module>
