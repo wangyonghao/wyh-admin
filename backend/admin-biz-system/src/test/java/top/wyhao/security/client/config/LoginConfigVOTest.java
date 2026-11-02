@@ -1,6 +1,7 @@
-package top.wyhao.admin.system.security.client.config;
+package top.wyhao.system.admin.security.client.config;
 
 import org.junit.jupiter.api.Test;
+import top.wyhao.system.auth.adapter.client.config.LoginConfigVO;
 import top.wyhao.cmn.core.exception.BizException;
 
 import static org.assertj.core.api.Assertions.assertThat;

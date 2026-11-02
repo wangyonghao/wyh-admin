@@ -1,0 +1,64 @@
+
+package top.wyhao.system.open.model.req;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.NotBlank;
+import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+import top.wyhao.cmn.core.enums.StatusEnum;
+
+import java.time.LocalDateTime;
+
+/**
+ * 应用创建或修改请求参数
+
+
+ * @since 2024/10/17 16:03
+ */
+@Data
+@Schema(description = "应用创建或修改请求参数")
+public class AppReq {
+
+
+
+    /**
+     * 名称
+     */
+    @Schema(description = "名称", example = "应用1")
+    @NotBlank(message = "名称不能为空")
+    @Length(max = 100, message = "名称长度不能超过 {max} 个字符")
+    private String name;
+
+    /**
+     * 失效时间
+     */
+    @Schema(description = "失效时间", example = "2023-08-08 23:59:59", type = "string")
+    @Future(message = "失效时间必须是未来时间")
+    private LocalDateTime expireTime;
+
+    /**
+     * 描述
+     */
+    @Schema(description = "描述", example = "应用1描述信息")
+    @Length(max = 200, message = "描述长度不能超过 {max} 个字符")
+    private String description;
+
+    /**
+     * 状态
+     */
+    @Schema(description = "状态", example = "1")
+    private StatusEnum status;
+
+    /**
+     * Access Key（访问密钥）
+     */
+    @Schema(hidden = true)
+    private String accessKey;
+
+    /**
+     * Secret Key（密钥）
+     */
+    @Schema(hidden = true)
+    private String secretKey;
+}

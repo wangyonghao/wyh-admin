@@ -65,20 +65,20 @@ admin-commons/cmn-*
 | `cmn-crypto` | 字段与 API 加密 |
 | `cmn-fastexcel` | Excel |
 | `cmn-storage` | 对象存储 SPI，以及 local / minio / aliyun / cos |
-| `cmn-job` | Quartz 内核：调度器、Dispatcher、`JobHandler` SPI。任务管理 API 在 `admin-biz-system` 的 `job` |
-| `cmn-tenant` | 租户隔离与上下文（上下文、行隔离、Web 拦截）。租户与套餐的产品 CRUD 在 `admin-biz-system` 的 `tenant` |
+| `cmn-job` | Quartz 内核：调度器、Dispatcher、`JobHandler` SPI。任务管理 API 在 `admin-biz-system` 的 `system.admin` |
+| `cmn-tenant` | 租户隔离与上下文（上下文、行隔离、Web 拦截）。租户与套餐的产品 CRUD 在 `admin-biz-system` 的 `system.admin` |
 | `cmn-license-*` | 许可证生成 / 校验。未接入 `admin-start` |
 
 `cmn-web`、`cmn-db`、`cmn-cache` 替代原来的 `cmn-boot`。
 
-`admin-biz-system` 内优先 COLA（`adapter` / `app` / `domain` / `infrastructure`）：`identity`、`department`、`security`、`file`、`settings`、`job`。`tenant` 的套餐菜单与生命周期规则在 `domain`，CRUD 仍是经典 `controller` / `service` / `mapper`；`dashboard` 仍是经典分层。`notification`、`audit` 的 Web 在 `adapter/web`，其余仍是 `service` / `mapper`。模块内部的 `client` 包与 `adapter/client` 实现供本模块使用；给其它模块调用的契约放在 `admin-biz-system-client`。
+`admin-biz-system` 内两个限界上下文：`system.admin`（Admin 管理能力，一层 COLA：`adapter` / `app` / `domain` / `infrastructure`，用户/组织/角色菜单/部门/租户产品/文件/任务/设置/通知/审计/仪表盘等统一落在 `top.wyhao.system.admin`）与 `system.auth`（认证，独立 COLA）。**不要**再按 identity / security / department / tenant / file / job 拆出与 Admin 同级的完整 BC 切片；包内仅用子目录整理。`admin-biz-system-client` 里如 `top.wyhao.security.client`、`top.wyhao.identity.client` 等契约包名可保留，实现同属 Admin BC。模块内部的 `client` 包与 `adapter/client` 实现供本模块使用；给其它模块调用的契约放在 `admin-biz-system-client`。
 
 `admin-commons` 按技术适配分包，不套 COLA。
 
 边界：
 
 - 会话模型 `LoginUser` 在 `admin-commons/cmn-core` 的 `top.wyhao.cmn.identity`，供 `cmn-security` / `cmn-web` / `cmn-db` 读取登录会话。`top.wyhao.identity.client` 只放 `admin-biz-system-client` 的出站契约（`UserProfile`、`UserProfileApi`）。
-- `PackageMenuBinding`、`TenantLifecycleRules` 在 `admin-biz-system` 的 `tenant.domain`。`cmn-tenant` 只保留上下文、行隔离、租户选择与 SPI。
+- `PackageMenuBinding`、`TenantLifecycleRules` 在 `admin-biz-system` 的 `system.admin.domain`。`cmn-tenant` 只保留上下文、行隔离、租户选择与 SPI。
 - 邮件发送 `MailClient`、`MailConfig`、`MailConfigProvider`、`MailException` 在 `admin-commons/cmn-messaging` 的 `top.wyhao.admin.cmn.mail`。设置模块实现 `MailConfigProvider`，把库存的邮件配置映射成 SMTP 账户。设置接口的 `MailConfigVO` 仍在 `admin-biz-system-client`。
 
 ## Quick locate
@@ -90,20 +90,12 @@ admin-commons/cmn-*
 | 启动类 | `backend/admin-start/src/main/java/top/wyhao/admin/AdminApplication.java` |
 | 开发配置 | `backend/admin-start/src/main/resources/config/application-dev.yml` |
 | Liquibase | `backend/admin-start/src/main/resources/db/changelog/postgresql/` |
-| 用户 / 认证 | `backend/admin-biz-system/.../system/identity/` |
-| 角色 / 菜单 | `backend/admin-biz-system/.../system/security/` |
-| 部门 | `backend/admin-biz-system/.../system/department/` |
-| 租户产品 | `backend/admin-biz-system/.../system/tenant/` |
+| Admin 管理能力（用户/组织/角色菜单/部门/租户产品/文件/任务/设置/通知/审计/仪表盘） | `backend/admin-biz-system/.../system/admin/`（`top.wyhao.system.admin`，一层 COLA） |
+| 认证（登录/注册/OTP 等） | `backend/admin-biz-system/.../system/auth/`（`top.wyhao.system.auth`，独立 BC） |
 | 租户隔离 / 上下文 | `backend/admin-commons/cmn-tenant/` |
-| 文件领域 | `backend/admin-biz-system/.../system/file/` |
 | 对象存储 | `backend/admin-commons/cmn-storage/` |
-| 任务管理 | `backend/admin-biz-system/.../system/job/` |
 | Quartz 内核 | `backend/admin-commons/cmn-job/` |
-| 通知 / 公告 | `backend/admin-biz-system/.../system/notification/`（Web 在 `adapter/web`） |
-| 字典 / 配置 | `backend/admin-biz-system/.../system/settings/` |
 | 邮件发送 | `backend/admin-commons/cmn-messaging/.../cmn/mail/` |
-| 操作日志 | `backend/admin-biz-system/.../system/audit/`（Web 在 `adapter/web`） |
-| 仪表盘 | `backend/admin-biz-system/.../system/dashboard/controller/DashboardController` |
 | 随进程装配的 Job | `backend/admin-start/.../job/` |
 | 开放 API | `backend/admin-openapi/` |
 | 跨模块契约 | `backend/admin-biz-system-client/` |

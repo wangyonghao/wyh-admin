@@ -1,0 +1,41 @@
+
+package top.wyhao.system.admin.domain.model;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
+
+/**
+ * 消息日志实体
+ *
+
+ * @since 2023/10/15 20:25
+ */
+@Data
+@NoArgsConstructor
+public class MessageLog {
+
+    private Long id;
+
+    /**
+     * 消息 ID
+     */
+    private Long messageId;
+
+    /**
+     * 用户 ID
+     */
+    private Long userId;
+
+    /**
+     * 读取时间
+     */
+    private LocalDateTime readTime;
+
+    public MessageLog(Long messageId, Long userId, LocalDateTime readTime) {
+        this.messageId = messageId;
+        this.userId = userId;
+        this.readTime = readTime;
+    }
+}

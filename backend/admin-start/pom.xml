@@ -94,7 +94,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>top.wyhao.admin.AdminApplication</mainClass>
+                    <mainClass>top.wyhao.system.AdminApplication</mainClass>
                     <!-- 默认激活 dev；可用 -Dspring-boot.run.profiles=prod 覆盖 -->
                     <profiles>
                         <profile>dev</profile>
@@ -115,7 +115,7 @@
                     </excludes>
                     <archive>
                         <manifest>
-                            <mainClass>top.wyhao.admin.AdminApplication</mainClass>
+                            <mainClass>top.wyhao.system.AdminApplication</mainClass>
                             <!-- 为 MANIFEST.MF 中的 Class-Path 加入依赖 jar 目录前缀 -->
                             <classpathPrefix>../${lib-path}</classpathPrefix>
                             <addClasspath>true</addClasspath>

@@ -31,22 +31,16 @@ docker compose --env-file .env -f docker-compose.dev.yml up
 
 平台管理员种子账号：`admin` / `admin123`（租户 `0`）。创建租户、套餐需要已登录，请求头 `Authorization: Bearer <token>`。
 
-登录请求体还要 `clientId`（前端 `.env` 的 `VITE_CLIENT_ID`）：`ef51c9a3e9046c4f2ea45142c8a8344a`，`grantType`：`ACCOUNT`。
+登录请求体还要 `clientId`（前端 `.env` 的 `VITE_CLIENT_ID`）：`ef51c9a3e9046c4f2ea45142c8a8344a`，`grantType`：`PASSWORD`。用户名、邮箱或手机号都放在 `username`。
 
 ## 1. 平台管理员登录
 
 登录页租户 ID 留空，或：
 
 ```bash
-# 密码 admin123 的 RSA 密文。公钥是 application-dev.yml 里的开发公钥，与前端 encryptByRsa 相同。
-PUB='MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAM51dgYtMyF+tTQt80sfFOpSV27a7t9uaUVeFrdGiVxscuizE7H8SMntYqfn9lp8a5GH5P1/GGehVjUD2gF/4kcCAwEAAQ=='
-mkdir -p /tmp/tide-demo
-printf '%s\n' '-----BEGIN PUBLIC KEY-----' "$PUB" '-----END PUBLIC KEY-----' > /tmp/tide-demo/pub.pem
-ENC=$(printf '%s' 'admin123' | openssl pkeyutl -encrypt -pubin -inkey /tmp/tide-demo/pub.pem -pkeyopt rsa_padding_mode:pkcs1 | base64 -w0)
-
 curl -s http://127.0.0.1:8000/auth/login \
   -H 'Content-Type: application/json' \
-  -d "{\"grantType\":\"ACCOUNT\",\"clientId\":\"ef51c9a3e9046c4f2ea45142c8a8344a\",\"username\":\"admin\",\"password\":\"$ENC\"}"
+  -d '{"grantType":"PASSWORD","clientId":"ef51c9a3e9046c4f2ea45142c8a8344a","username":"admin","password":"admin123"}'
 ```
 
 响应 `code` 为 `200` 时，`token` 即后续令牌，`tenantId` 应为 `0`。不要带 `X-Tenant-Id`。若返回需要验证码，说明该账号已连续失败，清掉 Redis 里 `login:retry:` 后再试。
@@ -67,9 +61,14 @@ curl -s http://127.0.0.1:8000/tenant/package \
 
 ## 3. 创建两个租户
 
-管理员密码同样要 RSA 加密（上面的 `$ENC` 可复用，明文 `admin123`）。用户名 4–64 位、字母开头。域名可省略。
+管理员密码仍要 RSA 加密，明文是 `admin123`。公钥是 `application-dev.yml` 里的开发公钥。用户名 4–64 位、字母开头。域名可省略。
 
 ```bash
+PUB='MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAM51dgYtMyF+tTQt80sfFOpSV27a7t9uaUVeFrdGiVxscuizE7H8SMntYqfn9lp8a5GH5P1/GGehVjUD2gF/4kcCAwEAAQ=='
+mkdir -p /tmp/tide-demo
+printf '%s\n' '-----BEGIN PUBLIC KEY-----' "$PUB" '-----END PUBLIC KEY-----' > /tmp/tide-demo/pub.pem
+ENC=$(printf '%s' 'admin123' | openssl pkeyutl -encrypt -pubin -inkey /tmp/tide-demo/pub.pem -pkeyopt rsa_padding_mode:pkcs1 | base64 -w0)
+
 curl -s http://127.0.0.1:8000/tenant/management \
   -H "Authorization: Bearer $TOKEN" \
   -H 'Content-Type: application/json' \
@@ -91,7 +90,7 @@ curl -s http://127.0.0.1:8000/tenant/management \
 curl -s http://127.0.0.1:8000/auth/login \
   -H "X-Tenant-Id: $TENANT_A" \
   -H 'Content-Type: application/json' \
-  -d "{\"grantType\":\"ACCOUNT\",\"clientId\":\"ef51c9a3e9046c4f2ea45142c8a8344a\",\"username\":\"tnta\",\"password\":\"$ENC\"}"
+  -d '{"grantType":"PASSWORD","clientId":"ef51c9a3e9046c4f2ea45142c8a8344a","username":"tnta","password":"admin123"}'
 ```
 
 对 `TENANT_B` / `tntb` 再登一次。响应里的 `tenantId` 应等于请求头。

@@ -5,29 +5,39 @@ import type { Menu } from './system';
 import type { PageQuery, PageResult } from '#/types/api';
 
 /* ==================== API 定义 ==================== */
+function postLogin(grantType: AuthGrantType, body: Omit<AuthReq, 'grantType'>, config?: AxiosRequestConfig) {
+  return http.post<LoginResult>('/auth/login', body, {
+    ...config,
+    params: {
+      ...(config?.params ?? {}),
+      grantType,
+    },
+  });
+}
+
 export const authApi = {
   login(params: AuthReq, config?: AxiosRequestConfig) {
-    return http.post<LoginResult>('/auth/login', params, config);
+    const { grantType = AuthTypeConstants.PASSWORD, ...body } = params;
+    return postLogin(grantType, body, config);
   },
   /** 自助注册（成功后返回登录 token） */
   register(req: RegisterReq) {
     return http.post<LoginResult>('/auth/register', req);
   },
-  /** 账号登录 */
-  accountLogin(req: AccountLoginReq) {
-    return http.post<LoginResult>('/auth/login', req);
+  /** 密码登录：用户名、邮箱或手机号 */
+  passwordLogin(req: PasswordLoginReq, config?: AxiosRequestConfig) {
+    const { grantType = AuthTypeConstants.PASSWORD, ...body } = req;
+    return postLogin(grantType, body, config);
   },
-  /** 手机号登录 */
-  phoneLogin(req: PhoneLoginReq) {
-    return http.post<LoginResult>('/auth/login', req);
-  },
-  /** 邮箱登录 */
-  emailLogin(req: EmailLoginReq) {
-    return http.post<LoginResult>('/auth/login', req);
+  /** 验证码登录：邮箱或手机号 */
+  otpLogin(req: OtpLoginReq, config?: AxiosRequestConfig) {
+    const { grantType = AuthTypeConstants.OTP, ...body } = req;
+    return postLogin(grantType, body, config);
   },
   /** 三方账号登录 */
-  socialLogin(req: any) {
-    return http.post<LoginResult>('/auth/login', req);
+  socialLogin(req: AuthReq & Record<string, any>, config?: AxiosRequestConfig) {
+    const { grantType = AuthTypeConstants.SOCIAL, ...body } = req;
+    return postLogin(grantType, body, config);
   },
   /** 三方账号登录授权 */
   socialAuth(source: string) {
@@ -41,22 +51,15 @@ export const authApi = {
   getAuthInfo() {
     return http.get<AuthInfo>('/auth/user');
   },
-  /** 强制修改密码（密码过期时使用） */
-  forceChangePassword(req: ForceChangePasswordReq) {
-    return http.post<ForceChangePasswordResp>(
-      '/auth/force-change-password',
-      req,
-    );
-  },
   /** 分页查询登录日志列表 */
   listLoginLog: (query: LoginLogPageQuery) => {
-    return http.get<PageResult<LoginLogResult[]>>('/auth/login-log', {
+    return http.get<PageResult<LoginLogResult[]>>('/monitor/login-log', {
       params: query,
     });
   },
   /** 导出登录日志 */
   exportLoginLog: (query: LoginLogQuery) => {
-    return http.download('/auth/login-log/export', { params: query });
+    return http.download('/monitor/login-log/export', { params: query });
   },
 };
 
@@ -64,9 +67,8 @@ export const authApi = {
 
 /** 认证类型 */
 export const AuthTypeConstants = {
-  ACCOUNT: 'ACCOUNT',
-  PHONE: 'PHONE',
-  EMAIL: 'EMAIL',
+  PASSWORD: 'PASSWORD',
+  OTP: 'OTP',
   SOCIAL: 'SOCIAL',
 } as const;
 
@@ -123,10 +125,13 @@ export interface RouteItem {
   affix: boolean;
 }
 
-/** 基础认证请求接口 */
+/** 登录方式（走 QueryString） */
+export type AuthGrantType = 'PASSWORD' | 'OTP' | 'SOCIAL';
+
+/** 基础认证请求接口。grantType 由 API 层放到 Query，不会进 Body。 */
 export interface AuthReq {
   clientId?: string;
-  grantType?: 'ACCOUNT' | 'EMAIL' | 'PHONE' | 'SOCIAL';
+  grantType?: AuthGrantType;
 }
 
 /** 自助注册请求 */
@@ -136,51 +141,30 @@ export interface RegisterReq {
   confirmPassword: string;
 }
 
-/** 账号登录请求参数 */
-export interface AccountLoginReq extends AuthReq {
+/** 密码登录请求参数。username 可以是用户名、邮箱或手机号 */
+export interface PasswordLoginReq extends AuthReq {
   username: string;
   password: string;
   captcha: string;
   uuid: string;
 }
 
-/** 手机号登录请求参数 */
-export interface PhoneLoginReq extends AuthReq {
-  phone: string;
-  captcha: string;
-}
-
-/** 邮箱登录请求参数 */
-export interface EmailLoginReq extends AuthReq {
-  email: string;
+/** 验证码登录请求参数 */
+export interface OtpLoginReq extends AuthReq {
+  channel: 'EMAIL' | 'PHONE';
+  target: string;
   captcha: string;
 }
 
 /** 登录接口返回值 */
 export interface LoginResult {
   token: string;
-  code?: string; // PASSWORD_EXPIRED 表示密码过期
-  userId?: string; // 用户ID（密码过期时返回）
-  tempToken?: string; // 临时令牌（密码过期时返回）
+  code?: string;
 }
 
 /** 第三方登录授权类型 */
 export interface SocialAuthAuthorizeResp {
   authorizeUrl: string;
-}
-
-/** 强制修改密码请求参数 */
-export interface ForceChangePasswordReq {
-  userId: string;
-  tempToken: string;
-  oldPassword: string;
-  newPassword: string;
-  confirmPassword: string;
-}
-
-/** 强制修改密码响应类型 */
-export interface ForceChangePasswordResp {
-  token: string;
 }
 
 /* ==================== 登录日志 Schema 定义 ==================== */

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="top.wyhao.admin.system.identity.infrastructure.persistence.mapper.SysUserMapper">
+<mapper namespace="top.wyhao.system.admin.infrastructure.persistence.mapper.SysUserMapper">
 
     <sql id="selectUser">
         SELECT
@@ -26,12 +26,12 @@
         LEFT JOIN sys_department AS t2 ON t2.id = t1.department_id
     </sql>
 
-    <select id="selectUserPage" resultType="top.wyhao.admin.system.identity.app.dto.UserResult">
+    <select id="selectUserPage" resultType="top.wyhao.system.admin.app.dto.UserResult">
         <include refid="selectUser" />
         ${ew.customSqlSegment}
     </select>
 
-    <select id="selectUserList" resultType="top.wyhao.admin.system.identity.app.dto.UserDetail">
+    <select id="selectUserList" resultType="top.wyhao.system.admin.app.dto.UserDetail">
         <include refid="selectUser" />
         ${ew.customSqlSegment}
     </select>

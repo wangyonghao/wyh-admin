@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="top.wyhao.notification.mapper.SysNoticeMapper">
+<mapper namespace="top.wyhao.admin.system.infrastructure.persistence.mapper.SysNoticeMapper">
 
-    <resultMap id="notice" type="top.wyhao.notification.model.vo.NotificationResult">
+    <resultMap id="notice" type="top.wyhao.system.admin.app.dto.NotificationResult">
         <id property="id" column="id" />
         <result property="noticeMethods" column="notice_methods" typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler" />
     </resultMap>
@@ -80,7 +80,7 @@
     </select>
 
     <select id="selectDashboardList"
-            resultType="top.wyhao.notification.model.result.dashboard.DashboardNoticeResp">
+            resultType="top.wyhao.system.admin.app.dto.DashboardNoticeResp">
         SELECT
         id, title, type, is_top
         FROM sys_notice

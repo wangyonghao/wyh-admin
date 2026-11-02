@@ -1,8 +1,9 @@
 package top.wyhao.job.app.service;
 
 import org.junit.jupiter.api.Test;
+import top.wyhao.system.admin.app.service.CronComposer;
 import top.wyhao.cmn.core.exception.BizException;
-import top.wyhao.job.app.dto.ScheduleSpec;
+import top.wyhao.system.admin.app.dto.ScheduleSpec;
 
 import java.util.List;
 

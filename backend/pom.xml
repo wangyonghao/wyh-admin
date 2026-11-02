@@ -19,7 +19,6 @@
     <module>admin-openapi</module>
     <module>admin-start</module>
     <module>admin-commons</module>
-
   </modules>
 
   <properties>

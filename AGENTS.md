@@ -70,17 +70,13 @@ DB 变更：`backend/admin-start/src/main/resources/db/changelog/postgresql/`
 | 意图 | 位置 |
 |------|------|
 | 启动 / 打包 | `backend/admin-start`（只装配） |
-| 身份 / 组织 / 授权 | `backend/admin-biz-system`（`identity` / `department` / `security`） |
-| 租户产品 | `backend/admin-biz-system` 的 `tenant` |
+| Admin 管理能力（身份/组织/授权/租户产品/文件/任务/审计/通知/设置/仪表盘） | `backend/admin-biz-system` 的 `system/admin`（`top.wyhao.system.admin`，一层 COLA；勿再拆 identity/security/department 等完整 BC） |
+| 认证 | `backend/admin-biz-system` 的 `system/auth`（独立 BC） |
 | 租户隔离 / 上下文 | `backend/admin-commons/cmn-tenant` |
-| 文件领域 | `backend/admin-biz-system` 的 `file` |
 | 对象存储 | `backend/admin-commons/cmn-storage` |
-| 任务管理 | `backend/admin-biz-system` 的 `job` |
 | Quartz 内核 | `backend/admin-commons/cmn-job` |
-| 审计 / 通知 / 设置 | `backend/admin-biz-system`（`audit` / `notification` / `settings`） |
 | 开放 API | `backend/admin-openapi` |
-| 跨模块契约 | `backend/admin-biz-system-client`（仅 `cmn-core` + 注解） |
-| 系统壳 / 仪表盘 | `backend/admin-biz-system` 的 `dashboard` |
+| 跨模块契约 | `backend/admin-biz-system-client`（仅 `cmn-core` + 注解；`top.wyhao.security.client` / `top.wyhao.identity.client` 等契约包名可保留，实现在 Admin BC） |
 | 前端页面 / API | `frontend/apps/admin/src/views`、`frontend/apps/admin/src/api` |
 | 文档站 | `frontend/apps/docs`（`@wyh/docs`） |
 | 组件演示 | `frontend/apps/design-system`（只演示 `@wyh/ui` / `@wyh/ui-patterns`） |

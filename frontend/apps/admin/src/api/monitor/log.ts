@@ -17,7 +17,7 @@ export const logApi = {
 
   /** 导出登录日志 */
   exportLoginLog: (query: LogQuery) => {
-    return http.download('/system/log/export/login', { params: query });
+    return http.download('/monitor/login-log/export', { params: query });
   },
 
   /** 导出操作日志 */

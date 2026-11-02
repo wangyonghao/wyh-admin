@@ -1,6 +1,7 @@
-package top.wyhao.admin.system.security.domain;
+package top.wyhao.system.admin.security.domain;
 
 import org.junit.jupiter.api.Test;
+import top.wyhao.system.admin.domain.model.RoleDataScopeRules;
 import top.wyhao.cmn.core.enums.DataScopeEnum;
 
 import java.util.List;

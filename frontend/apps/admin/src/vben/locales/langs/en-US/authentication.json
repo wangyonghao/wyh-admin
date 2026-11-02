@@ -8,7 +8,7 @@
   "selectAccount": "Quick Select Account",
   "username": "Username",
   "password": "Password",
-  "usernameTip": "Please enter username",
+  "usernameTip": "Please enter username, email, or phone",
   "tenantIdTip": "Tenant ID (leave empty for the platform tenant)",
   "passwordErrorTip": "Password is incorrect",
   "passwordTip": "Please enter password",

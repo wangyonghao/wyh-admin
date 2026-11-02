@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?> <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="top.wyhao.notification.mapper.SysMessageMapper">
+<mapper namespace="top.wyhao.admin.system.infrastructure.persistence.mapper.SysMessageMapper">
 
-  <resultMap id="messageDetailMap" type="top.wyhao.notification.model.vo.MessageResult">
+  <resultMap id="messageDetailMap" type="top.wyhao.system.admin.app.dto.MessageResult">
     <id column="id" property="id"/>
     <result property="users" column="users"
             typeHandler="com.baomidou.mybatisplus.extension.handlers.JacksonTypeHandler"/>
   </resultMap>
 
-  <select id="selectMessagePage" resultType="top.wyhao.notification.model.vo.MessageDetailResult">
+  <select id="selectMessagePage" resultType="top.wyhao.system.admin.app.dto.MessageDetailResult">
     SELECT
     t1.id,
     t1.title,
@@ -58,7 +58,7 @@
     WHERE t1.id = #{id}
   </select>
 
-  <select id="selectUnreadListByUserId" resultType="top.wyhao.notification.entity.SysMessage">
+  <select id="selectUnreadListByUserId" resultType="top.wyhao.system.admin.infrastructure.persistence.dataobject.SysMessageDO">
     SELECT
     t1.*
     FROM sys_message AS t1

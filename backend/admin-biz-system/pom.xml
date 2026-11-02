@@ -13,7 +13,10 @@
   <packaging>jar</packaging>
 
   <name>${project.artifactId}</name>
-  <description>系统业务模块（COLA）：身份 / 租户 / 文件 / 设置 / 通知 / 审计 / 任务编排等</description>
+  <description>平台能力模块，两个子领域
+    AUTH - 用户管理和认证服务，签发token、用户管理、用户登录，三方账号登录
+    SYS - 平台能力，文件服务、系统参数、组织管理、定时任务、审计日志、通知管理
+  </description>
 
   <dependencies>
     <dependency>
@@ -42,6 +45,10 @@
     </dependency>
     <dependency>
       <groupId>top.wyhao</groupId>
+      <artifactId>cmn-job</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>top.wyhao</groupId>
       <artifactId>cmn-fastexcel</artifactId>
     </dependency>
     <dependency>
@@ -55,10 +62,6 @@
     <dependency>
       <groupId>top.wyhao</groupId>
       <artifactId>cmn-tenant</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>top.wyhao</groupId>
-      <artifactId>cmn-job</artifactId>
     </dependency>
     <dependency>
       <groupId>org.springframework.security</groupId>
@@ -85,29 +88,12 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-web</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>jakarta.servlet</groupId>
-      <artifactId>jakarta.servlet-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>io.swagger.core.v3</groupId>
-      <artifactId>swagger-annotations-jakarta</artifactId>
-    </dependency>
-    <dependency>
       <groupId>org.dromara.sms4j</groupId>
       <artifactId>sms4j-spring-boot-starter</artifactId>
     </dependency>
     <dependency>
       <groupId>cn.sticki</groupId>
       <artifactId>spel-validator-jakarta</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-quartz</artifactId>
     </dependency>
   </dependencies>
 </project>

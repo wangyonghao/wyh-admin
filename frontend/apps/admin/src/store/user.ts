@@ -57,24 +57,12 @@ export const useUserStore = defineStore(
       try {
         loginLoading.value = true;
         delete params.tenantId;
-        params.password = encryptByRsa(params.password) || '';
         params.clientId = import.meta.env.VITE_CLIENT_ID;
-        params.grantType = AuthTypeConstants.ACCOUNT;
+        params.grantType = AuthTypeConstants.PASSWORD;
         delete params.authType;
         const loginResult = await authApi.login(params);
-
-        // 检查是否密码过期
-        if (loginResult.code === 'PASSWORD_EXPIRED') {
-          return {
-            userInfo: null,
-            passwordExpired: true,
-            userId: loginResult.userId == null ? undefined : String(loginResult.userId),
-            tempToken: loginResult.tempToken,
-          };
-        }
-
         await completeLogin(loginResult.token, onSuccess);
-        return { user, passwordExpired: false };
+        return { user };
       } finally {
         loginLoading.value = false;
       }

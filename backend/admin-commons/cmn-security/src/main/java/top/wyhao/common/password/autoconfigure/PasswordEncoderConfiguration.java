@@ -3,6 +3,7 @@ package top.wyhao.common.password.autoconfigure;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
@@ -11,15 +12,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @AutoConfiguration
 public class PasswordEncoderConfiguration {
 
+    /**
+     * 哈希前面带算法前缀，便于以后平滑升级算法
+     * @return
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
-        /*
-         * 可用算法：
-         *   BCRYPT - new BCryptPasswordEncoder()
-         *   SCRYPT - SCryptPasswordEncoder.defaultsForSpringSecurity_v5_8()
-         *   PBKDF2 - Pbkdf2PasswordEncoder.defaultsForSpringSecurity_v5_8()
-         *   ARGON2 - Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8()
-         */
-        return new BCryptPasswordEncoder();
+        // Spring Security 中推荐使用 DelegatingPasswordEncoder，它在哈希前面带算法前缀，便于以后平滑升级算法
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }

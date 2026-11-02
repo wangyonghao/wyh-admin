@@ -1,0 +1,77 @@
+
+package top.wyhao.system.admin.app.dto;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+import top.wyhao.cmn.core.constant.RegexConstants;
+import top.wyhao.web.validation.Mobile;
+
+/**
+ * 用户导入行数据请求参数
+ *
+
+ * @since 2024/6/17 16:42
+ */
+@Data
+@Schema(description = "用户导入行数据请求参数")
+public class UserImportRowReq {
+
+    /**
+     * 用户名
+     */
+    @NotBlank(message = "用户名不能为空")
+    @Pattern(regexp = RegexConstants.USERNAME, message = "用户名长度为 4-64 个字符，支持大小写字母、数字、下划线，以字母开头")
+    private String username;
+
+    /**
+     * 显示名称
+     */
+    @NotBlank(message = "显示名称不能为空")
+    @Pattern(regexp = RegexConstants.GENERAL_NAME, message = "显示名称长度为 2-30 个字符，支持中文、字母、数字、下划线，短横线")
+    private String displayName;
+
+    /**
+     * 密码
+     */
+    @NotBlank(message = "密码不能为空")
+    private String password;
+
+    /**
+     * 部门名称
+     */
+    @NotBlank(message = "所属部门不能为空")
+    private String departmentName;
+
+    /**
+     * 角色
+     */
+    @NotBlank(message = "所属角色不能为空")
+    private String roleName;
+
+    /**
+     * 性别
+     */
+    private String gender;
+
+    /**
+     * 邮箱
+     */
+    @Length(max = 255, message = "邮箱长度不能超过 {max} 个字符")
+    @Email(message = "邮箱格式不正确")
+    private String email;
+
+    /**
+     * 手机号码
+     */
+    @Mobile
+    private String phone;
+
+    /**
+     * 描述
+     */
+    private String description;
+}

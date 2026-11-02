@@ -6,7 +6,6 @@ import { useRouter } from 'vue-router';
 
 import { AuthenticationThirdPartyLogin, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
-import { useAccessStore } from '@vben/stores';
 
 import {
   Input,
@@ -19,7 +18,6 @@ import {
 import { captchaApi } from '#/api';
 import { useUserStore } from '#/store';
 
-import ForceChangePassword from './force-change-password.vue';
 
 defineOptions({ name: 'Login' });
 
@@ -44,11 +42,6 @@ const loginLoading = ref(false);
 const showCaptcha = computed(
   () => captchaInfo.value.isEnabled || forceShowCaptcha.value,
 );
-
-// Password expired state
-const passwordExpired = ref(false);
-const expiredUserId = ref('');
-const expiredTempToken = ref('');
 
 // Remember me functionality
 const REMEMBER_ME_KEY = `REMEMBER_ME_USERNAME_${location.hostname}`;
@@ -166,14 +159,7 @@ const handleSubmit = async (event?: Event) => {
     );
     loginLoading.value = true;
     // Call auth login
-    const result = await userStore.login(loginData);
-
-    // Check if password expired
-    if (result.passwordExpired) {
-      passwordExpired.value = true;
-      expiredUserId.value = result.userId ? String(result.userId) : '';
-      expiredTempToken.value = result.tempToken || '';
-    }
+    await userStore.login(loginData);
   } catch (error: any) {
     console.error('Login failed:', error);
     if (error?.code === 'NEED_CAPTCHA') {
@@ -187,34 +173,6 @@ const handleSubmit = async (event?: Event) => {
     }
   } finally {
     loginLoading.value = false;
-  }
-};
-
-// Handle password change success
-const handlePasswordChangeSuccess = async (token: string) => {
-  try {
-    // Store the new token
-    const accessStore = useAccessStore();
-    accessStore.setAccessToken(token);
-
-    // Fetch user info and redirect
-    const userInfo = await userStore.fetchAuthInfo();
-    await router.push((userInfo as { homePath?: string } | null | undefined)?.homePath || '/dashboard');
-  } catch (error) {
-    console.error('Failed to complete login after password change:', error);
-  }
-};
-
-// Handle password change cancel
-const handlePasswordChangeCancel = () => {
-  passwordExpired.value = false;
-  expiredUserId.value = '';
-  expiredTempToken.value = '';
-  // Reset form
-  password.value = '';
-  captcha.value = '';
-  if (showCaptcha.value) {
-    getCaptcha();
   }
 };
 
@@ -236,7 +194,7 @@ onMounted(() => {
 <template>
   <div>
     <!-- Login Form -->
-    <div v-if="!passwordExpired" @keydown.enter.prevent="handleSubmit">
+    <div @keydown.enter.prevent="handleSubmit">
       <!-- Title Section -->
       <div class="mx-auto mb-7 w-full max-w-md">
         <h2
@@ -358,14 +316,5 @@ onMounted(() => {
         </span>
       </div>
     </div>
-
-    <!-- Force Change Password Form -->
-    <ForceChangePassword
-      v-else
-      :user-id="expiredUserId"
-      :temp-token="expiredTempToken"
-      @success="handlePasswordChangeSuccess"
-      @cancel="handlePasswordChangeCancel"
-    />
-  </div>
+</div>
 </template>

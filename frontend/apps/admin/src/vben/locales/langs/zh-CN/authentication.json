@@ -8,7 +8,7 @@
   "selectAccount": "快速选择账号",
   "username": "账号",
   "password": "密码",
-  "usernameTip": "请输入用户名",
+  "usernameTip": "请输入用户名、邮箱或手机号",
   "tenantIdTip": "租户 ID（平台管理员留空）",
   "passwordTip": "请输入密码",
   "verifyRequiredTip": "请先完成验证",

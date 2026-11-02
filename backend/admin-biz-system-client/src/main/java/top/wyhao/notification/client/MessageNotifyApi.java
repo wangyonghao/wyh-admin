@@ -8,7 +8,12 @@ import java.util.List;
 public interface MessageNotifyApi {
 
     /**
-     * 发送消息给指定用户
+     * 发送消息给指定用户（无跳转路径）
      */
     void notifyUsers(String title, String content, String type, List<String> userIds);
+
+    /**
+     * 发送消息给指定用户，可带前端跳转路径（如个人中心改密页）
+     */
+    void notifyUsers(String title, String content, String type, String path, List<String> userIds);
 }

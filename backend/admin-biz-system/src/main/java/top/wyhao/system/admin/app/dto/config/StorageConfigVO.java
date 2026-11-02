@@ -1,0 +1,51 @@
+
+package top.wyhao.system.admin.app.dto.config;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Data;
+
+/**
+ * 存储配置
+ *
+
+ * @since 2024/04/26
+ */
+@Data
+@Schema(description = "存储配置")
+public class StorageConfigVO {
+
+
+
+    /**
+     * 存储类型
+     */
+    @Schema(description = "存储类型：local, oss, s3", example = "local")
+    private String type;
+
+    /**
+     * 存储端点
+     */
+    @Schema(description = "存储端点", example = "")
+    private String endpoint;
+
+    /**
+     * AccessKey（敏感字段）
+     */
+    @Schema(description = "AccessKey", example = "******")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String accessKey;
+
+    /**
+     * SecretKey（敏感字段）
+     */
+    @Schema(description = "SecretKey", example = "******")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String secretKey;
+
+    /**
+     * 存储桶名称
+     */
+    @Schema(description = "存储桶名称", example = "")
+    private String bucket;
+}

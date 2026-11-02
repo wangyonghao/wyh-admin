@@ -1,6 +1,6 @@
 package top.wyhao.settings.client;
 
-import top.wyhao.admin.cmn.sms.SmsConfig;
+import top.wyhao.system.cmn.sms.SmsConfig;
 
 /**
  * 短信通道与模板配置。由 notification 模块基于 {@link ConfigStoreApi} 实现。
