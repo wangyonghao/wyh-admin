@@ -49,3 +49,7 @@ if [[ -n "${JAVA_HOME}" ]]; then
   export PATH="${JAVA_HOME}/bin:${PATH}"
 fi
 
+
+# GitHub OAuth App
+export GITHUB_CLIENT_ID=
+export GITHUB_CLIENT_SECRET=

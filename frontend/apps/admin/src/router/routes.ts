@@ -133,6 +133,17 @@ const routes: RouteRecordRaw[] = [
         component: () => import('#/views/_core/authentication/register.vue'),
         meta: { requiresAuth: false, title: $t('page.auth.register') },
       },
+      {
+        name: 'GithubCallback',
+        path: 'github/callback',
+        component: () =>
+          import('#/views/_core/authentication/social-callback.vue'),
+        meta: {
+          hideInTab: true,
+          requiresAuth: false,
+          title: 'GitHub Callback',
+        },
+      },
     ],
   },
 

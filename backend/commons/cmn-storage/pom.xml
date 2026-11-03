@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>top.wyhao</groupId>
+        <artifactId>commons</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>cmn-storage</artifactId>
+    <packaging>pom</packaging>
+    <name>${project.artifactId}</name>
+    <description>对象存储基础设施 - SPI 与各厂商实现（按需引入）</description>
+
+    <modules>
+        <module>cmn-storage-core</module>
+        <module>cmn-storage-local</module>
+        <module>cmn-storage-aliyun</module>
+        <module>cmn-storage-minio</module>
+        <module>cmn-storage-cos</module>
+    </modules>
+</project>

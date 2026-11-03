@@ -36,12 +36,20 @@ export const authApi = {
   },
   /** 三方账号登录 */
   socialLogin(req: AuthReq & Record<string, any>, config?: AxiosRequestConfig) {
-    const { grantType = AuthTypeConstants.SOCIAL, ...body } = req;
+    const { grantType = AuthTypeConstants.OAUTH, ...body } = req;
     return postLogin(grantType, body, config);
   },
   /** 三方账号登录授权 */
   socialAuth(source: string) {
     return http.get<SocialAuthAuthorizeResp>(`/oauth/${source}`);
+  },
+  /** 发送邮箱/短信 OTP */
+  sendOtp(req: OtpSendReq) {
+    return http.post<OtpSendResp>('/auth/otp', req);
+  },
+  /** 校验 OTP */
+  verifyOtp(req: OtpVerifyReq) {
+    return http.post<OtpVerifyResp>('/auth/otp/verify', req);
   },
   /** 退出登录 */
   logout() {
@@ -51,7 +59,7 @@ export const authApi = {
   getAuthInfo() {
     return http.get<AuthInfo>('/auth/user');
   },
-  /** 分页查询登录日志列表 */
+  /** 分页查询登录日志列表（System /monitor/login-log） */
   listLoginLog: (query: LoginLogPageQuery) => {
     return http.get<PageResult<LoginLogResult[]>>('/monitor/login-log', {
       params: query,
@@ -65,11 +73,23 @@ export const authApi = {
 
 /* ==================== 常量定义 ==================== */
 
-/** 认证类型 */
+/** 认证类型（对齐后端 GrantType：PASSWORD / OTP / OAUTH） */
 export const AuthTypeConstants = {
   PASSWORD: 'PASSWORD',
   OTP: 'OTP',
-  SOCIAL: 'SOCIAL',
+  OAUTH: 'OAUTH',
+} as const;
+
+/** OTP 业务场景（对齐 OtpScene） */
+export const OtpSceneConstants = {
+  LOGIN: 'LOGIN',
+  REGISTER: 'REGISTER',
+  BIND_EMAIL: 'BIND_EMAIL',
+  BIND_PHONE: 'BIND_PHONE',
+  RESET_PASSWORD: 'RESET_PASSWORD',
+  CHANGE_EMAIL: 'CHANGE_EMAIL',
+  CHANGE_PHONE: 'CHANGE_PHONE',
+  DELETE_ACCOUNT: 'DELETE_ACCOUNT',
 } as const;
 
 /* ==================== Schema 定义 ==================== */
@@ -126,7 +146,17 @@ export interface RouteItem {
 }
 
 /** 登录方式（走 QueryString） */
-export type AuthGrantType = 'PASSWORD' | 'OTP' | 'SOCIAL';
+export type AuthGrantType = 'PASSWORD' | 'OTP' | 'OAUTH';
+
+export type OtpScene =
+  | 'LOGIN'
+  | 'REGISTER'
+  | 'BIND_EMAIL'
+  | 'BIND_PHONE'
+  | 'RESET_PASSWORD'
+  | 'CHANGE_EMAIL'
+  | 'CHANGE_PHONE'
+  | 'DELETE_ACCOUNT';
 
 /** 基础认证请求接口。grantType 由 API 层放到 Query，不会进 Body。 */
 export interface AuthReq {
@@ -134,26 +164,54 @@ export interface AuthReq {
   grantType?: AuthGrantType;
 }
 
-/** 自助注册请求 */
+/** 自助注册请求（对齐 RegisterRequest：无 confirmPassword） */
 export interface RegisterReq {
   username: string;
   password: string;
-  confirmPassword: string;
 }
 
-/** 密码登录请求参数。username 可以是用户名、邮箱或手机号 */
+/** 密码登录请求参数。username / email / phone 三选一 */
 export interface PasswordLoginReq extends AuthReq {
-  username: string;
+  username?: string;
+  email?: string;
+  phone?: string;
   password: string;
-  captcha: string;
-  uuid: string;
+  captchaUuid?: string;
+  captchaChallenge?: string;
 }
 
-/** 验证码登录请求参数 */
+/** 验证码登录请求参数。email / phone 二选一 */
 export interface OtpLoginReq extends AuthReq {
-  channel: 'EMAIL' | 'PHONE';
-  target: string;
-  captcha: string;
+  email?: string;
+  phone?: string;
+  codeChallenge: string;
+}
+
+/** 发送 OTP */
+export interface OtpSendReq {
+  scene: OtpScene;
+  email?: string;
+  phone?: string;
+  locale?: string;
+}
+
+export interface OtpSendResp {
+  expiresIn: number;
+  message: string;
+  otpUuid: string;
+}
+
+/** 校验 OTP */
+export interface OtpVerifyReq {
+  otpUuid: string;
+  email?: string;
+  phone?: string;
+  code: string;
+}
+
+export interface OtpVerifyResp {
+  verified: boolean;
+  message: string;
 }
 
 /** 登录接口返回值 */

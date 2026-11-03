@@ -1,0 +1,229 @@
+--- ### 应用配置
+application:
+  # URL（跨域配置默认放行此 URL，第三方登录回调默认使用此 URL 为前缀，请注意更改为你实际的前端 URL）
+  url: http://localhost:5888
+
+
+--- ### 组织邀请
+wyhao-starter.org:
+  # 邀请落地页（前端路由 /org/invite），需与实际前端地址一致
+  invite-base-url: ${application.url}/org/invite
+  invite-expire-days: 7
+
+--- ### 服务器配置
+server:
+  # HTTP 端口（默认 8080）
+  port: 8000
+
+--- ### 数据源配置
+spring.datasource:
+  type: com.zaxxer.hikari.HikariDataSource
+  # 库名来自 DB_NAME。本地 backend/docker 约定库名与用户都是 postgres。
+  url: jdbc:p6spy:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}?options=-c%20TimeZone=Asia/Shanghai&sslmode=prefer&channelBinding=disable&stringtype=unspecified
+  username: ${DB_USER}
+  password: ${DB_PWD}
+  driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+  # Hikari 连接池配置
+  hikari:
+    # 最大连接数量（默认 10，根据实际环境调整）
+    # 注意：当连接达到上限，并且没有空闲连接可用时，获取连接将在超时前阻塞最多 connectionTimeout 毫秒
+    maximum-pool-size: 20
+    # 获取连接超时时间（默认 30000 毫秒，30 秒）
+    connection-timeout: 30000
+    # 空闲连接最大存活时间（默认 600000 毫秒，10 分钟）
+    idle-timeout: 600000
+    # 保持连接活动的频率，以防止它被数据库或网络基础设施超时。该值必须小于 maxLifetime（默认 0，禁用）
+    keepaliveTime: 30000
+    # 连接最大生存时间（默认 1800000 毫秒，30 分钟）
+    max-lifetime: 1800000
+## Liquibase 配置
+spring.liquibase:
+  # 空库启动需要 changelog 建出 Quartz 等表
+  enabled: true
+  # 配置文件路径
+  change-log: classpath:/db/changelog/postgresql/db.changelog-master.yaml
+
+file:
+  storage:
+    type: LOCAL
+  local:
+    root-path: /Users/war/opt/data
+
+--- ### 缓存配置
+spring.data:
+  ## Redis 配置（单机模式）
+  redis:
+    # 地址
+    host: ${REDIS_HOST}
+    # 端口（默认 6379）
+    port: ${REDIS_PORT}
+    # 密码（未设置密码时请注释掉）
+    password: ${REDIS_PWD}
+    # 数据库索引
+    database: ${REDIS_DB}
+    # 连接超时时间
+    timeout: 10s
+    # 是否开启 SSL
+    ssl:
+      enabled: false
+  ## Redisson 配置
+  redisson:
+    enabled: true
+    mode: SINGLE
+## JetCache 配置
+jetcache:
+  # 统计间隔（默认 0，表示不统计）
+  statIntervalMinutes: 15
+  ## 本地/进程级/一级缓存配置
+  local:
+    default:
+      # 缓存类型
+      type: caffeine
+      # key 转换器的全局配置
+      keyConvertor: jackson
+      # 以毫秒为单位指定超时时间的全局配置
+      expireAfterWriteInMillis: 7200000
+      # 每个缓存实例的最大元素的全局配置，仅 local 类型的缓存需要指定
+      limit: 1000
+  ## 远程/分布式/二级缓存配置
+  remote:
+    default:
+      # 缓存类型
+      type: redisson
+      # key 转换器的全局配置（用于将复杂的 KEY 类型转换为缓存实现可以接受的类型）
+      keyConvertor: jackson
+      # 以毫秒为单位指定超时时间的全局配置
+      expireAfterWriteInMillis: 7200000
+      # 2.7+ 支持两级缓存更新以后失效其他 JVM 中的 local cache，但多个服务共用 Redis 同一个 channel 可能会造成广播风暴，需要在这里指定channel。
+      # 你可以决定多个不同的服务是否共用同一个 channel，如果没有指定则不开启。
+      broadcastChannel: ${spring.application.name}
+      # 序列化器的全局配置，仅 remote 类型的缓存需要指定
+      valueEncoder: java
+      valueDecoder: java
+
+--- ### 跨域配置
+wyhao-starter.web.cors:
+  enabled: true
+  # 配置允许跨域的域名
+  allowed-origins: '*'
+  # 配置允许跨域的请求方式
+  allowed-methods: '*'
+  # 配置允许跨域的请求头
+  allowed-headers: '*'
+  # 配置允许跨域的响应头
+  exposed-headers: '*'
+
+--- ### 日志配置
+## 项目日志配置（配置重叠部分，优先级高于 logback-spring.xml 中的配置）
+logging:
+  level:
+    top.wyhao: DEBUG
+    top.wyhao.starter: DEBUG
+
+--- ### Sa-Token JWT 秘钥（本地也从环境变量读，不要写进仓库）
+sa-token.jwt-secret-key: ${WYH_JWT_SECRET}
+
+--- ### 加密配置：字段加/解密配置
+wyhao-starter.encrypt.field:
+  # 非对称加密算法密钥（在线生成 RSA 密钥对：http://web.chacuo.net/netrsakeypair）
+  public-key: MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAM51dgYtMyF+tTQt80sfFOpSV27a7t9uaUVeFrdGiVxscuizE7H8SMntYqfn9lp8a5GH5P1/GGehVjUD2gF/4kcCAwEAAQ==
+  private-key: MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEAznV2Bi0zIX61NC3zSx8U6lJXbtru325pRV4Wt0aJXGxy6LMTsfxIye1ip+f2WnxrkYfk/X8YZ6FWNQPaAX/iRwIDAQABAkEAk/VcAusrpIqA5Ac2P5Tj0VX3cOuXmyouaVcXonr7f+6y2YTjLQuAnkcfKKocQI/juIRQBFQIqqW/m1nmz1wGeQIhAO8XaA/KxzOIgU0l/4lm0A2Wne6RokJ9HLs1YpOzIUmVAiEA3Q9DQrpAlIuiT1yWAGSxA9RxcjUM/1kdVLTkv0avXWsCIE0X8woEjK7lOSwzMG6RpEx9YHdopjViOj1zPVH61KTxAiBmv/dlhqkJ4rV46fIXELZur0pj6WC3N7a4brR8a+CLLQIhAMQyerWl2cPNVtE/8tkziHKbwW3ZUiBXU24wFxedT9iV
+
+--- ### 验证码配置
+wyhao-starter.captcha:
+  ## 图形验证码
+  graphic:
+    # 类型
+    type: SPEC
+    # 内容长度
+    length: 4
+    # 过期时间
+    expirationInSeconds: 120
+
+--- ### 短信配置
+
+## sms4j 基础配置，https://sms4j.com/doc3/config.html
+sms:
+  http-log: true
+  is-print: false
+  config-type: interface
+  corePoolSize: 5
+  maxPoolSize: 20
+
+--- ### WebSocket 配置
+wyhao-starter.messaging.websocket:
+  enabled: true
+  path: /websocket
+  # 配置允许跨域的域名
+  allowed-origins: '*'
+
+--- ### wyhao-starter-web 配置
+web:
+  security:
+    # 安全配置：排除（放行）路径配置
+    excludes:
+      - /nextdoc/**
+      - /error
+      # 静态资源
+      - /*.html
+      - /*/*.html
+      - /*/*.css
+      - /*/*.js
+      - /websocket/**
+      # 接口文档相关资源
+      - /favicon.ico
+      - /doc.html
+      - /webjars/**
+      - /swagger-ui/**
+      - /swagger-resources/**
+      - /*/api-docs/**
+      - /actuator/health
+      - /actuator/health/**
+      - /actuator/info
+--- ### Just Auth 配置
+justauth:
+  enabled: true
+  type:
+    GITEE:
+      client-id: 5d271b7f638941812aaf8bfc2e2f08f06d6235ef934e0e39537e2364eb8452c4
+      client-secret: 1f7d08**********5b7**********29e
+      redirect-uri: ${application.url}/social/callback/gitee
+    GITHUB:
+      client-id: ${GITHUB_CLIENT_ID}
+      client-secret: ${GITHUB_CLIENT_SECRET}
+      redirect-uri: ${application.url}/auth/github/callback
+  cache:
+    type: redis
+
+--- ### OTP 验证码配置
+otp:
+  # 验证码配置
+  code:
+    length: 6                    # 验证码长度
+    expires-in: 300              # 有效期（秒）
+  # 限流配置
+  rate-limit:
+    global:
+      max: 1000                  # 全局限流（次/分钟）
+      window: 60                 # 时间窗口（秒）
+    ip:
+      max: 10                    # IP 限流（次/小时）
+      window: 3600
+    target:
+      max: 3                     # 目标地址限流（次/分钟）
+      window: 60
+    max-fail: 5                  # 最大失败次数
+  # 模板配置
+  template:
+    base-path: templates/otp     # 模板基础路径
+    default-locale: zh_CN        # 默认语言
+  # 渠道配置
+  channel:
+    email:
+      enabled: true              # 是否启用邮件渠道
+      from: noreply@localhost    # 本地 Inbucket 发件人
+      subject-prefix: "【WYH Admin】"
+    sms:
+      enabled: false             # 是否启用短信渠道（需配置短信服务商）
+      provider: aliyun           # 短信服务商
+      sign-name: "WYH Admin"     # 短信签名

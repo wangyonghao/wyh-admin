@@ -71,7 +71,7 @@ admin-commons/cmn-*
 
 `cmn-web`、`cmn-db`、`cmn-cache` 替代原来的 `cmn-boot`。
 
-`admin-biz-system` 内两个限界上下文：`system.admin`（Admin 管理能力，一层 COLA：`adapter` / `app` / `domain` / `infrastructure`，用户/组织/角色菜单/部门/租户产品/文件/任务/设置/通知/审计/仪表盘等统一落在 `top.wyhao.system.admin`）与 `system.auth`（认证，独立 COLA）。**不要**再按 identity / security / department / tenant / file / job 拆出与 Admin 同级的完整 BC 切片；包内仅用子目录整理。`admin-biz-system-client` 里如 `top.wyhao.security.client`、`top.wyhao.identity.client` 等契约包名可保留，实现同属 Admin BC。模块内部的 `client` 包与 `adapter/client` 实现供本模块使用；给其它模块调用的契约放在 `admin-biz-system-client`。
+`admin-biz-system` 内两个限界上下文：`system.admin`（Admin 管理能力，一层 COLA：`adapter` / `app` / `domain` / `infrastructure`，用户/组织/角色菜单/部门/租户产品/文件/任务/设置/通知/审计/仪表盘等统一落在 `top.wyhao.system.admin`）；认证 BC 独立模块 `admin-auth`（`system.auth`，独立 COLA）。**不要**再按 identity / security / department / tenant / file / job 拆出与 Admin 同级的完整 BC 切片；包内仅用子目录整理。`admin-biz-system-client` 里如 `top.wyhao.security.client`、`top.wyhao.identity.client` 等契约包名可保留，实现同属 Admin BC。模块内部的 `client` 包与 `adapter/client` 实现供本模块使用；给其它模块调用的契约放在 `admin-biz-system-client`。
 
 `admin-commons` 按技术适配分包，不套 COLA。
 
@@ -91,7 +91,7 @@ admin-commons/cmn-*
 | 开发配置 | `backend/admin-start/src/main/resources/config/application-dev.yml` |
 | Liquibase | `backend/admin-start/src/main/resources/db/changelog/postgresql/` |
 | Admin 管理能力（用户/组织/角色菜单/部门/租户产品/文件/任务/设置/通知/审计/仪表盘） | `backend/admin-biz-system/.../system/admin/`（`top.wyhao.system.admin`，一层 COLA） |
-| 认证（登录/注册/OTP 等） | `backend/admin-biz-system/.../system/auth/`（`top.wyhao.system.auth`，独立 BC） |
+| 认证（登录/注册/OTP 等） | `backend/admin-auth/.../system/auth/`（`top.wyhao.system.auth`，独立模块 `admin-auth`） |
 | 租户隔离 / 上下文 | `backend/admin-commons/cmn-tenant/` |
 | 对象存储 | `backend/admin-commons/cmn-storage/` |
 | Quartz 内核 | `backend/admin-commons/cmn-job/` |

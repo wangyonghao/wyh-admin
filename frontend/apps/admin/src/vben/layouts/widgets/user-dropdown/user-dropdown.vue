@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import type { Component } from 'vue';
 
+import type { SupportedLanguagesType } from '@vben/locales';
 import type { AnyFunction } from '@vben/types';
 
 import { computed, useTemplateRef, watch } from 'vue';
 
+import { SUPPORT_LANGUAGES } from '@vben/constants';
 import { useHoverToggle } from '@vben/hooks';
-import { LockKeyhole, LogOut } from '@vben/icons';
-import { $t } from '@vben/locales';
-import { preferences, usePreferences } from '@vben/preferences';
+import { Languages, LockKeyhole, LogOut } from '@vben/icons';
+import { $t, loadLocaleMessages } from '@vben/locales';
+import { preferences, updatePreferences, usePreferences } from '@vben/preferences';
 import { useAccessStore } from '@vben/stores';
 import { isWindowsOs } from '@vben/utils';
 
@@ -19,8 +21,13 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
   VbenAvatar,
   VbenIcon,
@@ -83,6 +90,13 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<{ logout: [] }>();
+
+const avatarLabel = computed(() => {
+  const chars = [...(props.text?.trim() ?? '')];
+  const first = chars[0];
+  if (!first) return '';
+  return /[\u4e00-\u9fff]/.test(first) ? first : chars.slice(0, 2).join('');
+});
 
 const { globalLockScreenShortcutKey, globalLogoutShortcutKey } =
   usePreferences();
@@ -151,6 +165,15 @@ function handleSubmitLogout() {
   logoutModalApi.close();
 }
 
+async function handleLocale(value: string | undefined) {
+  if (!value) return;
+  const locale = value as SupportedLanguagesType;
+  updatePreferences({
+    app: { locale },
+  });
+  await loadLocaleMessages(locale);
+}
+
 if (enableShortcutKey.value) {
   const keys = useMagicKeys();
   const logoutKey = keys['Alt+KeyQ'];
@@ -199,7 +222,12 @@ if (enableShortcutKey.value) {
     <DropdownMenuTrigger ref="refTrigger" :disabled="props.trigger === 'hover'">
       <div class="mr-2 ml-1 cursor-pointer rounded-full p-1.5 hover:bg-accent">
         <div class="flex-center hover:text-accent-foreground">
-          <VbenAvatar :alt="text" :src="avatar" class="size-8" dot />
+          <VbenAvatar
+            :alt="avatarLabel"
+            :src="avatar || undefined"
+            class="size-8"
+            dot
+          />
         </div>
       </div>
     </DropdownMenuTrigger>
@@ -207,8 +235,8 @@ if (enableShortcutKey.value) {
       <div ref="refContent">
         <DropdownMenuLabel class="flex items-center p-3">
           <VbenAvatar
-            :alt="text"
-            :src="avatar"
+            :alt="avatarLabel"
+            :src="avatar || undefined"
             class="size-12"
             dot
             dot-class="bottom-0 right-1 border-2 size-4 bg-green-500"
@@ -241,6 +269,29 @@ if (enableShortcutKey.value) {
           {{ menu.text }}
         </DropdownMenuItem>
         <DropdownMenuSeparator />
+        <DropdownMenuSub v-if="preferences.widget.languageToggle">
+          <DropdownMenuSubTrigger
+            class="mx-1 cursor-pointer py-1 leading-8"
+          >
+            <Languages class="mr-2 size-4" />
+            {{ $t('preferences.language') }}
+          </DropdownMenuSubTrigger>
+          <DropdownMenuSubContent class="min-w-36" side="left">
+            <DropdownMenuRadioGroup
+              :model-value="preferences.app.locale"
+              @update:model-value="handleLocale"
+            >
+              <DropdownMenuRadioItem
+                v-for="lang in SUPPORT_LANGUAGES"
+                :key="lang.value"
+                :value="lang.value"
+              >
+                {{ lang.label }}
+              </DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+          </DropdownMenuSubContent>
+        </DropdownMenuSub>
+        <DropdownMenuSeparator v-if="preferences.widget.languageToggle" />
         <DropdownMenuItem
           v-if="preferences.widget.lockScreen"
           class="mx-1 flex cursor-pointer items-center rounded-sm py-1 leading-8"

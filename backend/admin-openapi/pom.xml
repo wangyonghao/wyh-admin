@@ -34,7 +34,7 @@
         </dependency>
         <dependency>
             <groupId>top.wyhao</groupId>
-            <artifactId>admin-biz-system-client</artifactId>
+            <artifactId>admin-system-client</artifactId>
         </dependency>
     </dependencies>
 </project>

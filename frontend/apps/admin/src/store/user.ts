@@ -60,6 +60,15 @@ export const useUserStore = defineStore(
         params.clientId = import.meta.env.VITE_CLIENT_ID;
         params.grantType = AuthTypeConstants.PASSWORD;
         delete params.authType;
+        // 兼容旧字段名 uuid/captcha → captchaUuid/captchaChallenge
+        if (params.uuid && !params.captchaUuid) {
+          params.captchaUuid = params.uuid;
+          delete params.uuid;
+        }
+        if (params.captcha != null && params.captchaChallenge == null) {
+          params.captchaChallenge = params.captcha;
+          delete params.captcha;
+        }
         const loginResult = await authApi.login(params);
         await completeLogin(loginResult.token, onSuccess);
         return { user };
@@ -72,7 +81,7 @@ export const useUserStore = defineStore(
      * 自助注册并直接进入系统
      */
     async function register(
-      params: { username: string; password: string; confirmPassword: string },
+      params: { username: string; password: string; confirmPassword?: string },
       onSuccess?: () => Promise<void> | void,
     ) {
       try {
@@ -80,7 +89,28 @@ export const useUserStore = defineStore(
         const result = await authApi.register({
           username: params.username,
           password: encryptByRsa(params.password) || '',
-          confirmPassword: encryptByRsa(params.confirmPassword) || '',
+        });
+        await completeLogin(result.token, onSuccess);
+        return { user };
+      } finally {
+        loginLoading.value = false;
+      }
+    }
+
+    /**
+     * 第三方 OAuth 登录（回调页使用）
+     */
+    async function socialLogin(
+      params: { provider: string; code: string; state: string },
+      onSuccess?: () => Promise<void> | void,
+    ) {
+      try {
+        loginLoading.value = true;
+        const result = await authApi.socialLogin({
+          clientId: import.meta.env.VITE_CLIENT_ID,
+          provider: params.provider,
+          code: params.code,
+          state: params.state,
         });
         await completeLogin(result.token, onSuccess);
         return { user };
@@ -185,6 +215,7 @@ export const useUserStore = defineStore(
       $reset,
       login,
       register,
+      socialLogin,
       fetchAuthInfo,
       loginLoading,
       logout,

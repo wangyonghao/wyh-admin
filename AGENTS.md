@@ -71,7 +71,7 @@ DB 变更：`backend/admin-start/src/main/resources/db/changelog/postgresql/`
 |------|------|
 | 启动 / 打包 | `backend/admin-start`（只装配） |
 | Admin 管理能力（身份/组织/授权/租户产品/文件/任务/审计/通知/设置/仪表盘） | `backend/admin-biz-system` 的 `system/admin`（`top.wyhao.system.admin`，一层 COLA；勿再拆 identity/security/department 等完整 BC） |
-| 认证 | `backend/admin-biz-system` 的 `system/auth`（独立 BC） |
+| 认证 | `backend/admin-auth`（`system.auth`，独立模块） |
 | 租户隔离 / 上下文 | `backend/admin-commons/cmn-tenant` |
 | 对象存储 | `backend/admin-commons/cmn-storage` |
 | Quartz 内核 | `backend/admin-commons/cmn-job` |

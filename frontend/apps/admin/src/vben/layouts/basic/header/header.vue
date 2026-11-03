@@ -10,7 +10,6 @@ import { VbenFullScreen, VbenIconButton } from '@vben-core/shadcn-ui';
 
 import {
   GlobalSearch,
-  LanguageToggle,
   PreferencesButton,
   ThemeToggle,
   TimezoneButton,
@@ -59,12 +58,6 @@ const rightSlots = computed(() => {
     list.push({
       index: REFERENCE_VALUE + 20,
       name: 'theme-toggle',
-    });
-  }
-  if (preferences.widget.languageToggle) {
-    list.push({
-      index: REFERENCE_VALUE + 30,
-      name: 'language-toggle',
     });
   }
   if (preferences.widget.timezone) {
@@ -166,9 +159,6 @@ function clearPreferencesAndLogout() {
         </template>
         <template v-else-if="slot.name === 'theme-toggle'">
           <ThemeToggle class="mt-0.5 mr-1" />
-        </template>
-        <template v-else-if="slot.name === 'language-toggle'">
-          <LanguageToggle class="mr-1" />
         </template>
         <template v-else-if="slot.name === 'fullscreen'">
           <VbenFullScreen class="mr-1" />

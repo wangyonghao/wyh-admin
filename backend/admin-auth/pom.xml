@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>top.wyhao</groupId>
+    <artifactId>wyh-admin</artifactId>
+    <version>${revision}</version>
+  </parent>
+
+  <artifactId>admin-auth</artifactId>
+  <packaging>jar</packaging>
+
+  <name>${project.artifactId}</name>
+  <description>认证限界上下文（登录/注册/OTP/社交登录）</description>
+
+  <dependencies>
+    <!-- 仅依赖 Admin 契约；实现由 start 装配 admin-system -->
+    <dependency>
+      <groupId>top.wyhao</groupId>
+      <artifactId>admin-system-client</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>top.wyhao</groupId>
+      <artifactId>cmn-security</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>top.wyhao</groupId>
+      <artifactId>cmn-web</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>top.wyhao</groupId>
+      <artifactId>cmn-db</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>top.wyhao</groupId>
+      <artifactId>cmn-cache</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>top.wyhao</groupId>
+      <artifactId>cmn-tenant</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-crypto</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>cn.sticki</groupId>
+      <artifactId>spel-validator-jakarta</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-junit-jupiter</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+</project>

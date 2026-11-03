@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ref } from 'vue';
+
 import { useAppConfig } from '@vben/hooks';
 import {
   SvgGithubIcon,
@@ -10,6 +12,9 @@ import { $t } from '@vben/locales';
 
 import { VbenIconButton } from '@vben-core/shadcn-ui';
 
+import { authApi } from '#/api/auth';
+import { toast } from '#/ui-patterns/toast';
+
 import DingdingLogin from './dingding-login.vue';
 
 defineOptions({
@@ -19,6 +24,25 @@ defineOptions({
 const {
   auth: { dingding: dingdingAuthConfig },
 } = useAppConfig(import.meta.env, import.meta.env.PROD);
+
+const githubLoading = ref(false);
+
+async function handleGithubLogin() {
+  if (githubLoading.value) {
+    return;
+  }
+  githubLoading.value = true;
+  try {
+    const { authorizeUrl } = await authApi.socialAuth('github');
+    if (!authorizeUrl) {
+      throw new Error('未获取到 GitHub 授权地址');
+    }
+    window.location.href = authorizeUrl;
+  } catch (error: any) {
+    toast.error(error?.message || `${$t('authentication.githubLogin')}失败`);
+    githubLoading.value = false;
+  }
+}
 </script>
 
 <template>
@@ -50,6 +74,8 @@ const {
         :tooltip="$t('authentication.githubLogin')"
         tooltip-side="top"
         class="mb-3"
+        :disabled="githubLoading"
+        @click="handleGithubLogin"
       >
         <SvgGithubIcon />
       </VbenIconButton>

@@ -10,14 +10,13 @@ import { $t } from '@vben/locales';
 import {
   Input,
   VbenButton,
-  VbenCheckbox,
   VbenInputCaptcha,
   VbenInputPassword,
 } from '@vben-core/shadcn-ui';
 
 import { captchaApi } from '#/api';
 import { useUserStore } from '#/store';
-
+import { Label } from '#/ui/label';
 
 defineOptions({ name: 'Login' });
 
@@ -33,24 +32,14 @@ const captchaInfo = ref<ImageCaptchaResp>({
 });
 /** 密码错误达到阈值后由 NEED_CAPTCHA 强制展示验证码 */
 const forceShowCaptcha = ref(false);
-const username = ref('');
-const password = ref('');
+const username = ref('admin');
+const password = ref('admin123');
 const captcha = ref('');
-const rememberMe = ref(false);
 const loginLoading = ref(false);
 
 const showCaptcha = computed(
   () => captchaInfo.value.isEnabled || forceShowCaptcha.value,
 );
-
-// Remember me functionality
-const REMEMBER_ME_KEY = `REMEMBER_ME_USERNAME_${location.hostname}`;
-const localUsername = localStorage.getItem(REMEMBER_ME_KEY) || '';
-
-// Initialize form
-username.value = localUsername || 'admin';
-password.value = 'admin123';
-rememberMe.value = !!localUsername;
 
 // Validation schema using zod
 const loginSchema = z.object({
@@ -148,15 +137,10 @@ const handleSubmit = async (event?: Event) => {
     const loginData = {
       username: username.value,
       password: password.value,
-      captcha: captcha.value,
-      uuid: captchaInfo.value.uuid,
+      captchaUuid: captchaInfo.value.uuid,
+      captchaChallenge: captcha.value,
     };
 
-    // Handle remember me
-    localStorage.setItem(
-      REMEMBER_ME_KEY,
-      rememberMe.value ? username.value : '',
-    );
     loginLoading.value = true;
     // Call auth login
     await userStore.login(loginData);
@@ -210,33 +194,46 @@ onMounted(() => {
       <!-- Form Section -->
       <form @submit="handleSubmit">
         <!-- Username Field -->
-        <div class="mb-4">
+        <div class="mb-4 flex flex-col gap-2">
+          <Label for="username">{{ $t('authentication.username') }}</Label>
           <Input
+            id="username"
             v-model="username"
             :placeholder="$t('authentication.usernameTip')"
             :class="{ 'border-red-500': usernameError }"
             @blur="validateField('username', username)"
           />
-          <div v-if="usernameError" class="text-sm text-red-500 mt-1">
+          <div v-if="usernameError" class="text-sm text-red-500">
             {{ usernameError }}
           </div>
         </div>
 
         <!-- Password Field -->
-        <div class="mb-4">
+        <div class="mb-4 flex flex-col gap-2">
+          <div class="flex items-center justify-between">
+            <Label for="password">{{ $t('authentication.password') }}</Label>
+            <span
+              class="text-muted-foreground hover:text-foreground cursor-pointer text-sm font-normal leading-none"
+              @click="handleGo('/auth/forget-password')"
+            >
+              {{ $t('authentication.forgetPassword') }}
+            </span>
+          </div>
           <VbenInputPassword
+            id="password"
             v-model="password"
-            :placeholder="$t('authentication.password')"
+            :placeholder="$t('authentication.passwordTip')"
             :class="{ 'border-red-500': passwordError }"
             @blur="validateField('password', password)"
           />
-          <div v-if="passwordError" class="text-sm text-red-500 mt-1">
+          <div v-if="passwordError" class="text-sm text-red-500">
             {{ passwordError }}
           </div>
         </div>
 
         <!-- Captcha Field (conditional) -->
-        <div v-if="showCaptcha" class="mb-4">
+        <div v-if="showCaptcha" class="mb-4 flex flex-col gap-2">
+          <Label for="code">{{ $t('authentication.code') }}</Label>
           <VbenInputCaptcha
             v-model="captcha"
             :captcha="captchaInfo.img"
@@ -249,27 +246,11 @@ onMounted(() => {
             @captcha-click="getCaptcha"
             @blur="validateField('captcha', captcha)"
           />
-          <div v-if="captchaError" class="text-sm text-red-500 mt-1">
+          <div v-if="captchaError" class="text-sm text-red-500">
             {{ captchaError }}
           </div>
         </div>
       </form>
-
-      <!-- Remember Me and Forget Password -->
-      <div class="mb-6 flex justify-between">
-        <div class="flex-center">
-          <VbenCheckbox v-model:checked="rememberMe" name="rememberMe">
-            {{ $t('authentication.rememberMe') }}
-          </VbenCheckbox>
-        </div>
-
-        <span
-          class="vben-link text-sm font-normal"
-          @click="handleGo('/auth/forget-password')"
-        >
-          {{ $t('authentication.forgetPassword') }}
-        </span>
-      </div>
 
       <!-- Submit Button -->
       <VbenButton
@@ -278,7 +259,7 @@ onMounted(() => {
         }"
         :loading="loginLoading"
         aria-label="login"
-        class="w-full"
+        class="mt-4 w-full"
         @click="handleSubmit"
       >
         {{ $t('common.login') }}
@@ -309,12 +290,28 @@ onMounted(() => {
       <div class="mt-3 text-center text-sm">
         {{ $t('authentication.accountTip') }}
         <span
-          class="vben-link text-sm font-normal"
+          class="text-foreground cursor-pointer text-sm font-normal underline"
           @click="handleGo('/auth/register')"
         >
           {{ $t('authentication.createAccount') }}
         </span>
       </div>
+      <p
+        class="text-muted-foreground mx-auto mt-6 text-center text-xs leading-5"
+      >
+        <i18n-t keypath="authentication.legalConsent" scope="global" tag="span">
+          <template #terms>
+            <a href="/terms" class="underline underline-offset-2">
+              {{ $t('authentication.termsOfService') }}
+            </a>
+          </template>
+          <template #privacy>
+            <a href="/privacy" class="underline underline-offset-2">
+              {{ $t('authentication.privacyPolicyLink') }}
+            </a>
+          </template>
+        </i18n-t>
+      </p>
     </div>
 </div>
 </template>

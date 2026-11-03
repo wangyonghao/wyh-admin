@@ -14,11 +14,12 @@
   <url>https://github.com/wangyonghao/wyh-admin</url>
 
   <modules>
-    <module>admin-biz-system</module>
-    <module>admin-biz-system-client</module>
+    <module>admin-system</module>
+    <module>admin-system-client</module>
+    <module>admin-auth</module>
     <module>admin-openapi</module>
-    <module>admin-start</module>
-    <module>admin-commons</module>
+    <module>start</module>
+    <module>commons</module>
   </modules>
 
   <properties>
@@ -426,14 +427,21 @@
       <!-- API 模块（存放 Controller 层代码，打包部署的模块） -->
       <dependency>
         <groupId>top.wyhao</groupId>
-        <artifactId>admin-start</artifactId>
+        <artifactId>start</artifactId>
         <version>${revision}</version>
       </dependency>
 
       <!-- 系统管理模块（存放系统管理模块相关功能，例如：部门管理、角色管理、用户管理等） -->
       <dependency>
         <groupId>top.wyhao</groupId>
-        <artifactId>admin-biz-system</artifactId>
+        <artifactId>admin-system</artifactId>
+        <version>${revision}</version>
+      </dependency>
+
+      <!-- 认证模块 -->
+      <dependency>
+        <groupId>top.wyhao</groupId>
+        <artifactId>admin-auth</artifactId>
         <version>${revision}</version>
       </dependency>
 
@@ -448,7 +456,7 @@
       <!-- 业务契约 -->
       <dependency>
         <groupId>top.wyhao</groupId>
-        <artifactId>admin-biz-system-client</artifactId>
+        <artifactId>admin-system-client</artifactId>
         <version>${revision}</version>
       </dependency>
       <dependency>

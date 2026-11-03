@@ -120,10 +120,27 @@ const menus = computed(() => [
   },
 ]);
 
-const avatar = computed(() => {
+const avatar = computed(
+  () => resolveFilePreviewUrl(userStore.user?.avatar) ?? '',
+);
+
+/** 库里的邮箱、手机号可能仍是密文；只展示能读的联系方式，否则用用户名。 */
+function readableContact(value?: null | string) {
+  const text = value?.trim() ?? '';
+  if (!text) return '';
+  if (text.includes('@')) return text;
+  if (/^\+?\d[\d\s-]{5,}$/.test(text)) return text;
+  return '';
+}
+
+const userAccount = computed(() => {
+  const current = userStore.user;
+  if (!current) return '';
   return (
-    resolveFilePreviewUrl(userStore.user?.avatar) ??
-    preferences.app.defaultAvatar
+    readableContact(current.email) ||
+    readableContact(current.phone) ||
+    current.username ||
+    ''
   );
 });
 
@@ -211,9 +228,8 @@ watch(
       <UserDropdown
         :avatar
         :menus
-        :text="userStore.user?.displayName"
-        description="ann.vben@gmail.com"
-        tag-text="Pro"
+        :text="userStore.user?.displayName || userStore.user?.username"
+        :description="userAccount"
         @logout="handleLogout"
       />
     </template>
