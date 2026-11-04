@@ -1,43 +1,32 @@
-import type { AxiosRequestConfig } from 'axios';
-
 import http from '#/api/http';
 import type { Menu } from './system';
-import type { PageQuery, PageResult } from '#/types/api';
 
 /* ==================== API 定义 ==================== */
-function postLogin(grantType: AuthGrantType, body: Omit<AuthReq, 'grantType'>, config?: AxiosRequestConfig) {
-  return http.post<LoginResult>('/auth/login', body, {
-    ...config,
-    params: {
-      ...(config?.params ?? {}),
-      grantType,
-    },
-  });
-}
-
 export const authApi = {
-  login(params: AuthReq, config?: AxiosRequestConfig) {
-    const { grantType = AuthTypeConstants.PASSWORD, ...body } = params;
-    return postLogin(grantType, body, config);
-  },
   /** 自助注册（成功后返回登录 token） */
   register(req: RegisterReq) {
     return http.post<LoginResult>('/auth/register', req);
   },
   /** 密码登录：用户名、邮箱或手机号 */
-  passwordLogin(req: PasswordLoginReq, config?: AxiosRequestConfig) {
-    const { grantType = AuthTypeConstants.PASSWORD, ...body } = req;
-    return postLogin(grantType, body, config);
+  passwordLogin(req: PasswordLoginReq) {
+    const { grantType = 'PASSWORD', ...body } = req;
+    return http.post<LoginResult>('/auth/login', body, {
+      params: { grantType },
+    });
   },
   /** 验证码登录：邮箱或手机号 */
-  otpLogin(req: OtpLoginReq, config?: AxiosRequestConfig) {
-    const { grantType = AuthTypeConstants.OTP, ...body } = req;
-    return postLogin(grantType, body, config);
+  otpLogin(req: OtpLoginReq) {
+    const { grantType = 'OTP', ...body } = req;
+    return http.post<LoginResult>('/auth/login', body, {
+      params: { grantType },
+    });
   },
   /** 三方账号登录 */
-  socialLogin(req: AuthReq & Record<string, any>, config?: AxiosRequestConfig) {
-    const { grantType = AuthTypeConstants.OAUTH, ...body } = req;
-    return postLogin(grantType, body, config);
+  socialLogin(req: AuthReq & Record<string, any>) {
+    const { grantType = 'OAUTH', ...body } = req;
+    return http.post<LoginResult>('/auth/login', body, {
+      params: { grantType },
+    });
   },
   /** 三方账号登录授权 */
   socialAuth(source: string) {
@@ -59,26 +48,9 @@ export const authApi = {
   getAuthInfo() {
     return http.get<AuthInfo>('/auth/user');
   },
-  /** 分页查询登录日志列表（System /monitor/login-log） */
-  listLoginLog: (query: LoginLogPageQuery) => {
-    return http.get<PageResult<LoginLogResult[]>>('/monitor/login-log', {
-      params: query,
-    });
-  },
-  /** 导出登录日志 */
-  exportLoginLog: (query: LoginLogQuery) => {
-    return http.download('/monitor/login-log/export', { params: query });
-  },
 };
 
 /* ==================== 常量定义 ==================== */
-
-/** 认证类型（对齐后端 GrantType：PASSWORD / OTP / OAUTH） */
-export const AuthTypeConstants = {
-  PASSWORD: 'PASSWORD',
-  OTP: 'OTP',
-  OAUTH: 'OAUTH',
-} as const;
 
 /** OTP 业务场景（对齐 OtpScene） */
 export const OtpSceneConstants = {
@@ -224,50 +196,3 @@ export interface LoginResult {
 export interface SocialAuthAuthorizeResp {
   authorizeUrl: string;
 }
-
-/* ==================== 登录日志 Schema 定义 ==================== */
-
-/** 登录日志响应 */
-export interface LoginLogResult {
-  /** 主键ID */
-  id: string;
-  /** 用户名 */
-  username: string;
-  /** IP地址 */
-  ipAddress: string;
-  /** 地理位置 */
-  location: string;
-  /** 设备类型 */
-  deviceType: string;
-  /** 浏览器 */
-  browser: string;
-  /** 操作系统 */
-  os: string;
-  /** 登录状态 */
-  loginStatus: 'SUCCESS' | 'FAILURE';
-  /** 登录时间 */
-  loginTime: string;
-  /** 失败原因 */
-  failureReason?: string;
-  /** 租户ID */
-  tenantId?: string;
-}
-
-/** 登录日志查询条件 */
-export interface LoginLogQuery {
-  /** 用户名（模糊查询） */
-  username?: string;
-  /** IP地址（模糊查询） */
-  ipAddress?: string;
-  /** 登录状态 */
-  loginStatus?: 'SUCCESS' | 'FAILURE';
-  /** 登录开始时间 */
-  loginTimeStart?: string;
-  /** 登录结束时间 */
-  loginTimeEnd?: string;
-  /** 租户ID */
-  tenantId?: string;
-}
-
-/** 登录日志分页查询 */
-export interface LoginLogPageQuery extends LoginLogQuery, PageQuery {}

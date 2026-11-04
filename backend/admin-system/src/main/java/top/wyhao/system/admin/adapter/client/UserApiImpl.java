@@ -7,7 +7,7 @@ import top.wyhao.cmn.core.enums.StatusEnum;
 import top.wyhao.system.admin.app.service.UserAdminService;
 import top.wyhao.system.admin.app.service.UserProfileService;
 import top.wyhao.system.admin.app.service.UserSocialService;
-import top.wyhao.system.auth.domain.user.CredentialUser;
+import top.wyhao.identity.client.UserCredential;
 import top.wyhao.identity.client.SocialLink;
 import top.wyhao.identity.client.UserApi;
 import top.wyhao.identity.client.UserProfile;
@@ -36,27 +36,27 @@ public class UserApiImpl implements UserApi, UserProfileApi {
     }
 
     @Override
-    public CredentialUser findById(Long id) {
+    public UserCredential findById(Long id) {
         return toCredential(userAdminService.getById(id));
     }
 
     @Override
-    public CredentialUser findByUsername(String username) {
+    public UserCredential findByUsername(String username) {
         return toCredential(userAdminService.getByUsername(username));
     }
 
     @Override
-    public CredentialUser findByPhone(String phone) {
+    public UserCredential findByPhone(String phone) {
         return toCredential(userAdminService.getByPhone(phone));
     }
 
     @Override
-    public CredentialUser findByEmail(String email) {
+    public UserCredential findByEmail(String email) {
         return toCredential(userAdminService.getByEmail(email));
     }
 
     @Override
-    public CredentialUser registerSocialUser(String username, String displayName, Integer gender, Long departmentId) {
+    public UserCredential registerSocialUser(String username, String displayName, Integer gender, Long departmentId) {
         User user = new User();
         user.setUsername(username);
         user.setDisplayName(displayName);
@@ -68,7 +68,7 @@ public class UserApiImpl implements UserApi, UserProfileApi {
     }
 
     @Override
-    public CredentialUser registerLocalUser(String username, String rawPassword, Long departmentId, java.util.List<Long> roleIds) {
+    public UserCredential registerLocalUser(String username, String rawPassword, Long departmentId, java.util.List<Long> roleIds) {
         return toCredential(userProfileService.registerLocal(username, rawPassword, departmentId, roleIds));
     }
 
@@ -102,11 +102,11 @@ public class UserApiImpl implements UserApi, UserProfileApi {
         return profile;
     }
 
-    private CredentialUser toCredential(User user) {
+    private UserCredential toCredential(User user) {
         if (user == null) {
             return null;
         }
-        return new CredentialUser(
+        return new UserCredential(
                 user.getId(),
                 user.getUsername(),
                 user.getDisplayName(),

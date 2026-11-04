@@ -18,7 +18,7 @@ import top.wyhao.system.admin.domain.exception.SmsException;
 import top.wyhao.system.admin.domain.model.SmsLog;
 import top.wyhao.system.admin.infrastructure.persistence.AdminDoMapper;
 import top.wyhao.system.admin.infrastructure.persistence.dataobject.SysSmsLogDO;
-import top.wyhao.system.admin.infrastructure.repository.mapper.SysSmsLogMapper;
+import top.wyhao.system.admin.infrastructure.persistence.mapper.SysSmsLogMapper;
 import top.wyhao.web.core.model.PageQuery;
 
 import java.util.List;

@@ -199,4 +199,9 @@ public class UserException extends BizException {
     public static UserException passwordWarningDaysExceedExpiration() {
         return of("USER_PASSWORD_WARNING_DAYS_EXCEED_EXPIRATION", "密码到期提醒时间应小于密码有效期");
     }
+
+    public static UserException kickoutSelfNotAllowed() {
+        return of("AUTH_KICKOUT_SELF_NOT_ALLOWED", "不能强退自己");
+    }
+
 }

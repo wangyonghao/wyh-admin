@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.wyhao.system.admin.domain.PackageMenuBinding;
-import top.wyhao.system.admin.infrastructure.repository.mapper.TenantPackageMenuMapper;
+import top.wyhao.system.admin.infrastructure.persistence.mapper.TenantPackageMenuMapper;
 import top.wyhao.system.admin.domain.model.TenantPackageMenu;
 import top.wyhao.system.admin.app.service.PackageMenuService;
 import top.wyhao.cmn.core.util.CollUtils;

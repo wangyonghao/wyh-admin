@@ -2,7 +2,8 @@ package top.wyhao.system.auth.adapter.client;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import top.wyhao.system.auth.adapter.client.config.RegisterConfigVO;
+import top.wyhao.system.auth.client.RegisterConfigApi;
+import top.wyhao.system.auth.client.RegisterConfigVO;
 import top.wyhao.settings.client.ConfigKeys;
 import top.wyhao.settings.client.ConfigStoreApi;
 

@@ -17,9 +17,10 @@ import top.wyhao.cmn.core.enums.GenderEnum;
 import top.wyhao.satoken.util.LoginUtil;
 import top.wyhao.identity.client.SocialLink;
 import top.wyhao.identity.client.UserApi;
+import top.wyhao.identity.client.UserCredential;
 import top.wyhao.security.client.RoleApi;
-import top.wyhao.system.auth.adapter.client.RegisterConfigApi;
-import top.wyhao.system.auth.adapter.client.config.RegisterConfigVO;
+import top.wyhao.system.auth.client.RegisterConfigApi;
+import top.wyhao.system.auth.client.RegisterConfigVO;
 import top.wyhao.system.auth.app.dto.*;
 import top.wyhao.system.auth.app.service.AuthService;
 import top.wyhao.system.auth.domain.exception.AuthenticationException;
@@ -192,12 +193,13 @@ public class AuthServiceImpl implements AuthService {
         if (roleId == null) {
             throw AuthenticationException.registerRoleMissing();
         }
-        CredentialUser user = userApi.registerLocalUser(
+        UserCredential registered = userApi.registerLocalUser(
                 request.getUsername(),
                 request.getPassword(),
                 SystemConstants.SUPER_DEPARTMENT_ID,
                 List.of(roleId)
         );
+        CredentialUser user = toCredential(registered);
 
         top.wyhao.system.auth.domain.model.ClientContext client = clientContext();
         String token = tokenGateway.issue(user, client);
@@ -319,6 +321,24 @@ public class AuthServiceImpl implements AuthService {
         HttpServletRequest http = ServletUtils.getRequest();
         String ua = http != null ? http.getHeader("User-Agent") : null;
         return top.wyhao.system.auth.domain.model.ClientContext.of(ip, ua);
+    }
+
+
+    private static CredentialUser toCredential(UserCredential credential) {
+        if (credential == null) {
+            return null;
+        }
+        return new CredentialUser(
+                credential.id(),
+                credential.username(),
+                credential.displayName(),
+                credential.password(),
+                credential.status(),
+                credential.gender(),
+                credential.departmentId(),
+                credential.pwdUpdateTime(),
+                credential.pwdExpireDate()
+        );
     }
 
 }

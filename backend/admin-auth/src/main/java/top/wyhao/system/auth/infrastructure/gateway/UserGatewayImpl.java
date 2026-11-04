@@ -9,6 +9,7 @@ import top.wyhao.cmn.core.enums.RoleCodeEnum;
 import top.wyhao.identity.client.DepartmentApi;
 import top.wyhao.identity.client.SocialLink;
 import top.wyhao.identity.client.UserApi;
+import top.wyhao.identity.client.UserCredential;
 import top.wyhao.notification.client.MessageNotifyApi;
 import top.wyhao.notification.client.MessageTemplates;
 import top.wyhao.security.client.RoleApi;
@@ -34,22 +35,22 @@ public class UserGatewayImpl implements UserGateway {
 
     @Override
     public CredentialUser findByUsername(String username) {
-        return userApi.findByUsername(username);
+        return toCredential(userApi.findByUsername(username));
     }
 
     @Override
     public CredentialUser findByEmail(String email) {
-        return userApi.findByEmail(email);
+        return toCredential(userApi.findByEmail(email));
     }
 
     @Override
     public CredentialUser findByPhone(String phone) {
-        return userApi.findByPhone(phone);
+        return toCredential(userApi.findByPhone(phone));
     }
 
     @Override
     public CredentialUser findById(Long id) {
-        return userApi.findById(id);
+        return toCredential(userApi.findById(id));
     }
 
     @Override
@@ -69,7 +70,7 @@ public class UserGatewayImpl implements UserGateway {
 
     @Override
     public CredentialUser registerSocialUser(String username, String displayName, Integer gender) {
-        return userApi.registerSocialUser(username, displayName, gender, SystemConstants.SUPER_DEPARTMENT_ID);
+        return toCredential(userApi.registerSocialUser(username, displayName, gender, SystemConstants.SUPER_DEPARTMENT_ID));
     }
 
     @Override
@@ -117,5 +118,22 @@ public class UserGatewayImpl implements UserGateway {
     @Override
     public void saveSocialLogin(Long userId, SocialProfile profile) {
         userApi.saveSocialLogin(userId, profile.source(), profile.openId(), profile.rawJson());
+    }
+
+    private static CredentialUser toCredential(UserCredential credential) {
+        if (credential == null) {
+            return null;
+        }
+        return new CredentialUser(
+                credential.id(),
+                credential.username(),
+                credential.displayName(),
+                credential.password(),
+                credential.status(),
+                credential.gender(),
+                credential.departmentId(),
+                credential.pwdUpdateTime(),
+                credential.pwdExpireDate()
+        );
     }
 }

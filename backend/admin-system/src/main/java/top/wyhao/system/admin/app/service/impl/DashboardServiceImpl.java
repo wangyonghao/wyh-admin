@@ -15,7 +15,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
-import top.wyhao.system.admin.infrastructure.repository.mapper.SysOperationLogMapper;
+import top.wyhao.system.admin.infrastructure.persistence.mapper.SysOperationLogMapper;
 import top.wyhao.system.admin.app.dto.DashboardAccessTrendResp;
 import top.wyhao.system.admin.app.dto.DashboardChartCommonResp;
 import top.wyhao.system.admin.app.dto.DashboardNoticeResp;

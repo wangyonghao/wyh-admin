@@ -11,8 +11,7 @@ import top.wyhao.mybatis.query.PageResult;
 import top.wyhao.satoken.util.LoginUtil;
 import top.wyhao.system.admin.app.dto.OnlineUserResult;
 import top.wyhao.system.admin.app.service.OnlineSessionService;
-import top.wyhao.system.auth.domain.exception.AuthenticationException;
-import top.wyhao.system.auth.domain.user.CredentialUser;
+import top.wyhao.system.admin.domain.exception.UserException;
 import top.wyhao.web.core.model.PageQuery;
 
 import java.time.Instant;
@@ -47,7 +46,7 @@ public class OnlineSessionServiceImpl implements OnlineSessionService {
     public void revoke(String token) {
         String currentToken = LoginUtil.getTokenValue();
         if (ObjectUtil.equal(token, currentToken)) {
-            throw AuthenticationException.kickoutSelfNotAllowed();
+            throw UserException.kickoutSelfNotAllowed();
         }
         LoginUtil.kickout(token);
     }
@@ -108,9 +107,6 @@ public class OnlineSessionServiceImpl implements OnlineSessionService {
         Object loginUser = session.get(LoginUtil.LOGIN_USER_KEY);
         if (loginUser instanceof LoginUser user && StrUtil.isNotBlank(user.getUsername())) {
             return user.getUsername();
-        }
-        if (loginUser instanceof CredentialUser user && StrUtil.isNotBlank(user.username())) {
-            return user.username();
         }
         return "";
     }

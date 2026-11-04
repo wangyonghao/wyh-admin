@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.quartz.CronExpression;
 import top.wyhao.system.admin.app.dto.ScheduleSpec;
-import top.wyhao.cmn.core.exception.BizException;
+import top.wyhao.system.admin.domain.exception.JobException;
 
 import java.text.ParseException;
 import java.time.LocalDateTime;
@@ -31,7 +31,7 @@ public final class CronComposer {
 
     public static Compiled compile(ScheduleSpec spec) {
         if (spec == null || spec.getMode() == null) {
-            throw new BizException("请选择执行频率");
+            throw JobException.scheduleModeRequired();
         }
         String mode = spec.getMode().trim().toUpperCase(Locale.ROOT);
         String cron;
@@ -48,12 +48,12 @@ public final class CronComposer {
                 int minute = requireMinute(spec.getMinute());
                 List<Integer> days = spec.getDaysOfWeek();
                 if (days == null || days.isEmpty()) {
-                    throw new BizException("请选择星期");
+                    throw JobException.weekdayRequired();
                 }
                 List<Integer> sorted = days.stream().distinct().sorted().toList();
                 for (Integer day : sorted) {
                     if (day == null || day < 1 || day > 7) {
-                        throw new BizException("星期取值应为 1（周一）到 7（周日）");
+                        throw JobException.weekdayInvalid();
                     }
                 }
                 String cronDays = sorted.stream()
@@ -70,7 +70,7 @@ public final class CronComposer {
                 int minute = requireMinute(spec.getMinute());
                 Integer day = spec.getDayOfMonth();
                 if (day == null || day < 1 || day > 31) {
-                    throw new BizException("请选择每月日期（1-31）");
+                    throw JobException.dayOfMonthRequired();
                 }
                 cron = "0 %d %d %d * ?".formatted(minute, hour, day);
                 label = "每月 %d 号 %s".formatted(day, clock(hour, minute));
@@ -78,7 +78,7 @@ public final class CronComposer {
             case "INTERVAL" -> {
                 Integer interval = spec.getInterval();
                 if (interval == null || interval < 1) {
-                    throw new BizException("间隔必须大于 0");
+                    throw JobException.intervalInvalid();
                 }
                 String unit = spec.getIntervalUnit() == null ? "MINUTE" : spec.getIntervalUnit().toUpperCase(Locale.ROOT);
                 if ("HOUR".equals(unit)) {
@@ -91,18 +91,18 @@ public final class CronComposer {
             }
             case "CRON" -> {
                 if (spec.getCron() == null || spec.getCron().isBlank()) {
-                    throw new BizException("请填写 Cron 表达式");
+                    throw JobException.cronRequired();
                 }
                 cron = spec.getCron().trim();
                 if (!CronExpression.isValidExpression(cron)) {
-                    throw new BizException("Cron 表达式无效");
+                    throw JobException.cronInvalid();
                 }
                 label = "自定义：" + cron;
             }
-            default -> throw new BizException("不支持的执行频率");
+            default -> throw JobException.scheduleModeUnsupported();
         }
         if (!CronExpression.isValidExpression(cron)) {
-            throw new BizException("生成的 Cron 无效");
+            throw JobException.generatedCronInvalid();
         }
         spec.setMode(mode);
         spec.setCron(cron);
@@ -142,14 +142,14 @@ public final class CronComposer {
 
     private static int requireHour(Integer hour) {
         if (hour == null || hour < 0 || hour > 23) {
-            throw new BizException("请选择小时（0-23）");
+            throw JobException.hourRequired();
         }
         return hour;
     }
 
     private static int requireMinute(Integer minute) {
         if (minute == null || minute < 0 || minute > 59) {
-            throw new BizException("请选择分钟（0-59）");
+            throw JobException.minuteRequired();
         }
         return minute;
     }
@@ -162,7 +162,7 @@ public final class CronComposer {
         try {
             return MAPPER.writeValueAsString(spec);
         } catch (JsonProcessingException e) {
-            throw new BizException("调度配置序列化失败");
+            throw JobException.scheduleSerializeFailed();
         }
     }
 

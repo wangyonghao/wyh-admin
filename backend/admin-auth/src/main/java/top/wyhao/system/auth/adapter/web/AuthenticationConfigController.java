@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import top.wyhao.system.auth.adapter.client.LoginConfigApi;
-import top.wyhao.system.auth.adapter.client.config.LoginConfigVO;
+import top.wyhao.system.auth.client.LoginConfigApi;
+import top.wyhao.system.auth.client.LoginConfigVO;
 
 /**
  * 登录配置 API（路径保持不变）。

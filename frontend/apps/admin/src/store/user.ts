@@ -1,6 +1,6 @@
 import type { Recordable } from '@vben/types';
 
-import type { UserProfile } from '#/api/auth';
+import type { PasswordLoginReq, UserProfile } from '#/api/auth';
 import type { Menu } from '#/api/system/menu';
 
 import { computed, ref } from 'vue';
@@ -17,7 +17,6 @@ import {
 import { defineStore } from 'pinia';
 
 import { toast } from '#/ui-patterns/toast';
-import { AuthTypeConstants } from '#/api';
 import { authApi } from '#/api/auth';
 import { $t } from '#/locales';
 import { encryptByRsa } from '#/utils/crypto';
@@ -58,7 +57,6 @@ export const useUserStore = defineStore(
         loginLoading.value = true;
         delete params.tenantId;
         params.clientId = import.meta.env.VITE_CLIENT_ID;
-        params.grantType = AuthTypeConstants.PASSWORD;
         delete params.authType;
         // 兼容旧字段名 uuid/captcha → captchaUuid/captchaChallenge
         if (params.uuid && !params.captchaUuid) {
@@ -69,7 +67,15 @@ export const useUserStore = defineStore(
           params.captchaChallenge = params.captcha;
           delete params.captcha;
         }
-        const loginResult = await authApi.login(params);
+        const loginResult = await authApi.passwordLogin({
+          clientId: params.clientId,
+          username: params.username,
+          email: params.email,
+          phone: params.phone,
+          password: params.password,
+          captchaUuid: params.captchaUuid,
+          captchaChallenge: params.captchaChallenge,
+        } satisfies PasswordLoginReq);
         await completeLogin(loginResult.token, onSuccess);
         return { user };
       } finally {

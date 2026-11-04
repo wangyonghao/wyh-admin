@@ -1,17 +1,16 @@
-
 package top.wyhao.system.admin.app.service.impl;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.json.JSONUtil;
 import lombok.RequiredArgsConstructor;
-import me.zhyd.oauth.model.AuthUser;
 import org.springframework.stereotype.Service;
+import top.wyhao.cmn.core.util.CollUtils;
+import top.wyhao.system.admin.app.service.UserSocialService;
 import top.wyhao.system.admin.domain.exception.UserException;
+import top.wyhao.system.admin.domain.gateway.SocialOAuthGateway;
 import top.wyhao.system.admin.domain.gateway.UserSocialRepository;
+import top.wyhao.system.admin.domain.model.SocialIdentity;
 import top.wyhao.system.admin.domain.model.SocialSource;
 import top.wyhao.system.admin.domain.model.UserSocial;
-import top.wyhao.system.admin.app.service.UserSocialService;
-import top.wyhao.cmn.core.util.CollUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -19,15 +18,13 @@ import java.util.Set;
 
 /**
  * 用户社交账号服务类
- *
-
- * @since 2025/12/7
  */
 @Service
 @RequiredArgsConstructor
 public class UserSocialServiceImpl implements UserSocialService {
 
     private final UserSocialRepository userSocialRepository;
+    private final SocialOAuthGateway socialOAuthGateway;
 
     @Override
     public UserSocial getBySourceAndOpenId(String source, String openId) {
@@ -49,9 +46,15 @@ public class UserSocialServiceImpl implements UserSocialService {
     }
 
     @Override
-    public void bind(AuthUser authUser, Long userId) {
-        String source = authUser.getSource();
-        String openId = authUser.getUuid();
+    public void bindFromOAuth(String source, String code, String state, Long userId) {
+        SocialIdentity identity = socialOAuthGateway.authenticate(source, code, state);
+        bind(identity, userId);
+    }
+
+    @Override
+    public void bind(SocialIdentity identity, Long userId) {
+        String source = identity.source();
+        String openId = identity.openId();
         List<UserSocial> userSocialList = this.listByUserId(userId);
         Set<String> boundSocialSet = CollUtils.mapToSet(userSocialList, UserSocial::getSource);
         String description = SocialSource.valueOf(source).getDescription();
@@ -60,13 +63,13 @@ public class UserSocialServiceImpl implements UserSocialService {
         }
         UserSocial userSocial = this.getBySourceAndOpenId(source, openId);
         if (userSocial != null) {
-            throw UserException.socialBoundByOther(description, authUser.getUsername());
+            throw UserException.socialBoundByOther(description, identity.username());
         }
         userSocial = new UserSocial();
         userSocial.setUserId(userId);
         userSocial.setSource(source);
         userSocial.setOpenId(openId);
-        userSocial.setMetaJson(JSONUtil.toJsonStr(authUser));
+        userSocial.setMetaJson(identity.metaJson());
         userSocial.setLastLoginTime(LocalDateTime.now());
         userSocialRepository.insert(userSocial);
     }

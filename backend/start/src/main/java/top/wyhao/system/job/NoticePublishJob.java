@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import top.wyhao.system.admin.domain.model.Notice;
 import top.wyhao.system.admin.infrastructure.persistence.dataobject.SysNoticeDO;
 import top.wyhao.system.admin.infrastructure.persistence.AdminDoMapper;
-import top.wyhao.system.admin.infrastructure.repository.mapper.SysNoticeMapper;
+import top.wyhao.system.admin.infrastructure.persistence.mapper.SysNoticeMapper;
 import top.wyhao.system.admin.domain.model.NoticeMethods;
 import top.wyhao.system.admin.domain.model.NoticeStatus;
 import top.wyhao.system.admin.app.service.NoticeService;

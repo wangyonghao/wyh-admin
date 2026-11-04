@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.util.StringUtils;
-import top.wyhao.cmn.core.exception.BizException;
+import top.wyhao.system.admin.domain.exception.JobException;
 import top.wyhao.mybatis.query.PageResult;
 import top.wyhao.system.admin.app.dto.JobLogQuery;
 import top.wyhao.system.admin.app.dto.JobQuery;
@@ -114,7 +114,7 @@ public class JobAdminService {
     @Transactional(rollbackFor = Exception.class)
     public void updateStatus(Long id, Integer status) {
         if (status == null || (status != STATUS_DISABLED && status != STATUS_ENABLED)) {
-            throw new BizException("状态无效");
+            throw JobException.statusInvalid();
         }
         Job job = requireJob(id);
         job.setStatus(status);
@@ -182,7 +182,7 @@ public class JobAdminService {
     private Job requireJob(Long id) {
         Job job = jobRepository.findById(id);
         if (job == null) {
-            throw new BizException("任务不存在");
+            throw JobException.notFound();
         }
         return job;
     }

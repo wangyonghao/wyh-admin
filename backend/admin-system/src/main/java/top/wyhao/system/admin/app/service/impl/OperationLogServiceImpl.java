@@ -15,7 +15,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import top.wyhao.system.admin.app.assembler.OperationLogAssembler;
 import top.wyhao.system.admin.domain.model.OperationLog;
-import top.wyhao.system.admin.infrastructure.repository.mapper.SysOperationLogMapper;
+import top.wyhao.system.admin.infrastructure.persistence.mapper.SysOperationLogMapper;
 import top.wyhao.system.admin.app.service.OperationLogService;
 import top.wyhao.mybatis.query.QueryWrapperBuilder;
 import top.wyhao.system.admin.domain.exception.OperationLogException;

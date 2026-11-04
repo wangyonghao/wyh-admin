@@ -1,9 +1,9 @@
 package top.wyhao.job.app.service;
 
 import org.junit.jupiter.api.Test;
-import top.wyhao.system.admin.app.service.CronComposer;
-import top.wyhao.cmn.core.exception.BizException;
 import top.wyhao.system.admin.app.dto.ScheduleSpec;
+import top.wyhao.system.admin.app.service.CronComposer;
+import top.wyhao.system.admin.domain.exception.JobException;
 
 import java.util.List;
 
@@ -12,6 +12,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 /**
  * {@link CronComposer} 示范单测：白话调度 → Quartz Cron。
+ * 断言用 {@code getCode()}/{@code getDefaultMessage()}，避免 {@code getMessage()} 触发 I18n（需 Spring）。
  */
 class CronComposerTest {
 
@@ -81,30 +82,34 @@ class CronComposerTest {
     @Test
     void shouldRejectNullOrUnknownMode() {
         assertThatThrownBy(() -> CronComposer.compile(null))
-                .isInstanceOf(BizException.class)
-                .hasMessageContaining("请选择执行频率");
+                .isInstanceOf(JobException.class)
+                .extracting(ex -> ((JobException) ex).getCode())
+                .isEqualTo("JOB_SCHEDULE_MODE_REQUIRED");
 
         ScheduleSpec spec = new ScheduleSpec();
         spec.setMode("YEARLY");
         assertThatThrownBy(() -> CronComposer.compile(spec))
-                .isInstanceOf(BizException.class)
-                .hasMessageContaining("不支持的执行频率");
+                .isInstanceOf(JobException.class)
+                .extracting(ex -> ((JobException) ex).getCode())
+                .isEqualTo("JOB_SCHEDULE_MODE_UNSUPPORTED");
     }
 
     @Test
     void shouldRejectInvalidDailyHour() {
         ScheduleSpec spec = spec("DAILY", 24, 0);
         assertThatThrownBy(() -> CronComposer.compile(spec))
-                .isInstanceOf(BizException.class)
-                .hasMessageContaining("请选择小时");
+                .isInstanceOf(JobException.class)
+                .extracting(ex -> ((JobException) ex).getCode())
+                .isEqualTo("JOB_HOUR_REQUIRED");
     }
 
     @Test
     void shouldRejectEmptyWeeklyDays() {
         ScheduleSpec spec = spec("WEEKLY", 9, 0);
         assertThatThrownBy(() -> CronComposer.compile(spec))
-                .isInstanceOf(BizException.class)
-                .hasMessageContaining("请选择星期");
+                .isInstanceOf(JobException.class)
+                .extracting(ex -> ((JobException) ex).getCode())
+                .isEqualTo("JOB_WEEKDAY_REQUIRED");
     }
 
     @Test
@@ -113,8 +118,9 @@ class CronComposerTest {
         spec.setMode("CRON");
         spec.setCron("not-a-cron");
         assertThatThrownBy(() -> CronComposer.compile(spec))
-                .isInstanceOf(BizException.class)
-                .hasMessageContaining("Cron 表达式无效");
+                .isInstanceOf(JobException.class)
+                .extracting(ex -> ((JobException) ex).getCode())
+                .isEqualTo("JOB_CRON_INVALID");
     }
 
     @Test

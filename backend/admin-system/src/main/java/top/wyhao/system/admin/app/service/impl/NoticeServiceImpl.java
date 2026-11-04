@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import top.wyhao.notification.client.MessageTemplates;
 import top.wyhao.system.admin.domain.model.*;
-import top.wyhao.system.admin.infrastructure.repository.mapper.SysNoticeMapper;
+import top.wyhao.system.admin.infrastructure.persistence.mapper.SysNoticeMapper;
 import top.wyhao.system.admin.app.dto.DashboardNoticeResp;
 import top.wyhao.system.admin.app.service.MessageService;
 import top.wyhao.system.admin.app.service.NoticeLogService;

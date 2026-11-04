@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { VbenFormSchema } from '#/adapter/form';
 import type { VxeTableGridOptions } from '#/adapter/vxe-table';
-import type { LoginLogQuery, LoginLogResult } from '#/api/auth';
+import type { LoginLogQuery, LoginLogResult } from '#/api/system/login-log';
 
 import { IconifyIcon } from '@vben/icons';
 
 import { formatDateTimeRange } from '#/adapter/component/date-range';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { authApi } from '#/api/auth';
+import { loginLogApi } from '#/api/system/login-log';
 import { $t } from '#/locales';
 import { Badge } from '#/ui/badge';
 import { Button } from '#/ui/button';
@@ -134,7 +134,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
     proxyConfig: {
       ajax: {
         query: async ({ page }, formValues) => {
-          return await authApi.listLoginLog({
+          return await loginLogApi.listLoginLog({
             page: page.currentPage,
             pageSize: page.pageSize,
             ...loginQuery(formValues ?? {}),
@@ -155,7 +155,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
 
 async function handleExport() {
   const formValues = (await gridApi.formApi?.getValues?.()) ?? {};
-  authApi.exportLoginLog(loginQuery(formValues));
+  loginLogApi.exportLoginLog(loginQuery(formValues));
 }
 </script>
 

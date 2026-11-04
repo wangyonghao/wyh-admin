@@ -4,14 +4,14 @@ import type {
   LoginLogPageQuery,
   LoginLogQuery,
   LoginLogResult,
-} from '#/api/auth';
+} from '#/api/system/login-log';
 
 import { ref } from 'vue';
 
 import { toast } from '#/ui-patterns/toast';
 import FormSelect from '#/adapter/component/FormSelect.vue';
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
-import { authApi } from '#/api/auth';
+import { loginLogApi } from '#/api/system/login-log';
 import { $t } from '#/locales';
 import { useUserStore } from '#/store/user';
 import { Badge } from '#/ui/badge';
@@ -92,7 +92,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
               filters.value.dateRange[1],
             ).toISOString();
           }
-          const res = await authApi.listLoginLog(params);
+          const res = await loginLogApi.listLoginLog(params);
           return { records: res.records ?? [], total: res.total ?? 0 };
         },
       },
@@ -125,7 +125,7 @@ async function handleExport() {
       params.loginTimeStart = new Date(filters.value.dateRange[0]).toISOString();
       params.loginTimeEnd = new Date(filters.value.dateRange[1]).toISOString();
     }
-    await authApi.exportLoginLog(params);
+    await loginLogApi.exportLoginLog(params);
     toast.success($t('page.profile.logs.exportSuccess'));
   } catch (error) {
     console.error('导出失败:', error);

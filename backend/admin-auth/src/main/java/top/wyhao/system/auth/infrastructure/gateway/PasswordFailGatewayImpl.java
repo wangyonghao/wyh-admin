@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.redisson.api.RAtomicLong;
 import org.springframework.stereotype.Component;
 import top.wyhao.redisson.util.RedisUtils;
-import top.wyhao.system.auth.adapter.client.LoginConfigApi;
-import top.wyhao.system.auth.adapter.client.config.LoginConfigVO;
+import top.wyhao.system.auth.client.LoginConfigApi;
+import top.wyhao.system.auth.client.LoginConfigVO;
 import top.wyhao.system.auth.domain.gateway.PasswordFailGateway;
 import top.wyhao.system.auth.domain.user.PasswordPolicy;
 

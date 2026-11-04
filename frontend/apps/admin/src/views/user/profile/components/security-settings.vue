@@ -4,7 +4,7 @@ import { h, onMounted, ref } from 'vue';
 import { useVbenModal } from '@vben/common-ui';
 
 import { useVbenForm, z } from '#/adapter/form';
-import { authApi, type LoginLogResult } from '#/api/auth';
+import { loginLogApi, type LoginLogResult } from '#/api/system/login-log';
 import {
   userProfileApi,
   type BindSocialAccountRes,
@@ -198,7 +198,7 @@ async function openEmail() {
 const fetchLoginDevices = async () => {
   try {
     loadingDevices.value = true;
-    const res = await authApi.listLoginLog({
+    const res = await loginLogApi.listLoginLog({
       username: userStore.user?.username,
       loginStatus: 'SUCCESS',
       page: 1,
