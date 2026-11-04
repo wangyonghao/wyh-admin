@@ -36,9 +36,11 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
-          source: ./frontend/dist.zip
+          # vite archiver 写在 apps/admin/dist.zip（cwd = apps/admin）
+          source: ./frontend/apps/admin/dist.zip
           target: /opt/1panel/www/sites/tide.wyhao.top/
-          strip_components: 2
+          # 去掉 frontend/apps/admin，使目标目录下得到 dist.zip
+          strip_components: 3
           debug: true
       - name: 6. Deploy site
         uses: appleboy/ssh-action@v1
@@ -49,6 +51,5 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             rm -rf /opt/1panel/www/sites/tide.wyhao.top/index/*
-            unzip /opt/1panel/www/sites/tide.wyhao.top/dist.zip -d opt/1panel/www/sites/tide.wyhao.top/index/
+            unzip /opt/1panel/www/sites/tide.wyhao.top/dist.zip -d /opt/1panel/www/sites/tide.wyhao.top/index/
             rm -f /opt/1panel/www/sites/tide.wyhao.top/dist.zip
-            

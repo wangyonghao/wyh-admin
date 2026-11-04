@@ -32,4 +32,5 @@ jobs:
       - name: Compile
         run: mvn -B compile --file ./backend/pom.xml
       - name: Unit tests
-        run: mvn -B -pl admin-commons/cmn-job,admin-commons/cmn-web,admin-commons/cmn-db,admin-commons/cmn-cache,admin-commons/cmn-crypto,admin-biz-system-client -am test --file ./backend/pom.xml
+        # 模块坐标随仓库拆分更新：commons/* + admin-system-client
+        run: mvn -B -pl commons/cmn-job,commons/cmn-web,commons/cmn-db,commons/cmn-cache,commons/cmn-crypto,admin-system-client -am test --file ./backend/pom.xml
