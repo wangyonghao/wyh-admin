@@ -23,13 +23,16 @@
   },
   "dependencies": {
     "@vueuse/core": "catalog:",
+    "@vben-core/composables": "workspace:*",
     "@vben-core/icons": "workspace:*",
-    "@vben-core/shadcn-ui": "workspace:*",
+    "@vben-core/shared": "workspace:*",
+    "@vben-core/typings": "workspace:*",
     "class-variance-authority": "catalog:",
     "clsx": "catalog:",
     "lucide-vue-next": "catalog:",
     "reka-ui": "catalog:",
     "tailwind-merge": "catalog:",
-    "vue": "catalog:"
+    "vue": "catalog:",
+    "vue-sonner": "catalog:"
   }
 }

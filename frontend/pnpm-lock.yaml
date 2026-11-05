@@ -999,12 +999,18 @@ importers:
 
   packages/ui:
     dependencies:
+      '@vben-core/composables':
+        specifier: workspace:*
+        version: link:../../vendor/@core/composables
       '@vben-core/icons':
         specifier: workspace:*
         version: link:../../vendor/@core/base/icons
-      '@vben-core/shadcn-ui':
+      '@vben-core/shared':
         specifier: workspace:*
-        version: link:../../vendor/@core/ui-kit/shadcn-ui
+        version: link:../../vendor/@core/base/shared
+      '@vben-core/typings':
+        specifier: workspace:*
+        version: link:../../vendor/@core/base/typings
       '@vueuse/core':
         specifier: 'catalog:'
         version: 14.2.1(vue@3.5.32(typescript@6.0.2))
@@ -1026,6 +1032,9 @@ importers:
       vue:
         specifier: ^3.5.32
         version: 3.5.32(typescript@6.0.2)
+      vue-sonner:
+        specifier: 'catalog:'
+        version: 2.0.9(@nuxt/kit@4.4.2(magicast@0.5.2))
 
   packages/ui-patterns:
     dependencies:

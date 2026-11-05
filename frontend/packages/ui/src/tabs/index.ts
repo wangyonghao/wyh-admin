@@ -1,6 +1,8 @@
-export {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from '@vben-core/shadcn-ui/ui/tabs';
+// Adapted from vue-vben-admin @vben-core/shadcn-ui (MIT).
+// Copyright (c) 2024-present, Vben.
+
+export { default as Tabs } from './Tabs.vue';
+export { default as TabsContent } from './TabsContent.vue';
+export { default as TabsList } from './TabsList.vue';
+export { default as TabsTrigger } from './TabsTrigger.vue';
+export { TabsIndicator } from 'reka-ui';

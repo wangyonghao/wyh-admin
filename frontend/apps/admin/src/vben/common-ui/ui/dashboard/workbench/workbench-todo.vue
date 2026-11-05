@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { WorkbenchTodoItem } from '../typing';
 
+import { VbenCheckbox } from '@vben-core/shadcn-ui';
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-  VbenCheckbox,
-} from '@vben-core/shadcn-ui';
+} from '#/ui/card';
 
 interface Props {
   items?: WorkbenchTodoItem[];

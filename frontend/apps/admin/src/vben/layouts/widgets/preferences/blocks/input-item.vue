@@ -5,7 +5,8 @@ import { useSlots } from 'vue';
 
 import { CircleHelp, CircleX } from '@vben/icons';
 
-import { Input, VbenTooltip } from '@vben-core/shadcn-ui';
+import { VbenTooltip } from '@vben-core/shadcn-ui';
+import { Input } from '#/ui/input';
 
 defineOptions({
   name: 'PreferenceSelectItem',

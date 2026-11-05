@@ -1,1 +1,9 @@
-export * from '@vben-core/shadcn-ui/ui/alert-dialog';
+// Adapted from vue-vben-admin @vben-core/shadcn-ui (MIT).
+// Copyright (c) 2024-present, Vben.
+
+export { default as AlertDialog } from './AlertDialog.vue';
+export { default as AlertDialogAction } from './AlertDialogAction.vue';
+export { default as AlertDialogCancel } from './AlertDialogCancel.vue';
+export { default as AlertDialogContent } from './AlertDialogContent.vue';
+export { default as AlertDialogDescription } from './AlertDialogDescription.vue';
+export { default as AlertDialogTitle } from './AlertDialogTitle.vue';

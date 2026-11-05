@@ -2,14 +2,16 @@
 import type { AnalysisOverviewItem } from '../typing';
 
 import {
+  VbenCountToAnimator,
+  VbenIcon,
+} from '@vben-core/shadcn-ui';
+import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-  VbenCountToAnimator,
-  VbenIcon,
-} from '@vben-core/shadcn-ui';
+} from '#/ui/card';
 
 interface Props {
   items?: AnalysisOverviewItem[];

@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { WorkbenchTrendItem } from '../typing';
 
+import { VbenIcon } from '@vben-core/shadcn-ui';
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-  VbenIcon,
-} from '@vben-core/shadcn-ui';
+} from '#/ui/card';
 
 interface Props {
   items?: WorkbenchTrendItem[];

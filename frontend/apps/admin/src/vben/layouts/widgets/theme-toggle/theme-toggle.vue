@@ -9,11 +9,11 @@ import {
   usePreferences,
 } from '@vben/preferences';
 
+import { VbenTooltip } from '@vben-core/shadcn-ui';
 import {
   ToggleGroup,
   ToggleGroupItem,
-  VbenTooltip,
-} from '@vben-core/shadcn-ui';
+} from '#/ui/toggle-group';
 
 import ThemeButton from './theme-button.vue';
 

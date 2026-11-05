@@ -2,14 +2,14 @@
 import type { Props } from './types';
 
 import { preferences } from '@vben-core/preferences';
+import { VbenAvatar } from '@vben-core/shadcn-ui';
+import { Card } from '#/ui/card';
+import { Separator } from '#/ui/separator';
 import {
-  Card,
-  Separator,
   Tabs,
   TabsList,
   TabsTrigger,
-  VbenAvatar,
-} from '@vben-core/shadcn-ui';
+} from '#/ui/tabs';
 
 import { Page } from '../../components';
 

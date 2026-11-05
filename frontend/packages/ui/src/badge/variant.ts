@@ -1,4 +1,4 @@
-import type { BadgeVariants } from '@vben-core/shadcn-ui/ui/badge';
+import type { BadgeVariants } from './badge';
 
 export type BadgeVariant = NonNullable<BadgeVariants['variant']>;
 

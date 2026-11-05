@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { ToggleGroup, ToggleGroupItem } from '@vben-core/shadcn-ui';
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from '#/ui/toggle-group';
 
 defineOptions({
   name: 'PreferenceColorMode',

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed } from 'vue';
 
-import { Switch as SwitchRoot } from '@vben-core/shadcn-ui/ui/switch';
+import SwitchRoot from './switch-root.vue';
 
 import { switchChecked, switchNextValue, type SwitchScalar } from './map';
 

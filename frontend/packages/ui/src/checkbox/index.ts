@@ -1,1 +1,4 @@
-export * from '@vben-core/shadcn-ui/ui/checkbox';
+// Adapted from vue-vben-admin @vben-core/shadcn-ui (MIT).
+// Copyright (c) 2024-present, Vben.
+
+export { default as Checkbox } from './Checkbox.vue';

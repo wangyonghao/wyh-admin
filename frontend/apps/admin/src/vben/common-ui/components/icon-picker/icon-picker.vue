@@ -8,8 +8,6 @@ import { EmptyIcon, Grip, listIcons } from '@vben/icons';
 import { $t } from '@vben/locales';
 
 import {
-  Button,
-  Input,
   Pagination,
   PaginationEllipsis,
   PaginationFirst,
@@ -22,6 +20,8 @@ import {
   VbenIconButton,
   VbenPopover,
 } from '@vben-core/shadcn-ui';
+import { Button } from '#/ui/button';
+import { Input } from '#/ui/input';
 import { isFunction } from '@vben-core/shared/utils';
 
 import { objectOmit, refDebounced, watchDebounced } from '@vueuse/core';

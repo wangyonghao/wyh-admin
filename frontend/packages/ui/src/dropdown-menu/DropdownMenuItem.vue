@@ -1,0 +1,39 @@
+<script setup lang="ts">
+// Adapted from vue-vben-admin @vben-core/shadcn-ui (MIT).
+// Copyright (c) 2024-present, Vben.
+
+import type { DropdownMenuItemProps } from 'reka-ui';
+
+import { computed } from 'vue';
+
+import { cn } from '../lib/cn';
+
+import { DropdownMenuItem, useForwardProps } from 'reka-ui';
+
+const props = defineProps<
+  DropdownMenuItemProps & { class?: any; inset?: boolean }
+>();
+
+const delegatedProps = computed(() => {
+  const { class: _, ...delegated } = props;
+
+  return delegated;
+});
+
+const forwardedProps = useForwardProps(delegatedProps);
+</script>
+
+<template>
+  <DropdownMenuItem
+    v-bind="forwardedProps"
+    :class="
+      cn(
+        'focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center rounded-sm px-2 py-1.5 text-sm outline-hidden transition-colors select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50',
+        inset && 'pl-8',
+        props.class,
+      )
+    "
+  >
+    <slot></slot>
+  </DropdownMenuItem>
+</template>

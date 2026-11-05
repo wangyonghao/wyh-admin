@@ -9,7 +9,7 @@ import {
   NumberFieldDecrement,
   NumberFieldIncrement,
   NumberFieldInput,
-} from '@vben-core/shadcn-ui';
+} from '#/ui/number-field';
 
 defineOptions({
   name: 'PreferenceFontSize',
