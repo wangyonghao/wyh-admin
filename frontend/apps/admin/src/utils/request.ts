@@ -84,13 +84,7 @@ http.interceptors.response.use(
     // 非 JSON（文件下载等）直接放行
     if (response.config.responseType === 'blob' || body?.code === undefined) return body;
 
-    if (body.code === SUCCESS_CODE) {
-      // Result 带 message/data。登录令牌是 { code, token }，没有这两字段，整包返回。
-      if ('message' in body || 'data' in body) return body.data;
-      return body;
-    }
-    // 业务异常：不提示，交给业务层
-    return Promise.reject(new BusinessError(body.code, body.message, body.data));
+    return body;
   },
   (error: AxiosError<{ message?: string; code?: string | number }>) => {
     if (axios.isCancel(error)) return Promise.reject(error);
