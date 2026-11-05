@@ -1,1 +1,1 @@
-export * from '@vben-core/shadcn-ui/ui/input';
+export { default as Input } from './Input.vue';

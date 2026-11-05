@@ -1005,6 +1005,24 @@ importers:
       '@vben-core/shadcn-ui':
         specifier: workspace:*
         version: link:../../vendor/@core/ui-kit/shadcn-ui
+      '@vueuse/core':
+        specifier: 'catalog:'
+        version: 14.2.1(vue@3.5.32(typescript@6.0.2))
+      class-variance-authority:
+        specifier: 'catalog:'
+        version: 0.7.1
+      clsx:
+        specifier: ^2.1.1
+        version: 2.1.1
+      lucide-vue-next:
+        specifier: 'catalog:'
+        version: 0.577.0(vue@3.5.32(typescript@6.0.2))
+      reka-ui:
+        specifier: 'catalog:'
+        version: 2.9.5(vue@3.5.32(typescript@6.0.2))
+      tailwind-merge:
+        specifier: 'catalog:'
+        version: 3.5.0
       vue:
         specifier: ^3.5.32
         version: 3.5.32(typescript@6.0.2)

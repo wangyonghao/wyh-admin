@@ -22,8 +22,14 @@
     }
   },
   "dependencies": {
+    "@vueuse/core": "catalog:",
     "@vben-core/icons": "workspace:*",
     "@vben-core/shadcn-ui": "workspace:*",
+    "class-variance-authority": "catalog:",
+    "clsx": "catalog:",
+    "lucide-vue-next": "catalog:",
+    "reka-ui": "catalog:",
+    "tailwind-merge": "catalog:",
     "vue": "catalog:"
   }
 }
