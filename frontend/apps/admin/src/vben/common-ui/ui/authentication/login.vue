@@ -11,7 +11,10 @@ import { useRouter } from 'vue-router';
 import { $t } from '@vben/locales';
 
 import { useVbenForm } from '@vben-core/form-ui';
-import { VbenButton, VbenCheckbox } from '@vben-core/shadcn-ui';
+import {
+  VbenButton,
+  VbenCheckbox,
+} from '#/ui/composed';
 
 import Title from './auth-title.vue';
 import ThirdPartyLogin from './third-party-login.vue';

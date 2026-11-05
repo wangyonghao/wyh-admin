@@ -11,7 +11,7 @@ import {
   VbenButton,
   VbenInputCaptcha,
   VbenInputPassword,
-} from '@vben-core/shadcn-ui';
+} from '#/ui/composed';
 
 import { captchaApi } from '#/api';
 import { useUserStore } from '#/store';

@@ -11,7 +11,10 @@ import { Check, ChevronDown, Eye } from '@vben/icons';
 import { $t } from '@vben/locales';
 
 import { useVbenModal } from '@vben-core/popup-ui';
-import { VbenIconButton, VbenPopover } from '@vben-core/shadcn-ui';
+import {
+  VbenIconButton,
+  VbenPopover,
+} from '#/ui/composed';
 import { cn } from '@vben-core/shared/utils';
 
 import { EditorContent, useEditor } from '@tiptap/vue-3';

@@ -3,7 +3,7 @@ import type { CSSProperties } from 'vue';
 
 import { computed, onUnmounted, shallowRef, useSlots, watchEffect } from 'vue';
 
-import { VbenScrollbar } from '@vben-core/shadcn-ui';
+import { VbenScrollbar } from '@wyh/ui/composed';
 
 import { useScrollLock } from '@vueuse/core';
 

@@ -11,7 +11,7 @@ import type {
 
 import { computed } from 'vue';
 
-import { Form } from '@vben-core/shadcn-ui';
+import { Form } from '@wyh/ui/form';
 import {
   cn,
   isFunction,

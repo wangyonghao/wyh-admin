@@ -9,7 +9,7 @@ import {
   VbenIconButton,
   VbenPopover,
   VbenScrollbar,
-} from '@vben-core/shadcn-ui';
+} from '#/ui/composed';
 
 import { useToggle } from '@vueuse/core';
 

@@ -32,6 +32,7 @@
     "lucide-vue-next": "catalog:",
     "reka-ui": "catalog:",
     "tailwind-merge": "catalog:",
+    "vee-validate": "catalog:",
     "vue": "catalog:",
     "vue-sonner": "catalog:"
   }

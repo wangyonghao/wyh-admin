@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import type { DropdownMenuProps } from '@vben-core/shadcn-ui';
+import type { DropdownMenuProps } from '@wyh/ui/composed';
 
 import { LayoutGrid } from '@vben-core/icons';
-import { VbenDropdownMenu } from '@vben-core/shadcn-ui';
+import { VbenDropdownMenu } from '@wyh/ui/composed';
 
 defineProps<DropdownMenuProps>();
 </script>

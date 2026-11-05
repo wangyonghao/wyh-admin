@@ -7,7 +7,10 @@ import { storeToRefs, useAccessStore } from '@vben/stores';
 
 import { useScrollLock } from '@vben-core/composables';
 import { useVbenForm, z } from '@vben-core/form-ui';
-import { VbenAvatar, VbenButton } from '@vben-core/shadcn-ui';
+import {
+  VbenAvatar,
+  VbenButton,
+} from '#/ui/composed';
 
 import { useDateFormat, useNow } from '@vueuse/core';
 

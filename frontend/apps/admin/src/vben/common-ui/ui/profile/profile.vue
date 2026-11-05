@@ -2,7 +2,7 @@
 import type { Props } from './types';
 
 import { preferences } from '@vben-core/preferences';
-import { VbenAvatar } from '@vben-core/shadcn-ui';
+import { VbenAvatar } from '#/ui/composed';
 import { Card } from '#/ui/card';
 import { Separator } from '#/ui/separator';
 import {

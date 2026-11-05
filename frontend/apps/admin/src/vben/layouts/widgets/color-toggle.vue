@@ -8,7 +8,7 @@ import {
   updatePreferences,
 } from '@vben/preferences';
 
-import { VbenIconButton } from '@vben-core/shadcn-ui';
+import { VbenIconButton } from '#/ui/composed';
 
 defineOptions({
   name: 'AuthenticationColorToggle',

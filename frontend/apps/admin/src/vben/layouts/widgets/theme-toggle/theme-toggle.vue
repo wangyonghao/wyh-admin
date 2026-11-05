@@ -9,7 +9,7 @@ import {
   usePreferences,
 } from '@vben/preferences';
 
-import { VbenTooltip } from '@vben-core/shadcn-ui';
+import { VbenTooltip } from '#/ui/composed';
 import {
   ToggleGroup,
   ToggleGroupItem,

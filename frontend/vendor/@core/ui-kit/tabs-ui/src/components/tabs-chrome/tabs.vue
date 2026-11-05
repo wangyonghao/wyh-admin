@@ -6,7 +6,10 @@ import type { TabConfig, TabsProps } from '../../types';
 import { computed, ref } from 'vue';
 
 import { Pin, X } from '@vben-core/icons';
-import { VbenContextMenu, VbenIcon } from '@vben-core/shadcn-ui';
+import {
+  VbenContextMenu,
+  VbenIcon,
+} from '@wyh/ui/composed';
 
 interface Props extends TabsProps {}
 

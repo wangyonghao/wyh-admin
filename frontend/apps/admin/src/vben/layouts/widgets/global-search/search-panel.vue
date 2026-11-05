@@ -8,7 +8,10 @@ import { SearchX, X } from '@vben/icons';
 import { $t } from '@vben/locales';
 import { mapTree, traverseTreeValues, uniqueByField } from '@vben/utils';
 
-import { VbenIcon, VbenScrollbar } from '@vben-core/shadcn-ui';
+import {
+  VbenIcon,
+  VbenScrollbar,
+} from '#/ui/composed';
 import { isHttpUrl } from '@vben-core/shared/utils';
 
 import { onKeyStroke, useLocalStorage, useThrottleFn } from '@vueuse/core';

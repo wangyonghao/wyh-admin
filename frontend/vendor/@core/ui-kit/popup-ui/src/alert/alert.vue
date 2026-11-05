@@ -21,10 +21,12 @@ import {
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogTitle,
+} from '@wyh/ui/alert-dialog';
+import {
   VbenButton,
   VbenLoading,
   VbenRenderContent,
-} from '@vben-core/shadcn-ui';
+} from '@wyh/ui/composed';
 import { globalShareState } from '@vben-core/shared/global-state';
 import { cn } from '@vben-core/shared/utils';
 

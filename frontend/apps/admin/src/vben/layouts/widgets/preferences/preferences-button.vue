@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { Settings } from '@vben/icons';
 
-import { VbenIconButton } from '@vben-core/shadcn-ui';
+import { VbenIconButton } from '#/ui/composed';
 
 import Preferences from './preferences.vue';
 

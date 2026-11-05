@@ -2,7 +2,7 @@
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 
-import { VbenButton } from '@vben-core/shadcn-ui';
+import { VbenButton } from '#/ui/composed';
 
 import { orgApi, type OrgInviteResult } from '#/api/org';
 import { toast } from '#/ui-patterns/toast';

@@ -17,17 +17,19 @@ import {
 } from 'vue';
 
 import { ChevronsDown, CircleAlert } from '@vben-core/icons';
+import { Button } from '@wyh/ui/button';
 import {
-  Button,
+  VbenCollapsible,
+  VbenRenderContent,
+  VbenTooltip,
+} from '@wyh/ui/composed';
+import {
   FormControl,
   FormDescription,
   FormField,
   FormItem,
   FormMessage,
-  VbenCollapsible,
-  VbenRenderContent,
-  VbenTooltip,
-} from '@vben-core/shadcn-ui';
+} from '@wyh/ui/form';
 import { cn, isFunction, isObject, isString } from '@vben-core/shared/utils';
 
 import { toTypedSchema } from '@vee-validate/zod';

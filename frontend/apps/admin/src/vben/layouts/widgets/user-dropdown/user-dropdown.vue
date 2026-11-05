@@ -17,7 +17,10 @@ import { isWindowsOs } from '@vben/utils';
 import { createIconifyIcon } from '@vben-core/icons';
 
 import { useVbenModal } from '@vben-core/popup-ui';
-import { VbenAvatar, VbenIcon } from '@vben-core/shadcn-ui';
+import {
+  VbenAvatar,
+  VbenIcon,
+} from '#/ui/composed';
 
 import { Badge } from '#/ui/badge';
 import {

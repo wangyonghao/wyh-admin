@@ -31,7 +31,7 @@ export {
   VbenPinInput,
   VbenSelect,
   VbenSpinner,
-} from '@vben-core/shadcn-ui';
+} from '#/ui/composed';
 
-export type { FlattenedItem } from '@vben-core/shadcn-ui';
+export type { FlattenedItem } from '#/ui/tree';
 export { globalShareState } from '@vben-core/shared/global-state';

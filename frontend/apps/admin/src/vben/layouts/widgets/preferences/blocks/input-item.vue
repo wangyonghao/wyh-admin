@@ -5,7 +5,7 @@ import { useSlots } from 'vue';
 
 import { CircleHelp, CircleX } from '@vben/icons';
 
-import { VbenTooltip } from '@vben-core/shadcn-ui';
+import { VbenTooltip } from '#/ui/composed';
 import { Input } from '#/ui/input';
 
 defineOptions({

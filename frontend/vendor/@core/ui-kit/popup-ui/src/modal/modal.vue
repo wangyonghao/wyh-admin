@@ -19,18 +19,20 @@ import {
 } from '@vben-core/composables';
 import { Expand, Shrink } from '@vben-core/icons';
 import {
+  VbenButton,
+  VbenHelpTooltip,
+  VbenIconButton,
+  VbenLoading,
+  VisuallyHidden,
+} from '@wyh/ui/composed';
+import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  VbenButton,
-  VbenHelpTooltip,
-  VbenIconButton,
-  VbenLoading,
-  VisuallyHidden,
-} from '@vben-core/shadcn-ui';
+} from '@wyh/ui/dialog';
 import { ELEMENT_ID_MAIN_CONTENT } from '@vben-core/shared/constants';
 import { globalShareState } from '@vben-core/shared/global-state';
 import { cn } from '@vben-core/shared/utils';

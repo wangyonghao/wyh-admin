@@ -7,7 +7,7 @@ import { preferences, updatePreferences } from '@vben/preferences';
 import { capitalizeFirstLetter } from '@vben/utils';
 
 import { useVbenDrawer } from '@vben-core/popup-ui';
-import { VbenButton } from '@vben-core/shadcn-ui';
+import { VbenButton } from '#/ui/composed';
 
 import PreferencesDrawer from './preferences-drawer.vue';
 

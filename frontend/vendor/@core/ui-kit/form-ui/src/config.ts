@@ -11,11 +11,11 @@ import { h } from 'vue';
 import {
   VbenButton,
   VbenCheckbox,
-  Input as VbenInput,
   VbenInputPassword,
   VbenPinInput,
   VbenSelect,
-} from '@vben-core/shadcn-ui';
+} from '@wyh/ui/composed';
+import { Input as VbenInput } from '@wyh/ui/input';
 import { globalShareState } from '@vben-core/shared/global-state';
 
 import { defineRule } from 'vee-validate';

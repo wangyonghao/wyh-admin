@@ -959,9 +959,9 @@ importers:
 
   apps/docs:
     dependencies:
-      '@vben-core/shadcn-ui':
+      '@wyh/ui':
         specifier: workspace:*
-        version: link:../../vendor/@core/ui-kit/shadcn-ui
+        version: link:../../packages/ui
       ant-design-vue:
         specifier: 'catalog:'
         version: 4.2.6(vue@3.5.32(typescript@6.0.2))
@@ -1029,6 +1029,9 @@ importers:
       tailwind-merge:
         specifier: 'catalog:'
         version: 3.5.0
+      vee-validate:
+        specifier: 'catalog:'
+        version: 4.15.1(vue@3.5.32(typescript@6.0.2))
       vue:
         specifier: ^3.5.32
         version: 3.5.32(typescript@6.0.2)
@@ -1160,9 +1163,6 @@ importers:
       '@vben-core/icons':
         specifier: workspace:*
         version: link:../../base/icons
-      '@vben-core/shadcn-ui':
-        specifier: workspace:*
-        version: link:../shadcn-ui
       '@vben-core/shared':
         specifier: workspace:*
         version: link:../../base/shared
@@ -1175,6 +1175,9 @@ importers:
       '@vueuse/core':
         specifier: 'catalog:'
         version: 14.2.1(vue@3.5.32(typescript@6.0.2))
+      '@wyh/ui':
+        specifier: workspace:*
+        version: link:../../../../packages/ui
       vee-validate:
         specifier: 'catalog:'
         version: 4.15.1(vue@3.5.32(typescript@6.0.2))
@@ -1200,9 +1203,6 @@ importers:
       '@vben-core/icons':
         specifier: workspace:*
         version: link:../../base/icons
-      '@vben-core/shadcn-ui':
-        specifier: workspace:*
-        version: link:../shadcn-ui
       '@vben-core/shared':
         specifier: workspace:*
         version: link:../../base/shared
@@ -1212,6 +1212,9 @@ importers:
       '@vueuse/core':
         specifier: 'catalog:'
         version: 14.2.1(vue@3.5.32(typescript@6.0.2))
+      '@wyh/ui':
+        specifier: workspace:*
+        version: link:../../../../packages/ui
       vue:
         specifier: ^3.5.32
         version: 3.5.32(typescript@6.0.2)
@@ -1231,9 +1234,6 @@ importers:
       '@vben-core/icons':
         specifier: workspace:*
         version: link:../../base/icons
-      '@vben-core/shadcn-ui':
-        specifier: workspace:*
-        version: link:../shadcn-ui
       '@vben-core/shared':
         specifier: workspace:*
         version: link:../../base/shared
@@ -1243,6 +1243,9 @@ importers:
       '@vueuse/core':
         specifier: 'catalog:'
         version: 14.2.1(vue@3.5.32(typescript@6.0.2))
+      '@wyh/ui':
+        specifier: workspace:*
+        version: link:../../../../packages/ui
       qs:
         specifier: 'catalog:'
         version: 6.15.1
@@ -1265,9 +1268,6 @@ importers:
       '@vben-core/icons':
         specifier: workspace:*
         version: link:../../base/icons
-      '@vben-core/shadcn-ui':
-        specifier: workspace:*
-        version: link:../shadcn-ui
       '@vben-core/shared':
         specifier: workspace:*
         version: link:../../base/shared
@@ -1277,6 +1277,9 @@ importers:
       '@vueuse/core':
         specifier: 'catalog:'
         version: 14.2.1(vue@3.5.32(typescript@6.0.2))
+      '@wyh/ui':
+        specifier: workspace:*
+        version: link:../../../../packages/ui
       vue:
         specifier: ^3.5.32
         version: 3.5.32(typescript@6.0.2)
@@ -1335,15 +1338,15 @@ importers:
       '@vben-core/icons':
         specifier: workspace:*
         version: link:../../base/icons
-      '@vben-core/shadcn-ui':
-        specifier: workspace:*
-        version: link:../shadcn-ui
       '@vben-core/typings':
         specifier: workspace:*
         version: link:../../base/typings
       '@vueuse/core':
         specifier: 'catalog:'
         version: 14.2.1(vue@3.5.32(typescript@6.0.2))
+      '@wyh/ui':
+        specifier: workspace:*
+        version: link:../../../../packages/ui
       vue:
         specifier: ^3.5.32
         version: 3.5.32(typescript@6.0.2)

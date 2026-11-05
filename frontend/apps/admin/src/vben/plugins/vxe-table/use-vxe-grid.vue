@@ -37,7 +37,10 @@ import {
   mergeWithArrayOverride,
 } from '@vben/utils';
 
-import { VbenHelpTooltip, VbenLoading } from '@vben-core/shadcn-ui';
+import {
+  VbenHelpTooltip,
+  VbenLoading,
+} from '#/ui/composed';
 
 import { VxeButton } from 'vxe-pc-ui';
 import { VxeGrid, VxeUI } from 'vxe-table';

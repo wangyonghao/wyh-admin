@@ -3,7 +3,7 @@ import { ref, computed } from 'vue';
 
 import { useVbenModal } from '@vben/common-ui';
 
-import { VbenAvatar } from '@vben-core/shadcn-ui';
+import { VbenAvatar } from '#/ui/composed';
 import FormRadioGroup from '#/adapter/component/FormRadioGroup.vue';
 import { Button } from '#/ui/button';
 import { Input } from '#/ui/input';

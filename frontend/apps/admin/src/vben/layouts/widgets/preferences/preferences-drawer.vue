@@ -13,7 +13,7 @@ import type {
   ThemeModeType,
 } from '@vben/types';
 
-import type { SegmentedItem } from '@vben-core/shadcn-ui';
+import type { SegmentedItem } from '#/ui/composed';
 
 import { computed, ref } from 'vue';
 
@@ -32,7 +32,7 @@ import {
   VbenButton,
   VbenIconButton,
   VbenSegmented,
-} from '@vben-core/shadcn-ui';
+} from '#/ui/composed';
 import { globalShareState } from '@vben-core/shared/global-state';
 
 import { useClipboard } from '@vueuse/core';

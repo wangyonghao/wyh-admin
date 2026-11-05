@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { WorkbenchTodoItem } from '../typing';
 
-import { VbenCheckbox } from '@vben-core/shadcn-ui';
+import { VbenCheckbox } from '#/ui/composed';
 import {
   Card,
   CardContent,

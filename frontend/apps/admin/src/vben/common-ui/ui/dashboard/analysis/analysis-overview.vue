@@ -4,7 +4,7 @@ import type { AnalysisOverviewItem } from '../typing';
 import {
   VbenCountToAnimator,
   VbenIcon,
-} from '@vben-core/shadcn-ui';
+} from '#/ui/composed';
 import {
   Card,
   CardContent,

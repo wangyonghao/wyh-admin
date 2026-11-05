@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { WorkbenchProjectItem } from '../typing';
 
-import { VbenIcon } from '@vben-core/shadcn-ui';
+import { VbenIcon } from '#/ui/composed';
 import {
   Card,
   CardContent,

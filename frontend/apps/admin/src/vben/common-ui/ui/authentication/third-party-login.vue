@@ -10,7 +10,7 @@ import {
 } from '@vben/icons';
 import { $t } from '@vben/locales';
 
-import { VbenIconButton } from '@vben-core/shadcn-ui';
+import { VbenIconButton } from '#/ui/composed';
 
 import { authApi } from '#/api/auth';
 import { toast } from '#/ui-patterns/toast';

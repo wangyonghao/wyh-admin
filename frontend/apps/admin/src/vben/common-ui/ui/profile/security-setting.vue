@@ -3,6 +3,7 @@ import type { Recordable } from '@vben/types';
 
 import type { SettingProps } from './types';
 
+import { Switch } from '@vben-core/shadcn-ui';
 import {
   Form,
   FormControl,
@@ -10,8 +11,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  Switch,
-} from '@vben-core/shadcn-ui';
+} from '#/ui/form';
 
 withDefaults(defineProps<SettingProps>(), {
   formSchema: () => [],

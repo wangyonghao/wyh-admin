@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { Badge } from '#/ui/badge';
 import { badgeVariantForTag } from '#/ui/badge/variant';
 import { Separator } from '#/ui/separator';
-import { VbenAvatar } from '@vben-core/shadcn-ui';
+import { VbenAvatar } from '#/ui/composed';
 import { $t } from '#/locales';
 import type { UserProfile } from '#/api/auth';
 import { resolveFilePreviewUrl } from '#/api/system/file';

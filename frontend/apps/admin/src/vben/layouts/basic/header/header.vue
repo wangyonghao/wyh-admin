@@ -6,7 +6,10 @@ import { RotateCw } from '@vben/icons';
 import { preferences, usePreferences } from '@vben/preferences';
 import { useAccessStore } from '@vben/stores';
 
-import { VbenFullScreen, VbenIconButton } from '@vben-core/shadcn-ui';
+import {
+  VbenFullScreen,
+  VbenIconButton,
+} from '#/ui/composed';
 
 import {
   GlobalSearch,

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-import { VbenButton } from '@vben-core/shadcn-ui';
+import { VbenButton } from '#/ui/composed';
 
 import { orgApi } from '#/api/org';
 import { Input } from '#/ui/input';

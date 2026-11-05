@@ -2,10 +2,10 @@
 import type { CustomRenderType } from '../types';
 
 import {
-  FormLabel,
   VbenHelpTooltip,
   VbenRenderContent,
-} from '@vben-core/shadcn-ui';
+} from '@wyh/ui/composed';
+import { FormLabel } from '@wyh/ui/form';
 import { cn } from '@vben-core/shared/utils';
 
 interface Props {
