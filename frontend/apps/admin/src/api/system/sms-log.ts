@@ -1,6 +1,6 @@
 import type { PageQuery, PageResult } from '#/types/api';
 
-import http from '#/api/http';
+import http, { download } from '#/utils/request';
 
 /* ==================== API 定义 ==================== */
 export const smsLogApi = {
@@ -18,7 +18,7 @@ export const smsLogApi = {
 
   /** 导出短信日志 */
   export: (query: SmsLogQuery) => {
-    return http.download(`/system/sms/log/export`, { params: query });
+    return download(`/system/sms/log/export`, { params: query });
   },
 };
 

@@ -68,6 +68,8 @@ public class GlobalExceptionHandler {
     /**
      * 业务校验异常处理(如密码错误、库存不足)
      * 属于业务逻辑分支流程，应提供用户友好、清晰的提示，由用户自行处理
+     *
+     * 422 Unprocessable Content 报文格式合法、JSON 解析成功，但业务规则不通过
      */
     @ExceptionHandler(BizException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)

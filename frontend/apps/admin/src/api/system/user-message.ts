@@ -2,7 +2,7 @@ import type { NoticePageQuery, NoticeResp } from './notice';
 
 import type { PageQuery, PageResult } from '#/types/api';
 
-import http from '#/api/http';
+import http from '#/utils/request';
 
 /* ==================== API 定义 ==================== */
 export const userMessageApi = {

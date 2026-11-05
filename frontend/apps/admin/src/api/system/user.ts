@@ -1,7 +1,7 @@
 import type { BaseEntity, PageQuery, PageResult } from '#/types/api';
 import type { Gender, Option } from '#/types/global';
 
-import http from '#/api/http';
+import http, { download } from '#/utils/request';
 
 /* ==================== API 定义 ==================== */
 export const userApi = {
@@ -29,11 +29,11 @@ export const userApi = {
   },
   /** 导出用户 */
   export: (query: UserQuery) => {
-    return http.download('/system/user/export', { params: query, });
+    return download('/system/user/export', { params: query, });
   },
   /** 下载用户导入模板 */
   downloadTemplate: () => {
-    return http.download(`/system/user/import/template`);
+    return download(`/system/user/import/template`);
   },
   /** 解析用户导入数据 */
   parseImport: (data: FormData) => {

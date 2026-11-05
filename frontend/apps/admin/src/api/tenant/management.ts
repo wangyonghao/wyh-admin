@@ -1,6 +1,6 @@
 import type { BaseEntity, PageQuery,  PageResult } from '#/types/api';
 
-import http from '#/api/http';
+import http from '#/utils/request';
 
 export interface TenantResp extends BaseEntity {
   /** ID */

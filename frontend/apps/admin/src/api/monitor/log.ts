@@ -1,5 +1,5 @@
 import type { PageQuery, PageResult } from '#/types/api';
-import http from '#/api/http';
+import http, { download } from '#/utils/request';
 
 /* ==================== API 定义 ==================== */
 export const logApi = {
@@ -17,12 +17,12 @@ export const logApi = {
 
   /** 导出登录日志 */
   exportLoginLog: (query: LogQuery) => {
-    return http.download('/monitor/login-log/export', { params: query });
+    return download('/monitor/login-log/export', { params: query });
   },
 
   /** 导出操作日志 */
   exportOperationLog: (query: LogQuery) => {
-    return http.download('/system/log/export/operation', { params: query });
+    return download('/system/log/export/operation', { params: query });
   },
 };
 

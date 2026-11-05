@@ -33,9 +33,6 @@
       "@vben/tailwind-config": [
         "./src/styles/theme.css"
       ],
-      "@vben/styles/global": [
-        "./src/vben/styles/global/index.scss"
-      ],
       "@vben/styles": [
         "./src/vben/styles/index.ts"
       ],
@@ -86,9 +83,6 @@
       ],
       "@vben/locales": [
         "./src/vben/locales/index.ts"
-      ],
-      "@vben/request": [
-        "./src/vben/request/index.ts"
       ],
       "@vben/hooks": [
         "./src/vben/hooks/index.ts"

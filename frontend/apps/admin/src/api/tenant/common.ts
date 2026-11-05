@@ -1,4 +1,4 @@
-import http from '#/api/http';
+import http from '#/utils/request';
 
 /** 根据域名查询租户 ID */
 export function getTenantIdByDomain(domain: string) {

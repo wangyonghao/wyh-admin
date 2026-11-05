@@ -1,4 +1,4 @@
-import http from '#/api/http';
+import http from '#/utils/request';
 
 export const menuApi = {
   /** 查询登录和权限用的启用菜单树 */

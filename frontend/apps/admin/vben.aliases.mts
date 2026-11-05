@@ -43,10 +43,6 @@ export function createVbenAliases() {
     '@vben/tailwind-config': adminPath('src/styles/theme.css'),
 
     '@vben/styles/naive': vbenSrc('styles/naive/index.css'),
-    '@vben/styles/global': vbenSrc('styles/global/index.scss'),
-    '@vben/styles/antd': vbenSrc('styles/antd/index.css'),
-    '@vben/styles/antdv-next': vbenSrc('styles/antdv-next/index.css'),
-    '@vben/styles/ele': vbenSrc('styles/ele/index.css'),
     '@vben/styles': vbenSrc('styles/index.ts'),
 
     '@vben/plugins/echarts': vbenSrc('plugins/echarts/index.ts'),
@@ -70,7 +66,6 @@ export function createVbenAliases() {
     '@vben/stores': vbenSrc('stores/index.ts'),
     '@vben/preferences': vbenSrc('preferences/index.ts'),
     '@vben/locales': vbenSrc('locales/index.ts'),
-    '@vben/request': vbenSrc('request/index.ts'),
     '@vben/hooks': vbenSrc('hooks/index.ts'),
     '@vben/layouts': vbenSrc('layouts/index.ts'),
   } as const;

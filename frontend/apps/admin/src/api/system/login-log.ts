@@ -1,6 +1,6 @@
 import type { PageQuery, PageResult } from '#/types/api';
 
-import http from '#/api/http';
+import http, { download } from '#/utils/request';
 
 /* ==================== API 定义 ==================== */
 export const loginLogApi = {
@@ -12,7 +12,7 @@ export const loginLogApi = {
   },
   /** 导出登录日志 */
   exportLoginLog: (query: LoginLogQuery) => {
-    return http.download('/monitor/login-log/export', { params: query });
+    return download('/monitor/login-log/export', { params: query });
   },
 };
 

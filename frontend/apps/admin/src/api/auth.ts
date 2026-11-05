@@ -1,4 +1,4 @@
-import http from '#/api/http';
+import http from '#/utils/request';
 import type { Menu } from './system';
 
 /* ==================== API 定义 ==================== */

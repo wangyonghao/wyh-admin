@@ -1,6 +1,6 @@
 import type { ID } from '#/types/api';
 
-import http from '#/api/http';
+import http, { download } from '#/utils/request';
 
 /** 文件业务 ID */
 export type FileId = ID;
@@ -57,7 +57,7 @@ export const fileApi = {
   },
 
   download: (fileId: FileId, fileName: string) => {
-    return http.download(`/api/files/${fileId}/download`, {}, fileName);
+    return download(`/api/files/${fileId}/download`, {}, fileName);
   },
 
   preview: (fileId: FileId) => resolveFilePreviewUrl(fileId)!,

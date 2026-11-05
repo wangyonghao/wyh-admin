@@ -1,4 +1,4 @@
-import http from '#/api/http';
+import http, { download } from '#/utils/request';
 
 /* ==================== API 定义 ==================== */
 export const departmentApi = {
@@ -24,7 +24,7 @@ export const departmentApi = {
   },
   /** 导出部门 */
   export: (query: DepartmentQuery) => {
-    return http.download(`/system/department/export`, { params: query });
+    return download(`/system/department/export`, { params: query });
   },
   /** 查询部门字典树 */
   option: (query: { keyword: string | unknown }) => {

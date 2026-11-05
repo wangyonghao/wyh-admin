@@ -1,7 +1,6 @@
 package top.wyhao.system.admin.infrastructure.persistence;
 
 import cn.hutool.core.bean.BeanUtil;
-import top.wyhao.mybatis.query.PageResult;
 
 import java.util.Collections;
 import java.util.List;
@@ -41,13 +40,6 @@ public final class AdminDoMapper {
             return Collections.emptyList();
         }
         return dataObjects.stream().map(d -> toDomain(d, domainType)).collect(Collectors.toList());
-    }
-
-    public static <T> PageResult<T> toDomainPage(PageResult<?> page, Class<T> domainType) {
-        if (page == null) {
-            return null;
-        }
-        return page.map(item -> toDomain(item, domainType));
     }
 
     /**

@@ -1,6 +1,6 @@
 import type { PageQuery, PageResult } from '#/types/api';
 
-import http from '#/api/http';
+import http from '#/utils/request';
 
 export interface JobLogResp {
   id: string;

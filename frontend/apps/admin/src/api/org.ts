@@ -1,4 +1,4 @@
-import http from '#/api/http';
+import http from '#/utils/request';
 
 export interface OrgResult {
   id: string | number;

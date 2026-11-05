@@ -1,4 +1,4 @@
-import http from '#/api/http';
+import http, { download } from '#/utils/request';
 
 /* ==================== API 定义 ==================== */
 export const openAppApi = {
@@ -42,7 +42,7 @@ export const openAppApi = {
    * 导出应用
    */
   export: (params: OpenAppApi.AppQuery) => {
-    return http.download('/open/app/export', {
+    return download('/open/app/export', {
       params,
     });
   },

@@ -1,4 +1,4 @@
-import type { CSSOptions, Plugin, PluginOption, UserConfig } from 'vite';
+import type { Plugin, PluginOption, UserConfig } from 'vite';
 
 import fs from 'node:fs';
 import fsp from 'node:fs/promises';
@@ -11,7 +11,6 @@ import viteVue from '@vitejs/plugin-vue';
 import viteVueJsx from '@vitejs/plugin-vue-jsx';
 import archiver from 'archiver';
 import { minify } from 'html-minifier-terser';
-import { NodePackageImporter } from 'sass-embedded';
 import { defineConfig, loadEnv } from 'vite';
 import { lazyImport, VxeResolver } from 'vite-plugin-lazy-import';
 
@@ -124,30 +123,6 @@ async function viteInjectAppLoadingPlugin(
   };
 }
 
-function createGlobalScssOptions(): CSSOptions {
-  const root = process.cwd();
-  const globalScss = path
-    .resolve(root, 'src/vben/styles/global/index.scss')
-    .replaceAll('\\', '/');
-  return {
-    preprocessorOptions: {
-      scss: {
-        additionalData: (content: string, filepath: string) => {
-          const relativePath = path.relative(root, filepath);
-          if (
-            relativePath.startsWith(`src${path.sep}`) &&
-            !relativePath.startsWith(`src${path.sep}vben${path.sep}`)
-          ) {
-            return `@use "${globalScss}" as *;\n${content}`;
-          }
-          return content;
-        },
-        importers: [new NodePackageImporter()],
-      },
-    },
-  };
-}
-
 export default defineConfig(async ({ command, mode }) => {
   const root = process.cwd();
   const env = loadEnv(mode, root);
@@ -200,7 +175,6 @@ export default defineConfig(async ({ command, mode }) => {
       sourcemap: false,
       target: 'es2015',
     },
-    css: createGlobalScssOptions(),
     plugins,
     resolve: {
       alias: [

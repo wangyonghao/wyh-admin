@@ -8,10 +8,12 @@ import { LOGIN_PATH } from '@vben/constants';
 import { IFrameView } from '@vben/layouts';
 import { preferences } from '@vben/preferences';
 import { startProgress, stopProgress } from '@vben/utils';
+import axios from 'axios';
 
-import { toast } from '#/ui-patterns/toast';
-import { useUserStore } from '#/store';
 import { orgApi } from '#/api/org';
+import { useUserStore } from '#/store';
+import { toast } from '#/ui-patterns/toast';
+import { isBusinessError } from '#/utils/business-error';
 
 // 动态导入所有页面组件
 const pageMap: ComponentRecordType = import.meta.glob('/src/views/**/*.vue');
@@ -167,7 +169,12 @@ function setupAccessGuard(router: Router) {
         return { path: '/org/setup', replace: true };
       }
     } catch (error) {
-      toast.error(`用户菜单加载失败！！！ ${error}`);
+      // HTTP 错误已由请求层提示；这里只提示业务异常。
+      if (isBusinessError(error)) {
+        toast.error(error.message);
+      } else if (!axios.isAxiosError(error)) {
+        toast.error('用户菜单加载失败');
+      }
       return {
         path: LOGIN_PATH,
         query: { redirect: encodeURIComponent(to.fullPath) },
