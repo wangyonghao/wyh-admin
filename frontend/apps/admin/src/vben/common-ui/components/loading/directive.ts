@@ -6,7 +6,7 @@ import {
   VbenLoading,
   VbenSpinner,
 } from '#/ui/composed';
-import { isString } from '@vben-core/shared/utils';
+import { isString } from '@wyh/shared/utils';
 
 const LOADING_INSTANCE_KEY = Symbol('loading');
 const SPINNER_INSTANCE_KEY = Symbol('spinner');

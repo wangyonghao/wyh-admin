@@ -11,7 +11,7 @@
   "dependencies": {
     "@wyh/ui": "workspace:*",
     "@wyh/ui-patterns": "workspace:*",
-    "@vben-core/design": "workspace:*",
+    "@wyh/design": "workspace:*",
     "vue": "catalog:"
   },
   "devDependencies": {

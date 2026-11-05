@@ -7,7 +7,7 @@ import { useUserStore } from '#/store/user';
 
 import { $t } from '@vben/locales';
 
-import { Switch } from '@vben-core/shadcn-ui';
+import { Switch } from '#/ui/switch-primitive';
 
 import { Button } from '#/ui/button';
 import { Input } from '#/ui/input';

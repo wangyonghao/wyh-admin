@@ -3,7 +3,7 @@ import type { DatePart, DatePickerKind } from './date-value';
 
 import { computed, ref, useAttrs } from 'vue';
 
-import { IconifyIcon } from '@vben-core/icons';
+import { IconifyIcon } from '@wyh/icons';
 
 import { Button } from '../button';
 import { Popover, PopoverContent, PopoverTrigger } from '../popover';

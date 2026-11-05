@@ -4,10 +4,9 @@
 @plugin '@tailwindcss/typography';
 @plugin '@iconify/tailwind4';
 
-/* Scan this app, shared packages, vendor, and the other apps. */
+/* Scan this app, shared packages, and the other apps. */
 @source '../**/*.{vue,ts,tsx}';
 @source '../../../../packages/**/*.{vue,ts,tsx}';
-@source '../../../../vendor/**/*.{vue,ts,tsx}';
 @source '../../../**/*.{vue,ts,tsx}';
 
 /* Dark mode uses .dark class selector, not prefers-color-scheme */

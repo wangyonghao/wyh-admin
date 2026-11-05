@@ -19,7 +19,7 @@
 
 ```ts
 // packages/icons/src/iconify/index.ts
-import { createIconifyIcon } from '@vben-core/icons';
+import { createIconifyIcon } from '@wyh/icons';
 
 export const MdiKeyboardEsc = createIconifyIcon('mdi:keyboard-esc');
 ```
@@ -47,7 +47,7 @@ import { MdiKeyboardEsc } from '@vben/icons';
 
 ```ts
 // packages/icons/src/svg/index.ts
-import { createIconifyIcon } from '@vben-core/icons';
+import { createIconifyIcon } from '@wyh/icons';
 
 const SvgTestIcon = createIconifyIcon('svg:test');
 

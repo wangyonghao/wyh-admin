@@ -2,7 +2,7 @@
 // Adapted from vue-vben-admin @vben-core/shadcn-ui (MIT).
 // Copyright (c) 2024-present, Vben.
 
-import { useScrollLock } from '@vben-core/composables';
+import { useScrollLock } from '@wyh/composables';
 
 useScrollLock();
 </script>

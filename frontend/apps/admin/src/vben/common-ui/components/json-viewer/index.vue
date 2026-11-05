@@ -16,7 +16,7 @@ import VueJsonViewerImport from 'vue-json-viewer';
 
 import { $t } from '@vben/locales';
 
-import { isBoolean } from '@vben-core/shared/utils';
+import { isBoolean } from '@wyh/shared/utils';
 
 import JsonBigint from 'json-bigint';
 

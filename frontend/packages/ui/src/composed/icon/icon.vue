@@ -6,8 +6,8 @@ import type { Component } from 'vue';
 
 import { computed } from 'vue';
 
-import { IconDefault, IconifyIcon } from '@vben-core/icons';
-import { isFunction, isHttpUrl, isObject, isString } from '@vben-core/shared/utils';
+import { IconDefault, IconifyIcon } from '@wyh/icons';
+import { isFunction, isHttpUrl, isObject, isString } from '@wyh/shared/utils';
 
 const props = defineProps<{
   // 没有是否显示默认图标

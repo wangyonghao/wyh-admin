@@ -9,7 +9,7 @@ import { useUserStore } from '#/store/user';
 import { ChevronRight, Plus, Search } from '@vben/icons';
 import { $t } from '@vben/locales';
 
-import { useSortable } from '@vben-core/composables';
+import { useSortable } from '@wyh/composables';
 
 import {
   AlertDialog,

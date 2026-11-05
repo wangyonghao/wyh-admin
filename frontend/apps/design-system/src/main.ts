@@ -1,6 +1,6 @@
 import { createApp } from 'vue';
 
-import '@vben-core/design';
+import '@wyh/design';
 
 import App from './App.vue';
 

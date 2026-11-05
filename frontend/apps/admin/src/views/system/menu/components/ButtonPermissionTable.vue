@@ -9,8 +9,8 @@ import { useUserStore } from '#/store/user';
 import { Ellipsis, GripVertical, Plus } from '@vben/icons';
 import { $t } from '@vben/locales';
 
-import { useSortable } from '@vben-core/composables';
-import { Switch } from '@vben-core/shadcn-ui';
+import { useSortable } from '@wyh/composables';
+import { Switch } from '#/ui/switch-primitive';
 
 import { Button } from '#/ui/button';
 import { Checkbox } from '#/ui/checkbox';

@@ -24,7 +24,7 @@ import {
 } from '#/ui/pagination';
 import { Button } from '#/ui/button';
 import { Input } from '#/ui/input';
-import { isFunction } from '@vben-core/shared/utils';
+import { isFunction } from '@wyh/shared/utils';
 
 import { objectOmit, refDebounced, watchDebounced } from '@vueuse/core';
 

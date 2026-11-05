@@ -12,4 +12,4 @@
 | `plugins` | `@vben/plugins` |
 | `stores` / `locales` / `preferences` / … | 同名 `@vben/*` |
 
-UI 内核仍在 `vendor/@core`（`@vben-core/*`）。
+UI 内核在 `frontend/packages/core` 与 `frontend/packages/shell`（`@wyh/*`）。

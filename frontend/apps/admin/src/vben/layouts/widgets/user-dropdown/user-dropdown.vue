@@ -14,9 +14,9 @@ import { preferences, updatePreferences, usePreferences } from '@vben/preference
 import { useAccessStore, useTimezoneStore } from '@vben/stores';
 import { isWindowsOs } from '@vben/utils';
 
-import { createIconifyIcon } from '@vben-core/icons';
+import { createIconifyIcon } from '@wyh/icons';
 
-import { useVbenModal } from '@vben-core/popup-ui';
+import { useVbenModal } from '@wyh/popup-ui';
 import {
   VbenAvatar,
   VbenIcon,

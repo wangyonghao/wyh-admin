@@ -2,13 +2,13 @@
 // Adapted from vue-vben-admin @vben-core/shadcn-ui (MIT).
 // Copyright (c) 2024-present, Vben.
 
-import type { Recordable } from '@vben-core/typings';
+import type { Recordable } from '@wyh/typings';
 
 import type { CollapsibleParamSchema } from './type';
 
 import { computed, nextTick, ref, useTemplateRef, watch } from 'vue';
 
-import { useNamespace } from '@vben-core/composables';
+import { useNamespace } from '@wyh/composables';
 
 import { ChevronsDown } from 'lucide-vue-next';
 import {

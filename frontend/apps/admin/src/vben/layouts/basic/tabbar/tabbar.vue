@@ -11,7 +11,7 @@ import {
   TabsToolRefresh,
   TabsToolScreen,
   TabsView,
-} from '@vben-core/tabs-ui';
+} from '@wyh/tabs-ui';
 
 import { useTabbar } from './use-tabbar';
 

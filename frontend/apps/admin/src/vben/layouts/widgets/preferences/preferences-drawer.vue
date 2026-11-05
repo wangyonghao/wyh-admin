@@ -27,13 +27,13 @@ import {
   usePreferences,
 } from '@vben/preferences';
 
-import { useVbenDrawer } from '@vben-core/popup-ui';
+import { useVbenDrawer } from '@wyh/popup-ui';
 import {
   VbenButton,
   VbenIconButton,
   VbenSegmented,
 } from '#/ui/composed';
-import { globalShareState } from '@vben-core/shared/global-state';
+import { globalShareState } from '@wyh/shared/global-state';
 
 import { useClipboard } from '@vueuse/core';
 

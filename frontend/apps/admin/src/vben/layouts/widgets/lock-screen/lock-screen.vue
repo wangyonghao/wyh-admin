@@ -5,8 +5,8 @@ import { LockKeyhole } from '@vben/icons';
 import { $t, useI18n } from '@vben/locales';
 import { storeToRefs, useAccessStore } from '@vben/stores';
 
-import { useScrollLock } from '@vben-core/composables';
-import { useVbenForm, z } from '@vben-core/form-ui';
+import { useScrollLock } from '@wyh/composables';
+import { useVbenForm, z } from '@wyh/form-ui';
 import {
   VbenAvatar,
   VbenButton,

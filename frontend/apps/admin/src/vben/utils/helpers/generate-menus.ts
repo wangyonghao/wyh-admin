@@ -4,9 +4,9 @@ import type {
   ExRouteRecordRaw,
   MenuRecordRaw,
   RouteMeta,
-} from '@vben-core/typings';
+} from '@wyh/typings';
 
-import { filterTree, mapTree, sortTree } from '@vben-core/shared/utils';
+import { filterTree, mapTree, sortTree } from '@wyh/shared/utils';
 
 /**
  * 根据 routes 生成菜单列表

@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { Recordable } from '@vben/types';
 
-import type { VbenFormSchema } from '@vben-core/form-ui';
+import type { VbenFormSchema } from '@wyh/form-ui';
 
 import { computed, reactive } from 'vue';
 
 import { $t } from '@vben/locales';
 
-import { useVbenForm } from '@vben-core/form-ui';
+import { useVbenForm } from '@wyh/form-ui';
 import { VbenButton } from '#/ui/composed';
 
 interface Props {

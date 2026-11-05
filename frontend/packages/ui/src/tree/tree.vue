@@ -5,16 +5,16 @@
 import type { Arrayable } from '@vueuse/core';
 import type { FlattenedItem } from 'reka-ui';
 
-import type { ClassType, Recordable } from '@vben-core/typings';
+import type { ClassType, Recordable } from '@wyh/typings';
 
 import type { TreeProps } from './types';
 
 import { onMounted, ref, watchEffect } from 'vue';
 
 import { ChevronRight } from 'lucide-vue-next';
-import { IconifyIcon } from '@vben-core/icons';
+import { IconifyIcon } from '@wyh/icons';
 import { cn } from '../lib/cn';
-import { get } from '@vben-core/shared/utils';
+import { get } from '@wyh/shared/utils';
 
 import { TreeItem, TreeRoot } from 'reka-ui';
 

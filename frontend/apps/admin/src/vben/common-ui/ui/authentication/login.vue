@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Recordable } from '@vben/types';
 
-import type { VbenFormSchema } from '@vben-core/form-ui';
+import type { VbenFormSchema } from '@wyh/form-ui';
 
 import type { AuthenticationProps } from './types';
 
@@ -10,7 +10,7 @@ import { useRouter } from 'vue-router';
 
 import { $t } from '@vben/locales';
 
-import { useVbenForm } from '@vben-core/form-ui';
+import { useVbenForm } from '@wyh/form-ui';
 import {
   VbenButton,
   VbenCheckbox,

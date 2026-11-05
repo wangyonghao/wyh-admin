@@ -10,7 +10,7 @@ import { computed, ref, watch } from 'vue';
 
 import { Circle, CircleCheckBig, LoaderCircle } from 'lucide-vue-next';
 import { cn } from '../../lib/cn';
-import { isFunction } from '@vben-core/shared/utils';
+import { isFunction } from '@wyh/shared/utils';
 
 import { objectOmit } from '@vueuse/core';
 

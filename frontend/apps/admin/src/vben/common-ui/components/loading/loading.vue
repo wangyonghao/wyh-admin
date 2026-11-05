@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { VbenLoading } from '#/ui/composed';
-import { cn } from '@vben-core/shared/utils';
+import { cn } from '@wyh/shared/utils';
 
 interface LoadingProps {
   class?: string;

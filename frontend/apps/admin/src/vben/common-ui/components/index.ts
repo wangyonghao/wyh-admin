@@ -11,8 +11,8 @@ export * from './page';
 export * from './resize';
 export * from './tippy';
 export * from './tree';
-export * from '@vben-core/form-ui';
-export * from '@vben-core/popup-ui';
+export * from '@wyh/form-ui';
+export * from '@wyh/popup-ui';
 
 // 给文档用
 export {
@@ -34,4 +34,4 @@ export {
 } from '#/ui/composed';
 
 export type { FlattenedItem } from '#/ui/tree';
-export { globalShareState } from '@vben-core/shared/global-state';
+export { globalShareState } from '@wyh/shared/global-state';

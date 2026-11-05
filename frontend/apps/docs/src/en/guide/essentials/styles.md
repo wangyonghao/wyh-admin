@@ -8,7 +8,7 @@ For Vue projects, the [official documentation](https://vuejs.org/api/sfc-css-fea
 
 ## Project Structure
 
-The style files in the project are stored in `@vben/styles`, which includes some global styles, such as reset styles, global variables, etc. It inherits the styles and capabilities of `@vben-core/design` and can be overridden according to project needs.
+The style files in the project are stored in `@vben/styles`, which includes some global styles, such as reset styles, global variables, etc. It inherits the styles and capabilities of `@wyh/design` and can be overridden according to project needs.
 
 ## Scss
 

@@ -12,7 +12,7 @@ import {
   VbenIcon,
   VbenScrollbar,
 } from '#/ui/composed';
-import { isHttpUrl } from '@vben-core/shared/utils';
+import { isHttpUrl } from '@wyh/shared/utils';
 
 import { onKeyStroke, useLocalStorage, useThrottleFn } from '@vueuse/core';
 

@@ -1,8 +1,7 @@
 packages:
-  - vendor/@core/base/*
-  - vendor/@core/ui-kit/*
-  - vendor/@core/*
   - packages/*
+  - packages/core/*
+  - packages/shell/*
   # @wyh/admin, @wyh/docs, @wyh/design-system
   - apps/*
 

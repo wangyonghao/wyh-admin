@@ -30,7 +30,7 @@ import {
 
 ```ts
 import { setupVbenVxeTable } from '@vben/plugins/vxe-table';
-import { useVbenForm } from '@vben-core/form-ui';
+import { useVbenForm } from '@wyh/form-ui';
 
 setupVbenVxeTable({
   configVxeTable: (vxeUI) => {
