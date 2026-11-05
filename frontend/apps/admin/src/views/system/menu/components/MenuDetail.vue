@@ -10,14 +10,10 @@ import {
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogTitle,
-  Button,
-  Tabs,
-  TabsList,
-  TabsTrigger,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@vben-core/shadcn-ui';
+} from '#/ui/alert-dialog';
+import { Button } from '#/ui/button';
+import { Tabs, TabsList, TabsTrigger } from '#/ui/tabs';
+import { Tooltip, TooltipContent, TooltipTrigger } from '#/ui/tooltip';
 
 import { toast } from '#/ui-patterns/toast';
 

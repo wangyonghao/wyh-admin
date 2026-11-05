@@ -10,24 +10,25 @@ import { Ellipsis, GripVertical, Plus } from '@vben/icons';
 import { $t } from '@vben/locales';
 
 import { useSortable } from '@vben-core/composables';
+import { Switch } from '@vben-core/shadcn-ui';
+
+import { Button } from '#/ui/button';
+import { Checkbox } from '#/ui/checkbox';
 import {
-  Button,
-  Checkbox,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  Input,
+} from '#/ui/dropdown-menu';
+import { Input } from '#/ui/input';
+import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
-  Switch,
-  Textarea,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@vben-core/shadcn-ui';
+} from '#/ui/sheet';
+import { Textarea } from '#/ui/textarea';
+import { Tooltip, TooltipContent, TooltipTrigger } from '#/ui/tooltip';
 
 import { toast } from '#/ui-patterns/toast';
 

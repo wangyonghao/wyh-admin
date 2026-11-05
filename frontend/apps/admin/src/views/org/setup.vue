@@ -2,9 +2,10 @@
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-import { Input, VbenButton } from '@vben-core/shadcn-ui';
+import { VbenButton } from '@vben-core/shadcn-ui';
 
 import { orgApi, type OrgInviteResult } from '#/api/org';
+import { Input } from '#/ui/input';
 import { toast } from '#/ui-patterns/toast';
 import { useUserStore } from '#/store';
 

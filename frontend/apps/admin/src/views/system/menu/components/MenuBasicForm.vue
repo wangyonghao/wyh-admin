@@ -5,8 +5,10 @@ import { computed, reactive, ref, watch } from 'vue';
 
 import { $t } from '@vben/locales';
 
-import { Input, Switch, Textarea } from '@vben-core/shadcn-ui';
+import { Switch } from '@vben-core/shadcn-ui';
 
+import { Input } from '#/ui/input';
+import { Textarea } from '#/ui/textarea';
 import { toast } from '#/ui-patterns/toast';
 
 import { z } from 'zod';

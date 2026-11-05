@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { Page } from '@vben/common-ui';
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@vben-core/shadcn-ui';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '#/ui/tabs';
 
 import LoginLogList from './login-log.vue';
 import OperationLogList from './operation-log.vue';

@@ -12,12 +12,14 @@ import {
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogTitle,
-  Button,
+} from '#/ui/alert-dialog';
+import { Button } from '#/ui/button';
+import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
-  TooltipProvider,
-} from '@vben-core/shadcn-ui';
+} from '#/ui/resizable';
+import { TooltipProvider } from '#/ui/tooltip';
 
 import DeleteAppDialog from './components/DeleteAppDialog.vue';
 import DetailPane from './components/DetailPane.vue';

@@ -10,17 +10,16 @@ import { ChevronRight, Plus, Search } from '@vben/icons';
 import { $t } from '@vben/locales';
 
 import { useSortable } from '@vben-core/composables';
+
 import {
   AlertDialog,
   AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogTitle,
-  Button,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@vben-core/shadcn-ui';
+} from '#/ui/alert-dialog';
+import { Button } from '#/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '#/ui/tooltip';
 
 import { toast } from '#/ui-patterns/toast';
 

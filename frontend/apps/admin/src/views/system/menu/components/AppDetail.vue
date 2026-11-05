@@ -7,8 +7,10 @@ import { useUserStore } from '#/store/user';
 
 import { $t } from '@vben/locales';
 
-import { Button, Input, Switch } from '@vben-core/shadcn-ui';
+import { Switch } from '@vben-core/shadcn-ui';
 
+import { Button } from '#/ui/button';
+import { Input } from '#/ui/input';
 import { toast } from '#/ui-patterns/toast';
 
 import { z } from 'zod';

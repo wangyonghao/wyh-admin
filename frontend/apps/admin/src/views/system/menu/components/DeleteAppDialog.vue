@@ -9,9 +9,9 @@ import {
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogTitle,
-  Button,
-  Input,
-} from '@vben-core/shadcn-ui';
+} from '#/ui/alert-dialog';
+import { Button } from '#/ui/button';
+import { Input } from '#/ui/input';
 
 import { toast } from '#/ui-patterns/toast';
 

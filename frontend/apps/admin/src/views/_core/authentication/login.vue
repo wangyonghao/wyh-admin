@@ -8,7 +8,6 @@ import { AuthenticationThirdPartyLogin, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import {
-  Input,
   VbenButton,
   VbenInputCaptcha,
   VbenInputPassword,
@@ -16,6 +15,7 @@ import {
 
 import { captchaApi } from '#/api';
 import { useUserStore } from '#/store';
+import { Input } from '#/ui/input';
 import { Label } from '#/ui/label';
 
 defineOptions({ name: 'Login' });

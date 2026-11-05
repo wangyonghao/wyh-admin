@@ -3,14 +3,14 @@ import { ref } from 'vue';
 
 import { $t } from '@vben/locales';
 
+import { Button } from '#/ui/button';
 import {
-  Button,
   Dialog,
   DialogContent,
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@vben-core/shadcn-ui';
+} from '#/ui/dialog';
 
 const open = defineModel<boolean>('open', { default: false });
 const emit = defineEmits<{ apply: [actions: string[]] }>();

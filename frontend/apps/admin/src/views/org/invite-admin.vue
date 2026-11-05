@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-import { Input, VbenButton } from '@vben-core/shadcn-ui';
+import { VbenButton } from '@vben-core/shadcn-ui';
 
 import { orgApi } from '#/api/org';
+import { Input } from '#/ui/input';
 import { toast } from '#/ui-patterns/toast';
 
 defineOptions({ name: 'OrgInviteAdmin' });

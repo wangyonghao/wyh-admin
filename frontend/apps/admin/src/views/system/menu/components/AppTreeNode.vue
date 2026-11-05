@@ -10,15 +10,14 @@ import { ChevronRight, Ellipsis, GripVertical } from '@vben/icons';
 import { $t } from '@vben/locales';
 
 import { useSortable } from '@vben-core/composables';
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from '@vben-core/shadcn-ui';
+} from '#/ui/dropdown-menu';
+import { Tooltip, TooltipContent, TooltipTrigger } from '#/ui/tooltip';
 
 import { toast } from '#/ui-patterns/toast';
 
