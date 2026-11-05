@@ -4,15 +4,17 @@ import type { Component } from 'vue';
 import type { SupportedLanguagesType } from '@vben/locales';
 import type { AnyFunction } from '@vben/types';
 
-import { computed, useTemplateRef, watch } from 'vue';
+import { computed, onMounted, ref, useTemplateRef, watch } from 'vue';
 
 import { SUPPORT_LANGUAGES } from '@vben/constants';
 import { useHoverToggle } from '@vben/hooks';
 import { Languages, LockKeyhole, LogOut } from '@vben/icons';
 import { $t, loadLocaleMessages } from '@vben/locales';
 import { preferences, updatePreferences, usePreferences } from '@vben/preferences';
-import { useAccessStore } from '@vben/stores';
+import { useAccessStore, useTimezoneStore } from '@vben/stores';
 import { isWindowsOs } from '@vben/utils';
+
+import { createIconifyIcon } from '@vben-core/icons';
 
 import { useVbenModal } from '@vben-core/popup-ui';
 import {
@@ -90,6 +92,10 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<{ logout: [] }>();
+
+const TimezoneIcon = createIconifyIcon('fluent-mdl2:world-clock');
+const timezoneStore = useTimezoneStore();
+const timezoneOptions = ref<{ label: string; value: string }[]>([]);
 
 const avatarLabel = computed(() => {
   const chars = [...(props.text?.trim() ?? '')];
@@ -173,6 +179,16 @@ async function handleLocale(value: string | undefined) {
   });
   await loadLocaleMessages(locale);
 }
+
+async function handleTimezone(value: string | undefined) {
+  if (!value || value === timezoneStore.timezone) return;
+  await timezoneStore.setTimezone(value);
+}
+
+onMounted(async () => {
+  if (!preferences.widget.timezone) return;
+  timezoneOptions.value = await timezoneStore.getTimezoneOptions();
+});
 
 if (enableShortcutKey.value) {
   const keys = useMagicKeys();
@@ -291,7 +307,29 @@ if (enableShortcutKey.value) {
             </DropdownMenuRadioGroup>
           </DropdownMenuSubContent>
         </DropdownMenuSub>
-        <DropdownMenuSeparator v-if="preferences.widget.languageToggle" />
+        <DropdownMenuSub v-if="preferences.widget.timezone">
+          <DropdownMenuSubTrigger class="mx-1 cursor-pointer py-1 leading-8">
+            <TimezoneIcon class="mr-2 size-4" />
+            {{ $t('ui.widgets.timezone.setTimezone') }}
+          </DropdownMenuSubTrigger>
+          <DropdownMenuSubContent class="min-w-56" side="left">
+            <DropdownMenuRadioGroup
+              :model-value="timezoneStore.timezone"
+              @update:model-value="handleTimezone"
+            >
+              <DropdownMenuRadioItem
+                v-for="item in timezoneOptions"
+                :key="item.value"
+                :value="item.value"
+              >
+                {{ item.label }}
+              </DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+          </DropdownMenuSubContent>
+        </DropdownMenuSub>
+        <DropdownMenuSeparator
+          v-if="preferences.widget.languageToggle || preferences.widget.timezone"
+        />
         <DropdownMenuItem
           v-if="preferences.widget.lockScreen"
           class="mx-1 flex cursor-pointer items-center rounded-sm py-1 leading-8"
