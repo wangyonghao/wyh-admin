@@ -63,7 +63,7 @@ const rootStyle = computed(() => {
     class="relative flex shrink-0 items-center"
   >
     <Avatar :class="props.class" class="size-full">
-      <AvatarImage :alt="alt" :src="src" :style="imageStyle" />
+      <AvatarImage v-if="src" :alt="alt" :src="src" :style="imageStyle" />
       <AvatarFallback>{{ text }}</AvatarFallback>
     </Avatar>
     <span

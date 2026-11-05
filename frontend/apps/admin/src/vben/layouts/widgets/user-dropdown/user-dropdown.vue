@@ -224,7 +224,7 @@ if (enableShortcutKey.value) {
         <div class="flex-center hover:text-accent-foreground">
           <VbenAvatar
             :alt="avatarLabel"
-            :src="avatar || undefined"
+            :src="avatar"
             class="size-8"
             dot
           />
@@ -236,7 +236,7 @@ if (enableShortcutKey.value) {
         <DropdownMenuLabel class="flex items-center p-3">
           <VbenAvatar
             :alt="avatarLabel"
-            :src="avatar || undefined"
+            :src="avatar"
             class="size-12"
             dot
             dot-class="bottom-0 right-1 border-2 size-4 bg-green-500"
