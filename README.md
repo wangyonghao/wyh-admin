@@ -105,8 +105,7 @@ cd frontend && pnpm test:unit
 ```
 wyh-admin/
 ├── AGENTS.md                      # AI 入口：全局规则 + 文档导航
-├── README.md                      # 本文件：简介、快速启动、目录结构
-├── CHANGELOG.md
+├── skills/                        # Agent skills 
 │
 ├── docs/                          # 一切「非代码」知识
 │   ├── README.md                  # 文档怎么分、怎么维护
@@ -123,18 +122,17 @@ wyh-admin/
 │   ├── specs/                     # 进行中的功能规格:每个功能一个子目录,含 spec(要什么)、plan(怎么做)、tasks(拆分步骤)
 │   └── runbook/                   # 运维手册(部署、回滚、故障处理)
 │
-├── skills/                        # Agent skills 
-│
-├── backend/
+├── backend/                       # 后端代码
 │   ├── AGENTS.md                  # 后端特有规则
 │   ├── start/                     # 启动模块、项目配置
 │   └── ...
-├── frontend/
+├── frontend/                      # 前端代码
 │   ├── AGENTS.md                  # 前端特有规则
 │   ├── apps/*                     # 可运行应用
 │   ├── packages/                  # ui、ui-patterns、core、shell
 │   └── ...
-└── lefthook.yml
+├── README.md                      # 本文件：简介、快速启动、目录结构
+└── CHANGELOG.md
 ```
 
 ## 参与贡献
