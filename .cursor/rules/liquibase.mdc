@@ -8,4 +8,4 @@ alwaysApply: false
 
 - 主库 PostgreSQL；脚本目录：`wyh-bootstrap/src/main/resources/db/changelog/postgresql/`。
 - 新变更写入独立 changeset 文件，并在 `db.changelog-master.yaml`（或既有 master）中登记。
-- 禁止只改数据库不改仓库 changelog；禁止默默切到 MySQL 作为默认主库（见 `specs/tech-stack.md`）。
+- 禁止只改数据库不改仓库 changelog；禁止默默切到 MySQL 作为默认主库（见 `docs/tech-stack.md`）。

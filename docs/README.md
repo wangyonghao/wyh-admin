@@ -2,7 +2,7 @@
 
 适用范围：wyh-admin 仓库内所有架构、规范、领域与运维文档。  
 维护：架构负责人；改动规范或目录结构时同步更新本文与根目录 [`AGENTS.md`](../AGENTS.md) 中的链接。  
-最后更新：2026-10-22
+最后更新：2026-11-06
 
 本文说明 **`docs/` 怎么分、各目录写什么、怎么维护**。细则正文放在子目录里；根 [`AGENTS.md`](../AGENTS.md) 只做短索引。
 
@@ -26,10 +26,13 @@
 ```text
 docs/
 ├── README.md           # 本文件：地图 + 维护约定
+├── mission.md          # 为什么做（愿景、用户、非目标）
+├── roadmap.md          # 做什么、阶段完成标准
+├── tech-stack.md       # 用什么技术、版本、硬规则
 ├── architecture/       # 架构总览、模块地图、边界与对齐记录
 ├── adr/                # 架构决策记录（为什么这样设计）
 ├── conventions/        # 编码 / UI / 交付等长期规范（一主题一文件）
-├── domain/             # 业务术语表、领域模型、核心流程
+├── product/            # 产品文档（PRD、用户故事、阶段规格）
 └── runbook/            # 部署、运维、排障、演示步骤
 ```
 
@@ -38,7 +41,8 @@ docs/
 | [`architecture/`](architecture/) | 系统长什么样、模块边界 | 人 + AI（设计/大改前） | [`repo-map.md`](architecture/repo-map.md) |
 | [`adr/`](adr/) | **为什么**选这个方案（背景 → 决策 → 后果） | 人 + AI（缺上下文时） | `template.md`（待补）、`NNNN-….md` |
 | [`conventions/`](conventions/) | **怎么写**才算合规 | 人 + AI（改代码时按需打开） | [`backend-java.md`](conventions/backend-java.md)、[`frontend.md`](conventions/frontend.md)、[`ui-patterns.md`](conventions/ui-patterns.md)、[`frontend-naive-migration.md`](conventions/frontend-naive-migration.md) |
-| [`domain/`](domain/) | 业务语言与领域结构 | 人 + AI（写需求/建模时） | （待写术语表 / 核心流程） |
+| [`product/`](product/) | PRD、用户故事、领域说明、阶段规格三件套 | 人 + AI（写需求 / 开阶段时） | `YYYY-MM-DD-<slug>/{requirements,plan,validation}.md` |
+| [`mission.md`](mission.md) / [`roadmap.md`](roadmap.md) / [`tech-stack.md`](tech-stack.md) | 产品使命、阶段完成标准、技术选型硬规则 | 人 + AI（改宪法或开工前） | 三篇已落地 |
 | [`runbook/`](runbook/) | 可重复启动、演示、排障步骤 | 人 + AI（验收/值班） | [`tenant-demo.md`](runbook/tenant-demo.md) |
 
 ---
@@ -47,10 +51,9 @@ docs/
 
 | 位置 | 写什么 | 不写什么 |
 |------|--------|----------|
-| [`AGENTS.md`](../AGENTS.md) | 硬边界摘要、常用命令、**Delivery 交付约束**、指向本文与 specs / conventions 的链接 | 长教程、大段代码规范、决策全文 |
-| [`specs/`](../specs/) | 产品使命、技术栈硬规则、roadmap 完成标准 | 某次实现细节、临时排查笔记 |
+| [`AGENTS.md`](../AGENTS.md) | 硬边界摘要、常用命令、**Delivery 交付约束**、指向本文与 conventions 的链接 | 长教程、大段代码规范、决策全文 |
 | [`.cursor/rules/`](../.cursor/rules/) | Cursor 自动加载的硬约束（尽量短）；细则链到 `conventions/` | 与 conventions 重复的百科 |
-| [`skills/`](../skills/) | 可复用工作流（开规格、续作、changelog） | 业务领域知识（放 `domain/`） |
+| [`skills/`](../skills/) | 可复用工作流（开规格、续作、changelog）；技能目录留在仓库根 | 业务与产品知识（放 `product/`） |
 | `backend/AGENTS.md` / `frontend/AGENTS.md`（可选） | 该侧独有的短规则 | 全仓共通规则（仍放根 AGENTS + docs/） |
 
 **选型口诀**
@@ -58,7 +61,8 @@ docs/
 - 改代码时要遵守 → `conventions/`
 - 解释「为何选 A 不选 B」→ `adr/`
 - 画模块怎么拆、模块边界 → `architecture/`
-- 业务词与流程 → `domain/`
+- 使命 / 路线图 / 技术选型 → `mission.md`、`roadmap.md`、`tech-stack.md`
+- 业务词、PRD、用户故事、阶段规格 → `product/`
 - 「按这几步能起服务 / 能演示 / 能排障」→ `runbook/`
 
 ---

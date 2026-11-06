@@ -2,7 +2,7 @@
 name: feature-spec
 description: >-
   Starts or refreshes a wyh-admin roadmap phase by interviewing for intent,
-  then writing specs/YYYY-MM-DD-<slug>/{requirements,plan,validation}.md.
+  then writing docs/product/YYYY-MM-DD-<slug>/{requirements,plan,validation}.md.
   Use when starting a phase, writing a feature spec, before implementing a
   roadmap item, or when the user says feature-spec / 写规格 / 开阶段.
 ---
@@ -14,9 +14,9 @@ description: >-
 ## Preconditions
 
 1. 阅读并遵守：
-   - `specs/mission.md`
-   - `specs/tech-stack.md`
-   - `specs/roadmap.md`
+   - `docs/mission.md`
+   - `docs/tech-stack.md`
+   - `docs/roadmap.md`
 2. 确定目标阶段：用户指定，或 roadmap 中第一个非 `complete` 且需要规格的阶段。
 3. 若宪法与请求冲突：先停，问用户是否改宪法；禁止静默违反 `tech-stack.md` 规则。
 
@@ -49,7 +49,7 @@ description: >-
 
 ### 4. Write spec trio
 
-目录：`specs/YYYY-MM-DD-<slug>/`（日期用当天 UTC+ 本地日历日；slug 短横线英文或拼音）。
+目录：`docs/product/YYYY-MM-DD-<slug>/`（日期用当天 UTC+ 本地日历日；slug 短横线英文或拼音）。
 
 创建三个文件（模板见下）。写入后 **暂停**，请用户确认（`确认` / `修改：…`）。未确认不得实现。
 

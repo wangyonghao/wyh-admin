@@ -260,7 +260,7 @@ Naive 包不删。
 
 还留着、这次不动：
 
-- `specs/tech-stack.md` 仍把主 UI 写成 Naive UI 2.44.1。改技术栈宪法要单独确认，不在这次清扫里改。
+- `docs/tech-stack.md` 仍把主 UI 写成 Naive UI 2.44.1。改技术栈宪法要单独确认，不在这次清扫里改。
 - `frontend/apps/docs` 是上游 Vben 文档（`@wyh/docs`），仍介绍多组件库（含 Naive）。不是本应用的界面基座说明。文档站 `site-layout.vue` 里有一行已注释的 `useAntdDesignTokens` 导入，没有执行。
 - `vendor/@core` 里表单 `emptyStateValue` 的注释仍提到 naive-ui 的空值是 `null`。应用适配器继续用 `null`，注释留在厂商代码里。
 - `src/vben/styles` 里还有未引用的 `antd`、`antdv-next`、`ele` 样式，不是这次要删的 `.n-*` 文件。
@@ -273,7 +273,7 @@ Naive 包不删。
 
 上一节留下的技术栈、演示目录和文档站说明，这一节收口。不改控件行为，也不改 `vendor/@core` 里空值为 `null` 的注释。
 
-- **技术栈**：`specs/tech-stack.md` 的主 UI 改为 shadcn-vue / Vben 原子。应用入口是 `#/ui`、`#/ui-patterns`，实现是 `@vben-core/shadcn-ui` 5.7.0（catalog：reka-ui 2.9.5、CVA 0.7.1、vue-sonner 2.0.9）。不再把 Naive UI 写成当前界面。
+- **技术栈**：`docs/tech-stack.md` 的主 UI 改为 shadcn-vue / Vben 原子。应用入口是 `#/ui`、`#/ui-patterns`，实现是 `@vben-core/shadcn-ui` 5.7.0（catalog：reka-ui 2.9.5、CVA 0.7.1、vue-sonner 2.0.9）。不再把 Naive UI 写成当前界面。
 - **演示目录**：`views/demos/naive/` 改为 `views/demos/atoms/`。页面仍是原子按钮和 Sonner。`routes.ts` 里挂上的演示只有 `/demos/form`，没有旧路径。语言包 `demos.naive` 改为 `demos.atoms`，`demos.vben.naive-ui` 改为 `demos.vben.atoms`，文案不变。后端菜单里没有 `demos/naive`。
 - **文档站**：`frontend/apps/docs` 仍保留上游 Vben 的多组件库正文。中英文「关于」和「组件库切换」页首加了一句：wyh-admin 的产品界面是 shadcn-vue / Vben 原子。没有改写那些上游列表。
 

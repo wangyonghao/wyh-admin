@@ -20,7 +20,7 @@ description: >-
 
 ## Preconditions
 
-1. 读 `specs/roadmap.md`（当前阶段 ID / 名称，如有）。
+1. 读 `docs/roadmap.md`（当前阶段 ID / 名称，如有）。
 2. 若存在阶段规格，读对应 `requirements.md` 的 In scope 与 `validation.md` 勾选结果，避免漏记或夸大。
 3. 用 `git log` / `git diff`（相对合并基线或用户指定范围）核对实际改动；**以 diff 为准**，不以聊天记忆为准。
 
@@ -90,5 +90,5 @@ description: >-
 ## Hard rules
 
 - 只反映已存在于工作区或指定范围内的变更，不预支未做完的计划。
-- 不把 `specs/` 宪法措辞微调记成产品 Added（除非改变对外承诺）。
+- 不把 `docs/` 中使命 / 技术栈 / 路线图等宪法措辞微调记成产品 Added（除非改变对外承诺）。
 - 与 `sdd-continue` 收尾衔接：阶段标 `complete` 前应已跑过本 skill 或用户显式跳过。

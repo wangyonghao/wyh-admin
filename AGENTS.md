@@ -6,9 +6,9 @@
 
 | 文档 / 技能 | 用途 |
 |-------------|------|
-| [`specs/mission.md`](specs/mission.md) | 产品使命、用户、成功标准、非目标 |
-| [`specs/tech-stack.md`](specs/tech-stack.md) | 技术选型、版本、架构硬规则 |
-| [`specs/roadmap.md`](specs/roadmap.md) | 阶段状态与完成标准 |
+| [`docs/mission.md`](docs/mission.md) | 产品使命、用户、成功标准、非目标 |
+| [`docs/tech-stack.md`](docs/tech-stack.md) | 技术选型、版本、架构硬规则 |
+| [`docs/roadmap.md`](docs/roadmap.md) | 阶段状态与完成标准 |
 | [`skills/feature-spec`](skills/feature-spec/SKILL.md) | 开阶段：访谈 + 写规格三件套 |
 | [`skills/sdd-continue`](skills/sdd-continue/SKILL.md) | 续作：读宪法 → 推进下一阶段 |
 | [`skills/changelog`](skills/changelog/SKILL.md) | 更新根目录 `CHANGELOG.md` |

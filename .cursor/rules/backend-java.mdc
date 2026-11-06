@@ -24,4 +24,4 @@ alwaysApply: false
 - 完成前 `mvn test`，不得带 `-DskipUnitTests=true`。
 - 必测表与细则：`docs/conventions/backend-java.md` → Testing。
 
-细节：`docs/conventions/backend-java.md`；异常：同目录 `biz-exception.mdc`；栈：`specs/tech-stack.md`。
+细节：`docs/conventions/backend-java.md`；异常：同目录 `biz-exception.mdc`；栈：`docs/tech-stack.md`。

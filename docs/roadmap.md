@@ -10,9 +10,9 @@ Agent 每次会话读取本文件，从第一个非 `complete` 的阶段继续�
 - **Status:** `in-progress`
 - **Goal:** 建立可被 Agent 稳定消费的项目级宪法，替代跨会话记忆。
 - **Done when:**
-  - [x] `specs/mission.md`
-  - [x] `specs/tech-stack.md`
-  - [x] `specs/roadmap.md`（本文件）经确认落地
+  - [x] `docs/mission.md`
+  - [x] `docs/tech-stack.md`
+  - [x] `docs/roadmap.md`（本文件）经确认落地
   - [x] `skills/feature-spec`、`skills/sdd-continue`、`skills/changelog`（并镜像至 `.cursor/skills/`）
 - **Notes:** 宪法变更须显式决策，不得作为功能开发的副作用修改。核心文件与首批 skills 已齐；可将本阶段标为 `complete`。
 

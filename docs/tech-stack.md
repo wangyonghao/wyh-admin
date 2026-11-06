@@ -148,5 +148,5 @@ vendor/@core                    # UI 内核（慎改）
 
 ## Agent notes
 
-- 改栈或换默认库 / 调度 / UI 属于宪法变更：先改 `specs/tech-stack.md`（及必要时 `mission.md` / `roadmap.md`），再改代码。
-- 目录导航与编码约定：短索引见 `AGENTS.md`；地图与细则见 `docs/agent/`；Cursor glob 规则见 `.cursor/rules/`。**技术选型与版本以本文 + 依赖文件为准**。
+- 改栈或换默认库 / 调度 / UI 属于宪法变更：先改 `docs/tech-stack.md`（及必要时 `docs/mission.md` / `docs/roadmap.md`），再改代码。
+- 目录导航与编码约定：短索引见 `AGENTS.md`；地图与细则见 `docs/architecture/`；Cursor glob 规则见 `.cursor/rules/`。**技术选型与版本以本文 + 依赖文件为准**。

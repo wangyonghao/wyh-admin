@@ -1,6 +1,6 @@
 # Backend conventions
 
-配合 `.cursor/rules/backend-java.mdc`、`biz-exception.mdc`。架构硬规则以 `specs/tech-stack.md` 为准。
+配合 `.cursor/rules/backend-java.mdc`、`biz-exception.mdc`。架构硬规则以 `docs/tech-stack.md` 为准。
 
 ## Module & packaging
 

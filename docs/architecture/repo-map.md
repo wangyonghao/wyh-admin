@@ -19,15 +19,14 @@ wyh-admin/
 │       ├── cmn-job                   # Quartz 内核
 │       ├── cmn-tenant                # 隔离与上下文
 │       └── cmn-license-*             # 未接入 admin-start
-├── frontend/          # 产品后台（src/）+ apps + packages/ui + vendor 壳
-├── specs/             # SDD 宪法
-├── skills/            # Agent 工作流技能
-├── docs/              # 架构、约定、runbook（见 docs/README.md）
+├── frontend/          # apps + packages（ui / core / shell）；无 vendor
+├── skills/            # Agent 工作流技能（仓库根）
+├── docs/              # 使命、路线图、技术栈、架构、约定、产品、runbook
 ├── frontend/DESIGN.md # 前端视觉宪法（中后台 UI）
 └── AGENTS.md          # 短索引
 ```
 
-仓库里已没有 `platform/`、`interfaces/`、`biz/` 目录，也没有 `cmn-boot` 模块。
+仓库里已没有 `platform/`、`interfaces/`、`biz/` 目录，也没有 `cmn-boot` 模块。前端根下不再有 `vendor` 目录。
 
 ## Backend modules
 
@@ -81,6 +80,45 @@ admin-commons/cmn-*
 - `PackageMenuBinding`、`TenantLifecycleRules` 在 `admin-biz-system` 的 `system.admin.domain`。`cmn-tenant` 只保留上下文、行隔离、租户选择与 SPI。
 - 邮件发送 `MailClient`、`MailConfig`、`MailConfigProvider`、`MailException` 在 `admin-commons/cmn-messaging` 的 `top.wyhao.admin.cmn.mail`。设置模块实现 `MailConfigProvider`，把库存的邮件配置映射成 SMTP 账户。设置接口的 `MailConfigVO` 仍在 `admin-biz-system-client`。
 
+## Frontend packages
+
+工作空间（`frontend/pnpm-workspace.yaml`）：`packages/*`、`packages/core/*`、`packages/shell/*`、`apps/*`。这是去掉 `frontend/vendor`、把原 `@core` 内核收成 `@wyh/*`，不是重写 layout / preferences。源码里已没有 `from '@vben-core/...'`；还能看到这个名字的，主要是复制进 `@wyh/*` 的 MIT 注释，以及 `package.json` 的 `repository.directory` 里指向原上游目录的字段。各包仍保留 MIT 和 Vben 上游仓库信息。
+
+```
+frontend/apps/
+  admin              # @wyh/admin 产品后台
+  design-system      # @wyh/design-system 组件演示
+  docs               # @wyh/docs 文档站
+frontend/packages/
+  ui                 # @wyh/ui
+  ui-patterns        # @wyh/ui-patterns
+  core/              # 原 vendor/@core，子路径导出不变
+    shared / icons / typings / design / composables / preferences
+  shell/             # 原 vendor 里的 layout / form / popup / menu / tabs UI
+    layout-ui / form-ui / popup-ui / menu-ui / tabs-ui
+```
+
+应用里 `@vben/*` 仍是指向 `apps/admin/src/vben` 的路径别名，这些文件现在引用 `@wyh/*`。业务组件仍走 `#` 前缀（`#/ui`、`#/ui-patterns` 等）。
+
+| 路径 | 包名 | 职责 |
+|------|------|------|
+| `frontend/apps/admin` | `@wyh/admin` | 产品后台 |
+| `frontend/apps/design-system` | `@wyh/design-system` | 只演示 `ui` / `ui-patterns`，不放业务页 |
+| `frontend/apps/docs` | `@wyh/docs` | VitePress 文档站 |
+| `frontend/packages/ui` | `@wyh/ui` | 归属的 shadcn/Reka 原语组件；导出 `./*` → `src/*/index.ts`。组合组件在 `src/composed`，通过 `#/ui/composed` 引入。原始布尔 Switch（Reka 语义，不要和 `#/ui/switch` 的 1\|0 包装混用）从 `#/ui/switch-primitive` 引入 |
+| `frontend/packages/ui-patterns` | `@wyh/ui-patterns` | 页面模式 |
+| `frontend/packages/core/shared` | `@wyh/shared` | 导出：`./constants`、`./utils`、`./color`、`./cache`、`./store`、`./global-state` |
+| `frontend/packages/core/icons` | `@wyh/icons` | 图标 |
+| `frontend/packages/core/typings` | `@wyh/typings` | 另有 `./vue-router` |
+| `frontend/packages/core/design` | `@wyh/design` | 导出：`./bem`、`./theme` |
+| `frontend/packages/core/composables` | `@wyh/composables` | 组合式函数 |
+| `frontend/packages/core/preferences` | `@wyh/preferences` | 偏好设置（未重写，仅从 vendor 迁入并改包名） |
+| `frontend/packages/shell/layout-ui` | `@wyh/layout-ui` | 布局壳 |
+| `frontend/packages/shell/form-ui` | `@wyh/form-ui` | 表单壳 |
+| `frontend/packages/shell/popup-ui` | `@wyh/popup-ui` | 弹层壳 |
+| `frontend/packages/shell/menu-ui` | `@wyh/menu-ui` | 菜单壳 |
+| `frontend/packages/shell/tabs-ui` | `@wyh/tabs-ui` | 标签页壳 |
+
 ## Quick locate
 
 ### Backend
@@ -115,10 +153,12 @@ admin-commons/cmn-*
 | API | `frontend/apps/admin/src/api/` |
 | 前后端对齐 | `docs/architecture/repo-map.md` |
 | 代码生成 | `AGENTS.md`（已从宪法删除，未实现） |
-| 壳 / 内核 | `frontend/apps/admin/src/vben/`（`@vben/*`）；`frontend/vendor/@core`（慎改） |
-| 原子 / 页面模式 | `frontend/packages/ui`（`@wyh/ui`）、`frontend/packages/ui-patterns`（`@wyh/ui-patterns`）。应用导入仍可用 `#/ui`、`#/ui-patterns` |
+| 应用内别名 | `frontend/apps/admin/src/vben/`（`@vben/*` 路径别名；内部已改引用 `@wyh/*`） |
+| 内核 | `frontend/packages/core/*`（`@wyh/shared`、`@wyh/icons`、`@wyh/typings`、`@wyh/design`、`@wyh/composables`、`@wyh/preferences`） |
+| 壳层 | `frontend/packages/shell/*`（`@wyh/layout-ui`、`@wyh/form-ui`、`@wyh/popup-ui`、`@wyh/menu-ui`、`@wyh/tabs-ui`） |
+| 原子 / 页面模式 | `frontend/packages/ui`（`@wyh/ui`）、`frontend/packages/ui-patterns`（`@wyh/ui-patterns`）。应用导入仍走 `#/ui`、`#/ui-patterns`；组合组件 `#/ui/composed`；原始布尔 Switch `#/ui/switch-primitive` |
 | 文档站 | `frontend/apps/docs`（`@wyh/docs`，VitePress）。`pnpm dev:docs` / `pnpm build:docs` |
 | 组件演示 | `frontend/apps/design-system`（`@wyh/design-system`）。只演示上述两个包，不放业务页。`pnpm dev:ds` / `pnpm build:ds` |
-| 工程配置 | 应用：`frontend/apps/admin` 的 `vite.config.ts`、env、`tsconfig.json`。仓库级：`frontend/eslint.config.mjs`、`frontend/tsconfig.json` |
+| 工程配置 | 应用：`frontend/apps/admin` 的 `vite.config.ts`、env、`tsconfig.json`。仓库级：`frontend/eslint.config.mjs`、`frontend/tsconfig.json`、`frontend/pnpm-workspace.yaml` |
 
 开发：`cd frontend && pnpm dev`（产品后台，源码在 `apps/admin`）

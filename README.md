@@ -1,6 +1,6 @@
 # wyh-admin
 
-前后端分离的多租户中后台。后端是 Spring Boot 3 模块化单体，前端是 Vue 3 + shadcn-vue / Vben 原子。技术选型以 [`specs/tech-stack.md`](specs/tech-stack.md) 和依赖声明为准。
+前后端分离的多租户中后台。后端是 Spring Boot 3 模块化单体，前端是 Vue 3 + shadcn-vue / Vben 原子。技术选型以 [`docs/tech-stack.md`](docs/tech-stack.md) 和依赖声明为准。
 
 仓库：<https://github.com/wangyonghao/wyh-admin>
 
@@ -8,7 +8,7 @@
 
 ## 核心技术栈
 
-版本摘自 [`specs/tech-stack.md`](specs/tech-stack.md)。后端锁定在 `backend/pom.xml`，前端锁定在 `frontend/pnpm-workspace.yaml` 的 catalog。
+版本摘自 [`docs/tech-stack.md`](docs/tech-stack.md)。后端锁定在 `backend/pom.xml`，前端锁定在 `frontend/pnpm-workspace.yaml` 的 catalog。
 
 | 类别 | 选型 | 版本 |
 |------|------|------|
@@ -102,28 +102,40 @@ cd frontend && pnpm test:unit
 ```
 
 ## 项目结构
-
 ```
 wyh-admin/
+├── AGENTS.md                      # AI 入口：全局规则 + 文档导航
+├── README.md                      # 本文件：简介、快速启动、目录结构
+├── CHANGELOG.md
+│
+├── docs/                          # 一切「非代码」知识
+│   ├── README.md                  # 文档怎么分、怎么维护
+│   ├── mission.md                 # 为什么做(愿景、目标用户、非目标)
+│   ├── roadmap.md                 # 做什么、什么时候做
+│   ├── tech-stack.md              # 用什么技术、版本、选型理由
+│   ├── glossary.md                # 领域术语表: 业务名词、缩写、易混概念
+│   ├── architecture/              # 模块地图、边界（已有 repo-map.md）
+│   ├── conventions/               # 编码规范(后端、前端、命名、Git、测试)
+│   ├── adr/                       # 架构决策记录（目录已建，正文待写）
+│   ├── product/                   # 产品文档(PRD、用户故事、需求)
+│   ├── prototype/                 # 原型：有 Figma / HTML / 截图时再建
+│   ├── templates/                 # ADR、PRD、spec、runbook 的模板
+│   ├── specs/                     # 进行中的功能规格:每个功能一个子目录,含 spec(要什么)、plan(怎么做)、tasks(拆分步骤)
+│   └── runbook/                   # 运维手册(部署、回滚、故障处理)
+│
+├── skills/                        # Agent skills 
+│
 ├── backend/
-│   ├── admin-start/     # 启动、配置、Liquibase
-│   ├── admin-openapi/     # 开放 API
-│   ├── biz/biz-system/     # 系统壳、仪表盘等
-│   ├── platform/           # iam、tenant、file、job、ops 与 cmn-*
-│   ├── docker/             # 本地 Compose
-│   └── scripts/env.example.sh
+│   ├── AGENTS.md                  # 后端特有规则
+│   ├── start/                     # 启动模块、项目配置
+│   └── ...
 ├── frontend/
-│   ├── apps/admin/         # @wyh/admin 产品后台
-│   ├── apps/docs/          # @wyh/docs
-│   ├── apps/design-system/ # 只演示 @wyh/ui、@wyh/ui-patterns
-│   └── packages/           # ui、ui-patterns
-├── specs/                  # 技术栈与路线图
-└── AGENTS.md               # 给 Agent 的短索引
+│   ├── AGENTS.md                  # 前端特有规则
+│   ├── apps/*                     # 可运行应用
+│   ├── packages/                  # ui、ui-patterns、core、shell
+│   └── ...
+└── lefthook.yml
 ```
-
-依赖方向：`admin-start` → `admin-openapi` / `admin-biz-*` → `admin-biz-*-client` → `cmn-*`。
-
-产品页在 `frontend/apps/admin/src/views`：工作台、个人中心与消息、用户 / 角色 / 菜单 / 部门、通知公告、字典、系统配置、文件、在线用户、登录与操作日志、短信日志、开放应用、定时任务、租户与套餐。租户后端在 `platform/tenant`。代码生成未实现，见 `AGENTS.md`。
 
 ## 参与贡献
 
@@ -135,4 +147,4 @@ wyh-admin/
 
 ## License
 
-Apache-2.0。见 [`backend/LICENSE`](backend/LICENSE)。
+Apache-2.0。

@@ -13,9 +13,9 @@ description: >-
 
 ## Every run（固定顺序）
 
-1. 读 `specs/mission.md`
-2. 读 `specs/tech-stack.md`
-3. 读 `specs/roadmap.md`
+1. 读 `docs/mission.md`
+2. 读 `docs/tech-stack.md`
+3. 读 `docs/roadmap.md`
 4. 选定 **第一个** `Status` 非 `complete` 的阶段（用户点名则用点名阶段）
 5. 用 **≤5 行** 汇报：阶段 ID、状态、Done when 缺口、下一步动作
 6. 按下方状态机推进；遇歧义先问再改
@@ -29,7 +29,7 @@ description: >-
 
 ### B. 规格已 confirmed，plan 未做完
 
-1. 打开该阶段目录：`specs/YYYY-MM-DD-<slug>/`（取与阶段匹配、最新且已确认者）。
+1. 打开该阶段目录：`docs/product/YYYY-MM-DD-<slug>/`（取与阶段匹配、最新且已确认者）。
 2. 读 `requirements.md`、`plan.md`、`validation.md`。
 3. 找到 `plan.md` 中第一个未完成任务组 `G?`。
 4. **只实现该组**；遵守 tech-stack 与 AGENTS 编码约定。
@@ -46,7 +46,7 @@ description: >-
 
 1. 遵循 `skills/changelog/SKILL.md` 更新根目录 `CHANGELOG.md`（用户可显式跳过）。
 2. 请用户确认将 roadmap 中该阶段标为 `complete`（**须人工确认**）。
-3. 确认后更新 `specs/roadmap.md` 状态与 Done when 勾选。
+3. 确认后更新 `docs/roadmap.md` 状态与 Done when 勾选。
 4. 再用 ≤5 行指出下一阶段；若用户要继续，从头跑本 skill。
 
 ## Constitution changes

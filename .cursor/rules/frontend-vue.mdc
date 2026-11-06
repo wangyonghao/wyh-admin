@@ -14,4 +14,4 @@ alwaysApply: false
 - API 按 `api/modules` 组织，类型与后端对齐。
 - 新依赖进 `pnpm-workspace.yaml` catalog。
 
-细节：`docs/conventions/frontend.md`；栈：`specs/tech-stack.md`。
+细节：`docs/conventions/frontend.md`；栈：`docs/tech-stack.md`。
