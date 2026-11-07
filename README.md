@@ -4,30 +4,6 @@
 
 仓库：<https://github.com/wangyonghao/wyh-admin>
 
-
-
-## 核心技术栈
-
-版本摘自 [`docs/tech-stack.md`](docs/tech-stack.md)。后端锁定在 `backend/pom.xml`，前端锁定在 `frontend/pnpm-workspace.yaml` 的 catalog。
-
-| 类别 | 选型 | 版本 |
-|------|------|------|
-| 语言 / 框架 | Java、Spring Boot 3 | 17、3.4.13 |
-| Web 容器 | Undertow | 随 Spring Boot |
-| 前端 | Vue、TypeScript、Vite | 3.5.32、6.0.2、8.0.8 |
-| UI | shadcn-vue / Vben 原子（`@wyh/ui`、`@wyh/ui-patterns`） | 5.7.0 |
-| 路由 / 状态 | Vue Router、Pinia | 5.0.4、3.0.4 |
-| 样式 | Tailwind CSS | 4.2.2 |
-| 认证 | Sa-Token、JustAuth | 1.44.0、1.16.7 |
-| ORM | MyBatis Plus | 3.5.16 |
-| 主库 / 迁移 | PostgreSQL、Liquibase | changelog 在 `backend/admin-start/src/main/resources/db/changelog/postgresql/` |
-| 缓存 | Redisson、JetCache | 3.52.0、2.7.8 |
-| 调度 | Spring Quartz（`cmn-job`） | 不是另一套分布式调度内核 |
-| 接口文档 | NextDoc4j、Swagger Annotations | 1.1.7、2.2.36 |
-| 其他 | FastExcel、CosId、X-File-Storage | 1.3.0、2.13.3、2.2.1 |
-
-主应用是 `frontend/apps/admin`（`@wyh/admin`）。`pnpm dev` 与 `pnpm dev:admin` 相同。
-
 ## 快速开始
 
 ### 环境要求
@@ -102,6 +78,7 @@ cd frontend && pnpm test:unit
 ```
 
 ## 项目结构
+
 ```
 wyh-admin/
 ├── AGENTS.md                      # AI 入口：全局规则 + 文档导航
@@ -140,8 +117,6 @@ wyh-admin/
 1. Fork 后基于 `main` 开分支。
 2. 提交说明使用 [Conventional Commits](https://www.conventionalcommits.org/)。
 3. 向 `main` 提 Pull Request。改 `backend/**` 会跑后端编译和关键模块单测；改 `frontend/**` 会跑 `pnpm test:unit` 和前端构建。
-
-更细的模块边界见 [`AGENTS.md`](AGENTS.md)。
 
 ## License
 
