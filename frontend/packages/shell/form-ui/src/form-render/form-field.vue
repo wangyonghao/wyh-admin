@@ -30,7 +30,12 @@ import {
   FormItem,
   FormMessage,
 } from '@wyh/ui/form';
-import { cn, isFunction, isObject, isString } from '@wyh/shared/utils';
+import { cn } from '@wyh/ui/cn';
+import {
+  isFunction,
+  isObject,
+  isString,
+} from '@wyh/shared/utils';
 
 import { toTypedSchema } from '@vee-validate/zod';
 import { useFieldError, useFormValues } from 'vee-validate';

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { cn } from '@vben/utils';
+import { cn } from '@wyh/ui/cn';
 
 import { spaceClass, spaceStyle, type FormSpaceProps } from './space-layout';
 

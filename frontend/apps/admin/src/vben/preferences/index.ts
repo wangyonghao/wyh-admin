@@ -1,16 +1,12 @@
+import type { DeepPartial } from '@wyh/typings';
+
 import type {
   CustomPreferencesRecord,
   Preferences,
   PreferencesExtension,
-} from '@wyh/preferences';
-import type { DeepPartial } from '@wyh/typings';
+} from './types';
 
-/**
- * 如果你想所有的app都使用相同的默认偏好设置，你可以在这里定义
- * 而不是去修改 @wyh/preferences 中的默认偏好设置
- * @param preferences
- * @returns
- */
+import { preferencesManager } from './preferences';
 
 function defineOverridesPreferences(preferences: DeepPartial<Preferences>) {
   return preferences;
@@ -24,4 +20,22 @@ function definePreferencesExtension<
 
 export { defineOverridesPreferences, definePreferencesExtension };
 
-export * from '@wyh/preferences';
+export const {
+  getPreferences,
+  getCustomPreferences,
+  getInitialCustomPreferences,
+  getPreferencesExtension,
+  updatePreferences,
+  updateCustomPreferences,
+  resetPreferences,
+  clearCache,
+  initPreferences,
+} = preferencesManager;
+
+export const preferences: Preferences = getPreferences();
+
+export { preferencesManager };
+
+export * from './constants';
+export type * from './types';
+export * from './use-preferences';

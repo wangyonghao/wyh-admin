@@ -5,7 +5,7 @@ import type { ContentCompactType } from '@wyh/typings';
 
 import { computed } from 'vue';
 
-import { useLayoutContentStyle } from '@wyh/composables';
+import { useLayoutContentStyle } from '../hooks/use-layout-content-style';
 import { Slot } from '@wyh/ui/composed';
 
 interface Props {

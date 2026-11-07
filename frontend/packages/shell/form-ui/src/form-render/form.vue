@@ -12,8 +12,8 @@ import type {
 import { computed } from 'vue';
 
 import { Form } from '@wyh/ui/form';
+import { cn } from '@wyh/ui/cn';
 import {
-  cn,
   isFunction,
   isString,
   mergeWithArrayOverride,

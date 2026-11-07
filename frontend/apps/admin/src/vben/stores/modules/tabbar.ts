@@ -11,7 +11,7 @@ import type { TabDefinition } from '@wyh/typings';
 
 import { markRaw, toRaw } from 'vue';
 
-import { preferences } from '@wyh/preferences';
+import { preferences } from '@vben/preferences';
 import {
   createStack,
   openRouteInNewWindow,

@@ -82,7 +82,7 @@ admin-commons/cmn-*
 
 ## Frontend packages
 
-工作空间（`frontend/pnpm-workspace.yaml`）：`packages/*`、`packages/core/*`、`packages/shell/*`、`apps/*`。这是去掉 `frontend/vendor`、把原 `@core` 内核收成 `@wyh/*`，不是重写 layout / preferences。源码里已没有 `from '@vben-core/...'`；还能看到这个名字的，主要是复制进 `@wyh/*` 的 MIT 注释，以及 `package.json` 的 `repository.directory` 里指向原上游目录的字段。各包仍保留 MIT 和 Vben 上游仓库信息。
+工作空间（`frontend/pnpm-workspace.yaml`）：`packages/*`、`packages/core/*`、`packages/shell/*`、`apps/*`。多应用会用到的能力留在 `packages`；只服务产品后台的偏好、Vben 营销常量和布局内容尺寸计算跟壳走。源码里已没有 `from '@vben-core/...'`；还能看到这个名字的，主要是复制进 `@wyh/*` 的 MIT 注释，以及 `package.json` 的 `repository.directory` 里指向原上游目录的字段。各包仍保留 MIT 和 Vben 上游仓库信息。
 
 ```
 frontend/apps/
@@ -92,9 +92,9 @@ frontend/apps/
 frontend/packages/
   ui                 # @wyh/ui
   ui-patterns        # @wyh/ui-patterns
-  core/              # 原 vendor/@core，子路径导出不变
-    shared / icons / typings / design / composables / preferences
-  shell/             # 原 vendor 里的 layout / form / popup / menu / tabs UI
+  core/              # 多应用共享内核
+    shared / icons / typings / design / composables
+  shell/             # layout / form / popup / menu / tabs UI
     layout-ui / form-ui / popup-ui / menu-ui / tabs-ui
 ```
 
@@ -107,13 +107,14 @@ frontend/packages/
 | `frontend/apps/docs` | `@wyh/docs` | VitePress 文档站 |
 | `frontend/packages/ui` | `@wyh/ui` | 归属的 shadcn/Reka 原语组件；导出 `./*` → `src/*/index.ts`。组合组件在 `src/composed`，通过 `#/ui/composed` 引入。原始布尔 Switch（Reka 语义，不要和 `#/ui/switch` 的 1\|0 包装混用）从 `#/ui/switch-primitive` 引入 |
 | `frontend/packages/ui-patterns` | `@wyh/ui-patterns` | 页面模式 |
-| `frontend/packages/core/shared` | `@wyh/shared` | 导出：`./constants`、`./utils`、`./color`、`./cache`、`./store`、`./global-state` |
-| `frontend/packages/core/icons` | `@wyh/icons` | 图标 |
-| `frontend/packages/core/typings` | `@wyh/typings` | 另有 `./vue-router` |
-| `frontend/packages/core/design` | `@wyh/design` | 导出：`./bem`、`./theme` |
-| `frontend/packages/core/composables` | `@wyh/composables` | 组合式函数 |
-| `frontend/packages/core/preferences` | `@wyh/preferences` | 偏好设置（未重写，仅从 vendor 迁入并改包名） |
-| `frontend/packages/shell/layout-ui` | `@wyh/layout-ui` | 布局壳 |
+| `frontend/packages/ui` 的 `src/cn` | `@wyh/ui/cn` | `cn` 的唯一实现，转出 `src/lib/cn.ts` |
+| `frontend/packages/core/shared` | `@wyh/shared` | 导出：`./constants`（布局 CSS 变量名）、`./utils`、`./color`、`./cache`、`./global-state`。`cn` 与 store 再导出已去掉 |
+| `frontend/packages/core/icons` | `@wyh/icons` | 图标。`@wyh/ui` 与各壳包使用 |
+| `frontend/packages/core/typings` | `@wyh/typings` | 通用类型与菜单 / 标签 / 布局类型。另有 `./vue-router`。`@wyh/ui` 使用 `ClassType`、`Recordable` |
+| `frontend/packages/core/design` | `@wyh/design` | 设计 token。产品后台与 `apps/design-system` 都引入。导出：`./bem`、`./theme` |
+| `frontend/packages/core/composables` | `@wyh/composables` | 仍被 `@wyh/ui` 使用的 `useScrollLock`、`useNamespace`，以及壳层排序 / 断点 / 转发 props。布局内容尺寸在 `layout-ui` |
+| `frontend/apps/admin/src/vben/preferences` | `@vben/preferences` | 产品后台偏好。只被 admin 壳消费 |
+| `frontend/packages/shell/layout-ui` | `@wyh/layout-ui` | 布局壳。`useLayoutContentStyle` 在 `src/hooks` |
 | `frontend/packages/shell/form-ui` | `@wyh/form-ui` | 表单壳 |
 | `frontend/packages/shell/popup-ui` | `@wyh/popup-ui` | 弹层壳 |
 | `frontend/packages/shell/menu-ui` | `@wyh/menu-ui` | 菜单壳 |
@@ -154,7 +155,7 @@ frontend/packages/
 | 前后端对齐 | `docs/architecture/repo-map.md` |
 | 代码生成 | `AGENTS.md`（已从宪法删除，未实现） |
 | 应用内别名 | `frontend/apps/admin/src/vben/`（`@vben/*` 路径别名；内部已改引用 `@wyh/*`） |
-| 内核 | `frontend/packages/core/*`（`@wyh/shared`、`@wyh/icons`、`@wyh/typings`、`@wyh/design`、`@wyh/composables`、`@wyh/preferences`） |
+| 内核 | `frontend/packages/core/*`（`@wyh/shared`、`@wyh/icons`、`@wyh/typings`、`@wyh/design`、`@wyh/composables`）。偏好在 `apps/admin/src/vben/preferences` |
 | 壳层 | `frontend/packages/shell/*`（`@wyh/layout-ui`、`@wyh/form-ui`、`@wyh/popup-ui`、`@wyh/menu-ui`、`@wyh/tabs-ui`） |
 | 原子 / 页面模式 | `frontend/packages/ui`（`@wyh/ui`）、`frontend/packages/ui-patterns`（`@wyh/ui-patterns`）。应用导入仍走 `#/ui`、`#/ui-patterns`；组合组件 `#/ui/composed`；原始布尔 Switch `#/ui/switch-primitive` |
 | 文档站 | `frontend/apps/docs`（`@wyh/docs`，VitePress）。`pnpm dev:docs` / `pnpm build:docs` |

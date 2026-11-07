@@ -14,7 +14,7 @@ import {
   ref,
 } from 'vue';
 
-import { useStore } from '@wyh/shared/store';
+import { useStore } from '@tanstack/vue-store';
 
 import { DrawerApi } from './drawer-api';
 import VbenDrawer from './drawer.vue';

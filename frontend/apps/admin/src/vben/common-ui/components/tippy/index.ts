@@ -5,7 +5,7 @@ import type { App, SetupContext } from 'vue';
 import { h, watchEffect } from 'vue';
 import { setDefaultProps, Tippy as TippyComponent } from 'vue-tippy';
 
-import { usePreferences } from '@wyh/preferences';
+import { usePreferences } from '@vben/preferences';
 
 import useTippyDirective from './directive';
 

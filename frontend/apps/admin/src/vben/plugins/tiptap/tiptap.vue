@@ -15,7 +15,7 @@ import {
   VbenIconButton,
   VbenPopover,
 } from '#/ui/composed';
-import { cn } from '@wyh/shared/utils';
+import { cn } from '@wyh/ui/cn';
 
 import { EditorContent, useEditor } from '@tiptap/vue-3';
 

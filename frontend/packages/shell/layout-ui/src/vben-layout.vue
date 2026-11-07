@@ -5,11 +5,7 @@ import type { VbenLayoutProps } from './vben-layout';
 
 import { computed, ref, watch } from 'vue';
 
-import {
-  SCROLL_FIXED_CLASS,
-  useLayoutFooterStyle,
-  useLayoutHeaderStyle,
-} from '@wyh/composables';
+import { SCROLL_FIXED_CLASS } from '@wyh/composables';
 import { IconifyIcon } from '@wyh/icons';
 import { VbenIconButton } from '@wyh/ui/composed';
 import { ELEMENT_ID_MAIN_CONTENT } from '@wyh/shared/constants';
@@ -24,6 +20,10 @@ import {
   LayoutTabbar,
 } from './components';
 import { useLayout } from './hooks/use-layout';
+import {
+  useLayoutFooterStyle,
+  useLayoutHeaderStyle,
+} from './hooks/use-layout-content-style';
 
 interface Props extends VbenLayoutProps {}
 

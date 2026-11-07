@@ -13,7 +13,7 @@ import type { FormActions, FormSchema, VbenFormProps } from './types';
 
 import { isRef, toRaw } from 'vue';
 
-import { Store } from '@wyh/shared/store';
+import { Store } from '@tanstack/vue-store';
 import {
   bindMethods,
   cloneDeep,

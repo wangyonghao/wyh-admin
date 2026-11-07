@@ -3,7 +3,11 @@ import { computed, toRaw, unref, watch } from 'vue';
 
 import { useSimpleLocale } from '@wyh/composables';
 import { VbenExpandableArrow } from '@wyh/ui/composed';
-import { cn, isFunction, triggerWindowResize } from '@wyh/shared/utils';
+import { cn } from '@wyh/ui/cn';
+import {
+  isFunction,
+  triggerWindowResize,
+} from '@wyh/shared/utils';
 
 import { COMPONENT_MAP } from '../config';
 import { injectFormProps } from '../use-form-context';

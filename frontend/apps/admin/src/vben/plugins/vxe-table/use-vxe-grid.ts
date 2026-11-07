@@ -8,7 +8,7 @@ import type { ExtendedVxeGridApi, VxeGridProps } from './types';
 
 import { defineComponent, h, onBeforeUnmount } from 'vue';
 
-import { useStore } from '@wyh/shared/store';
+import { useStore } from '@tanstack/vue-store';
 
 import { VxeGridApi } from './api';
 import VxeGrid from './use-vxe-grid.vue';

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, useAttrs } from 'vue';
 
-import { cn } from '@vben/utils';
+import { cn } from '@wyh/ui/cn';
 
 import { RadioGroup, RadioGroupItem } from '#/ui/radio-group';
 

@@ -4,7 +4,7 @@ import type { ShallowRef } from 'vue';
 
 import type { ToolbarAction, ToolbarMenuItem } from './types';
 
-import { cn } from '@wyh/shared/utils';
+import { cn } from '@wyh/ui/cn';
 
 interface UseTiptapToolbarOptions {
   editable: () => boolean;

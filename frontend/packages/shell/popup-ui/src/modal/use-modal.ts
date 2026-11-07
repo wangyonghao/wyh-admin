@@ -10,7 +10,7 @@ import {
   ref,
 } from 'vue';
 
-import { useStore } from '@wyh/shared/store';
+import { useStore } from '@tanstack/vue-store';
 
 import { ModalApi } from './modal-api';
 import VbenModal from './modal.vue';

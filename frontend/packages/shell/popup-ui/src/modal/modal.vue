@@ -35,7 +35,7 @@ import {
 } from '@wyh/ui/dialog';
 import { ELEMENT_ID_MAIN_CONTENT } from '@wyh/shared/constants';
 import { globalShareState } from '@wyh/shared/global-state';
-import { cn } from '@wyh/shared/utils';
+import { cn } from '@wyh/ui/cn';
 
 import { useModalDraggable } from './use-modal-draggable';
 

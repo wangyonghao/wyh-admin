@@ -28,7 +28,7 @@ import {
   VbenRenderContent,
 } from '@wyh/ui/composed';
 import { globalShareState } from '@wyh/shared/global-state';
-import { cn } from '@wyh/shared/utils';
+import { cn } from '@wyh/ui/cn';
 
 import { provideAlertContext } from './alert';
 

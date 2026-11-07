@@ -12,4 +12,4 @@
 | `plugins` | `@vben/plugins` |
 | `stores` / `locales` / `preferences` / … | 同名 `@vben/*` |
 
-UI 内核在 `frontend/packages/core` 与 `frontend/packages/shell`（`@wyh/*`）。
+偏好实现在本目录 `preferences/`（`@vben/preferences`）。多应用共享内核在 `frontend/packages/core` 与 `frontend/packages/shell`（`@wyh/*`）。

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Props } from './types';
 
-import { preferences } from '@wyh/preferences';
+import { preferences } from '@vben/preferences';
 import { VbenAvatar } from '#/ui/composed';
 import { Card } from '#/ui/card';
 import { Separator } from '#/ui/separator';

@@ -690,6 +690,9 @@ importers:
       '@intlify/core-base':
         specifier: 'catalog:'
         version: 11.3.2
+      '@tanstack/vue-store':
+        specifier: 'catalog:'
+        version: 0.10.0(vue@3.5.32(typescript@6.0.2))
       '@tiptap/core':
         specifier: 'catalog:'
         version: 3.22.3(@tiptap/pm@3.22.3)
@@ -756,9 +759,6 @@ importers:
       '@wyh/popup-ui':
         specifier: workspace:*
         version: link:../../packages/shell/popup-ui
-      '@wyh/preferences':
-        specifier: workspace:*
-        version: link:../../packages/core/preferences
       '@wyh/shared':
         specifier: workspace:*
         version: link:../../packages/core/shared
@@ -1034,29 +1034,11 @@ importers:
         specifier: ^3.5.32
         version: 3.5.32(typescript@6.0.2)
 
-  packages/core/preferences:
-    dependencies:
-      '@vueuse/core':
-        specifier: 'catalog:'
-        version: 14.2.1(vue@3.5.32(typescript@6.0.2))
-      '@wyh/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@wyh/typings':
-        specifier: workspace:*
-        version: link:../typings
-      vue:
-        specifier: ^3.5.32
-        version: 3.5.32(typescript@6.0.2)
-
   packages/core/shared:
     dependencies:
       '@ctrl/tinycolor':
         specifier: ^4.2.0
         version: 4.2.0
-      '@tanstack/vue-store':
-        specifier: 'catalog:'
-        version: 0.10.0(vue@3.5.32(typescript@6.0.2))
       '@vue/shared':
         specifier: 'catalog:'
         version: 3.5.32
@@ -1103,6 +1085,9 @@ importers:
 
   packages/shell/form-ui:
     dependencies:
+      '@tanstack/vue-store':
+        specifier: 'catalog:'
+        version: 0.10.0(vue@3.5.32(typescript@6.0.2))
       '@vee-validate/zod':
         specifier: 'catalog:'
         version: 4.15.1(vue@3.5.32(typescript@6.0.2))(zod@3.25.76)
@@ -1208,6 +1193,9 @@ importers:
 
   packages/shell/popup-ui:
     dependencies:
+      '@tanstack/vue-store':
+        specifier: 'catalog:'
+        version: 0.10.0(vue@3.5.32(typescript@6.0.2))
       '@vueuse/core':
         specifier: 'catalog:'
         version: 14.2.1(vue@3.5.32(typescript@6.0.2))

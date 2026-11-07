@@ -62,7 +62,7 @@ DB 变更：`backend/admin-start/src/main/resources/db/changelog/postgresql/`
 4. **DB**：PostgreSQL + Liquibase；禁止只改库不改 changelog。
 5. **调度**：Spring Quartz / `cmn-job`；勿并行引入另一套调度内核。
 6. **领域错误**：`XxxException` 静态工厂；禁止业务里直接 `new BizException` / `BadRequestException`；禁止新增 `Check` / `ValidationUtils`。
-7. **前端**：产品后台在 `frontend/apps/admin`（`@wyh/admin`）+ shadcn-vue / Vben 原子；壳在 `apps/admin/src/vben`；慎改 `vendor/@core`。
+7. **前端**：产品后台在 `frontend/apps/admin`（`@wyh/admin`）+ shadcn-vue / Vben 原子；壳在 `apps/admin/src/vben`（含偏好）。多应用共享包在 `frontend/packages`（`ui`、`core`、`shell`），共享包不得依赖 `apps/admin`。
 8. **宪法**：改 mission / tech-stack / roadmap 须用户显式确认，禁止作实现副作用修改。
 
 ## Where to change what

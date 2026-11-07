@@ -50,7 +50,8 @@
     "vee-validate": "catalog:",
     "vue": "catalog:",
     "zod": "catalog:",
-    "zod-defaults": "catalog:"
+    "zod-defaults": "catalog:",
+    "@tanstack/vue-store": "catalog:"
   },
   "devDependencies": {
     "unplugin-vue": "catalog:"

@@ -1,7 +1,10 @@
 import type { ModalApiOptions, ModalState } from './modal';
 
-import { Store } from '@wyh/shared/store';
-import { bindMethods, isFunction } from '@wyh/shared/utils';
+import { Store } from '@tanstack/vue-store';
+import {
+  bindMethods,
+  isFunction,
+} from '@wyh/shared/utils';
 
 export class ModalApi {
   // 共享数据

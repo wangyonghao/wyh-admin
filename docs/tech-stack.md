@@ -46,7 +46,7 @@
 | 框架 | Vue | 3.5.32 |
 | 语言 | TypeScript | 6.0.2 |
 | 构建 | Vite | 8.0.8 |
-| Monorepo | pnpm workspace（`vendor/@core/*`、`packages/*`、`apps/*`） | catalog 在 `frontend/pnpm-workspace.yaml`；无独立工程配置包 |
+| Monorepo | pnpm workspace（`packages/*`、`packages/core/*`、`packages/shell/*`、`apps/*`） | catalog 在 `frontend/pnpm-workspace.yaml`；无独立工程配置包 |
 | UI（主应用） | shadcn-vue / Vben 原子 | 应用包 `@wyh/ui`、`@wyh/ui-patterns` 5.7.0（`frontend/packages/*`）。导入别名 `#/ui`、`#/ui-patterns`，也可写包名。底子 `@vben-core/shadcn-ui` 5.7.0。基座 reka-ui 2.9.5、CVA 0.7.1、vue-sonner 2.0.9。`naive-ui` 已移除 |
 | 路由 / 状态 | Vue Router / Pinia | 5.0.4 / 3.0.4（含 persistedstate） |
 | 请求 / 工具 | Axios、VueUse、Day.js | 1.15.0 / 14.2.1 / 1.11.20 |
@@ -58,7 +58,7 @@
 | 质量工具 | ESLint、Stylelint、oxfmt、oxlint、Commitlint、Lefthook | 见 catalog |
 | 测试 | Vitest、Playwright、@vue/test-utils | 4.1.4 / 1.59.1 等 |
 
-主应用：`frontend/apps/admin`（`@wyh/admin`）。共享 UI 在 `packages/ui`（`@wyh/ui`）、`packages/ui-patterns`（`@wyh/ui-patterns`）。可部署面在 `apps/`：`apps/admin`（产品后台）、`apps/docs`（`@wyh/docs`，VitePress）、`apps/design-system`（`@wyh/design-system`，只演示上述两个包）。壳在 `apps/admin/src/vben/`，UI 内核在 `vendor/@core`。应用构建配置在 `apps/admin`（Vite、env、tsconfig）；仓库级 ESLint / Stylelint 仍在 `frontend/` 根目录（无 `configs/` 目录）。脚本：在 `frontend/` 下 `pnpm dev` / `pnpm build` 与 `pnpm dev:admin` / `pnpm build:admin` 相同，都启动产品后台；另有 `pnpm dev:docs`、`pnpm dev:ds`。
+主应用：`frontend/apps/admin`（`@wyh/admin`）。共享 UI 在 `packages/ui`（`@wyh/ui`）、`packages/ui-patterns`（`@wyh/ui-patterns`）。可部署面在 `apps/`：`apps/admin`（产品后台）、`apps/docs`（`@wyh/docs`，VitePress）、`apps/design-system`（`@wyh/design-system`，只演示上述两个包）。壳在 `apps/admin/src/vben/`（偏好 `@vben/preferences` 也在这里）。多应用共享内核在 `packages/core`（`shared`、`icons`、`typings`、`design`、`composables`）与 `packages/shell`。应用构建配置在 `apps/admin`（Vite、env、tsconfig）；仓库级 ESLint / Stylelint 仍在 `frontend/` 根目录（无 `configs/` 目录）。脚本：在 `frontend/` 下 `pnpm dev` / `pnpm build` 与 `pnpm dev:admin` / `pnpm build:admin` 相同，都启动产品后台；另有 `pnpm dev:docs`、`pnpm dev:ds`。
 
 ## Architecture
 
@@ -101,12 +101,13 @@ admin-commons/cmn-*         # 基础设施；不要求 COLA；禁止依赖 *-cli
 
 ```
 frontend/apps/admin             # @wyh/admin；产品后台（入口 src/；views / api / …）
-  └── src/vben/                 # 内联壳（@vben/*），直接依赖 vendor
+  └── src/vben/                 # 内联壳（@vben/*），含偏好与 Vben 常量
 frontend/apps/docs              # @wyh/docs 5.7.0；VitePress
-frontend/apps/design-system     # @wyh/design-system；只演示 @wyh/ui 与 @wyh/ui-patterns
+frontend/apps/design-system     # @wyh/design-system；只演示 @wyh/ui 与 @wyh/ui-patterns，并引入 @wyh/design
 frontend/packages/ui-patterns   # @wyh/ui-patterns 5.7.0；依赖 @wyh/ui；应用别名 #/ui-patterns
-frontend/packages/ui            # @wyh/ui 5.7.0；依赖 @vben-core/shadcn-ui；应用别名 #/ui
-vendor/@core                    # UI 内核（慎改）
+frontend/packages/ui            # @wyh/ui 5.7.0；应用别名 #/ui；cn 在 src/lib/cn.ts，经 src/cn 导出
+frontend/packages/core          # 多应用共享：shared / icons / typings / design / composables
+frontend/packages/shell         # layout-ui / form-ui / popup-ui / menu-ui / tabs-ui
 ```
 
 ### Delivery shape

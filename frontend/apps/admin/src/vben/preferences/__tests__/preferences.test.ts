@@ -1,12 +1,12 @@
 import { beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 
-import { defaultPreferences } from '../src/config';
-import { isDarkTheme } from '../src/update-css-variables';
+import { defaultPreferences } from '../config';
+import { isDarkTheme } from '../update-css-variables';
 
 describe('preferences', () => {
-  let PreferenceManager: typeof import('../src/preferences').PreferenceManager;
+  let PreferenceManager: typeof import('../preferences').PreferenceManager;
   let preferenceManager: InstanceType<
-    typeof import('../src/preferences').PreferenceManager
+    typeof import('../preferences').PreferenceManager
   >;
 
   // 模拟 window.matchMedia 方法
@@ -43,7 +43,7 @@ describe('preferences', () => {
   });
 
   beforeAll(async () => {
-    ({ PreferenceManager } = await import('../src/preferences'));
+    ({ PreferenceManager } = await import('../preferences'));
   });
 
   beforeEach(() => {

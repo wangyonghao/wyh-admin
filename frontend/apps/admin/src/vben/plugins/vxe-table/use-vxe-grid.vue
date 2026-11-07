@@ -29,9 +29,9 @@ import { usePriorityValues } from '@vben/hooks';
 import { EmptyIcon } from '@vben/icons';
 import { $t } from '@vben/locales';
 import { usePreferences } from '@vben/preferences';
+import { cn } from '@wyh/ui/cn';
 import {
   cloneDeep,
-  cn,
   isBoolean,
   isEqual,
   mergeWithArrayOverride,

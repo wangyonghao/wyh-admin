@@ -36,7 +36,7 @@ import {
 } from '@wyh/ui/sheet';
 import { ELEMENT_ID_MAIN_CONTENT } from '@wyh/shared/constants';
 import { globalShareState } from '@wyh/shared/global-state';
-import { cn } from '@wyh/shared/utils';
+import { cn } from '@wyh/ui/cn';
 
 interface Props extends DrawerProps {
   drawerApi?: ExtendedDrawerApi;
