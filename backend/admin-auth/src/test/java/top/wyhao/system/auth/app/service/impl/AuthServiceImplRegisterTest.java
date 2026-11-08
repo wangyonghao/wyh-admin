@@ -97,8 +97,36 @@ class AuthServiceImplRegisterTest {
     }
 
     @Test
+    void passwordLoginForwardsShortExistingUsername() {
+        String shortName = "abc";
+        when(userGateway.findByUsername(shortName)).thenReturn(loginUser(shortName));
+        when(tokenGateway.issue(any(), any())).thenReturn("token-fixture");
+
+        LoginRequest request = new LoginRequest();
+        request.setClientId("client");
+        request.setUsername(shortName);
+        request.setPassword(SUBMITTED);
+
+        AccessTokenResponse response = authService.login(GrantType.PASSWORD, request);
+
+        assertThat(response.getToken()).isEqualTo("token-fixture");
+        verify(passwordSecurityService).fastVerifyPasswordFormat(eq(shortName), eq(SUBMITTED), any());
+        verify(passwordSecurityService).verifyPassword(eq(loginUser(shortName)), eq(SUBMITTED), any());
+    }
+
+    @Test
+    void resolveUsernameKeepsWriteLength() {
+        assertThat(authService.resolveUsername("abc", false, "fallback")).isEqualTo("fallback");
+        assertThat(authService.resolveUsername("abcd", false, "fallback")).isEqualTo("abcd");
+        String sixtyFour = "a" + "b".repeat(63);
+        String sixtyFive = "a" + "b".repeat(64);
+        assertThat(authService.resolveUsername(sixtyFour, false, "fallback")).isEqualTo(sixtyFour);
+        assertThat(authService.resolveUsername(sixtyFive, false, "fallback")).isEqualTo("fallback");
+    }
+
+    @Test
     void passwordLoginForwardsSubmittedPassword() {
-        when(userGateway.findByUsername("alice")).thenReturn(loginUser());
+        when(userGateway.findByUsername("alice")).thenReturn(loginUser("alice"));
         when(tokenGateway.issue(any(), any())).thenReturn("token-fixture");
 
         LoginRequest request = new LoginRequest();
@@ -110,7 +138,7 @@ class AuthServiceImplRegisterTest {
 
         assertThat(response.getToken()).isEqualTo("token-fixture");
         verify(passwordSecurityService).fastVerifyPasswordFormat(eq("alice"), eq(SUBMITTED), any());
-        verify(passwordSecurityService).verifyPassword(eq(loginUser()), eq(SUBMITTED), any());
+        verify(passwordSecurityService).verifyPassword(eq(loginUser("alice")), eq(SUBMITTED), any());
     }
 
     private static UserCredential credential() {
@@ -126,10 +154,10 @@ class AuthServiceImplRegisterTest {
                 LocalDate.of(2030, 1, 1));
     }
 
-    private static CredentialUser loginUser() {
+    private static CredentialUser loginUser(String username) {
         return new CredentialUser(
                 1L,
-                "alice",
+                username,
                 "Alice",
                 "stored-hash",
                 1,

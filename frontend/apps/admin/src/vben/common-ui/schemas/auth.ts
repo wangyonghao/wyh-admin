@@ -8,8 +8,8 @@ import { z } from 'zod';
  */
 export const loginFormSchema = z.object({
   /**
-   * Username field validation
-   * Required field with minimum length of 1 character
+   * Login username is non-empty only.
+   * Account creation requires 4-64; existing shorter names stay valid here.
    */
   username: z.string().min(1, { message: $t('authentication.usernameTip') }),
 

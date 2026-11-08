@@ -15,6 +15,7 @@ import {
 
 import { captchaApi } from '#/api';
 import { useUserStore } from '#/store';
+import { acceptsLoginUsername } from '#/utils/username';
 import { Input } from '#/ui/input';
 import { Label } from '#/ui/label';
 
@@ -43,7 +44,10 @@ const showCaptcha = computed(
 
 // Validation schema using zod
 const loginSchema = z.object({
-  username: z.string().min(1, $t('authentication.usernameTip')),
+  // 登录只要求非空，已有短用户名仍可提交
+  username: z.string().refine((value) => acceptsLoginUsername(value), {
+    message: $t('authentication.usernameTip'),
+  }),
   password: z.string().min(1, $t('authentication.passwordTip')),
   captcha: z.string().optional(),
 });
