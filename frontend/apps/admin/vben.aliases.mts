@@ -27,6 +27,10 @@ export function createTideUiAliases() {
       replacement: frontendPath('packages/ui-patterns/src'),
     },
     {
+      find: /^#\/ui\/switch\/switch-root$/,
+      replacement: frontendPath('packages/ui/src/switch/switch-root.vue'),
+    },
+    {
       find: new RegExp(`^#/ui/(${ownedUiEntry})(?=/|$)`),
       replacement: `${uiSrc}/$1`,
     },
