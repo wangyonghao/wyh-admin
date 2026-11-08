@@ -14,7 +14,7 @@ import type {
   PreferencesButtonPositionType,
   TabsStyleType,
   ThemeModeType,
-} from '@wyh/typings';
+} from '@vben/types';
 
 type SupportedLanguagesType = 'en-US' | 'zh-CN';
 type CustomPreferencesValue = boolean | number | string;

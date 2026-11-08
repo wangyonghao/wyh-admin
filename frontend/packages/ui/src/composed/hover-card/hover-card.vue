@@ -8,7 +8,7 @@ import type {
   HoverCardRootProps,
 } from 'reka-ui';
 
-import type { ClassType } from '@wyh/typings';
+import type { ClassType } from '@wyh/shared/types';
 
 import { computed } from 'vue';
 

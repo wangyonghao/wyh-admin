@@ -10,7 +10,7 @@ import type {
 
 import type { CSSProperties } from 'vue';
 
-import type { ClassType } from '@wyh/typings';
+import type { ClassType } from '@wyh/shared/types';
 
 import { computed } from 'vue';
 

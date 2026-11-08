@@ -11,7 +11,7 @@ import {
   TabsToolRefresh,
   TabsToolScreen,
   TabsView,
-} from '@wyh/tabs-ui';
+} from '../../workspace-tabs';
 
 import { useTabbar } from './use-tabbar';
 

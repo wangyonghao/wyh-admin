@@ -1,4 +1,4 @@
-import type { MenuRecordRaw } from '@wyh/typings';
+import type { MenuRecordRaw } from '@vben/types';
 
 function findMenuByPath(
   list: MenuRecordRaw[],

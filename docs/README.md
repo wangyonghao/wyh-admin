@@ -2,7 +2,7 @@
 
 适用范围：wyh-admin 仓库内所有架构、规范、领域与运维文档。  
 维护：架构负责人；改动规范或目录结构时同步更新本文与根目录 [`AGENTS.md`](../AGENTS.md) 中的链接。  
-最后更新：2026-11-06
+最后更新：2026-11-08
 
 本文说明 **`docs/` 怎么分、各目录写什么、怎么维护**。细则正文放在子目录里；根 [`AGENTS.md`](../AGENTS.md) 只做短索引。
 
@@ -38,7 +38,7 @@ docs/
 
 | 目录 | 职责 | 主要读者 | 现有文件 |
 |------|------|----------|----------|
-| [`architecture/`](architecture/) | 系统长什么样、模块边界 | 人 + AI（设计/大改前） | [`repo-map.md`](architecture/repo-map.md) |
+| [`architecture/`](architecture/) | 系统长什么样、模块边界 | 人 + AI（设计/大改前） | [`repo-map.md`](architecture/repo-map.md)、[`frontend-packages.md`](architecture/frontend-packages.md) |
 | [`adr/`](adr/) | **为什么**选这个方案（背景 → 决策 → 后果） | 人 + AI（缺上下文时） | `template.md`（待补）、`NNNN-….md` |
 | [`conventions/`](conventions/) | **怎么写**才算合规 | 人 + AI（改代码时按需打开） | [`backend-java.md`](conventions/backend-java.md)、[`frontend.md`](conventions/frontend.md)、[`ui-patterns.md`](conventions/ui-patterns.md)、[`frontend-naive-migration.md`](conventions/frontend-naive-migration.md) |
 | [`product/`](product/) | PRD、用户故事、领域说明、阶段规格三件套 | 人 + AI（写需求 / 开阶段时） | `YYYY-MM-DD-<slug>/{requirements,plan,validation}.md` |

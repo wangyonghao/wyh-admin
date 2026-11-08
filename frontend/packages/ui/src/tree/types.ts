@@ -4,7 +4,7 @@
 import type { Arrayable } from '@vueuse/core';
 import type { FlattenedItem } from 'reka-ui';
 
-import type { Recordable } from '@wyh/typings';
+import type { Recordable } from '@wyh/shared/types';
 
 export interface TreeProps {
   /** 单选时允许取消已有选项 */

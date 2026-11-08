@@ -1,4 +1,4 @@
-import type { RouteMeta as IRouteMeta } from '@wyh/typings';
+import type { RouteMeta as IRouteMeta } from './route';
 
 import 'vue-router';
 

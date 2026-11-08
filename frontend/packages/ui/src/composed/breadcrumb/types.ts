@@ -3,7 +3,7 @@
 
 import type { Component } from 'vue';
 
-import type { BreadcrumbStyleType } from '@wyh/typings';
+export type BreadcrumbStyleType = 'background' | 'normal';
 
 export interface IBreadcrumb {
   icon?: Component | string;

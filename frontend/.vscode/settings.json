@@ -210,7 +210,7 @@
     "yaml": false
   },
 
-  "cssVariables.lookupFiles": ["packages/@core/base/design/src/**/*.css"],
+  "cssVariables.lookupFiles": ["packages/design/src/**/*.css"],
 
   "i18n-ally.localesPaths": [
     "packages/locales/src/langs",

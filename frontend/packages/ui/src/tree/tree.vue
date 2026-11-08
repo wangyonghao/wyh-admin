@@ -5,7 +5,7 @@
 import type { Arrayable } from '@vueuse/core';
 import type { FlattenedItem } from 'reka-ui';
 
-import type { ClassType, Recordable } from '@wyh/typings';
+import type { ClassType, Recordable } from '@wyh/shared/types';
 
 import type { TreeProps } from './types';
 

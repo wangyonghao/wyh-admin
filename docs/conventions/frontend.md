@@ -34,13 +34,17 @@ frontend/
 │   ├── docs/            # @wyh/docs：VitePress，pnpm dev:docs
 │   └── design-system/   # @wyh/design-system：只演示 ui / ui-patterns，pnpm dev:ds
 ├── packages/
-│   ├── ui/              # @wyh/ui：原子路径（再导出 @vben-core/shadcn-ui，或本地控件）
-│   └── ui-patterns/     # @wyh/ui-patterns：页面组合，按目录导入
+│   ├── ui/              # @wyh/ui：原子
+│   ├── ui-patterns/     # 页面组合，只依赖 ui
+│   ├── form-ui/         # schema 表单运行时
+│   ├── popup-ui/        # 命令式弹层
+│   ├── design/ icons/ shared/ composables/
 └── vendor/@core         # UI 内核（慎改；原子实现已在 shadcn-ui）
 ```
 
 - 业务代码 → `frontend/apps/admin/src/`（不含 `vben/`）。不要放进 `apps/design-system`
-- 壳层封装 → `frontend/apps/admin/src/vben/`
+- 壳层封装 → `frontend/apps/admin/src/vben/`（含布局框架、导航、多页签、偏好）
+- 包边界 → [`docs/architecture/frontend-packages.md`](../architecture/frontend-packages.md)
 - 应用构建 → `frontend/apps/admin` 的 `vite.config.ts`、env、`tsconfig.json`
 - 仓库级检查 → 根目录 `eslint.config.mjs`、`stylelint.config.mjs`、`vitest.config.ts`
 - **慎改** `vendor/@core`

@@ -4,7 +4,7 @@ import type {
   ExRouteRecordRaw,
   MenuRecordRaw,
   RouteMeta,
-} from '@wyh/typings';
+} from '@vben/types';
 
 import { filterTree, mapTree, sortTree } from '@wyh/shared/utils';
 

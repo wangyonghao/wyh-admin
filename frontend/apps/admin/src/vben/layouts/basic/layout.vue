@@ -17,7 +17,7 @@ import {
 import { useAccessStore, useTabbarStore, useTimezoneStore } from '@vben/stores';
 import { cloneDeep, mapTree } from '@vben/utils';
 
-import { VbenAdminLayout } from '@wyh/layout-ui';
+import { VbenAdminLayout } from '../frame';
 import {
   VbenBackTop,
   VbenLogo,

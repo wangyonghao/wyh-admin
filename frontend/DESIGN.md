@@ -2,7 +2,7 @@
 
 > **Status:** draft outline（九段齐，token 对齐现仓库；视觉微调待确认后升为正式版）  
 > **Scope:** 主应用 `frontend/apps/admin`（`@wyh/admin`，shadcn-vue / Vben 原子 + Vben 壳）中后台产品 UI  
-> **Token source of truth:** `packages/core/design/src/design-tokens/{default,dark}.css`  
+> **Token source of truth:** `packages/design/src/design-tokens/{default,dark}.css`  
 > **Page patterns:** [`docs/conventions/ui-patterns.md`](../docs/conventions/ui-patterns.md)  
 > **Not for:** 营销落地页 / 盲目套用 Linear·Stripe 等品牌 DESIGN.md
 
@@ -268,7 +268,7 @@ stack:         Vue3 + shadcn-vue / Vben 原子 + Page + useVbenVxeGrid + useVben
 |------|------|
 | 视觉规则 | `frontend/DESIGN.md`（本文件） |
 | 页面骨架 | `docs/conventions/ui-patterns.md` |
-| Token CSS | `frontend/packages/core/design/src/design-tokens/` |
+| Token CSS | `frontend/packages/design/src/design-tokens/` |
 | 工程约定 | `docs/conventions/frontend.md` |
 | 原子 / 模式 | `frontend/packages/ui`（`@wyh/ui`）、`frontend/packages/ui-patterns`（`@wyh/ui-patterns`） |
 | Naive 迁移清单 | `docs/conventions/frontend-naive-migration.md` |

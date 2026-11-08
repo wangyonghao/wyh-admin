@@ -740,34 +740,22 @@ importers:
         version: 3.0.3(magicast@0.5.2)(vue@3.5.32(typescript@6.0.2))
       '@wyh/composables':
         specifier: workspace:*
-        version: link:../../packages/core/composables
+        version: link:../../packages/composables
       '@wyh/design':
         specifier: workspace:*
-        version: link:../../packages/core/design
+        version: link:../../packages/design
       '@wyh/form-ui':
         specifier: workspace:*
-        version: link:../../packages/shell/form-ui
+        version: link:../../packages/form-ui
       '@wyh/icons':
         specifier: workspace:*
-        version: link:../../packages/core/icons
-      '@wyh/layout-ui':
-        specifier: workspace:*
-        version: link:../../packages/shell/layout-ui
-      '@wyh/menu-ui':
-        specifier: workspace:*
-        version: link:../../packages/shell/menu-ui
+        version: link:../../packages/icons
       '@wyh/popup-ui':
         specifier: workspace:*
-        version: link:../../packages/shell/popup-ui
+        version: link:../../packages/popup-ui
       '@wyh/shared':
         specifier: workspace:*
-        version: link:../../packages/core/shared
-      '@wyh/tabs-ui':
-        specifier: workspace:*
-        version: link:../../packages/shell/tabs-ui
-      '@wyh/typings':
-        specifier: workspace:*
-        version: link:../../packages/core/typings
+        version: link:../../packages/shared
       '@wyh/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -924,7 +912,7 @@ importers:
     dependencies:
       '@wyh/design':
         specifier: workspace:*
-        version: link:../../packages/core/design
+        version: link:../../packages/design
       '@wyh/ui':
         specifier: workspace:*
         version: link:../../packages/ui
@@ -994,7 +982,7 @@ importers:
         specifier: ^3.5.32
         version: 3.5.32(typescript@6.0.2)
 
-  packages/core/composables:
+  packages/composables:
     dependencies:
       '@vueuse/core':
         specifier: 'catalog:'
@@ -1016,13 +1004,56 @@ importers:
         specifier: 'catalog:'
         version: 1.15.9
 
-  packages/core/design:
+  packages/design:
     dependencies:
       '@iconify/json':
         specifier: 'catalog:'
         version: 2.2.460
 
-  packages/core/icons:
+  packages/form-ui:
+    dependencies:
+      '@tanstack/vue-store':
+        specifier: 'catalog:'
+        version: 0.10.0(vue@3.5.32(typescript@6.0.2))
+      '@vee-validate/zod':
+        specifier: 'catalog:'
+        version: 4.15.1(vue@3.5.32(typescript@6.0.2))(zod@3.25.76)
+      '@vueuse/core':
+        specifier: 'catalog:'
+        version: 14.2.1(vue@3.5.32(typescript@6.0.2))
+      '@wyh/composables':
+        specifier: workspace:*
+        version: link:../composables
+      '@wyh/icons':
+        specifier: workspace:*
+        version: link:../icons
+      '@wyh/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@wyh/ui':
+        specifier: workspace:*
+        version: link:../ui
+      reka-ui:
+        specifier: 'catalog:'
+        version: 2.9.5(vue@3.5.32(typescript@6.0.2))
+      vee-validate:
+        specifier: 'catalog:'
+        version: 4.15.1(vue@3.5.32(typescript@6.0.2))
+      vue:
+        specifier: ^3.5.32
+        version: 3.5.32(typescript@6.0.2)
+      zod:
+        specifier: 'catalog:'
+        version: 3.25.76
+      zod-defaults:
+        specifier: 'catalog:'
+        version: 0.1.3(zod@3.25.76)
+    devDependencies:
+      unplugin-vue:
+        specifier: 'catalog:'
+        version: 7.1.1(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(less@4.6.4)(sass-embedded@1.99.0)(sass@1.99.0)(terser@5.46.1)(vue@3.5.32(typescript@6.0.2))(yaml@2.8.3)
+
+  packages/icons:
     dependencies:
       '@iconify/vue':
         specifier: 'catalog:'
@@ -1034,7 +1065,35 @@ importers:
         specifier: ^3.5.32
         version: 3.5.32(typescript@6.0.2)
 
-  packages/core/shared:
+  packages/popup-ui:
+    dependencies:
+      '@tanstack/vue-store':
+        specifier: 'catalog:'
+        version: 0.10.0(vue@3.5.32(typescript@6.0.2))
+      '@vueuse/core':
+        specifier: 'catalog:'
+        version: 14.2.1(vue@3.5.32(typescript@6.0.2))
+      '@wyh/composables':
+        specifier: workspace:*
+        version: link:../composables
+      '@wyh/icons':
+        specifier: workspace:*
+        version: link:../icons
+      '@wyh/shared':
+        specifier: workspace:*
+        version: link:../shared
+      '@wyh/ui':
+        specifier: workspace:*
+        version: link:../ui
+      vue:
+        specifier: ^3.5.32
+        version: 3.5.32(typescript@6.0.2)
+    devDependencies:
+      unplugin-vue:
+        specifier: 'catalog:'
+        version: 7.1.1(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(less@4.6.4)(sass-embedded@1.99.0)(sass@1.99.0)(terser@5.46.1)(vue@3.5.32(typescript@6.0.2))(yaml@2.8.3)
+
+  packages/shared:
     dependencies:
       '@ctrl/tinycolor':
         specifier: ^4.2.0
@@ -1074,182 +1133,6 @@ importers:
         specifier: 'catalog:'
         version: 0.2.3
 
-  packages/core/typings:
-    dependencies:
-      vue:
-        specifier: ^3.5.32
-        version: 3.5.32(typescript@6.0.2)
-      vue-router:
-        specifier: 'catalog:'
-        version: 5.0.4(@vue/compiler-sfc@3.5.32)(pinia@3.0.4(typescript@6.0.2)(vue@3.5.32(typescript@6.0.2)))(vue@3.5.32(typescript@6.0.2))
-
-  packages/shell/form-ui:
-    dependencies:
-      '@tanstack/vue-store':
-        specifier: 'catalog:'
-        version: 0.10.0(vue@3.5.32(typescript@6.0.2))
-      '@vee-validate/zod':
-        specifier: 'catalog:'
-        version: 4.15.1(vue@3.5.32(typescript@6.0.2))(zod@3.25.76)
-      '@vueuse/core':
-        specifier: 'catalog:'
-        version: 14.2.1(vue@3.5.32(typescript@6.0.2))
-      '@wyh/composables':
-        specifier: workspace:*
-        version: link:../../core/composables
-      '@wyh/icons':
-        specifier: workspace:*
-        version: link:../../core/icons
-      '@wyh/shared':
-        specifier: workspace:*
-        version: link:../../core/shared
-      '@wyh/typings':
-        specifier: workspace:*
-        version: link:../../core/typings
-      '@wyh/ui':
-        specifier: workspace:*
-        version: link:../../ui
-      vee-validate:
-        specifier: 'catalog:'
-        version: 4.15.1(vue@3.5.32(typescript@6.0.2))
-      vue:
-        specifier: ^3.5.32
-        version: 3.5.32(typescript@6.0.2)
-      zod:
-        specifier: 'catalog:'
-        version: 3.25.76
-      zod-defaults:
-        specifier: 'catalog:'
-        version: 0.1.3(zod@3.25.76)
-    devDependencies:
-      unplugin-vue:
-        specifier: 'catalog:'
-        version: 7.1.1(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(less@4.6.4)(sass-embedded@1.99.0)(sass@1.99.0)(terser@5.46.1)(vue@3.5.32(typescript@6.0.2))(yaml@2.8.3)
-
-  packages/shell/layout-ui:
-    dependencies:
-      '@vueuse/core':
-        specifier: 'catalog:'
-        version: 14.2.1(vue@3.5.32(typescript@6.0.2))
-      '@wyh/composables':
-        specifier: workspace:*
-        version: link:../../core/composables
-      '@wyh/icons':
-        specifier: workspace:*
-        version: link:../../core/icons
-      '@wyh/shared':
-        specifier: workspace:*
-        version: link:../../core/shared
-      '@wyh/typings':
-        specifier: workspace:*
-        version: link:../../core/typings
-      '@wyh/ui':
-        specifier: workspace:*
-        version: link:../../ui
-      vue:
-        specifier: ^3.5.32
-        version: 3.5.32(typescript@6.0.2)
-    devDependencies:
-      unplugin-vue:
-        specifier: 'catalog:'
-        version: 7.1.1(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(less@4.6.4)(sass-embedded@1.99.0)(sass@1.99.0)(terser@5.46.1)(vue@3.5.32(typescript@6.0.2))(yaml@2.8.3)
-
-  packages/shell/menu-ui:
-    dependencies:
-      '@vueuse/core':
-        specifier: 'catalog:'
-        version: 14.2.1(vue@3.5.32(typescript@6.0.2))
-      '@wyh/composables':
-        specifier: workspace:*
-        version: link:../../core/composables
-      '@wyh/design':
-        specifier: workspace:*
-        version: link:../../core/design
-      '@wyh/icons':
-        specifier: workspace:*
-        version: link:../../core/icons
-      '@wyh/shared':
-        specifier: workspace:*
-        version: link:../../core/shared
-      '@wyh/typings':
-        specifier: workspace:*
-        version: link:../../core/typings
-      '@wyh/ui':
-        specifier: workspace:*
-        version: link:../../ui
-      qs:
-        specifier: 'catalog:'
-        version: 6.15.1
-      vue:
-        specifier: ^3.5.32
-        version: 3.5.32(typescript@6.0.2)
-    devDependencies:
-      '@types/qs':
-        specifier: 'catalog:'
-        version: 6.15.0
-      unplugin-vue:
-        specifier: 'catalog:'
-        version: 7.1.1(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(less@4.6.4)(sass-embedded@1.99.0)(sass@1.99.0)(terser@5.46.1)(vue@3.5.32(typescript@6.0.2))(yaml@2.8.3)
-
-  packages/shell/popup-ui:
-    dependencies:
-      '@tanstack/vue-store':
-        specifier: 'catalog:'
-        version: 0.10.0(vue@3.5.32(typescript@6.0.2))
-      '@vueuse/core':
-        specifier: 'catalog:'
-        version: 14.2.1(vue@3.5.32(typescript@6.0.2))
-      '@wyh/composables':
-        specifier: workspace:*
-        version: link:../../core/composables
-      '@wyh/icons':
-        specifier: workspace:*
-        version: link:../../core/icons
-      '@wyh/shared':
-        specifier: workspace:*
-        version: link:../../core/shared
-      '@wyh/typings':
-        specifier: workspace:*
-        version: link:../../core/typings
-      '@wyh/ui':
-        specifier: workspace:*
-        version: link:../../ui
-      vue:
-        specifier: ^3.5.32
-        version: 3.5.32(typescript@6.0.2)
-    devDependencies:
-      unplugin-vue:
-        specifier: 'catalog:'
-        version: 7.1.1(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(less@4.6.4)(sass-embedded@1.99.0)(sass@1.99.0)(terser@5.46.1)(vue@3.5.32(typescript@6.0.2))(yaml@2.8.3)
-
-  packages/shell/tabs-ui:
-    dependencies:
-      '@vueuse/core':
-        specifier: 'catalog:'
-        version: 14.2.1(vue@3.5.32(typescript@6.0.2))
-      '@wyh/composables':
-        specifier: workspace:*
-        version: link:../../core/composables
-      '@wyh/design':
-        specifier: workspace:*
-        version: link:../../core/design
-      '@wyh/icons':
-        specifier: workspace:*
-        version: link:../../core/icons
-      '@wyh/typings':
-        specifier: workspace:*
-        version: link:../../core/typings
-      '@wyh/ui':
-        specifier: workspace:*
-        version: link:../../ui
-      vue:
-        specifier: ^3.5.32
-        version: 3.5.32(typescript@6.0.2)
-    devDependencies:
-      unplugin-vue:
-        specifier: 'catalog:'
-        version: 7.1.1(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(less@4.6.4)(sass-embedded@1.99.0)(sass@1.99.0)(terser@5.46.1)(vue@3.5.32(typescript@6.0.2))(yaml@2.8.3)
-
   packages/ui:
     dependencies:
       '@vueuse/core':
@@ -1257,16 +1140,13 @@ importers:
         version: 14.2.1(vue@3.5.32(typescript@6.0.2))
       '@wyh/composables':
         specifier: workspace:*
-        version: link:../core/composables
+        version: link:../composables
       '@wyh/icons':
         specifier: workspace:*
-        version: link:../core/icons
+        version: link:../icons
       '@wyh/shared':
         specifier: workspace:*
-        version: link:../core/shared
-      '@wyh/typings':
-        specifier: workspace:*
-        version: link:../core/typings
+        version: link:../shared
       class-variance-authority:
         specifier: 'catalog:'
         version: 0.7.1

@@ -2,7 +2,7 @@
 // Adapted from vue-vben-admin @vben-core/shadcn-ui (MIT).
 // Copyright (c) 2024-present, Vben.
 
-import type { ClassType } from '@wyh/typings';
+import type { ClassType } from '@wyh/shared/types';
 
 import { computed, ref } from 'vue';
 

@@ -1,4 +1,4 @@
-import type { DeepPartial } from '@wyh/typings';
+import type { DeepPartial } from '@vben/types';
 
 import type {
   CustomPreferencesField,

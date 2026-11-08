@@ -4,7 +4,7 @@ import type {
   ComponentRecordType,
   GenerateMenuAndRoutesOptions,
   RouteRecordStringComponent,
-} from '@wyh/typings';
+} from '@vben/types';
 
 import { mapTree } from '@wyh/shared/utils';
 

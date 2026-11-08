@@ -1,4 +1,4 @@
-import type { BuiltinThemeType, TimezoneOption } from '@wyh/typings';
+import type { BuiltinThemeType, TimezoneOption } from '@vben/types';
 
 interface BuiltinThemePreset {
   color: string;

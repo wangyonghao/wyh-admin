@@ -82,43 +82,45 @@ admin-commons/cmn-*
 
 ## Frontend packages
 
-工作空间（`frontend/pnpm-workspace.yaml`）：`packages/*`、`packages/core/*`、`packages/shell/*`、`apps/*`。多应用会用到的能力留在 `packages`；只服务产品后台的偏好、Vben 营销常量和布局内容尺寸计算跟壳走。源码里已没有 `from '@vben-core/...'`；还能看到这个名字的，主要是复制进 `@wyh/*` 的 MIT 注释，以及 `package.json` 的 `repository.directory` 里指向原上游目录的字段。各包仍保留 MIT 和 Vben 上游仓库信息。
+工作空间（`frontend/pnpm-workspace.yaml`）：`packages/*`、`apps/*`。包按能力平铺，没有 `core` / `shell` 分组。边界、依赖方向和这次搬家的对照见 [`frontend-packages.md`](frontend-packages.md)。各包仍保留 MIT 和 Vben 上游仓库信息；`repository.directory` 仍指向原上游目录。
 
 ```
 frontend/apps/
-  admin              # @wyh/admin 产品后台
+  admin              # @wyh/admin 产品后台；壳在 src/vben
   design-system      # @wyh/design-system 组件演示
   docs               # @wyh/docs 文档站
 frontend/packages/
   ui                 # @wyh/ui
   ui-patterns        # @wyh/ui-patterns
-  core/              # 多应用共享内核
-    shared / icons / typings / design / composables
-  shell/             # layout / form / popup / menu / tabs UI
-    layout-ui / form-ui / popup-ui / menu-ui / tabs-ui
+  form-ui            # @wyh/form-ui
+  popup-ui           # @wyh/popup-ui
+  design             # @wyh/design
+  icons              # @wyh/icons
+  shared             # @wyh/shared
+  composables        # @wyh/composables
 ```
 
-应用里 `@vben/*` 仍是指向 `apps/admin/src/vben` 的路径别名，这些文件现在引用 `@wyh/*`。业务组件仍走 `#` 前缀（`#/ui`、`#/ui-patterns` 等）。
+应用里 `@vben/*` 仍是指向 `apps/admin/src/vben` 的路径别名。业务组件仍走 `#` 前缀（`#/ui`、`#/ui-patterns` 等）。
 
 | 路径 | 包名 | 职责 |
 |------|------|------|
 | `frontend/apps/admin` | `@wyh/admin` | 产品后台 |
 | `frontend/apps/design-system` | `@wyh/design-system` | 只演示 `ui` / `ui-patterns`，不放业务页 |
 | `frontend/apps/docs` | `@wyh/docs` | VitePress 文档站 |
-| `frontend/packages/ui` | `@wyh/ui` | 归属的 shadcn/Reka 原语组件；导出 `./*` → `src/*/index.ts`。组合组件在 `src/composed`，通过 `#/ui/composed` 引入。原始布尔 Switch（Reka 语义，不要和 `#/ui/switch` 的 1\|0 包装混用）从 `#/ui/switch-primitive` 引入 |
-| `frontend/packages/ui-patterns` | `@wyh/ui-patterns` | 页面模式 |
+| `frontend/packages/ui` | `@wyh/ui` | shadcn/Reka 原子；导出 `./*` → `src/*/index.ts`。纯展示组合在 `src/composed`，通过 `#/ui/composed` 引入。原始布尔 Switch 从 `#/ui/switch-primitive` 引入 |
+| `frontend/packages/ui-patterns` | `@wyh/ui-patterns` | 页面组合：confirm、filter、toast、toolbar。只依赖 `@wyh/ui` |
 | `frontend/packages/ui` 的 `src/cn` | `@wyh/ui/cn` | `cn` 的唯一实现，转出 `src/lib/cn.ts` |
-| `frontend/packages/core/shared` | `@wyh/shared` | 导出：`./constants`（布局 CSS 变量名）、`./utils`、`./color`、`./cache`、`./global-state`。`cn` 与 store 再导出已去掉 |
-| `frontend/packages/core/icons` | `@wyh/icons` | 图标。`@wyh/ui` 与各壳包使用 |
-| `frontend/packages/core/typings` | `@wyh/typings` | 通用类型与菜单 / 标签 / 布局类型。另有 `./vue-router`。`@wyh/ui` 使用 `ClassType`、`Recordable` |
-| `frontend/packages/core/design` | `@wyh/design` | 设计 token。产品后台与 `apps/design-system` 都引入。导出：`./bem`、`./theme` |
-| `frontend/packages/core/composables` | `@wyh/composables` | 仍被 `@wyh/ui` 使用的 `useScrollLock`、`useNamespace`，以及壳层排序 / 断点 / 转发 props。布局内容尺寸在 `layout-ui` |
-| `frontend/apps/admin/src/vben/preferences` | `@vben/preferences` | 产品后台偏好。只被 admin 壳消费 |
-| `frontend/packages/shell/layout-ui` | `@wyh/layout-ui` | 布局壳。`useLayoutContentStyle` 在 `src/hooks` |
-| `frontend/packages/shell/form-ui` | `@wyh/form-ui` | 表单壳 |
-| `frontend/packages/shell/popup-ui` | `@wyh/popup-ui` | 弹层壳 |
-| `frontend/packages/shell/menu-ui` | `@wyh/menu-ui` | 菜单壳 |
-| `frontend/packages/shell/tabs-ui` | `@wyh/tabs-ui` | 标签页壳 |
+| `frontend/packages/shared` | `@wyh/shared` | `./utils`、`./color`、`./cache`、`./constants`、`./types`、`./global-state`。原子包不得引用 `./global-state` |
+| `frontend/packages/icons` | `@wyh/icons` | 图标 |
+| `frontend/packages/design` | `@wyh/design` | 设计 token。产品后台与 `apps/design-system` 都引入。导出：`./bem`、`./theme` |
+| `frontend/packages/composables` | `@wyh/composables` | `useScrollLock`、`useNamespace`、排序、断点、转发 props |
+| `frontend/packages/form-ui` | `@wyh/form-ui` | schema 表单运行时。动态字段 `VbenCollapsibleParams` 在这里 |
+| `frontend/packages/popup-ui` | `@wyh/popup-ui` | 命令式 modal / drawer / alert |
+| `frontend/apps/admin/src/vben/layouts/frame` | 应用内 | 后台布局框架 |
+| `frontend/apps/admin/src/vben/layouts/navigation` | 应用内 | 侧栏 / 顶栏导航 |
+| `frontend/apps/admin/src/vben/layouts/workspace-tabs` | 应用内 | 多路由页签 |
+| `frontend/apps/admin/src/vben/preferences` | `@vben/preferences` | 产品后台偏好 |
+| `frontend/apps/admin/src/vben/types` | `@vben/types` | 菜单、页签、布局、路由 meta、用户信息模型。通用类型从 `@wyh/shared/types` 再导出 |
 
 ## Quick locate
 
@@ -155,8 +157,8 @@ frontend/packages/
 | 前后端对齐 | `docs/architecture/repo-map.md` |
 | 代码生成 | `AGENTS.md`（已从宪法删除，未实现） |
 | 应用内别名 | `frontend/apps/admin/src/vben/`（`@vben/*` 路径别名；内部已改引用 `@wyh/*`） |
-| 内核 | `frontend/packages/core/*`（`@wyh/shared`、`@wyh/icons`、`@wyh/typings`、`@wyh/design`、`@wyh/composables`）。偏好在 `apps/admin/src/vben/preferences` |
-| 壳层 | `frontend/packages/shell/*`（`@wyh/layout-ui`、`@wyh/form-ui`、`@wyh/popup-ui`、`@wyh/menu-ui`、`@wyh/tabs-ui`） |
+| 共享包 | `frontend/packages/{ui,ui-patterns,form-ui,popup-ui,design,icons,shared,composables}` |
+| 应用壳 | `apps/admin/src/vben/`（布局框架、导航、多页签、偏好、后台模型类型） |
 | 原子 / 页面模式 | `frontend/packages/ui`（`@wyh/ui`）、`frontend/packages/ui-patterns`（`@wyh/ui-patterns`）。应用导入仍走 `#/ui`、`#/ui-patterns`；组合组件 `#/ui/composed`；原始布尔 Switch `#/ui/switch-primitive` |
 | 文档站 | `frontend/apps/docs`（`@wyh/docs`，VitePress）。`pnpm dev:docs` / `pnpm build:docs` |
 | 组件演示 | `frontend/apps/design-system`（`@wyh/design-system`）。只演示上述两个包，不放业务页。`pnpm dev:ds` / `pnpm build:ds` |

@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from 'vue-router';
 
-import type { MenuRecordRaw } from '@wyh/typings';
+import type { MenuRecordRaw } from '@vben/types';
 
 import { acceptHMRUpdate, defineStore } from 'pinia';
 

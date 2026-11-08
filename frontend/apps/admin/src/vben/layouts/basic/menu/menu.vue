@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 import type { MenuRecordRaw } from '@vben/types';
 
-import type { MenuProps } from '@wyh/menu-ui';
+import type { MenuProps } from '../../navigation';
 
-import { Menu } from '@wyh/menu-ui';
+import { Menu } from '../../navigation';
 
 interface Props extends MenuProps {
   menus?: MenuRecordRaw[];
