@@ -41,7 +41,7 @@ docs/
 | [`architecture/`](architecture/) | 系统长什么样、模块边界 | 人 + AI（设计/大改前） | [`repo-map.md`](architecture/repo-map.md)、[`frontend-packages.md`](architecture/frontend-packages.md) |
 | [`adr/`](adr/) | **为什么**选这个方案（背景 → 决策 → 后果） | 人 + AI（缺上下文时） | `template.md`（待补）、`NNNN-….md` |
 | [`conventions/`](conventions/) | **怎么写**才算合规 | 人 + AI（改代码时按需打开） | [`backend-java.md`](conventions/backend-java.md)、[`frontend.md`](conventions/frontend.md)、[`ui-patterns.md`](conventions/ui-patterns.md)、[`frontend-naive-migration.md`](conventions/frontend-naive-migration.md) |
-| [`product/`](product/) | PRD、用户故事、领域说明、阶段规格三件套；评审前的设计草案也放这里 | 人 + AI（写需求 / 开阶段时） | [`2026-11-08-user-registration/design.md`](product/2026-11-08-user-registration/design.md)（草案，待评审，未实施）。确认后再写 `YYYY-MM-DD-<slug>/{requirements,plan,validation}.md` |
+| [`product/`](product/) | PRD、用户故事、领域说明、阶段规格三件套；评审前的设计草案也放这里 | 人 + AI（写需求 / 开阶段时） | [`2026-11-08-auth/design.md`](product/2026-11-08-auth/design.md)（认证总设计，草案）、[`2026-11-08-user-registration/design.md`](product/2026-11-08-user-registration/design.md)（注册与加入组织，草案）。二者都待评审、未实施。确认后再写 `YYYY-MM-DD-<slug>/{requirements,plan,validation}.md` |
 | [`mission.md`](mission.md) / [`roadmap.md`](roadmap.md) / [`tech-stack.md`](tech-stack.md) | 产品使命、阶段完成标准、技术选型硬规则 | 人 + AI（改宪法或开工前） | 三篇已落地 |
 | [`runbook/`](runbook/) | 可重复启动、演示、排障步骤 | 人 + AI（验收/值班） | [`tenant-demo.md`](runbook/tenant-demo.md) |
 

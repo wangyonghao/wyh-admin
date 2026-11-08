@@ -1,8 +1,10 @@
 # 用户注册与加入组织 — 设计草案
 
-> **设计草案，待评审，未实施。**
+> **设计草案，待评审，未实施。** 本文不是已批准的实现，也不是已上线行为。PR #57 尚未合并。
 >
-> 本文只描述方案。评审确认前不改业务代码、SQL、配置，不写 Liquibase 迁移，不把 roadmap / mission / tech-stack 标成进行中。
+> 认证、会话、权限和安全边界以 [`../2026-11-08-auth/design.md`](../2026-11-08-auth/design.md) 为准。该文同样待评审。用户已明确、但 `main` 尚未落地的两点：注册请求不再做 RSA；用户名目标长度为 4–64（含两端）。下文若仍出现「注册入库前解密 RSA」，以 auth 总设计的「已明确决定」为准。
+>
+> 本文只描述加入组织与注册流程。评审确认前不改业务代码、SQL、配置，不写 Liquibase 迁移，不把 roadmap / mission / tech-stack 标成进行中。
 >
 > 基线：`main` `850d464ef507bd08b18460fea469647fb0f38110`（2026-11-08 核对）。下文路径以该提交的磁盘为准。
 >
@@ -95,7 +97,7 @@
 - `LoginUtil.isSuperadmin()` 只判断角色码 `super_admin`。
 - 权限列表来自 `StpInterfaceImpl` → `PermissionAppServiceImpl`。超管角色码得到 `*:*:*`。其他人的权限 SQL 在 `SysMenuMapper.xml` 的 `selectPermissionByUserId`：`sys_menu` ← `sys_role_menu` ← `sys_role` ← `sys_user_role` ← `sys_user`，条件是用户 id 和菜单状态。角色码 SQL 在 `SysUserRoleMapper.selectRoleCodesByUserId`，连接 `sys_role` 与 `sys_user_role`，没有 `tenant_id` 条件。
 - `sys_user_role` 建表没有 `tenant_id`。`sys_membership` 的 `ROLE` 行会被双写，权限读取不查这张表。
-- `SaExtensionInterceptor` 在已登录且会话里有 `LoginUser` 时执行 `loginUser.getTenantId().equals(TenantContextHolder.getTenantId())`。不相等则返回「您当前没有访问该租户的权限」。调用前没有空值判断。
+- `SaExtensionInterceptor` 里有 `loginUser.getTenantId().equals(...)` 的比较，不相等时写「您当前没有访问该租户的权限」。全仓库只有这个类自己，没有注册进拦截器链。实际登录校验在 `ApiSignConfig` 的 `StpUtil.checkLogin()`。因此这段比较当前不会在请求上执行。
 
 新注册用户没有 `TENANT` 成员，解析结果可以是 `null`，签发时会把 `null` 写入会话。下一次请求里，拦截器一侧可能是 `null`，租户上下文一侧会落到默认租户 `0`。本文不把这条路径写成已经抓到的异常；首期要规定无租户会话的合法值，并在验收里走到 `/org/session`。
 
@@ -274,13 +276,13 @@ token 本身是「当时邮箱能收到信」的证明。首期不再叠加邮�
 1. 三个开关都进现有 `register` JSON，不新建配置表。`allowCreateOrganization`、`allowApply` 缺省按 `false`。已存在的 `enabled` 不强制改库。
 2. 公开注册不再传入部门 `1`，不再解析 `general` 或 `defaultRoleId`。`department_id` 允许为空（见第 17 节）。不写角色，不写 `TENANT` 成员。
 3. 注册成功仍签发会话，进入待加入页。邀请链接的 `redirect` 优先。
-4. 无租户会话的租户 id 保持空，不得写成 `0`。`SaExtensionInterceptor` 在会话租户为空时只放行第 12 节的无租户白名单，不要先落到租户 `0` 再比相等。
+4. 无租户会话的租户 id 保持空，不得写成 `0`。`TenantSelection` 在已登录但会话租户为空时不要落到默认租户 `0`。`SaExtensionInterceptor` 当前没有挂到拦截器链上；若启用它来挡白名单外的请求，必须先处理空租户，不能对 `null` 调用 `equals`。白名单见第 12 节。
 5. `POST /org` 增加 `allowCreateOrganization` 判断。平台 `POST /tenant/management` 不变。
 6. 接受邀请只授予：该租户的 `TENANT` 成员；邀请上指定的部门（必须属于该租户）；邀请上指定的角色（必须属于该租户，且角色码不是 `super_admin` 或 `admin`，也不是该租户内置管理员角色）。两个都可空。空角色表示加入后没有菜单，等管理员再分配。
 7. 不调用 `replacePrimaryDepartment`。部门成员按「该租户一条主部门」新增。这依赖第 17 节把 `sys_membership.tenant_id` 写成真实租户。
 8. 补邀请撤销。重发继续更换哈希，并改掉「旧链接仍可用」的注释。
 9. 切换租户时重算当前租户的角色、数据范围和部门。权限 SQL 增加 `sys_role.tenant_id = 会话租户`。`super_admin` 仍走现有全权限短路，不靠这条过滤。
-10. 注册与改密对齐：入库前用现有 RSA 私钥解密，再跑现有密码策略，再 `PasswordEncoder.encode`。登录请求维持现在的明文提交。
+10. 注册传输按 auth 总设计的已明确决定：前端不再 `encryptByRsa`，`RegisterRequest` 不再写 RSA。口令在 HTTPS 上传到后端后做现有密码策略和 `PasswordEncoder.encode`。不改个人改密和平台建租户管理员仍在用的 RSA。该决定在 `main` 上尚未落地。
 11. 注册接口复用现有 `@RateLimiter`。成功和失败走现有登录审计，审计不记密码和 token。
 12. 用户名冲突对公开接口使用不区分「有没有这个人」的文案，同时把真实原因写入审计。见 R4。
 
@@ -431,7 +433,7 @@ DISABLED → 管理员恢复 → NORMAL
 | 创建组织 | 现有名称、描述。受开关控制 | 不在注册页上出现 |
 | 申请 | 现有组织编码、说明。受开关控制 | 关闭时连编码输入也不提交 |
 
-确认密码只在前端校验。后端继续不接收 `confirmPassword`。用户名前后端正则首期对齐为 4–64 位、字母开头、字母数字下划线：后端 `{3,64}` 改为与前端 `{3,63}` 一致。
+确认密码只在前端校验。后端继续不接收 `confirmPassword`。用户名目标规则是 4–64 位（含两端）、字母开头、仅 ASCII 字母数字下划线：前端已是 `{3,63}`，后端 `{3,64}` 要改成与之相同。`main` 上后端还没改；另有修复进行中，未在本分支核到合入。长度口径见 auth 总设计，不把中文或码点计数写进这条规则。
 
 ## 12. API 契约草案
 
@@ -465,7 +467,7 @@ DISABLED → 管理员恢复 → NORMAL
 | `GET /org/applications` | 该租户 `admin` 或超管 | 仅 R5 要求申请进入首期时才做。分页沿用现有 `page` / `pageSize` |
 | `POST /org/members/{userId}/disable` 与 `.../enable` | 该租户 `admin` 或超管 | 只改这个租户的 `TENANT` 成员状态。不能操作自己的唯一超管。不能借此修改别的租户 |
 
-无租户会话白名单（会话租户为空时仅这些登录接口可过 `SaExtensionInterceptor`，外加登出和现有个人改邮箱、改密码）：
+无租户会话白名单（会话租户为空时只允许这些已登录接口，外加登出和现有个人改邮箱、改密码。当前没有拦截器在执行这份名单）：
 
 - `GET /org/session`
 - `GET /org/invites/preview`
@@ -476,7 +478,7 @@ DISABLED → 管理员恢复 → NORMAL
 - `GET /auth/user`
 - `POST /auth/logout`
 
-不在白名单里的业务接口沿用现有文案「您当前没有访问该租户的权限」，`Result.code` 为 `"403"`。现有 `SaExtensionInterceptor` 只把这段 JSON 写回响应，没有调用 `setStatus`。首期拒绝白名单外的请求时，要同时把 HTTP 状态设为 403。
+不在白名单里的业务接口使用「您当前没有访问该租户的权限」，`Result.code` 为 `"403"`，HTTP 状态为 403。`SaExtensionInterceptor` 里已有这句文案，但只写了 JSON、没有 `setStatus`，而且没有注册到拦截器链。首期要的是真正生效的拒绝，不是依赖这段未挂上的代码。
 
 ### 12.3 拟新增错误码
 
@@ -566,10 +568,10 @@ DISABLED → 管理员恢复 → NORMAL
 
 ### 15.1 密码
 
-- 传输：注册与现有改密一致，前端继续 RSA。服务端用 `RsaUtils.decryptPasswordByRsaPrivateKey`，失败返回现有解密失败类错误，不入库。
+- 传输：注册不再使用 RSA（见 auth 总设计）。`main` 上前端仍会 `encryptByRsa`，后端注册路径不解密。实现以取消注册 RSA 为准，而不是给注册补解密。
 - 存储：只存 `PasswordEncoder` 结果。算法保持 DelegatingPasswordEncoder，不新增编码器。
-- 策略：解密后的明文走现有 `assertCompliant`。不把密文拿去套策略。
-- 登录：本阶段不改成 RSA。验收用明文口令登录刚刚注册的用户。
+- 策略：对收到的口令走现有 `assertCompliant`。注册不再先解密。
+- 登录：维持现在的非 RSA 提交。验收用同一口令再登录。个人改密、平台创建租户管理员的 RSA 不在本文取消。
 - 日志、审计、异常 message 都不含密码、私钥、token。
 
 ### 15.2 限流
