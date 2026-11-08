@@ -11,11 +11,11 @@ export const departmentApi = {
     return http.get<DepartmentResult>(`/system/department/${id}`);
   },
   /** 新增部门 */
-  create: (data: any) => {
+  create: (data: DepartmentWrite) => {
     return http.post<boolean>(`/system/department`, data);
   },
   /** 修改部门 */
-  update: (data: any, id: string) => {
+  update: (data: DepartmentWrite, id: string) => {
     return http.patch(`/system/department/${id}`, data);
   },
   /** 删除部门 */
@@ -39,7 +39,7 @@ export interface DepartmentResult {
   parentId: string;
   name: string;
   code: string;
-  type: number;
+  type: string;
   sort: number;
   status: 1 | 2;
   isBuiltin: boolean;
@@ -53,4 +53,16 @@ export interface DepartmentResult {
 export interface DepartmentQuery {
   keyword?: string;
   status?: number;
+}
+
+/** 部门新增或修改请求。type 与库列 varchar(20) 一致，为字符串。 */
+export interface DepartmentWrite {
+  id?: string;
+  parentId?: string | null;
+  code?: string;
+  name?: string;
+  type: string;
+  sort: number;
+  description: string;
+  status: 1 | 2;
 }

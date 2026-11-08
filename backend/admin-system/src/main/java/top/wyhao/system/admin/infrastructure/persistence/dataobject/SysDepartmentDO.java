@@ -23,10 +23,9 @@ public class SysDepartmentDO extends BaseEntity implements TenantedEntity {
      */
     private String name;
     /**
-     * 部门类型
-     * 例如：分公司、部门、工作组
+     * 部门类型。列类型 varchar(20)，按原文字符串保存。
      */
-    private Integer type;
+    private String type;
     /**
      * 上级部门 ID
      */

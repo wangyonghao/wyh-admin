@@ -11,6 +11,12 @@ import { departmentApi } from '#/api/system/department';
 import { useDict } from '#/hooks/app';
 import { toast } from '#/ui-patterns/toast';
 
+import {
+  buildDepartmentSubmit,
+  departmentTypeOptions,
+  departmentTypeValue,
+} from './department-form';
+
 interface Props {
   visible?: boolean;
   data?: DepartmentResult;
@@ -26,7 +32,7 @@ const emits = defineEmits<{
   'update:visible': [value: boolean];
 }>();
 
-const { dept_type } = useDict('dept_type');
+const { department_type } = useDict('department_type');
 
 const recordId = ref('');
 const isUpdate = computed(() => !!recordId.value);
@@ -146,7 +152,7 @@ async function loadDeptOptions() {
       {
         fieldName: 'type',
         componentProps: {
-          options: dept_type?.value ?? [],
+          options: departmentTypeOptions(department_type?.value),
           clearable: true,
           placeholder: $t('ui.formRules.selectRequired'),
         },
@@ -179,7 +185,7 @@ async function loadDeptDetail(id: string) {
       res.parentId == null || res.parentId === '' ? null : String(res.parentId),
     code: res.code,
     name: res.name,
-    type: res.type?.toString() ?? null,
+    type: departmentTypeValue(res.type) || null,
     sort: res.sort,
     description: res.description ?? '',
     status: res.status === 2 ? 2 : 1,
@@ -192,16 +198,7 @@ const [Drawer, drawerApi] = useVbenDrawer({
     const { valid } = await formApi.validate();
     if (!valid) return;
     const values = await formApi.getValues();
-    const submitData = {
-      id: recordId.value,
-      parentId: values.parentId,
-      code: values.code,
-      name: values.name,
-      type: Number.parseInt(String(values.type || '1'), 10),
-      sort: typeof values.sort === 'number' ? values.sort : 1,
-      description: values.description ?? '',
-      status: values.status === 2 ? 2 : 1,
-    };
+    const submitData = buildDepartmentSubmit(values, recordId.value);
     drawerApi.lock();
     try {
       if (isUpdate.value) {
@@ -248,13 +245,13 @@ watch(
 );
 
 watch(
-  () => dept_type?.value,
+  () => department_type?.value,
   (options) => {
     formApi.updateSchema([
       {
         fieldName: 'type',
         componentProps: {
-          options: options ?? [],
+          options: departmentTypeOptions(options),
           clearable: true,
           placeholder: $t('ui.formRules.selectRequired'),
         },

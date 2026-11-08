@@ -32,8 +32,8 @@ public class DepartmentResult {
     @ExcelProperty(value = "编码", order = 3)
     private String code;
 
-    @Schema(description = "类型", example = "1-分公司，2-部门，3-用户组")
-    @ExcelProperty(value = "类型(1-分公司，2-部门，3-用户组)", order = 4)
+    @Schema(description = "部门类型", example = "1A-BRANCH", maxLength = 20)
+    @ExcelProperty(value = "部门类型", order = 4)
     private String type;
 
     @Schema(description = "上级部门 ID", example = "2")

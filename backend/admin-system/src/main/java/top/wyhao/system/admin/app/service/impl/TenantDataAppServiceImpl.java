@@ -115,7 +115,7 @@ public class TenantDataAppServiceImpl implements TenantDataAppService {
         Department department = new Department();
         department.setName(tenant.getName());
         department.setCode("000000"); // todo
-        department.setType(1); // todo
+        department.setType("1");
         department.setParentId(ROOT_PARENT_ID);
         department.setAncestors(ROOT_PARENT_ID.toString());
         department.setDescription("系统初始部门");

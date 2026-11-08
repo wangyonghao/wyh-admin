@@ -46,10 +46,9 @@ public class Department implements TenantedEntity {
      */
     private String name;
     /**
-     * 部门类型
-     * 例如：分公司、部门、工作组
+     * 部门类型。与 {@code sys_department.type}（varchar(20)）一致，按原文字符串保存。
      */
-    private Integer type;
+    private String type;
     /**
      * 上级部门 ID
      */
