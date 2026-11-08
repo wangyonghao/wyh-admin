@@ -8,6 +8,8 @@ import top.wyhao.cmn.core.constant.RegexConstants;
 
 /**
  * 用户自助注册请求。
+ *
+ * <p>password 为用户输入的原密码，传输安全依赖 HTTPS。服务端按密码策略校验后做慢哈希存储。
  */
 @Data
 @Schema(description = "用户注册请求")
@@ -18,7 +20,10 @@ public class RegisterRequest {
     @Pattern(regexp = RegexConstants.USERNAME, message = "用户名长度为 4-64 个字符，支持大小写字母、数字、下划线，以字母开头")
     private String username;
 
-    @Schema(description = "密码（RSA 公钥加密）")
+    /**
+     * 用户输入的原密码。传输安全依赖 HTTPS，服务端校验后做慢哈希存储。
+     */
+    @Schema(description = "原密码。经 HTTPS 传输，服务端校验后做慢哈希存储")
     @NotBlank(message = "密码不能为空")
     private String password;
 }
