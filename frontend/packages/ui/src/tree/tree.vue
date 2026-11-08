@@ -18,7 +18,7 @@ import { get } from '@wyh/shared/utils';
 
 import { TreeItem, TreeRoot } from 'reka-ui';
 
-import { Checkbox } from '../checkbox';
+import { Checkbox } from '../component/shadcn-vue/ui/checkbox';
 import { treePropsDefaults } from './types';
 
 const props = withDefaults(defineProps<TreeProps>(), treePropsDefaults());

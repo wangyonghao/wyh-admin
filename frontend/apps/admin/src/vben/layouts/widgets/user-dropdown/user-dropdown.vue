@@ -16,7 +16,7 @@ import { isWindowsOs } from '@vben/utils';
 
 import { createIconifyIcon } from '@wyh/icons';
 
-import { useVbenModal } from '@wyh/popup-ui';
+import { useVbenModal } from '#/components/popup';
 import {
   VbenAvatar,
   VbenIcon,

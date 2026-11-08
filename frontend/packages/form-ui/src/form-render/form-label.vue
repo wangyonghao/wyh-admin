@@ -6,7 +6,7 @@ import {
   VbenRenderContent,
 } from '@wyh/ui/composed';
 import { FormLabel } from '@wyh/ui/form';
-import { cn } from '@wyh/ui/cn';
+import { cn } from '@wyh/ui/lib/cn';
 
 interface Props {
   class?: string;

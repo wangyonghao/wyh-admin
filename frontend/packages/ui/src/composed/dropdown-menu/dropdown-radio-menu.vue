@@ -10,7 +10,7 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '../../dropdown-menu';
+} from '../../component/shadcn-vue/ui/dropdown-menu';
 
 defineOptions({ name: 'DropdownRadioMenu' });
 withDefaults(defineProps<DropdownMenuProps>(), {});

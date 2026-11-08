@@ -11,7 +11,7 @@ import { cn } from '../../lib/cn';
 
 import { Primitive } from 'reka-ui';
 
-import { buttonVariants } from '../../button';
+import { buttonVariants } from '../../component/shadcn-vue/ui/button';
 
 const props = withDefaults(defineProps<VbenButtonProps>(), {
   as: 'button',

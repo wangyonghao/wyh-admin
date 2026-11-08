@@ -4,19 +4,52 @@
   "compilerOptions": {
     "paths": {
       "#/ui/badge/variant": [
-        "../../packages/ui/src/badge/variant.ts"
+        "../../packages/ui/src/component/shadcn-vue/ui/badge/variant.ts"
       ],
       "#/ui/checkbox/group": [
-        "../../packages/ui/src/checkbox/group.ts"
+        "../../packages/ui/src/component/shadcn-vue/ui/checkbox/group.ts"
+      ],
+      "#/ui/lib/cn": [
+        "../../packages/ui/src/lib/cn.ts"
+      ],
+      "#/ui/composed": [
+        "../../packages/ui/src/composed/index.ts"
+      ],
+      "#/ui/composed/*": [
+        "../../packages/ui/src/composed/*"
+      ],
+      "#/ui/date-picker": [
+        "../../packages/ui/src/date-picker/index.ts"
+      ],
+      "#/ui/date-picker/*": [
+        "../../packages/ui/src/date-picker/*"
       ],
       "#/ui/date-picker/date-value": [
         "../../packages/ui/src/date-picker/date-value.ts"
+      ],
+      "#/ui/switch": [
+        "../../packages/ui/src/switch/index.ts"
+      ],
+      "#/ui/switch/switch-root": [
+        "../../packages/ui/src/switch/switch-root.vue"
+      ],
+      "#/ui/switch/*": [
+        "../../packages/ui/src/switch/*"
+      ],
+      "#/ui/tree": [
+        "../../packages/ui/src/tree/index.ts"
+      ],
+      "#/ui/upload": [
+        "../../packages/ui/src/upload/index.ts"
       ],
       "#/ui-patterns/*": [
         "../../packages/ui-patterns/src/*"
       ],
       "#/ui/*": [
-        "../../packages/ui/src/*"
+        "../../packages/ui/src/component/shadcn-vue/ui/*"
+      ],
+      "#/components/popup": [
+        "./src/components/popup/index.ts"
       ],
       "#/*": [
         "./src/*"
@@ -24,8 +57,44 @@
       "@wyh/ui-patterns/*": [
         "../../packages/ui-patterns/src/*"
       ],
+      "@wyh/ui/badge/variant": [
+        "../../packages/ui/src/component/shadcn-vue/ui/badge/variant.ts"
+      ],
+      "@wyh/ui/checkbox/group": [
+        "../../packages/ui/src/component/shadcn-vue/ui/checkbox/group.ts"
+      ],
+      "@wyh/ui/lib/cn": [
+        "../../packages/ui/src/lib/cn.ts"
+      ],
+      "@wyh/ui/composed": [
+        "../../packages/ui/src/composed/index.ts"
+      ],
+      "@wyh/ui/composed/*": [
+        "../../packages/ui/src/composed/*"
+      ],
+      "@wyh/ui/date-picker": [
+        "../../packages/ui/src/date-picker/index.ts"
+      ],
+      "@wyh/ui/date-picker/*": [
+        "../../packages/ui/src/date-picker/*"
+      ],
+      "@wyh/ui/switch": [
+        "../../packages/ui/src/switch/index.ts"
+      ],
+      "@wyh/ui/switch/switch-root": [
+        "../../packages/ui/src/switch/switch-root.vue"
+      ],
+      "@wyh/ui/switch/*": [
+        "../../packages/ui/src/switch/*"
+      ],
+      "@wyh/ui/tree": [
+        "../../packages/ui/src/tree/index.ts"
+      ],
+      "@wyh/ui/upload": [
+        "../../packages/ui/src/upload/index.ts"
+      ],
       "@wyh/ui/*": [
-        "../../packages/ui/src/*"
+        "../../packages/ui/src/component/shadcn-vue/ui/*"
       ],
       "@vben/tailwind-config/theme": [
         "./src/styles/theme.css"

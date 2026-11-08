@@ -13,7 +13,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '../../tooltip';
+} from '../../component/shadcn-vue/ui/tooltip';
 
 interface Props {
   contentClass?: ClassType;

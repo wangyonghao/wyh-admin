@@ -6,7 +6,7 @@ import { computed, reactive } from 'vue';
 import { $t } from '@vben/locales';
 
 import { useVbenForm, z } from '@wyh/form-ui';
-import { useVbenModal } from '@wyh/popup-ui';
+import { useVbenModal } from '#/components/popup';
 import {
   VbenAvatar,
   VbenButton,

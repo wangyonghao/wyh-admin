@@ -5,8 +5,12 @@ import { computed, ref, useAttrs } from 'vue';
 
 import { IconifyIcon } from '@wyh/icons';
 
-import { Button } from '../button';
-import { Popover, PopoverContent, PopoverTrigger } from '../popover';
+import { Button } from '../component/shadcn-vue/ui/button';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '../component/shadcn-vue/ui/popover';
 
 import {
   applyTime,

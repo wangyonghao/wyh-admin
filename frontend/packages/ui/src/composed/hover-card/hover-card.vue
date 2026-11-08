@@ -18,7 +18,7 @@ import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
-} from '../../hover-card';
+} from '../../component/shadcn-vue/ui/hover-card';
 
 interface Props extends HoverCardRootProps {
   class?: ClassType;

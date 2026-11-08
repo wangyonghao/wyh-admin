@@ -23,7 +23,7 @@ import {
   ContextMenuSeparator,
   ContextMenuShortcut,
   ContextMenuTrigger,
-} from '../../context-menu';
+} from '../../component/shadcn-vue/ui/context-menu';
 
 const props = defineProps<
   ContextMenuRootProps & {

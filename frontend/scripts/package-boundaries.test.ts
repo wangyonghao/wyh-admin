@@ -38,7 +38,9 @@ const removedSpecifiers = [
   '@wyh/tabs-ui',
   '@wyh/typings',
   'packages/core',
+  'packages/popup-ui',
   'packages/shell',
+  '@wyh/popup-ui',
 ];
 
 const packageImportBans: Array<{ from: string; specifiers: string[] }> = [
@@ -47,7 +49,7 @@ const packageImportBans: Array<{ from: string; specifiers: string[] }> = [
     specifiers: [
       '@vben/',
       '@wyh/form-ui',
-      '@wyh/popup-ui',
+      '#/components/popup',
       '@wyh/shared/global-state',
       'apps/admin',
     ],
@@ -57,7 +59,7 @@ const packageImportBans: Array<{ from: string; specifiers: string[] }> = [
     specifiers: [
       '@vben/',
       '@wyh/form-ui',
-      '@wyh/popup-ui',
+      '#/components/popup',
       '@wyh/shared/global-state',
       'apps/admin',
     ],
@@ -67,7 +69,7 @@ const packageImportBans: Array<{ from: string; specifiers: string[] }> = [
     specifiers: [
       '@vben/',
       '@wyh/form-ui',
-      '@wyh/popup-ui',
+      '#/components/popup',
       '@wyh/ui',
       '@wyh/ui-patterns',
       'apps/',
@@ -78,7 +80,7 @@ const packageImportBans: Array<{ from: string; specifiers: string[] }> = [
     specifiers: [
       '@vben/',
       '@wyh/form-ui',
-      '@wyh/popup-ui',
+      '#/components/popup',
       '@wyh/ui',
       '@wyh/ui-patterns',
       'apps/',
@@ -89,7 +91,7 @@ const packageImportBans: Array<{ from: string; specifiers: string[] }> = [
     specifiers: [
       '@vben/',
       '@wyh/form-ui',
-      '@wyh/popup-ui',
+      '#/components/popup',
       '@wyh/ui',
       '@wyh/ui-patterns',
       'apps/',
@@ -100,7 +102,7 @@ const packageImportBans: Array<{ from: string; specifiers: string[] }> = [
     specifiers: [
       '@vben/',
       '@wyh/form-ui',
-      '@wyh/popup-ui',
+      '#/components/popup',
       '@wyh/ui',
       '@wyh/ui-patterns',
       'apps/',
@@ -108,11 +110,7 @@ const packageImportBans: Array<{ from: string; specifiers: string[] }> = [
   },
   {
     from: 'packages/form-ui',
-    specifiers: ['@vben/', '@wyh/popup-ui', 'apps/'],
-  },
-  {
-    from: 'packages/popup-ui',
-    specifiers: ['@vben/', '@wyh/form-ui', 'apps/'],
+    specifiers: ['@vben/', '#/components/popup', 'apps/'],
   },
 ];
 

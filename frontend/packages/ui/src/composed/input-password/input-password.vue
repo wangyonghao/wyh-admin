@@ -7,7 +7,7 @@ import { ref, useSlots } from 'vue';
 import { Eye, EyeOff } from 'lucide-vue-next';
 import { cn } from '../../lib/cn';
 
-import { Input } from '../../input';
+import { Input } from '../../component/shadcn-vue/ui/input';
 import PasswordStrength from './password-strength.vue';
 
 interface Props {

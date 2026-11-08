@@ -12,7 +12,7 @@ import {
   Tabs,
   TabsContent,
   TabsList,
-} from '../../tabs';
+} from '../../component/shadcn-vue/ui/tabs';
 import TabsIndicator from './tabs-indicator.vue';
 
 interface Props {

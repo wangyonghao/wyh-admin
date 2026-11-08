@@ -7,8 +7,11 @@
     "#/ui/badge/variant": "@wyh/ui/badge/variant",
     "#/ui/checkbox/group": "@wyh/ui/checkbox/group",
     "#/ui/date-picker/date-value": "@wyh/ui/date-picker/date-value",
+    "#/ui/lib/cn": "@wyh/ui/lib/cn",
+    "#/ui/switch/switch-root": "@wyh/ui/switch/switch-root",
     "#/ui-patterns/*": "@wyh/ui-patterns/*",
     "#/ui/*": "@wyh/ui/*",
+    "#/components/popup": "./src/components/popup/index.ts",
     "#/*": "./src/*"
   },
   "scripts": {
@@ -37,7 +40,6 @@
     "@wyh/design": "workspace:*",
     "@wyh/form-ui": "workspace:*",
     "@wyh/icons": "workspace:*",
-    "@wyh/popup-ui": "workspace:*",
     "@wyh/shared": "workspace:*",
     "@vicons/ionicons5": "^0.13.0",
     "@vueuse/core": "catalog:",

@@ -30,7 +30,7 @@ import {
   FormItem,
   FormMessage,
 } from '@wyh/ui/form';
-import { cn } from '@wyh/ui/cn';
+import { cn } from '@wyh/ui/lib/cn';
 import {
   isFunction,
   isObject,

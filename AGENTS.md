@@ -62,7 +62,7 @@ DB 变更：`backend/admin-start/src/main/resources/db/changelog/postgresql/`
 4. **DB**：PostgreSQL + Liquibase；禁止只改库不改 changelog。
 5. **调度**：Spring Quartz / `cmn-job`；勿并行引入另一套调度内核。
 6. **领域错误**：`XxxException` 静态工厂；禁止业务里直接 `new BizException` / `BadRequestException`；禁止新增 `Check` / `ValidationUtils`。
-7. **前端**：产品后台在 `frontend/apps/admin`（`@wyh/admin`）+ shadcn-vue / Vben 原子；壳、偏好、布局导航和多页签在 `apps/admin/src/vben`。共享包平铺在 `frontend/packages`（`ui`、`ui-patterns`、`form-ui`、`popup-ui`、`design`、`icons`、`shared`、`composables`），不得依赖 `apps/admin`。`ui` 不得依赖 `form-ui`、`popup-ui` 或 `@wyh/shared/global-state`。细则见 [`docs/architecture/frontend-packages.md`](docs/architecture/frontend-packages.md)。
+7. **前端**：产品后台在 `frontend/apps/admin`（`@wyh/admin`）+ shadcn-vue / Vben 原子；壳、偏好、布局导航和多页签在 `apps/admin/src/vben`。共享包平铺在 `frontend/packages`（`ui`、`ui-patterns`、`form-ui`、`design`、`icons`、`shared`、`composables`），不得依赖 `apps/admin`。弹层运行时在 `apps/admin/src/components/popup`。`ui` 不得依赖 `form-ui`、该弹层目录或 `@wyh/shared/global-state`。细则见 [`docs/architecture/frontend-packages.md`](docs/architecture/frontend-packages.md)。
 8. **宪法**：改 mission / tech-stack / roadmap 须用户显式确认，禁止作实现副作用修改。
 
 ## Where to change what

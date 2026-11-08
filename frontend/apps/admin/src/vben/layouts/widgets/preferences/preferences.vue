@@ -6,7 +6,7 @@ import { $t, loadLocaleMessages } from '@vben/locales';
 import { preferences, updatePreferences } from '@vben/preferences';
 import { capitalizeFirstLetter } from '@vben/utils';
 
-import { useVbenDrawer } from '@wyh/popup-ui';
+import { useVbenDrawer } from '#/components/popup';
 import { VbenButton } from '#/ui/composed';
 
 import PreferencesDrawer from './preferences-drawer.vue';

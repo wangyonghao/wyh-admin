@@ -10,7 +10,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '../../select';
+} from '../../component/shadcn-vue/ui/select';
 
 interface Props {
   allowClear?: boolean;

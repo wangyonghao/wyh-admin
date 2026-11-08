@@ -10,7 +10,7 @@ import { Ellipsis, GripVertical, Plus } from '@vben/icons';
 import { $t } from '@vben/locales';
 
 import { useSortable } from '@wyh/composables';
-import { Switch } from '#/ui/switch-primitive';
+import Switch from '#/ui/switch/switch-root';
 
 import { Button } from '#/ui/button';
 import { Checkbox } from '#/ui/checkbox';

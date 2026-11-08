@@ -93,7 +93,6 @@ frontend/packages/
   ui                 # @wyh/ui
   ui-patterns        # @wyh/ui-patterns
   form-ui            # @wyh/form-ui
-  popup-ui           # @wyh/popup-ui
   design             # @wyh/design
   icons              # @wyh/icons
   shared             # @wyh/shared
@@ -107,15 +106,15 @@ frontend/packages/
 | `frontend/apps/admin` | `@wyh/admin` | 产品后台 |
 | `frontend/apps/design-system` | `@wyh/design-system` | 只演示 `ui` / `ui-patterns`，不放业务页 |
 | `frontend/apps/docs` | `@wyh/docs` | VitePress 文档站 |
-| `frontend/packages/ui` | `@wyh/ui` | shadcn/Reka 原子；导出 `./*` → `src/*/index.ts`。纯展示组合在 `src/composed`，通过 `#/ui/composed` 引入。原始布尔 Switch 从 `#/ui/switch-primitive` 引入 |
+| `frontend/packages/ui` | `@wyh/ui` | shadcn/Reka 原子在 `src/component/shadcn-vue/ui`，导出 `./*` → 该目录的 `index.ts`。项目自有控件留在 `src/`：`lib`、`composed`、`date-picker`、`switch`、`tree`、`upload`。纯展示组合通过 `#/ui/composed` 引入。原始布尔 Switch 是 `src/switch/switch-root.vue`，从 `#/ui/switch/switch-root` 引入 |
 | `frontend/packages/ui-patterns` | `@wyh/ui-patterns` | 页面组合：confirm、filter、toast、toolbar。只依赖 `@wyh/ui` |
-| `frontend/packages/ui` 的 `src/cn` | `@wyh/ui/cn` | `cn` 的唯一实现，转出 `src/lib/cn.ts` |
+| `frontend/packages/ui` 的 `src/lib/cn.ts` | `@wyh/ui/lib/cn` | `cn` 的唯一实现 |
 | `frontend/packages/shared` | `@wyh/shared` | `./utils`、`./color`、`./cache`、`./constants`、`./types`、`./global-state`。原子包不得引用 `./global-state` |
 | `frontend/packages/icons` | `@wyh/icons` | 图标 |
 | `frontend/packages/design` | `@wyh/design` | 设计 token。产品后台与 `apps/design-system` 都引入。导出：`./bem`、`./theme` |
 | `frontend/packages/composables` | `@wyh/composables` | `useScrollLock`、`useNamespace`、排序、断点、转发 props |
 | `frontend/packages/form-ui` | `@wyh/form-ui` | schema 表单运行时。动态字段 `VbenCollapsibleParams` 在这里 |
-| `frontend/packages/popup-ui` | `@wyh/popup-ui` | 命令式 modal / drawer / alert |
+| `frontend/apps/admin/src/components/popup` | 应用内 | 命令式 modal / drawer / alert。`@vben/common-ui` 再导出。文档示例走这个别名 |
 | `frontend/apps/admin/src/vben/layouts/frame` | 应用内 | 后台布局框架 |
 | `frontend/apps/admin/src/vben/layouts/navigation` | 应用内 | 侧栏 / 顶栏导航 |
 | `frontend/apps/admin/src/vben/layouts/workspace-tabs` | 应用内 | 多路由页签 |
@@ -157,9 +156,9 @@ frontend/packages/
 | 前后端对齐 | `docs/architecture/repo-map.md` |
 | 代码生成 | `AGENTS.md`（已从宪法删除，未实现） |
 | 应用内别名 | `frontend/apps/admin/src/vben/`（`@vben/*` 路径别名；内部已改引用 `@wyh/*`） |
-| 共享包 | `frontend/packages/{ui,ui-patterns,form-ui,popup-ui,design,icons,shared,composables}` |
+| 共享包 | `frontend/packages/{ui,ui-patterns,form-ui,design,icons,shared,composables}` |
 | 应用壳 | `apps/admin/src/vben/`（布局框架、导航、多页签、偏好、后台模型类型） |
-| 原子 / 页面模式 | `frontend/packages/ui`（`@wyh/ui`）、`frontend/packages/ui-patterns`（`@wyh/ui-patterns`）。应用导入仍走 `#/ui`、`#/ui-patterns`；组合组件 `#/ui/composed`；原始布尔 Switch `#/ui/switch-primitive` |
+| 原子 / 页面模式 | `frontend/packages/ui`（`@wyh/ui`）、`frontend/packages/ui-patterns`（`@wyh/ui-patterns`）。应用导入仍走 `#/ui`、`#/ui-patterns`；组合组件 `#/ui/composed`；原始布尔 Switch `#/ui/switch/switch-root` |
 | 文档站 | `frontend/apps/docs`（`@wyh/docs`，VitePress）。`pnpm dev:docs` / `pnpm build:docs` |
 | 组件演示 | `frontend/apps/design-system`（`@wyh/design-system`）。只演示上述两个包，不放业务页。`pnpm dev:ds` / `pnpm build:ds` |
 | 工程配置 | 应用：`frontend/apps/admin` 的 `vite.config.ts`、env、`tsconfig.json`。仓库级：`frontend/eslint.config.mjs`、`frontend/tsconfig.json`、`frontend/pnpm-workspace.yaml` |

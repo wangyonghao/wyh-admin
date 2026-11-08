@@ -750,9 +750,6 @@ importers:
       '@wyh/icons':
         specifier: workspace:*
         version: link:../../packages/icons
-      '@wyh/popup-ui':
-        specifier: workspace:*
-        version: link:../../packages/popup-ui
       '@wyh/shared':
         specifier: workspace:*
         version: link:../../packages/shared
@@ -1064,34 +1061,6 @@ importers:
       vue:
         specifier: ^3.5.32
         version: 3.5.32(typescript@6.0.2)
-
-  packages/popup-ui:
-    dependencies:
-      '@tanstack/vue-store':
-        specifier: 'catalog:'
-        version: 0.10.0(vue@3.5.32(typescript@6.0.2))
-      '@vueuse/core':
-        specifier: 'catalog:'
-        version: 14.2.1(vue@3.5.32(typescript@6.0.2))
-      '@wyh/composables':
-        specifier: workspace:*
-        version: link:../composables
-      '@wyh/icons':
-        specifier: workspace:*
-        version: link:../icons
-      '@wyh/shared':
-        specifier: workspace:*
-        version: link:../shared
-      '@wyh/ui':
-        specifier: workspace:*
-        version: link:../ui
-      vue:
-        specifier: ^3.5.32
-        version: 3.5.32(typescript@6.0.2)
-    devDependencies:
-      unplugin-vue:
-        specifier: 'catalog:'
-        version: 7.1.1(@types/node@25.6.0)(esbuild@0.27.7)(jiti@2.6.1)(less@4.6.4)(sass-embedded@1.99.0)(sass@1.99.0)(terser@5.46.1)(vue@3.5.32(typescript@6.0.2))(yaml@2.8.3)
 
   packages/shared:
     dependencies:

@@ -18,7 +18,7 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from '../../avatar';
+} from '../../component/shadcn-vue/ui/avatar';
 
 interface Props extends AvatarFallbackProps, AvatarImageProps, AvatarRootProps {
   alt?: string;

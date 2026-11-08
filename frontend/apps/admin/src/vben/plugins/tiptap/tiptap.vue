@@ -10,12 +10,12 @@ import { computed, onBeforeUnmount, watch } from 'vue';
 import { Check, ChevronDown, Eye } from '@vben/icons';
 import { $t } from '@vben/locales';
 
-import { useVbenModal } from '@wyh/popup-ui';
+import { useVbenModal } from '#/components/popup';
 import {
   VbenIconButton,
   VbenPopover,
 } from '#/ui/composed';
-import { cn } from '@wyh/ui/cn';
+import { cn } from '@wyh/ui/lib/cn';
 
 import { EditorContent, useEditor } from '@tiptap/vue-3';
 

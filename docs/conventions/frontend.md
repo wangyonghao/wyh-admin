@@ -37,7 +37,6 @@ frontend/
 │   ├── ui/              # @wyh/ui：原子
 │   ├── ui-patterns/     # 页面组合，只依赖 ui
 │   ├── form-ui/         # schema 表单运行时
-│   ├── popup-ui/        # 命令式弹层
 │   ├── design/ icons/ shared/ composables/
 └── vendor/@core         # UI 内核（慎改；原子实现已在 shadcn-ui）
 ```

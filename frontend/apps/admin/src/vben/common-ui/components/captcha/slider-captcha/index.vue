@@ -9,7 +9,7 @@ import { reactive, unref, useTemplateRef, watch, watchEffect } from 'vue';
 
 import { $t } from '@vben/locales';
 
-import { cn } from '@wyh/ui/cn';
+import { cn } from '@wyh/ui/lib/cn';
 
 import { useTimeoutFn } from '@vueuse/core';
 

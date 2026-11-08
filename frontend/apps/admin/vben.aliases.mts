@@ -13,17 +13,26 @@ export function adminPath(...parts: string[]) {
 /**
  * `#/ui` and `#/ui-patterns` stay as app import paths for this release.
  * The source of truth is `@wyh/ui` and `@wyh/ui-patterns`.
- * `#/ui-patterns` must be matched before `#/ui`.
+ * `#/ui-patterns` and project-owned `#/ui` entries must be matched before
+ * the shadcn-vue atoms.
  */
+const ownedUiEntry =
+  'composed|date-picker|lib|switch|tree|upload';
+
 export function createTideUiAliases() {
+  const uiSrc = frontendPath('packages/ui/src');
   return [
     {
       find: /^#\/ui-patterns(?=\/|$)/,
       replacement: frontendPath('packages/ui-patterns/src'),
     },
     {
+      find: new RegExp(`^#/ui/(${ownedUiEntry})(?=/|$)`),
+      replacement: `${uiSrc}/$1`,
+    },
+    {
       find: /^#\/ui(?=\/|$)/,
-      replacement: frontendPath('packages/ui/src'),
+      replacement: `${uiSrc}/component/shadcn-vue/ui`,
     },
   ];
 }

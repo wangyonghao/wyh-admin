@@ -58,7 +58,7 @@
 | 质量工具 | ESLint、Stylelint、oxfmt、oxlint、Commitlint、Lefthook | 见 catalog |
 | 测试 | Vitest、Playwright、@vue/test-utils | 4.1.4 / 1.59.1 等 |
 
-主应用：`frontend/apps/admin`（`@wyh/admin`）。共享 UI 在 `packages/ui`（`@wyh/ui`）、`packages/ui-patterns`（`@wyh/ui-patterns`）。可部署面在 `apps/`：`apps/admin`（产品后台）、`apps/docs`（`@wyh/docs`，VitePress）、`apps/design-system`（`@wyh/design-system`，只演示上述两个包）。壳在 `apps/admin/src/vben/`（偏好、布局、导航、多页签）。共享包平铺在 `packages/`：`form-ui`、`popup-ui`、`design`、`icons`、`shared`、`composables`。依赖边界见 `docs/architecture/frontend-packages.md`。应用构建配置在 `apps/admin`（Vite、env、tsconfig）；仓库级 ESLint / Stylelint 仍在 `frontend/` 根目录（无 `configs/` 目录）。脚本：在 `frontend/` 下 `pnpm dev` / `pnpm build` 与 `pnpm dev:admin` / `pnpm build:admin` 相同，都启动产品后台；另有 `pnpm dev:docs`、`pnpm dev:ds`。
+主应用：`frontend/apps/admin`（`@wyh/admin`）。共享 UI 在 `packages/ui`（`@wyh/ui`）、`packages/ui-patterns`（`@wyh/ui-patterns`）。可部署面在 `apps/`：`apps/admin`（产品后台）、`apps/docs`（`@wyh/docs`，VitePress）、`apps/design-system`（`@wyh/design-system`，只演示上述两个包）。壳在 `apps/admin/src/vben/`（偏好、布局、导航、多页签）。共享包平铺在 `packages/`：`form-ui`、`design`、`icons`、`shared`、`composables`。弹层运行时在 `apps/admin/src/components/popup`。依赖边界见 `docs/architecture/frontend-packages.md`。应用构建配置在 `apps/admin`（Vite、env、tsconfig）；仓库级 ESLint / Stylelint 仍在 `frontend/` 根目录（无 `configs/` 目录）。脚本：在 `frontend/` 下 `pnpm dev` / `pnpm build` 与 `pnpm dev:admin` / `pnpm build:admin` 相同，都启动产品后台；另有 `pnpm dev:docs`、`pnpm dev:ds`。
 
 ## Architecture
 
@@ -105,9 +105,9 @@ frontend/apps/admin             # @wyh/admin；产品后台（入口 src/；view
 frontend/apps/docs              # @wyh/docs 5.7.0；VitePress
 frontend/apps/design-system     # @wyh/design-system；只演示 @wyh/ui 与 @wyh/ui-patterns，并引入 @wyh/design
 frontend/packages/ui-patterns   # @wyh/ui-patterns 5.7.0；依赖 @wyh/ui；应用别名 #/ui-patterns
-frontend/packages/ui            # @wyh/ui 5.7.0；应用别名 #/ui；cn 在 src/lib/cn.ts，经 src/cn 导出
+frontend/packages/ui            # @wyh/ui 5.7.0；应用别名 #/ui；cn 在 src/lib/cn.ts，导出 @wyh/ui/lib/cn
 frontend/packages/form-ui       # schema 表单运行时
-frontend/packages/popup-ui      # 命令式 modal / drawer / alert
+frontend/apps/admin/src/components/popup  # 命令式 modal / drawer / alert
 frontend/packages/design        # 设计 token
 frontend/packages/icons
 frontend/packages/shared        # 纯函数、通用类型、组件注册表

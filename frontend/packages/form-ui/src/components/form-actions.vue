@@ -3,7 +3,7 @@ import { computed, toRaw, unref, watch } from 'vue';
 
 import { useSimpleLocale } from '@wyh/composables';
 import { VbenExpandableArrow } from '@wyh/ui/composed';
-import { cn } from '@wyh/ui/cn';
+import { cn } from '@wyh/ui/lib/cn';
 import {
   isFunction,
   triggerWindowResize,

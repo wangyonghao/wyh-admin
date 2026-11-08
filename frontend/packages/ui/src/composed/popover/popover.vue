@@ -18,7 +18,7 @@ import {
   PopoverContent,
   Popover as PopoverRoot,
   PopoverTrigger,
-} from '../../popover';
+} from '../../component/shadcn-vue/ui/popover';
 
 interface Props extends PopoverRootProps {
   class?: ClassType;

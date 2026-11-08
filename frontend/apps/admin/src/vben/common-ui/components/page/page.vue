@@ -6,7 +6,7 @@ import type { PageProps } from './types';
 import { computed, nextTick, onMounted, ref, useTemplateRef } from 'vue';
 
 import { CSS_VARIABLE_LAYOUT_CONTENT_HEIGHT } from '@wyh/shared/constants';
-import { cn } from '@wyh/ui/cn';
+import { cn } from '@wyh/ui/lib/cn';
 
 defineOptions({
   name: 'Page',

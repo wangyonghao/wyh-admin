@@ -5,7 +5,7 @@ import { computed, reactive, ref, watch } from 'vue';
 
 import { $t } from '@vben/locales';
 
-import { Switch } from '#/ui/switch-primitive';
+import Switch from '#/ui/switch/switch-root';
 
 import { Input } from '#/ui/input';
 import { Textarea } from '#/ui/textarea';

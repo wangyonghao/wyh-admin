@@ -8,7 +8,7 @@ import type { Component } from 'vue';
 import type {
   ButtonVariants,
   ButtonVariantSize,
-} from '../../button';
+} from '../../component/shadcn-vue/ui/button';
 
 export interface VbenButtonProps {
   /**

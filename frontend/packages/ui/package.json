@@ -5,20 +5,48 @@
   "type": "module",
   "exports": {
     "./badge/variant": {
-      "types": "./src/badge/variant.ts",
-      "default": "./src/badge/variant.ts"
+      "types": "./src/component/shadcn-vue/ui/badge/variant.ts",
+      "default": "./src/component/shadcn-vue/ui/badge/variant.ts"
     },
     "./checkbox/group": {
-      "types": "./src/checkbox/group.ts",
-      "default": "./src/checkbox/group.ts"
+      "types": "./src/component/shadcn-vue/ui/checkbox/group.ts",
+      "default": "./src/component/shadcn-vue/ui/checkbox/group.ts"
+    },
+    "./lib/cn": {
+      "types": "./src/lib/cn.ts",
+      "default": "./src/lib/cn.ts"
+    },
+    "./composed": {
+      "types": "./src/composed/index.ts",
+      "default": "./src/composed/index.ts"
+    },
+    "./date-picker": {
+      "types": "./src/date-picker/index.ts",
+      "default": "./src/date-picker/index.ts"
     },
     "./date-picker/date-value": {
       "types": "./src/date-picker/date-value.ts",
       "default": "./src/date-picker/date-value.ts"
     },
+    "./switch": {
+      "types": "./src/switch/index.ts",
+      "default": "./src/switch/index.ts"
+    },
+    "./switch/switch-root": {
+      "types": "./src/switch/switch-root.vue",
+      "default": "./src/switch/switch-root.vue"
+    },
+    "./tree": {
+      "types": "./src/tree/index.ts",
+      "default": "./src/tree/index.ts"
+    },
+    "./upload": {
+      "types": "./src/upload/index.ts",
+      "default": "./src/upload/index.ts"
+    },
     "./*": {
-      "types": "./src/*/index.ts",
-      "default": "./src/*/index.ts"
+      "types": "./src/component/shadcn-vue/ui/*/index.ts",
+      "default": "./src/component/shadcn-vue/ui/*/index.ts"
     }
   },
   "dependencies": {

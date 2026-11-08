@@ -14,7 +14,7 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '../../dropdown-menu';
+} from '../../component/shadcn-vue/ui/dropdown-menu';
 
 defineOptions({ name: 'DropdownMenu' });
 const props = withDefaults(defineProps<DropdownMenuProps>(), {});

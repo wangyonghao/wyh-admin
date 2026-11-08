@@ -27,7 +27,7 @@ import {
   usePreferences,
 } from '@vben/preferences';
 
-import { useVbenDrawer } from '@wyh/popup-ui';
+import { useVbenDrawer } from '#/components/popup';
 import {
   VbenButton,
   VbenIconButton,

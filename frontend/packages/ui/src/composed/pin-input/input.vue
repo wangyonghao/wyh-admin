@@ -10,7 +10,7 @@ import {
   PinInput,
   PinInputGroup,
   PinInputInput,
-} from '../../pin-input';
+} from '../../component/shadcn-vue/ui/pin-input';
 import { VbenButton } from '../button';
 
 defineOptions({

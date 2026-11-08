@@ -13,13 +13,13 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from '../../breadcrumb';
+} from '../../component/shadcn-vue/ui/breadcrumb';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '../../dropdown-menu';
+} from '../../component/shadcn-vue/ui/dropdown-menu';
 import { VbenIcon } from '../icon';
 
 defineOptions({ name: 'Breadcrumb' });

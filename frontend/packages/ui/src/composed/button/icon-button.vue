@@ -2,9 +2,7 @@
 // Adapted from vue-vben-admin @vben-core/shadcn-ui (MIT).
 // Copyright (c) 2024-present, Vben.
 
-import type {
-  ButtonVariants,
-} from '../../button';
+import type { ButtonVariants } from '../../component/shadcn-vue/ui/button';
 import type { VbenButtonProps } from './button';
 
 import { computed, useSlots } from 'vue';

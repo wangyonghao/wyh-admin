@@ -11,7 +11,7 @@ import { cn } from '../../lib/cn';
 import {
   ScrollArea,
   ScrollBar,
-} from '../../scroll-area';
+} from '../../component/shadcn-vue/ui/scroll-area';
 
 interface Props {
   class?: ClassType;

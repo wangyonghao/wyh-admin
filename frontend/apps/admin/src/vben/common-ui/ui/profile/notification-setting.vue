@@ -3,7 +3,7 @@ import type { Recordable } from '@vben/types';
 
 import type { SettingProps } from './types';
 
-import { Switch } from '#/ui/switch-primitive';
+import Switch from '#/ui/switch/switch-root';
 import {
   Form,
   FormControl,

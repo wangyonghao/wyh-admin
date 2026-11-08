@@ -8,7 +8,7 @@ import { useId } from 'vue';
 
 import { useForwardPropsEmits } from 'reka-ui';
 
-import { Checkbox } from '../../checkbox';
+import { Checkbox } from '../../component/shadcn-vue/ui/checkbox';
 
 const props = defineProps<CheckboxRootProps & { indeterminate?: boolean }>();
 

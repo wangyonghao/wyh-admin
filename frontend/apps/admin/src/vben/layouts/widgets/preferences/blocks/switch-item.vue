@@ -3,7 +3,7 @@ import { useSlots } from 'vue';
 
 import { CircleHelp } from '@vben/icons';
 
-import { Switch } from '#/ui/switch-primitive';
+import Switch from '#/ui/switch/switch-root';
 import { VbenTooltip } from '#/ui/composed';
 
 defineOptions({

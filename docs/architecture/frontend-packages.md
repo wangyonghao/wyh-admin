@@ -11,7 +11,6 @@
 packages/ui            原子。button、dialog、tabs、form 字段
 packages/ui-patterns   页面组合。confirm、filter、toast、toolbar。只依赖 ui
 packages/form-ui       schema 表单运行时
-packages/popup-ui      命令式 modal / drawer / alert
 packages/design        CSS token
 packages/icons         图标
 packages/shared        纯函数、通用类型、组件注册表
@@ -20,6 +19,7 @@ packages/composables   Vue hook，位于 ui 之下
 apps/admin/src/vben/layouts/frame            后台布局框架
 apps/admin/src/vben/layouts/navigation       侧栏 / 顶栏导航
 apps/admin/src/vben/layouts/workspace-tabs   多路由页签
+apps/admin/src/components/popup             命令式 modal / drawer / alert
 apps/admin/src/vben/preferences              偏好
 apps/admin/src/vben/types                    菜单、页签、布局、路由 meta、用户信息
 ```
@@ -31,8 +31,7 @@ apps/admin/src/vben/types                    菜单、页签、布局、路由 m
 ```text
 shared ← composables ← ui ← ui-patterns
                          ← form-ui
-                         ← popup-ui
-icons ← ui / form-ui / popup-ui / 应用
+icons ← ui / form-ui / 应用
 design ← 应用与 design-system（只引 CSS）
 应用 → 以上全部
 ```
@@ -40,26 +39,27 @@ design ← 应用与 design-system（只引 CSS）
 可以：
 
 - 应用依赖任何共享包
-- `form-ui`、`popup-ui` 依赖 `ui`
+- `form-ui` 依赖 `ui`
+- 应用内的弹层运行时依赖 `ui`
 - `ui-patterns` 依赖 `ui`
 
 不可以：
 
-- `ui` 依赖 `form-ui`、`popup-ui`、`ui-patterns`、应用
+- `ui` 依赖 `form-ui`、`ui-patterns`、应用，或 `#/components/popup`
 - `ui` 或 `ui-patterns` 引用 `@wyh/shared/global-state`
-- `shared`、`composables`、`icons`、`design` 依赖 `ui`、`form-ui`、`popup-ui` 或应用
-- `form-ui` 与 `popup-ui` 互相依赖
+- `shared`、`composables`、`icons`、`design` 依赖 `ui`、`form-ui`、应用或弹层目录
+- `form-ui` 依赖应用或弹层目录
 - 任何共享包依赖 `apps/admin`
 
 门禁：`frontend/scripts/package-boundaries.test.ts`，随 `pnpm test:unit` 运行。
 
 ## 为什么这样分
 
-`design`、`icons`、`shared`、`composables` 在原子下面，表单和弹层在原子上面。把它们都叫 core 或 shell，依赖方向是反的。
+`design`、`icons`、`shared`、`composables` 在原子下面，`form-ui` 在原子上面。把它们都叫 core 或 shell，依赖方向是反的。弹层运行时只属于后台，放在应用里。
 
 布局、导航、多页签只被产品后台使用，并且认识路由和偏好。它们跟偏好一样留在 `apps/admin/src/vben`。design-system 只演示 `ui` 和 `ui-patterns`，不带这套壳。
 
-`form-ui` 和 `popup-ui` 被业务页和文档示例共用，所以留在 `packages`。抽屉里的表单由页面自己组装，两个包互不引用。
+`form-ui` 仍留在 `packages`。弹层运行时只被后台使用，文档示例通过已有的 `@vben/common-ui` 别名指向 admin 源码，所以不单独留共享包，也不把运行时复制进 docs。`@wyh/ui` 的 dialog、sheet、alert-dialog 原子不动。
 
 `ui-patterns` 保持四个页面组合。表单运行时和弹层运行时不放进去，否则 design-system 会带上 zod 和路由类型。
 
@@ -74,7 +74,7 @@ design ← 应用与 design-system（只引 CSS）
 | `packages/core/typings` 的 `ClassType`、`Recordable`、`DeepPartial` 等 | `@wyh/shared/types` |
 | `packages/core/typings` 的布局、菜单、页签、路由 meta、`BasicUserInfo` | `apps/admin/src/vben/types` |
 | `packages/shell/form-ui` | `packages/form-ui` |
-| `packages/shell/popup-ui` | `packages/popup-ui` |
+| `packages/popup-ui` | `apps/admin/src/components/popup` |
 | `packages/shell/layout-ui` | `apps/admin/src/vben/layouts/frame` |
 | `packages/shell/menu-ui` | `apps/admin/src/vben/layouts/navigation` |
 | `packages/shell/tabs-ui` | `apps/admin/src/vben/layouts/workspace-tabs` |
@@ -112,7 +112,7 @@ pnpm -F @wyh/design-system run build
 
 各包 `package.json` 的 `homepage` / `repository` 仍指向 Vben 上游，`repository.directory` 仍是上游目录。这是来源说明，不是本仓库路径。
 
-`@vben/common-ui` 仍是应用内桶，再导出 `form-ui` 和 `popup-ui`。业务页继续从这个别名取 `useVbenForm` / `useVbenDrawer`。这次没有改调用方式。
+`@vben/common-ui` 仍再导出 `form-ui`，并再导出 `apps/admin/src/components/popup`。业务页继续从这个别名取 `useVbenForm`、`useVbenDrawer`、`useVbenModal`、`alert`。文档示例同样走这个别名，不另接一份运行时。
 
 `pnpm -F @wyh/docs run build` 仍会失败：`preferences-drawer.vue` 里的 `@apply -top-3` 在文档站的 Tailwind 编译里不认识。这个文件和这行样式与 main `66b069cb` 相同，这次没有改它。开发服务器打开 `/components/common-ui/vben-form` 可以渲染表单示例。
 

@@ -4,7 +4,7 @@
 
 import { onBeforeUnmount, ref, watch } from 'vue';
 
-import { Input as VbenInput } from '../../input';
+import { Input as VbenInput } from '../../component/shadcn-vue/ui/input';
 
 interface Props {
   captcha?: string;
