@@ -38,7 +38,7 @@
 
 部门类型没有 Java 枚举。字典在 `backend/start/src/main/resources/db/changelog/postgresql/platform/platform-data.sql`：`1` 分公司、`2` 部门、`3` 用户组。Java 字段是 `Integer`，建表列是 `varchar(20)`。这个类型不一致不在本文范围里改。
 
-导航文档仍写 `admin-biz-system`、`admin-start`、`admin-commons`（见 `docs/architecture/repo-map.md`、`docs/conventions/backend-java.md`）。该提交磁盘上的目录是 `backend/admin-system`、`backend/admin-system-client`、`backend/admin-auth`、`backend/start`、`backend/commons`。本文引用磁盘路径。不在本草案里改地图。
+`docs/architecture/repo-map.md` 与 `docs/conventions/backend-java.md` 已改成磁盘目录（PR #58）。根目录 `AGENTS.md` 仍写 `admin-biz-system`、`admin-start`、`admin-commons`。代码目录是 `backend/admin-system`、`backend/admin-system-client`、`backend/admin-auth`、`backend/start`、`backend/commons`。本文引用磁盘路径，不改 `AGENTS.md`。
 
 ## 3. 现状
 

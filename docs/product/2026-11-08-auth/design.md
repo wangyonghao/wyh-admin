@@ -4,9 +4,9 @@
 >
 > 本文不是已批准的实现。注册与加入组织的流程草案在 [`../2026-11-08-user-registration/design.md`](../2026-11-08-user-registration/design.md)，对应 PR [#57](https://github.com/wangyonghao/wyh-admin/pull/57)，**尚未合并，也未被批准**。那里的推荐方案不能当成现状，也不能当成已经同意的实现。两文冲突时，以本文「已明确决定」和「现状」为准；加入组织的细节仍以注册草案为展开，等两文一起评审。
 >
-> 基线：`origin/main` = `850d464ef507bd08b18460fea469647fb0f38110`。该提交已在 `main`。本文所在分支 `wyh/user-registration-design-7add` 在此之上只有文档提交，未合入 `main`。
+> 写作时的代码基线是 `850d464ef507bd08b18460fea469647fb0f38110`。合入前 `main` 又前进到 `33c8ddfe`（PR #58，模块路径文档）。认证行为相对 `850d464` 没有代码变化。
 >
-> 2026-11-08 核对时，开放 PR 为 #57（本文与注册草案）、#58（模块路径文档，未合入）、#59（部门类型字符串，未合入）。没有看到用户名长度或「注册取消 RSA」已经进入 `main` 或上述 PR。下文把这两项标成**已决定的目标，未核实合入**。本任务不改它们的实现。
+> 2026-11-09 合入时，#58 已在 `main`。#59（部门类型字符串）仍开放。没有看到用户名长度或「注册取消 RSA」进入 `main`。这两项仍是**已决定的目标，未核实合入**。本文不改它们的实现。
 
 ## 1. 已明确的原则和决定
 
@@ -47,7 +47,7 @@
 - `backend/start`：装配、`application.yml`、Liquibase、`ApiSignConfig`。
 - `backend/commons`：`cmn-security`（Sa-Token、密码哈希）、`cmn-tenant`、`cmn-core`（`LoginUser`、`RegexConstants`）、`cmn-db`（数据权限）。
 
-`docs/architecture/repo-map.md` 和 `docs/conventions/backend-java.md` 仍写 `admin-biz-system`、`admin-start`、`admin-commons`。那是文档漂移。PR #58 打算改地图，尚未合入。本文只用磁盘目录，不在这里改地图。
+`docs/architecture/repo-map.md` 和 `docs/conventions/backend-java.md` 已按磁盘目录改过（PR #58，`33c8ddfe`）。根目录 `AGENTS.md` 仍写 `admin-biz-system`、`admin-start`、`admin-commons`。本文引用磁盘路径，不在这里改 `AGENTS.md`。
 
 职责：
 
