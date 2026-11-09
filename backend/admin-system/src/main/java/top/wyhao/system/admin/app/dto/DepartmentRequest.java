@@ -25,8 +25,10 @@ public class DepartmentRequest {
     @Length(max = 50, message = "名称长度不能超过 {max} 个字符")
     private String name;
 
-    @NotNull(message = "部门类型不能为空")
-    private Integer type;
+    @Schema(description = "部门类型", example = "1A-BRANCH", maxLength = 20)
+    @NotBlank(message = "部门类型不能为空")
+    @Length(max = 20, message = "部门类型长度不能超过 {max} 个字符")
+    private String type;
 
     @Schema(description = "上级部门 ID", example = "2")
     @NotNull(message = "上级部门不能为空")
