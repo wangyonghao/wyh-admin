@@ -2,7 +2,7 @@
 
 > **设计草案，待评审，未实施。** 本文不是已批准的实现，也不是已上线行为。PR #57 尚未合并。
 >
-> 认证、会话、权限和安全边界以 [`../2026-11-08-auth/design.md`](../2026-11-08-auth/design.md) 为准。该文同样待评审。用户已明确、但 `main` 尚未落地的两点：注册请求不再做 RSA；用户名目标长度为 4–64（含两端）。下文若仍出现「注册入库前解密 RSA」，以 auth 总设计的「已明确决定」为准。
+> 认证、会话、权限和安全边界以 [`../2026-11-08-auth/design.md`](../2026-11-08-auth/design.md) 为准。`c0131477` 已落地：注册提交原密码、不再 RSA；用户名写入规则为 4–64（含两端）。下文若仍把这两项写成未合入，以 auth 总设计为准。
 >
 > 本文只描述加入组织与注册流程。评审确认前不改业务代码、SQL、配置，不写 Liquibase 迁移，不把 roadmap / mission / tech-stack 标成进行中。
 >
@@ -47,7 +47,7 @@
 后端：
 
 - `POST /auth/register`，`@SaIgnore`。`backend/admin-auth/src/main/java/top/wyhao/system/auth/adapter/web/AuthController.java`
-- 入参只有 `username`、`password`。`RegisterRequest` 的说明写密码是 RSA 公钥加密。
+- 入参只有 `username`、`password`。`c0131477` 起 `RegisterRequest` 写明密码是经 HTTPS 传输的原密码，服务端做慢哈希。
 - `AuthServiceImpl.register` 先读注册配置。`enabled` 不是 `true` 时抛 `REGISTRATION_DISABLED`。默认角色取配置里的 `defaultRoleId`，空则用角色码 `general`。然后调用 `userApi.registerLocalUser(username, password, SystemConstants.SUPER_DEPARTMENT_ID, List.of(roleId))`，接着 `tokenGateway.issue`，返回 token。
 - `SUPER_DEPARTMENT_ID` 是 `1L`（`backend/commons/cmn-core/.../SystemConstants.java`）。种子部门 `id=1` 名称是「总公司」（`platform-data.sql`）。
 - `UserProfileServiceImpl.registerLocal` 校验密码策略和用户名占用，写入启用用户，`displayName` 等于用户名，再 `replacePrimaryDepartment`，再 `roleApi.assignRolesToUser`。不创建租户，不写 `TENANT` 成员，不写邮箱和手机。
@@ -57,23 +57,19 @@
 
 - 路由 `/auth/register`，`requiresAuth: false`。`frontend/apps/admin/src/router/routes.ts`
 - 表单：用户名、密码、确认密码、同意协议。确认密码不到后端。`frontend/apps/admin/src/views/_core/authentication/register.vue`
-- 提交前对密码做 `encryptByRsa`，成功后 `completeLogin`：保存 token、拉 `/auth/user`、进入默认首页。`frontend/apps/admin/src/store/user.ts`
+- `c0131477` 起经 `toRegisterRequest` 原样提交密码，不再 `encryptByRsa`。成功后 `completeLogin`：保存 token、拉 `/auth/user`、进入默认首页。`frontend/apps/admin/src/store/user.ts`
 - 登录页始终有「去注册」链接，不读注册开关。`login.vue`
 - 守卫在 `needsOrganization` 时把已登录用户送到 `/org/setup`，邀请页除外。`frontend/apps/admin/src/router/guard.ts`
 
-用户名规则两边不完全相同：
+用户名写入规则在 `c0131477` 已对齐：前后端都是 `^[a-zA-Z][a-zA-Z0-9_]{3,63}$`，总长度 4–64，含两端。登录用户名不套这条规则。
 
-- 前端：`/^[a-zA-Z][a-zA-Z0-9_]{3,63}$/`，文案是 4–64 位。
-- 后端：`RegexConstants.USERNAME = "^[a-zA-Z][a-zA-Z0-9_]{3,64}$"`，文案也写 4–64 位。这个表达式实际是 4–65 位。
+密码：
 
-密码链路两边也不相同：
-
-- 注册请求在前端加密。`AuthServiceImpl.register` 把收到的字符串原样交给 `registerLocal`。`registerLocal` 用 `PasswordEncoder.encode` 存储。
-- 本提交里，注册方法没有调用 `RsaUtils.decryptPasswordByRsaPrivateKey`。改密接口 `ProfileController` 会解密。平台创建租户管理员时，`TenantDataAppServiceImpl.initUserData` 会解密。
-- 登录把密码原样提交，并用编码器核对。`user.ts` 的 `login` 不加密。
+- `c0131477` 起注册和登录都提交原密码。`registerLocal` 用 `PasswordEncoder.encode` 存储。注册方法不调用 RSA 解密。
+- 改密接口 `ProfileController` 仍解密。平台创建租户管理员时，`TenantDataAppServiceImpl.initUserData` 仍解密。
 - 哈希 Bean 是 `PasswordEncoderFactories.createDelegatingPasswordEncoder()`（`backend/commons/cmn-security/.../PasswordEncoderConfiguration.java`）。种子管理员密码带 `{bcrypt}` 前缀。
 
-因此：同一次注册会签发会话，不经过「用明文口令再登录」这条路径。注册与下一次密码登录对「口令原文」的处理不一致。这是当前调用链，本文不把它写成已复现的故障清单；首期验收必须补上「同一口令注册后再登录」。
+注册成功会直接签发会话。同一口令再登录应能通过，因为两边现在都是原密码。
 
 ### 3.2 注册开关在配置里，页面不看它
 
@@ -282,7 +278,7 @@ token 本身是「当时邮箱能收到信」的证明。首期不再叠加邮�
 7. 不调用 `replacePrimaryDepartment`。部门成员按「该租户一条主部门」新增。这依赖第 17 节把 `sys_membership.tenant_id` 写成真实租户。
 8. 补邀请撤销。重发继续更换哈希，并改掉「旧链接仍可用」的注释。
 9. 切换租户时重算当前租户的角色、数据范围和部门。权限 SQL 增加 `sys_role.tenant_id = 会话租户`。`super_admin` 仍走现有全权限短路，不靠这条过滤。
-10. 注册传输按 auth 总设计的已明确决定：前端不再 `encryptByRsa`，`RegisterRequest` 不再写 RSA。口令在 HTTPS 上传到后端后做现有密码策略和 `PasswordEncoder.encode`。不改个人改密和平台建租户管理员仍在用的 RSA。该决定在 `main` 上尚未落地。
+10. 注册传输已在 `c0131477` 落地：原密码经 HTTPS 上传，后端做现有密码策略和 `PasswordEncoder.encode`。不改个人改密和平台建租户管理员仍在用的 RSA。
 11. 注册接口复用现有 `@RateLimiter`。成功和失败走现有登录审计，审计不记密码和 token。
 12. 用户名冲突对公开接口使用不区分「有没有这个人」的文案，同时把真实原因写入审计。见 R4。
 
@@ -433,7 +429,7 @@ DISABLED → 管理员恢复 → NORMAL
 | 创建组织 | 现有名称、描述。受开关控制 | 不在注册页上出现 |
 | 申请 | 现有组织编码、说明。受开关控制 | 关闭时连编码输入也不提交 |
 
-确认密码只在前端校验。后端继续不接收 `confirmPassword`。用户名目标规则是 4–64 位（含两端）、字母开头、仅 ASCII 字母数字下划线：前端已是 `{3,63}`，后端 `{3,64}` 要改成与之相同。`main` 上后端还没改；另有修复进行中，未在本分支核到合入。长度口径见 auth 总设计，不把中文或码点计数写进这条规则。
+确认密码只在前端校验。后端继续不接收 `confirmPassword`。用户名写入已是 4–64（含两端）、字母开头、仅 ASCII 字母数字下划线，前后端都是 `{3,63}`。长度口径见 auth 总设计。
 
 ## 12. API 契约草案
 
@@ -568,7 +564,7 @@ DISABLED → 管理员恢复 → NORMAL
 
 ### 15.1 密码
 
-- 传输：注册不再使用 RSA（见 auth 总设计）。`main` 上前端仍会 `encryptByRsa`，后端注册路径不解密。实现以取消注册 RSA 为准，而不是给注册补解密。
+- 传输：注册已不再使用 RSA（`c0131477`）。口令原样到达后端再哈希。不要再给注册补一层 RSA。
 - 存储：只存 `PasswordEncoder` 结果。算法保持 DelegatingPasswordEncoder，不新增编码器。
 - 策略：对收到的口令走现有 `assertCompliant`。注册不再先解密。
 - 登录：维持现在的非 RSA 提交。验收用同一口令再登录。个人改密、平台创建租户管理员的 RSA 不在本文取消。
