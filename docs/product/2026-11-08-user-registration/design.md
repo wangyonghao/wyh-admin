@@ -36,7 +36,7 @@
 | 成员关系 | `sys_membership.scope_type` = `TENANT` / `DEPARTMENT` / `ROLE` | 已经替代 `sys_user_role` 的权限表 |
 | 账号 | 一行 `sys_user` | 每个租户自动再插一行同名用户 |
 
-部门类型没有 Java 枚举。字典在 `backend/start/src/main/resources/db/changelog/postgresql/platform/platform-data.sql`：`1` 分公司、`2` 部门、`3` 用户组。Java 字段是 `Integer`，建表列是 `varchar(20)`。这个类型不一致不在本文范围里改。
+部门类型没有 Java 枚举。字典在 `backend/start/src/main/resources/db/changelog/postgresql/platform/platform-data.sql`：`1` 分公司、`2` 部门、`3` 用户组。`c3cc3749` 起 Java 字段与建表列都是字符串（`varchar(20)`）。
 
 `docs/architecture/repo-map.md` 与 `docs/conventions/backend-java.md` 已改成磁盘目录（PR #58）。根目录 `AGENTS.md` 仍写 `admin-biz-system`、`admin-start`、`admin-commons`。代码目录是 `backend/admin-system`、`backend/admin-system-client`、`backend/admin-auth`、`backend/start`、`backend/commons`。本文引用磁盘路径，不改 `AGENTS.md`。
 
@@ -117,7 +117,7 @@
 | POST | `/org/invites/accept` | 已登录 |
 | POST | `/org/invites/reject` | 已登录 |
 
-`POST /org` 调用 `tenantApi.createOwnedBy`。`TenantServiceImpl` 选第一个启用套餐，没有套餐则 `ORG_PACKAGE_MISSING`。`TenantDataAppServiceImpl.init` 在该租户内：建根部门（名称等于租户名，`type=1`，`parentId=0`）、建角色码 `admin`（`RoleCodeEnum.TENANT_ADMIN`，数据范围 `ALL`）、把套餐菜单绑到这个角色、给创建者写入 `sys_user_role` 和 `ROLE` 成员、`ensureTenantMembership(..., true)`。自助创建不新建用户行。
+`POST /org` 调用 `tenantApi.createOwnedBy`。`TenantServiceImpl` 选第一个启用套餐，没有套餐则 `ORG_PACKAGE_MISSING`。`TenantDataAppServiceImpl.init` 在该租户内：建根部门（名称等于租户名，`type` 为 `"1"`，`parentId=0`）、建角色码 `admin`（`RoleCodeEnum.TENANT_ADMIN`，数据范围 `ALL`）、把套餐菜单绑到这个角色、给创建者写入 `sys_user_role` 和 `ROLE` 成员、`ensureTenantMembership(..., true)`。自助创建不新建用户行。
 
 种子套餐 `id=1`「基础套餐」在 `platform-org.sql`，并绑了一批系统菜单。所以今天任何已登录用户都可以创建租户，并成为该租户的管理员角色。
 
