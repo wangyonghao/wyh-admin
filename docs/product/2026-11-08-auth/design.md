@@ -1,12 +1,42 @@
 # 认证、会话与权限边界 — 设计草案
 
-> **设计草案，待评审，未实施。**
+> **设计草案。** 文档已随 PR [#57](https://github.com/wangyonghao/wyh-admin/pull/57) 进入 `main`。合入文档不等于批准按后文推荐去改代码。
 >
-> 本文不是已批准的实现。注册与加入组织的流程草案在 [`../2026-11-08-user-registration/design.md`](../2026-11-08-user-registration/design.md)，对应 PR [#57](https://github.com/wangyonghao/wyh-admin/pull/57)，**尚未合并，也未被批准**。那里的推荐方案不能当成现状，也不能当成已经同意的实现。两文冲突时，以本文「已明确决定」和「现状」为准；加入组织的细节仍以注册草案为展开，等两文一起评审。
+> 本次核对基线：`main` `8c260136df3156bdc974232b7b40138d621f210b`（2026-11-09）。加入组织的流程仍见 [`../2026-11-08-user-registration/design.md`](../2026-11-08-user-registration/design.md)。两文都还含未实施的推荐。推荐没有对应提交和测试时，不能当成现状。
 >
-> 写作时的代码基线是 `850d464ef507bd08b18460fea469647fb0f38110`。合入 `main` 时认证相关代码已前进到 `c0131477`。
+> 读的时候分三档：
 >
-> 合入时 `main` 已包含 #58（`33c8ddfe`）、部门类型改为字符串（`c3cc3749`），以及注册原密码提交和用户名 4–64（`c0131477`）。无租户不回退平台 `0`、切换时重建权限上下文仍未实现。
+> | 档 | 含义 |
+> |----|------|
+> | 已实现 | 当前 `main` 上有提交，并且有测试锁住这个行为 |
+> | 现状 | 代码现在就是这样，但不等于采纳了后文的推荐 |
+> | 推荐，未实施 | 还没有代码。未评审通过前不要做 |
+
+## 0. 已实现（有提交和测试）
+
+只列这次核对能对上代码和测试的项。其余安全建议不在此列。
+
+| 项 | 依据 | 测试 |
+|----|------|------|
+| 模块地图与 Java 约定使用 `admin-system`、`admin-auth`、`admin-system-client`、`start`、`commons` | PR #58，`33c8ddfe`。`docs/architecture/repo-map.md`、`docs/conventions/backend-java.md` | 文档变更，无单测 |
+| 部门 `type` 为字符串，对齐 `sys_department.type varchar(20)`，没有 Java 枚举 | PR #59，`c3cc3749`。`Department.type`、`SysDepartmentDO.type` | `DepartmentTypeMappingTest` |
+| 自助注册提交原密码，不再调用 `encryptByRsa`。`RegisterRequest` 写明经 HTTPS 传输、服务端慢哈希 | PR #60，`c0131477`。`toRegisterRequest`、`RegisterRequest` | `register-request.test.ts`；`AuthServiceImplRegisterTest.registerForwardsSubmittedPassword`；`UserProfileServiceImplRegisterTest.registerLocalStoresBcryptOfSubmittedPassword` |
+| 写入用户名长度为 4–64，含 4 和 64。这是用户确认的长度 | PR #60，`c0131477`。`RegexConstants.USERNAME` = `^[a-zA-Z][a-zA-Z0-9_]{3,63}$`，前端 `USERNAME_WRITE_PATTERN` 相同 | `UsernameRulesTest.lengthIsInclusiveFrom4To64`；`username.test.ts` |
+| 已有短用户名仍可登录。登录不套用 4 位下限 | 同上。`acceptsLoginUsername` 只拒绝空值 | `username.test.ts` 的 `login username compatibility`；`AuthServiceImplRegisterTest.passwordLoginForwardsShortExistingUsername` |
+
+用户确认的是长度 4–64。正则里的字母、数字、下划线是现有实现，测试把它锁住了。不要把这套字符类写成用户新确认的限制。
+
+注册取消 RSA 只覆盖自助注册。登录本来就提交原密码。个人改密（`security-settings.vue`、`ProfileController`）和平台创建租户管理员（`tenant/management` 的 `encryptByRsa`、`TenantDataAppServiceImpl`）仍用 RSA。`RsaUtils` 还在。
+
+PR #60 的测试同时锁住了另一件**现状**：`registerForwardsSubmittedPassword` 仍把部门 `1` 和角色 id `3` 传给 `registerLocalUser`。这不是「注册不再分配部门和角色」已经实现。
+
+下面这些推荐在 `8c260136` **没有**对应实现，不能因为文档曾合并就当成已批准：
+
+- 无租户会话不再落到平台租户 `0`
+- 切换组织时重算部门、角色、数据范围
+- 权限 SQL 按当前租户裁剪；数据范围 `ALL` 被收成「仅当前租户」
+- 注册开关拆成「允许自助建租户 / 允许申请」
+- `sys_login_log.username` 仍是 `varchar(50)`。`platform-schema.sql` 第 516 行，master changelog 没有后续 changeset 把它加长。51–64 位用户名写入登录日志时，列长不够。这是缺口，不是已修复项
 
 ## 1. 已明确的原则和决定
 
@@ -19,8 +49,8 @@
 | 成员管归属 | 用户属于哪些租户、哪个部门，看成员关系 |
 | 角色管权限 | 菜单、权限码、数据范围来自角色 |
 | 上下级不跨租户 | 父部门、父组织不自动获得子租户的可见性 |
-| 用户名长度 | **已在 `c0131477`**：4–64 位，含 4 与 64。`RegexConstants.USERNAME` 与前端 `USERNAME_WRITE_PATTERN` 都是 `^[a-zA-Z][a-zA-Z0-9_]{3,63}$`。只含 ASCII，不按码点或字素计数。登录用户名只要求非空 |
-| 注册传输 | **已在 `c0131477`**：注册不再 `encryptByRsa`。`RegisterRequest` 写明原密码经 HTTPS 传输，服务端校验后慢哈希。个人改密和平台创建租户管理员的 RSA 未取消，全局 RSA 工具也未删 |
+| 用户名长度 | **已实现**（PR #60）：写入 4–64，含两端。字符类沿用现有正则，不是另一次「只允许 ASCII」的产品决定。登录兼容短用户名 |
+| 注册传输 | **已实现**（PR #60）：仅自助注册不再 RSA。登录、改密、租户管理员口令的 RSA 不在这次删除范围内 |
 | 无租户会话 | **目标**：没有租户成员时，上下文不得回退到平台租户 `0` |
 | 切换组织 | **目标**：先校验成员，再整份重建会话里的租户、部门、角色和数据范围 |
 | 数据范围 ALL | **目标**：只表示当前租户内不做部门收窄，不表示跨租户 |
@@ -35,11 +65,11 @@
 | 本文 | 认证模块边界、现有登录方式、会话、鉴权、安全边界、与注册草案的衔接 | 邀请状态机的逐步展开 |
 | 注册草案 | 注册与加入/创建租户拆开、邀请、申请、开关、验收里的两租户案例 | 不要再把它读成「注册应继续 RSA」 |
 
-注册草案第 8 节的推荐在总设计确认前仍待评审。其中「注册入库前解密 RSA」已被第 1 节的决定取代。
+注册草案第 8 节除「注册不再 RSA」和「用户名 4–64」外，仍是未实施的推荐。注册不再要求先解密 RSA 密文，因为请求里已经是原密码。
 
 ## 3. 模块与目录
 
-磁盘目录（`850d464`）是：
+磁盘目录（基线 `8c260136`）是：
 
 - `backend/admin-auth`：认证限界上下文。`pom.xml` 依赖 `admin-system-client`、`cmn-security`、`cmn-web`、`cmn-db`、`cmn-cache`、`cmn-tenant`、`spring-security-crypto`。不依赖 `admin-system`。
 - `backend/admin-system`：用户、角色、部门、租户产品、成员、组织 API 的实现。
@@ -63,7 +93,7 @@
 
 ## 4. 现状：认证方式与 API
 
-下列接口在 `850d464` 的代码里存在。没有单独的刷新令牌接口，也没有 OAuth2 refresh grant。
+下列接口在基线 `8c260136` 的代码里存在。没有单独的刷新令牌接口，也没有 OAuth2 refresh grant。
 
 ### 4.1 `admin-auth` 已有
 
@@ -243,7 +273,7 @@
 | OTP 限流 | `POST auth/otp` 上多条 `@RateLimiter` | 不覆盖注册 |
 | 管理员重置 | `PUT /system/user/{id}/password/reset` 返回随机密码 | 自助找回没有接口 |
 | 传输 | 令牌走 `Authorization` 头。开发配置 CORS：`wyhao-starter.web.cors.enabled=true`，`allowed-origins: '*'`。源为 `*` 时 `CorsConfig` 使用 `addAllowedOriginPattern("*")`，不把 `allowCredentials` 设为 true | 仓库内没有 CSRF 过滤器，也没有强制 HTTPS 重定向 |
-| 日志 | 登录失败把模糊文案给前端，`realReason` 给审计。用户表邮箱电话用 `EncryptTypeHandler`。权限失败日志打出请求 URI 和异常 message | 登录日志存用户名，没有单独的口令字段。未发现对令牌的统一脱敏工具 |
+| 日志 | 登录失败把模糊文案给前端，`realReason` 给审计。用户表邮箱电话用 `EncryptTypeHandler`。权限失败日志打出请求 URI 和异常 message | 登录日志存用户名，没有单独的口令字段。未发现对令牌的统一脱敏工具。`sys_login_log.username` 仍是 `varchar(50)`，没有 Liquibase 把列加长到 64 |
 
 CSRF：当前令牌不从 cookie 读取，前端从持久化的 `token` 放到头里。典型的「浏览器自动带 cookie」CSRF 不作用于这条读令牌的路径。CORS 在开发配置里放开了任意源。这不等于已经做了 CSRF 令牌方案。生产配置同样有 `wyhao-starter.web.cors` 段，是否收紧源列表以 `application-prod.yml` 为准，不在本文改配置。
 
@@ -253,7 +283,7 @@ HTTPS：第 1 节要求传输依赖 HTTPS。代码没有拒绝明文 HTTP。这�
 
 ## 8. 用户名与密码的长度口径
 
-不要把「字符」理解成 Unicode 码点或字素簇。用户名以 `c0131477` 的表达式为准。密码正则相对 `850d464` 没有改。
+不要把「字符」理解成 Unicode 码点或字素簇。用户名长度以 PR #60 的表达式为准。密码正则这次没有改。
 
 ### 8.1 用户名
 
@@ -265,11 +295,11 @@ HTTPS：第 1 节要求传输依赖 HTTPS。代码没有拒绝明文 HTTP。这�
 
 `c0131477` 起后端 `RegexConstants.USERNAME`、前端 `USERNAME_WRITE_PATTERN` 和注册页都是这一条。
 
-- 字符集只有 ASCII。中文、空格、其它字母匹配失败。
-- 第一位是 1 个 ASCII 字母，后面量词 `{3,63}` 再匹配 3 到 63 个。总长度是 **4 到 64**，含两端。
-- 登录用户名不套这条规则，只要求非空（`acceptsLoginUsername`）。
+- 用户确认并已实现的是总长度 **4 到 64**，含两端。首位 1 个字母，后面 `{3,63}`。
+- 当前字符类是正则里的字母、数字、下划线。中文、空格、连字符匹配失败。这是 `UsernameRulesTest.keepsLetterDigitUnderscoreClass` 锁住的现有行为，不是用户另行确认的新限制。
+- 登录不套 4 位下限。`acceptsLoginUsername` 只拒绝空字符串；3 位已有用户名可以提交。
 
-这是当前代码，不再是待合入目标。不要改成允许 Unicode 字母。
+不要为了「统一」去改登录下限，也不要在没有新决定时放宽或收紧字符类。
 
 ### 8.2 密码
 
@@ -295,8 +325,8 @@ HTTPS：第 1 节要求传输依赖 HTTPS。代码没有拒绝明文 HTTP。这�
 下列条目是建议。未确认不写代码。与注册草案重复的加入组织规则不在这里再展开。
 
 1. **注册与入会分开。** 细节用注册草案：注册不建租户、不授予 `admin` / `super_admin`、不放入部门 `1`。草案本身仍待批准。
-2. **注册传输。** `c0131477` 已去掉注册 RSA。不要再改回去，也不要扩大到取消个人改密或平台管理员口令的 RSA。
-3. **用户名。** `c0131477` 已是 4–64。不要再改长度，也不要放宽成 Unicode。
+2. **注册传输。** PR #60 已让自助注册提交原密码。不要把这次改动扩大成取消个人改密或平台管理员口令的 RSA。
+3. **用户名。** 写入长度 4–64 已实现。没有新的字符类决定，保持 PR #60 的现有正则。登录继续允许更短的已有用户名。
 4. **无租户不回退到 0。** `TenantSelection` 在「已登录但会话租户为空」时不要改用默认租户 `0`。这种会话只能访问注册草案列出的待加入白名单（邀请、申请、登出、本人资料）。业务查询不要在租户 `0` 上执行。把 `SaExtensionInterceptor` 注册上之前，先定义空租户的合法行为，避免 `equals` 空指针。
 5. **请求头不授权。** 保持「已登录且会话租户非空时忽略 `X-Tenant-Id`」。另外：`/auth/login` 与 `/auth/register` 的查账号固定在默认租户上下文，不因请求头换一套用户行。这不是扫全库。
 6. **切换组织。** 成员校验保持。通过后重算并写回：会话租户、该租户内的主部门、`sys_role.tenant_id = 当前租户` 的角色、这些角色的 `roleDataScopes`。`super_admin` 仍走现有 `*:*:*` 短路。前端继续拉 `/auth/user` 并刷新。
@@ -310,14 +340,15 @@ HTTPS：第 1 节要求传输依赖 HTTPS。代码没有拒绝明文 HTTP。这�
 
 不写 Liquibase。不改已发布 changeset。
 
-- 用户名 4–64 和注册取消 RSA 已在 `c0131477`，不是待迁移项。
+- 用户名 4–64 和自助注册取消 RSA 已在 PR #60，不是待迁移项。
+- `sys_login_log.username` 仍是 `varchar(50)`。若要让 51–64 位用户名的登录审计写得进去，需要**新的** Liquibase changeset，不能改已经发布的建表 changeset。本文不写这条迁移。在它落地之前，这是已知缺口。
 - 无租户会话、切换时重算角色，不要求新表。
 - `sys_user.department_id` 改为可空、邀请表增加部门与角色、成员写入真实 `tenant_id`，仍以注册草案第 17 节为草案，未被批准。历史成员行的 `tenant_id` 默认是 `0`，首期不回填。
 - 已有注册用户若已被写入部门 `1` 和角色 `general`，不做批量删除。新注册才按新规则。
 
 ## 12. 验收矩阵
 
-确认实现后再测。本 PR 不跑这些用例。
+A11、A12 已有单元测试覆盖提交口令和用户名边界（见第 0 节）。下表其余行仍是未实现推荐的验收，这次没有跑。
 
 | ID | 场景 | 预期 |
 |----|------|------|
@@ -348,9 +379,9 @@ HTTPS：第 1 节要求传输依赖 HTTPS。代码没有拒绝明文 HTTP。这�
 | A4 | 注册草案 R1–R8 | 仍以注册草案为准，本表不覆盖。总设计不把它们标成已同意 |
 | A5 | 开发配置 CORS `*` 是否在生产收紧 | 不在本设计改配置。生产源列表若要改，单独确认 |
 
-已在 `c0131477` 落地、不必再实现一遍的：用户名 4–64（含两端、ASCII）、注册取消 RSA。
+已实现、不必再做一遍的：用户名写入长度 4–64、登录兼容更短的已有用户名、自助注册取消 RSA。字符类维持现有正则。改密和租户管理员口令的 RSA 保持不动。
 
-已决定、代码仍未做的：无租户不回退平台 `0`、切换时重建会话上下文、`ALL` 不跨租户、请求头不能直接授权、不默认做全局身份重构。
+仍未实现、本文也不把它标成已批准的：无租户不回退平台 `0`、切换时重建会话上下文、`ALL` 与角色按当前租户裁剪、请求头不能单独授权、不默认做全局身份重构、把 `sys_login_log.username` 加长到至少 64。A1–A5 都还没有用户选择，也没有代码。
 
 ## 14. 评审之后
 
