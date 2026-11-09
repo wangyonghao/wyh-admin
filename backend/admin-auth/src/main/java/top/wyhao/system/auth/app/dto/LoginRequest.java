@@ -18,7 +18,10 @@ public class LoginRequest {
     @Schema(description = "客户端 ID", example = "ef51c9a3e9046c4f2ea45142c8a8344a")
     private String clientId;
 
-    @Schema(description = "用户名", requiredMode = Schema.RequiredMode.NOT_REQUIRED, example = "zhangsan")
+    /**
+     * 登录用户名。写入规则要求 4-64，此处仍接受更短的已有用户名。
+     */
+    @Schema(description = "用户名。登录沿用已有账号，可短于写入时的 4 位", requiredMode = Schema.RequiredMode.NOT_REQUIRED, example = "zhangsan")
     private String username;
 
     @Schema(description = "邮箱", requiredMode = Schema.RequiredMode.NOT_REQUIRED, example = "zhangsan@mail.com")

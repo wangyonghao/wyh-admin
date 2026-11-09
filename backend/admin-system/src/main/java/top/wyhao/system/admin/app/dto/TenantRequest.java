@@ -82,7 +82,7 @@ public class TenantRequest{
     /**
      * 管理员用户名
      */
-    @Schema(description = "管理员用户名", example = "zhangsan")
+    @Schema(description = "管理员用户名，4-64 个字符，以字母开头，支持大小写字母、数字、下划线", example = "zhangsan")
     @NotBlank(groups = Create.class, message = "管理员用户名不能为空")
     @Pattern(regexp = RegexConstants.USERNAME, message = "管理员用户名长度为 4-64 个字符，支持大小写字母、数字、下划线，以字母开头")
     private String adminUsername;

@@ -4,6 +4,10 @@ import type { VxeTableGridOptions } from '#/adapter/vxe-table';
 import { $t } from '@vben/locales';
 
 import { z } from '#/adapter/form';
+import {
+  USERNAME_WRITE_MESSAGE,
+  USERNAME_WRITE_PATTERN,
+} from '#/utils/username';
 
 const statusOptions = [
   { label: '启用', value: 1 },
@@ -142,12 +146,7 @@ export function useFormSchema(creating: () => boolean): VbenFormSchema[] {
       component: 'Input',
       fieldName: 'adminUsername',
       label: $t('tenant.management.adminUsername'),
-      rules: z
-        .string()
-        .regex(
-          /^[a-zA-Z][a-zA-Z0-9_]{3,64}$/,
-          '4-64 个字符，字母开头，可含数字和下划线',
-        ),
+      rules: z.string().regex(USERNAME_WRITE_PATTERN, USERNAME_WRITE_MESSAGE),
       dependencies: {
         if: () => creating(),
         triggerFields: ['name'],

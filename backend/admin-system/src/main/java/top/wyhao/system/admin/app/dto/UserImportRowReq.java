@@ -23,6 +23,7 @@ public class UserImportRowReq {
     /**
      * 用户名
      */
+    @Schema(description = "用户名，4-64 个字符，以字母开头，支持大小写字母、数字、下划线")
     @NotBlank(message = "用户名不能为空")
     @Pattern(regexp = RegexConstants.USERNAME, message = "用户名长度为 4-64 个字符，支持大小写字母、数字、下划线，以字母开头")
     private String username;

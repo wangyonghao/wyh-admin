@@ -7,6 +7,11 @@ import { asSelectList } from '#/adapter/component/select-value';
 import { useVbenForm, z } from '#/adapter/form';
 import { userApi } from '#/api/system/user';
 import { toast } from '#/ui-patterns/toast';
+import {
+  USERNAME_WRITE_MESSAGE,
+  USERNAME_WRITE_PATTERN,
+  acceptsLoginUsername,
+} from '#/utils/username';
 
 interface DeptNode {
   children?: DeptNode[];
@@ -71,10 +76,19 @@ const [Form, formApi] = useVbenForm({
       component: 'Input',
       fieldName: 'username',
       label: '用户名',
-      componentProps: { placeholder: '请输入用户名' },
-      rules: 'required',
+      componentProps: { placeholder: USERNAME_WRITE_MESSAGE },
+      rules: z.string().regex(USERNAME_WRITE_PATTERN, USERNAME_WRITE_MESSAGE),
       dependencies: {
         disabled: () => isUpdate.value,
+        // 编辑不改用户名。已有用户名只要求非空，短账号仍可保存其他资料。
+        rules: () =>
+          isUpdate.value
+            ? z.string().refine((value) => acceptsLoginUsername(value), {
+                message: '请输入用户名',
+              })
+            : z
+                .string()
+                .regex(USERNAME_WRITE_PATTERN, USERNAME_WRITE_MESSAGE),
         triggerFields: ['username'],
       },
     },

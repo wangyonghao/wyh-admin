@@ -66,7 +66,7 @@ public class AuthController {
     }
 
     @SaIgnore
-    @Operation(summary = "注册", description = "用户自助注册并直接登录")
+    @Operation(summary = "注册", description = "用户自助注册并直接登录。password 为原密码，传输安全依赖 HTTPS，服务端校验后做慢哈希存储。")
     @PostMapping("/auth/register")
     public AccessTokenResponse register(@RequestBody @Valid RegisterRequest request) {
         return authService.register(request);

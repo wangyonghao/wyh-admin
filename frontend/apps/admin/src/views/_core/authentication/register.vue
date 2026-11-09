@@ -8,6 +8,10 @@ import { AuthenticationRegister, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { useUserStore } from '#/store';
+import {
+  USERNAME_WRITE_MESSAGE,
+  USERNAME_WRITE_PATTERN,
+} from '#/utils/username';
 
 defineOptions({ name: 'Register' });
 
@@ -25,8 +29,8 @@ const formSchema = computed((): VbenFormSchema[] => {
       rules: z
         .string()
         .min(1, { message: $t('authentication.usernameTip') })
-        .regex(/^[a-zA-Z][a-zA-Z0-9_]{3,63}$/, {
-          message: '用户名 4-64 位，以字母开头，仅支持字母、数字、下划线',
+        .regex(USERNAME_WRITE_PATTERN, {
+          message: USERNAME_WRITE_MESSAGE,
         }),
     },
     {
