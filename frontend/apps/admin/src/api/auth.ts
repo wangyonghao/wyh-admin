@@ -3,7 +3,7 @@ import type { Menu } from './system';
 
 /* ==================== API 定义 ==================== */
 export const authApi = {
-  /** 自助注册（成功后返回登录 token） */
+  /** 自助注册（成功后返回登录 token）。password 为原密码，传输依赖 HTTPS。 */
   register(req: RegisterReq) {
     return http.post<LoginResult>('/auth/register', req);
   },
@@ -136,7 +136,10 @@ export interface AuthReq {
   grantType?: AuthGrantType;
 }
 
-/** 自助注册请求（对齐 RegisterRequest：无 confirmPassword） */
+/**
+ * 自助注册请求（对齐 RegisterRequest，不含 confirmPassword）。
+ * password 为用户输入的原密码，传输安全依赖 HTTPS。
+ */
 export interface RegisterReq {
   username: string;
   password: string;

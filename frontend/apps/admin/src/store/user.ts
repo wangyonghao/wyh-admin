@@ -19,8 +19,9 @@ import { defineStore } from 'pinia';
 import { toast } from '#/ui-patterns/toast';
 import { authApi } from '#/api/auth';
 import { $t } from '#/locales';
-import { encryptByRsa } from '#/utils/crypto';
 import { toAccessMenus } from '#/utils/menu';
+
+import { toRegisterRequest } from './register-request';
 
 export const useUserStore = defineStore(
   'user',
@@ -84,7 +85,7 @@ export const useUserStore = defineStore(
     }
 
     /**
-     * 自助注册并直接进入系统
+     * 自助注册并直接进入系统。密码原样提交，传输安全依赖 HTTPS。
      */
     async function register(
       params: { username: string; password: string; confirmPassword?: string },
@@ -92,10 +93,7 @@ export const useUserStore = defineStore(
     ) {
       try {
         loginLoading.value = true;
-        const result = await authApi.register({
-          username: params.username,
-          password: encryptByRsa(params.password) || '',
-        });
+        const result = await authApi.register(toRegisterRequest(params));
         await completeLogin(result.token, onSuccess);
         return { user };
       } finally {
