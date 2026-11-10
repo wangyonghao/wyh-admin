@@ -284,7 +284,7 @@
 9. 切换租户时重算当前租户的角色、数据范围和部门。权限 SQL 增加 `sys_role.tenant_id = 会话租户`。`super_admin` 仍走现有全权限短路，不靠这条过滤。
 10. 注册传输已在 `c0131477` 落地：原密码经 HTTPS 上传，后端做现有密码策略和 `PasswordEncoder.encode`。不改个人改密和平台建租户管理员仍在用的 RSA。
 11. 注册接口复用现有 `@RateLimiter`。成功和失败走现有登录审计，审计不记密码和 token。
-12. 公开注册的冲突文案依 R4 / 待确认：统一一句，审计留真实原因。本轮没有把它升成已批准。
+12. 公开注册用户名重复时，对外就是「用户名已被占用」（R4 已确认）。审计仍记真实原因。限流和口令脱敏不取消。不返回邮箱、租户或其它账号字段。查重边界不变。
 
 ### 8.2 替代方案（不作为首期承诺）
 
@@ -305,7 +305,7 @@
 
 | 标记 | 含义 |
 |------|------|
-| 已确认 | 用户已经明确说过。目前只有写作原则，以及更早确认的「写入用户名 4–64」「自助注册不再 RSA」 |
+| 已确认 | 用户已经明确说过。目前有写作原则、更早确认的「写入用户名 4–64」「自助注册不再 RSA」，以及 R4：用户名重复时对外提示「用户名已被占用」。只有 R4 这一项新确认，不含 R1–R3、R5–R8，也不表示可以开工或合并 |
 | 评审倾向 | 本轮评审写明的倾向，不是逐项最终批准 |
 | 文档推荐 | 本文据此写成的设计。未标成已确认之前，不能当作用户已经批准实施 |
 
@@ -314,7 +314,7 @@
 | R1 | 新装种子里公开注册改为 `false`；已有库不动。产品作者可以把这写成建议 | 跟随该倾向，作为建议，不改已有库的 `enabled` | 未最终确认。种子现状仍是 `true` |
 | R2 | 注册成功自动签发会话；待加入页；邀请 `redirect` 优先 | 跟随 | 未最终确认 |
 | R3 | 成员 `tenant_id` 落库和每个租户一条主部门，是邀请授予角色之前的必需前置 | 跟随。见 B3 | 未最终确认 |
-| R4 | 公开注册失败用统一文案，审计保留真实原因 | 跟随，但凡依赖这句文案的正文都标「依 R4 / 待确认」 | 未最终确认。本轮不把它升成已批准 |
+| R4 | 评审曾倾向公开失败用统一模糊文案，审计留真实原因 | 不采用该倾向。重名对外就是现有错误码 `USERNAME_EXISTS`，message 为「用户名已被占用」。限流、审计和口令脱敏仍保留。不因此返回邮箱、租户或其它账号资料。查重仍只在当前租户上下文 | 已确认。用户原话：用户名重复时明确提示「用户名已被占用」 |
 | R5 | 申请默认关闭则不做审核列表；一旦打开，列表同一批交付 | 跟随 | 未最终确认 |
 | R6 | 加入时可以没有菜单，之后再授权 | 跟随 | 未最终确认 |
 | R7 | 只按会话里的 userId，在账号行所属租户上下文读本人。禁止用请求参数或用户名跨租户查，并加测试 | 跟随 | 未最终确认 |
@@ -333,7 +333,7 @@
 | D2 | 采纳，并选定一种 | 首期凭 token 持有接受。邮箱不一致只提示，不阻断，不要求改邮箱。这不承诺防转发 |
 | D3 | 采纳 | 账号事务成功后签发失败，提示「注册成功，请登录」。邀请先提交再发信。重发轮换哈希。冷却内不轮换 |
 | D4 | 采纳 | 唯一冲突在事务方法外面捕获并映射，回滚中的事务里不再查、不再写 |
-| C1 | 采纳 | R4 的对外文案一律带「依 R4 / 待确认」 |
+| C1 | 已按 R4 的确认改完 | 重名不再使用「无法完成注册」这类模糊句，也不再标「依 R4 / 待确认」。确认范围只有这一句 |
 | C2 | 采纳 | 匿名页只调 `GET /auth/register/options`。`GET /system/config/register` 加上 `system:config:get`，管理端同一批改掉 |
 | C3 | 采纳为设计建议值，不是现有配置 | 见第 15.2 节。不引用 OTP 上限 |
 | C4 | 采纳 | 过期但仍是 `status=0` 的行在重发时就地更新，不先删除 |
@@ -411,7 +411,7 @@
 - 冷却结束后的重发会轮换哈希，旧链接失效。这是取舍：若 SMTP 超时但信后来仍送达，旧链接已经无效。
 - 两个并发重发只允许一个更新成功。另一个看到哈希已变或仍在冷却内，不得再换一次哈希。
 
-唯一冲突：`registerLocal` 保持事务。捕获数据库唯一冲突的代码放在这个事务方法的调用方，在事务已经回滚之后映射成对外错误。依 R4 / 待确认：公开接口用统一文案，不在回滚中的事务里再查用户名或再插入。管理端创建用户仍可返回现有「用户名已被占用」。
+唯一冲突：`registerLocal` 保持事务。捕获数据库唯一冲突的代码放在这个事务方法的调用方，在事务已经回滚之后映射成 `USERNAME_EXISTS`，message 为「用户名已被占用」（R4 已确认）。不在回滚中的事务里再查用户名或再插入。公开注册和管理端创建用户对重名使用同一句。不附带邮箱、租户或其它账号资料。
 
 #### 主租户与会话（C5）
 
@@ -455,8 +455,8 @@ R7 的做法：已登录用户读自己的账号、改自己的密码或邮箱�
 ```text
 开关关闭 → REGISTRATION_DISABLED，不写库
 校验失败 → HTTP 400，不写库
-策略不符或解密失败 → 现有密码类错误码，不写库
-同名（含并发唯一冲突）→ 公开接口统一文案，不写第二行
+策略不符 → 现有密码类错误码，不写库
+同名（含并发唯一冲突）→ USERNAME_EXISTS，「用户名已被占用」，不写第二行
 成功 → 一行启用用户；无角色；无 TENANT 成员；department_id 为空
 ```
 
@@ -556,7 +556,7 @@ DISABLED → 管理员恢复 → NORMAL
 
 | 接口 | 认证 | 行为变化 |
 |------|------|----------|
-| `POST /auth/register` | 匿名 | 仍受 `enabled` 控制。不分配部门 `1` 和任何角色。原密码慢哈希。限流用第 15.2 节的建议值。写审计。冲突文案依 R4 / 待确认 |
+| `POST /auth/register` | 匿名 | 仍受 `enabled` 控制。不分配部门 `1` 和任何角色。原密码慢哈希。限流用第 15.2 节的建议值。写审计。用户名重复返回 `USERNAME_EXISTS`，「用户名已被占用」（R4 已确认） |
 | `GET /system/config/register` | 登录，且补上 `system:config:get` | 现有路径就是这个。管理端配置页继续用它。匿名页面不要再调它（C2）。响应可多两个布尔字段 |
 | `PUT /system/config/register` | `system:config:edit` | 可写两个新布尔。忽略或拒绝把 `verifyEmail` / `verifyPhone` 设成「已生效」的语义：首期即使为 `true` 也不执行验证 |
 | `POST /org` | 登录 | 增加 `allowCreateOrganization`，否则 `ORG_CREATE_DISABLED` |
@@ -567,7 +567,7 @@ DISABLED → 管理员恢复 → NORMAL
 | `POST /org/switch` | 登录成员或超管 | 重算角色、数据范围、部门并写回会话 |
 | `GET /auth/user` | 登录 | 角色与权限按第 16 节的当前租户计算 |
 
-已有错误码继续使用：`REGISTRATION_DISABLED`、`USERNAME_EXISTS`（仅管理端或 R4 选择公开区分时）、`PASSWORD_*`、`ORG_NOT_MEMBER`、`ORG_ALREADY_MEMBER`、`ORG_INVITE_NOT_FOUND`、`ORG_INVITE_EXPIRED`、`ORG_INVITE_HANDLED`、`ORG_INVITE_EMAIL_MISMATCH`、`ORG_EMAIL_REQUIRED`、`ORG_FORBIDDEN`、`ORG_APPLICATION_PENDING`、`ORG_APPLICATION_NOT_FOUND`、`ORG_APPLICATION_HANDLED`、`ORG_PACKAGE_MISSING`、`ORG_CODE_INVALID`。
+已有错误码继续使用：`REGISTRATION_DISABLED`、`USERNAME_EXISTS`（公开注册和管理端重名都用它，message 为「用户名已被占用」）、`PASSWORD_*`、`ORG_NOT_MEMBER`、`ORG_ALREADY_MEMBER`、`ORG_INVITE_NOT_FOUND`、`ORG_INVITE_EXPIRED`、`ORG_INVITE_HANDLED`、`ORG_INVITE_EMAIL_MISMATCH`、`ORG_EMAIL_REQUIRED`、`ORG_FORBIDDEN`、`ORG_APPLICATION_PENDING`、`ORG_APPLICATION_NOT_FOUND`、`ORG_APPLICATION_HANDLED`、`ORG_PACKAGE_MISSING`、`ORG_CODE_INVALID`。
 
 `ORG_CODE_INVALID` 首期不再把编码拼进 message。编码不存在与开关关闭使用不同错误码：关闭是 `ORG_APPLY_DISABLED`，打开后才可能是 `ORG_CODE_INVALID`。
 
@@ -588,7 +588,7 @@ DISABLED → 管理员恢复 → NORMAL
 
 | code | 何时 | 调用方文案 |
 |------|------|------------|
-| `REGISTER_UNAVAILABLE` | 依 R4 / 待确认：公开注册无法完成（含同名） | 依 R4 / 待确认：「无法完成注册，请更换用户名或稍后再试」 |
+| `USERNAME_EXISTS` | 公开注册或管理端发现用户名重复，含并发唯一冲突 | 用户名已被占用 |
 | `REGISTER_RATE_LIMITED` | 限流 | 请求过于频繁，请稍后再试 |
 | `ORG_CREATE_DISABLED` | 自助创建关闭 | 当前不允许创建组织 |
 | `ORG_APPLY_DISABLED` | 申请关闭 | 当前不允许申请加入 |
@@ -611,7 +611,7 @@ DISABLED → 管理员恢复 → NORMAL
 
 事务提交之后再签发会话。签发失败时账号保留，对外 message 为「注册成功，请登录」（D3）。不报注册失败，不插入第二行。
 
-唯一冲突在事务外层映射（D4）。依 R4 / 待确认时，公开接口不返回 `SYSTEM_ERROR`，也不返回可区分的「用户名已被占用」。
+唯一冲突在事务外层映射（D4）。公开接口返回 `USERNAME_EXISTS` 和「用户名已被占用」，不返回 `SYSTEM_ERROR`。
 
 ### 13.2 邀请与成员
 
@@ -643,7 +643,7 @@ DISABLED → 管理员恢复 → NORMAL
 
 | 操作 | 约束 | 重复请求 |
 |------|------|----------|
-| 注册同名 | `(username, tenant_id)` | 一行成功。另一行在事务外映射。依 R4 / 待确认时用统一文案 |
+| 注册同名 | `(username, tenant_id)` | 一行成功。另一行在事务外映射为 `USERNAME_EXISTS`，「用户名已被占用」 |
 | 发邀请 | 部分唯一：同租户、同邮箱、`status=0`、`deleted=0`。过期但未改状态的行也算这一条 | 冷却外就地更新哈希。冷却内不轮换（C3、C4） |
 | token | `token_hash` 已有唯一索引 | 碰撞则重新生成。SHA-256 的十六进制是 64 字符，列长已是 64 |
 | 接受 | 条件更新 `status=0` | 第二人 `ORG_INVITE_HANDLED` |
@@ -693,7 +693,7 @@ DISABLED → 管理员恢复 → NORMAL
 
 | 入口 | 对外 | 对内 |
 |------|------|------|
-| 公开注册同名、策略失败以外的拒绝 | 依 R4 / 待确认：同一句「无法完成注册，请更换用户名或稍后再试」 | 审计 `realReason`：同名或唯一冲突 |
+| 公开注册用户名重复 | `USERNAME_EXISTS`，「用户名已被占用」（R4 已确认）。不带邮箱、租户或其它账号字段 | 审计 `realReason`：同名或唯一冲突。口令、token 不入审计 |
 | 注册开关关闭 | `REGISTRATION_DISABLED`，可以明确说未开放 | 同文案 |
 | 申请开关关闭 | `ORG_APPLY_DISABLED`，不查库 | — |
 | 申请编码不存在 | 若开关打开：`ORG_CODE_INVALID`，message 不回显编码 | 可记编码 |
@@ -777,7 +777,7 @@ DISABLED → 管理员恢复 → NORMAL
 | G2 | 租户 A、B 各有管理员。甲只接受 A 的邀请，乙只接受 B 的邀请 | 甲的用户列表和部门树没有乙和 B 的部门。乙同理。甲 `POST /org/switch` 到 B 得到 `ORG_NOT_MEMBER` |
 | G3 | 甲在 A 被设为 `admin` 后，又被邀请进 B 且不带角色 | 切到 B 后没有 A 的菜单，`hasRole("admin")` 为假，不能给 B 发邀请 |
 | G4 | A 的部门树有上下级 | 上级部门成员不能因此读到 B 的任何行 |
-| G5 | 同一用户名并发注册两次 | 只有一行 `sys_user`。另一请求不是 HTTP 500。公开文案按 R4 |
+| G5 | 同一用户名并发注册两次 | 只有一行 `sys_user`。另一请求不是 HTTP 500，对外是「用户名已被占用」 |
 | G6 | 同一邀请并发接受 | 只有一次 `status=1`，一条 `TENANT` 成员 |
 | G7 | 同邮箱并发发两封待处理邀请 | 只有一行待处理。后一次是重发，旧 token 不能再接受 |
 | G8 | 注册事务在插入后、提交前失败 | 没有用户行，没有 token 可使用 |
