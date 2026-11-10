@@ -19,6 +19,7 @@ import top.wyhao.system.admin.domain.model.File;
 import top.wyhao.system.admin.app.dto.UserBasicInfoUpdateReq;
 import top.wyhao.system.admin.app.service.MembershipService;
 import top.wyhao.system.admin.app.service.UserProfileService;
+import top.wyhao.identity.client.EffectivePasswordRules;
 import top.wyhao.identity.client.PasswordApi;
 import top.wyhao.identity.client.PasswordPolicyConfig;
 import top.wyhao.identity.client.PasswordPolicyConfigApi;
@@ -130,7 +131,7 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Transactional(rollbackFor = Exception.class)
     public User registerLocal(String username, String rawPassword, Long departmentId, List<Long> roleIds) {
         userDomainService.assertUsernameAvailable(username);
-        return persistLocalAccount(username, null, rawPassword, departmentId, roleIds);
+        return persistLocalAccount(username, null, rawPassword, departmentId, roleIds, passwordPolicyGateway.current());
     }
 
     @Override
@@ -141,15 +142,20 @@ public class UserProfileServiceImpl implements UserProfileService {
             throw UserException.of("EMAIL_INVALID", "邮箱格式不正确");
         }
         userDomainService.assertEmailAvailable(normalized, null);
-        PasswordPolicy policy = passwordPolicyGateway.current();
+        PasswordPolicy policy = loginCompatiblePolicy(passwordPolicyGateway.current());
+        EffectivePasswordRules rules = EffectivePasswordRules.from(passwordPolicyConfigApi.get());
+        if (!rules.matches(rawPassword)) {
+            throw UserException.passwordFormatInvalid(rules.minLength(), rules.maxLength());
+        }
         String username = RegisterUsernameAllocator.secure().allocate(
                 userRepository::existsUsername,
                 rawPassword,
                 !policy.allowContainUsername());
         try {
-            User user = persistLocalAccount(username, normalized, rawPassword, departmentId, roleIds);
-            return user;
+            return persistLocalAccount(username, normalized, rawPassword, departmentId, roleIds, policy);
         } catch (DataIntegrityViolationException ex) {
+            // PostgreSQL 在唯一约束失败后会中止当前事务，这里不能再插入。
+            // 只把冲突翻译成业务错误，交给外层回滚。
             if (UniqueConflict.targetsEmail(ex)) {
                 throw UserException.emailExists();
             }
@@ -160,10 +166,26 @@ public class UserProfileServiceImpl implements UserProfileService {
         }
     }
 
-    private User persistLocalAccount(String username, String email, String rawPassword, Long departmentId, List<Long> roleIds) {
+    /**
+     * 注册写入使用的策略窗口与登录格式门对齐。不改网关读出的全局策略。
+     */
+    private static PasswordPolicy loginCompatiblePolicy(PasswordPolicy raw) {
+        int min = Math.min(
+                Math.max(raw.minLength(), EffectivePasswordRules.LOGIN_MIN_LENGTH),
+                EffectivePasswordRules.LOGIN_MAX_LENGTH);
+        return new PasswordPolicy(
+                min,
+                EffectivePasswordRules.LOGIN_MAX_LENGTH,
+                raw.requireSymbols(),
+                raw.allowContainUsername(),
+                raw.historyRepetitionTimes(),
+                raw.expireDays());
+    }
+
+    private User persistLocalAccount(String username, String email, String rawPassword, Long departmentId, List<Long> roleIds, PasswordPolicy policy) {
         userDomainService.assertCompliant(
                 rawPassword,
-                passwordPolicyGateway.current(),
+                policy,
                 username,
                 PasswordHistory.empty());
         if (CollUtil.isEmpty(roleIds)) {

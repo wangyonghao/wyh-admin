@@ -68,7 +68,7 @@ public interface SysUserMapper extends DataPermissionMapper<SysUserDO> {
      * @param email 邮箱
      * @return 用户信息
      */
-    @Select("SELECT * FROM sys_user WHERE email = #{email}")
+    @Select("SELECT * FROM sys_user WHERE email = #{email, typeHandler=top.wyhao.mybatis.encrypt.EncryptTypeHandler}")
     SysUserDO selectByEmail(@Param("email") String email);
 
     /**

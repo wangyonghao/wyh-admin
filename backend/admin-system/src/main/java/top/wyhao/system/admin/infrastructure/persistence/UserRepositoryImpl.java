@@ -39,6 +39,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User findByEmail(String email) {
+        // 参数必须走 EncryptTypeHandler，否则和落库密文对不上。
         return AdminDoMapper.toDomain(userMapper.selectByEmail(email), User.class);
     }
 

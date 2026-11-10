@@ -18,19 +18,25 @@ public record EffectivePasswordRules(
         boolean requireSpecial
 ) {
 
-    public static final int DEFAULT_MIN_LENGTH = 8;
-    public static final int MAX_LENGTH = 32;
+    /**
+     * 与登录 {@code RegexConstants.PASSWORD} 相同的长度门。
+     * 注册接受的窗口必须落在这道门里，否则新账号无法登录。
+     * 不改登录门，已能通过该门的存量密码仍可登录。不改已保存的策略配置。
+     */
+    public static final int LOGIN_MIN_LENGTH = 8;
+    public static final int LOGIN_MAX_LENGTH = 32;
 
     public static EffectivePasswordRules from(PasswordPolicyConfig config) {
-        int min = DEFAULT_MIN_LENGTH;
+        int configuredMin = LOGIN_MIN_LENGTH;
         boolean special = false;
         if (config != null) {
             if (config.getPasswordMinLength() != null) {
-                min = config.getPasswordMinLength();
+                configuredMin = config.getPasswordMinLength();
             }
             special = Boolean.TRUE.equals(config.getPasswordRequireSpecial());
         }
-        return new EffectivePasswordRules(min, MAX_LENGTH, true, true, special);
+        int min = Math.min(Math.max(configuredMin, LOGIN_MIN_LENGTH), LOGIN_MAX_LENGTH);
+        return new EffectivePasswordRules(min, LOGIN_MAX_LENGTH, true, true, special);
     }
 
     public boolean matches(String password) {

@@ -1,6 +1,7 @@
 package top.wyhao.system.admin.app.service.impl;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -28,7 +29,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -132,6 +135,33 @@ class UserProfileServiceImplRegisterTest {
                 .isInstanceOf(UserException.class)
                 .satisfies(ex -> assertThat(((UserException) ex).getCode()).isEqualTo("EMAIL_EXISTS"));
         verify(userRepository, never()).insert(any());
+    }
+
+    @Test
+    void registerWithEmailRejectsPasswordsBelowTheLoginGate() {
+        PasswordPolicyConfig config = new PasswordPolicyConfig();
+        config.setPasswordMinLength(6);
+        when(passwordPolicyConfigApi.get()).thenReturn(config);
+        when(passwordPolicyGateway.current()).thenReturn(new PasswordPolicy(6, 32, false, true, 0, 0));
+
+        assertThatThrownBy(() -> service.registerWithEmail("user@example.com", "abc123", DEPARTMENT_ID, List.of(3L)))
+                .isInstanceOf(UserException.class)
+                .satisfies(ex -> assertThat(((UserException) ex).getCode()).isEqualTo("USER_PASSWORD_FORMAT_INVALID"));
+        verify(userRepository, never()).insert(any());
+    }
+
+    @Test
+    void uniqueViolationDoesNotInsertAgainInTheSameCall() {
+        when(passwordPolicyGateway.current()).thenReturn(policy());
+        when(passwordPolicyConfigApi.get()).thenReturn(new PasswordPolicyConfig());
+        doThrow(new DataIntegrityViolationException(
+                "duplicate key value violates unique constraint \"uk_user_username\""))
+                .when(userRepository).insert(any(User.class));
+
+        assertThatThrownBy(() -> service.registerWithEmail("user@example.com", SUBMITTED, DEPARTMENT_ID, List.of(3L)))
+                .isInstanceOf(UserException.class)
+                .satisfies(ex -> assertThat(((UserException) ex).getCode()).isEqualTo("REGISTER_USERNAME_UNAVAILABLE"));
+        verify(userRepository, times(1)).insert(any(User.class));
     }
 
     @Test

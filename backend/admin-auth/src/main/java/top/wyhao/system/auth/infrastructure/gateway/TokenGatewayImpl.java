@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import top.wyhao.cmn.core.util.IpUtils;
 import top.wyhao.cmn.identity.LoginUser;
 import top.wyhao.satoken.util.LoginUtil;
+import top.wyhao.tenant.context.TenantContextHolder;
 import top.wyhao.system.auth.app.assembler.LoginUserAssembler;
 import top.wyhao.system.auth.domain.gateway.TokenGateway;
 import top.wyhao.system.auth.domain.gateway.UserGateway;
@@ -45,9 +46,15 @@ public class TokenGatewayImpl implements TokenGateway {
         session.set("deviceType", "PC");
         session.set(LoginUtil.LOGIN_USER_KEY, loginUser);
 
-        // 会话租户取主组织 / 超管默认租户，不能用 departmentId
+        // 会话租户取主组织 / 超管默认租户，不能用 departmentId。
+        // 尚无组织成员时，会话与本次请求的租户上下文一致，避免把 null 写入会话。
         Long tenantId = userGateway.resolveLoginTenantId(user.id());
-        LoginUtil.setTenantId(tenantId);
+        if (tenantId == null) {
+            tenantId = TenantContextHolder.getTenantId();
+        }
+        if (tenantId != null) {
+            LoginUtil.setTenantId(tenantId);
+        }
 
         return LoginUtil.getTokenValue();
     }
