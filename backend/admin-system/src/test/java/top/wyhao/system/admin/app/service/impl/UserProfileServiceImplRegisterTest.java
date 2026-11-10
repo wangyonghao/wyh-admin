@@ -107,6 +107,34 @@ class UserProfileServiceImplRegisterTest {
     }
 
     @Test
+    void registerWithEmailStoresTrimmedEmailAndAGeneratedUsername() {
+        when(passwordPolicyGateway.current()).thenReturn(policy());
+        when(passwordPolicyConfigApi.get()).thenReturn(new PasswordPolicyConfig());
+        doAnswer(invocation -> {
+            User user = invocation.getArgument(0);
+            user.setId(USER_ID);
+            return null;
+        }).when(userRepository).insert(any(User.class));
+
+        User saved = service.registerWithEmail("  user@example.com  ", SUBMITTED, DEPARTMENT_ID, List.of(3L));
+
+        assertThat(saved.getEmail()).isEqualTo("user@example.com");
+        assertThat(saved.getUsername()).isNotEqualTo(saved.getEmail());
+        assertThat(saved.getUsername()).matches("^[a-zA-Z][a-zA-Z0-9_]{3,63}$");
+        assertThat(passwordEncoder.matches(SUBMITTED, saved.getPassword())).isTrue();
+    }
+
+    @Test
+    void registerWithEmailRejectsAnExistingAddressBeforeInsert() {
+        when(userRepository.existsEmail("user@example.com", null)).thenReturn(true);
+
+        assertThatThrownBy(() -> service.registerWithEmail("user@example.com", SUBMITTED, DEPARTMENT_ID, List.of(3L)))
+                .isInstanceOf(UserException.class)
+                .satisfies(ex -> assertThat(((UserException) ex).getCode()).isEqualTo("EMAIL_EXISTS"));
+        verify(userRepository, never()).insert(any());
+    }
+
+    @Test
     void registerLocalRejectsCiphertextShapedInputBeforeInsert() {
         when(passwordPolicyGateway.current()).thenReturn(policy());
 

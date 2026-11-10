@@ -13,21 +13,21 @@ function source(relativePath: string) {
 }
 
 describe('toRegisterRequest', () => {
-  it('submits the original password and drops the confirmation field', () => {
+  it('submits the original password and the trimmed email', () => {
     const password = 'sample-pass-1a';
     const body = toRegisterRequest({
-      username: 'alice',
+      email: ' user@example.com ',
       password,
-      confirmPassword: password,
     });
 
-    expect(body).toEqual({ username: 'alice', password });
+    expect(body).toEqual({ email: 'user@example.com', password });
     expect(body.password).toBe(password);
+    expect(body).not.toHaveProperty('username');
   });
 
   it('leaves a long opaque string unchanged', () => {
     const opaque = 'A'.repeat(88);
-    expect(toRegisterRequest({ username: 'alice', password: opaque }).password).toBe(
+    expect(toRegisterRequest({ email: 'user@example.com', password: opaque }).password).toBe(
       opaque,
     );
   });
@@ -51,10 +51,12 @@ describe('registration call scope', () => {
     expect(userStore).not.toContain("from '#/utils/crypto'");
   });
 
-  it('the self-register page is the only caller and does not encrypt', () => {
+  it('the self-register page collects email and does not encrypt', () => {
     const page = source('views/_core/authentication/register.vue');
     expect(page).toContain('userStore.register(');
+    expect(page).toContain('email');
     expect(page).not.toContain('encryptByRsa');
+    expect(page).not.toContain('USERNAME_WRITE_PATTERN');
   });
 
   it('keeps the shared RSA helper and the non-register callers', () => {

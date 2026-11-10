@@ -16,6 +16,8 @@ public interface AuthService {
      */
     AccessTokenResponse register(@Valid RegisterRequest request);
 
+    RegisterOptionsResponse registerOptions();
+
     void logout();
 
     CaptchaResponse createCaptcha();

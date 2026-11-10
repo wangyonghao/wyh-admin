@@ -1,27 +1,26 @@
 /**
- * 自助注册页提交值。confirmPassword 只在页面校验，不进入请求体。
+ * 自助注册页提交值。密码规则在页面上对照服务端策略校验。
  */
 export interface RegisterSubmit {
-  username: string;
+  email: string;
   password: string;
-  confirmPassword?: string;
 }
 
 /**
- * POST /auth/register 的请求体，对齐后端 RegisterRequest。
+ * POST /auth/register 的请求体。不包含用户名。
  */
 export interface RegisterRequestBody {
-  username: string;
+  email: string;
   password: string;
 }
 
 /**
  * 组装自助注册请求体。
- * password 原样提交，传输安全依赖 HTTPS；服务端按密码策略校验后做慢哈希存储。
+ * password 原样提交，传输安全依赖 HTTPS。邮箱去掉首尾空白，不改大小写。
  */
 export function toRegisterRequest(input: RegisterSubmit): RegisterRequestBody {
   return {
-    username: input.username,
+    email: input.email.trim(),
     password: input.password,
   };
 }

@@ -66,7 +66,14 @@ public class AuthController {
     }
 
     @SaIgnore
-    @Operation(summary = "注册", description = "用户自助注册并直接登录。password 为原密码，传输安全依赖 HTTPS，服务端校验后做慢哈希存储。")
+    @Operation(summary = "注册选项", description = "公开注册开关和当前实际密码规则。不表示邮箱已经验证。")
+    @GetMapping("/auth/register/options")
+    public RegisterOptionsResponse registerOptions() {
+        return authService.registerOptions();
+    }
+
+    @SaIgnore
+    @Operation(summary = "注册", description = "使用邮箱和原密码自助注册并直接登录。用户名由服务端分配。password 经 HTTPS 传输，服务端校验后做慢哈希存储。成功不表示邮箱已验证。")
     @PostMapping("/auth/register")
     public AccessTokenResponse register(@RequestBody @Valid RegisterRequest request) {
         return authService.register(request);

@@ -16,9 +16,7 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * 注册用户名写入约束，以及登录请求不套用该长度。
- * <p>
- * 使用 Validator，不起 Spring、不写库。
+ * 注册收集邮箱。登录用户名仍不套写入长度。
  */
 class RegisterUsernameConstraintTest {
 
@@ -37,14 +35,20 @@ class RegisterUsernameConstraintTest {
     }
 
     @Test
-    void registerUsernameLengthAndBlank() {
-        assertThat(messages(request(null))).anyMatch(this::blank);
-        assertThat(messages(request(""))).anyMatch(this::blank);
-        assertThat(messages(request("   "))).anyMatch(this::blank);
-        assertThat(messages(request(sample(3)))).anyMatch(this::length);
-        assertThat(messages(request(sample(4)))).isEmpty();
-        assertThat(messages(request(sample(64)))).isEmpty();
-        assertThat(messages(request(sample(65)))).anyMatch(this::length);
+    void registerEmailRejectsBlankAndAcceptsANormalAddress() {
+        assertThat(emailMessages(null)).anyMatch(message -> message.contains("不能为空"));
+        assertThat(emailMessages("")).anyMatch(message -> message.contains("不能为空"));
+        assertThat(emailMessages("   ")).anyMatch(message -> message.contains("不能为空") || message.contains("格式"));
+        assertThat(emailMessages("not-an-email")).anyMatch(message -> message.contains("格式"));
+        assertThat(emailMessages("user@example.com")).isEmpty();
+        assertThat(emailMessages("a".repeat(60) + "@example.com")).anyMatch(message -> message.contains("64"));
+    }
+
+    @Test
+    void registerRequestHasNoUsernameField() {
+        for (Field field : RegisterRequest.class.getDeclaredFields()) {
+            assertThat(field.getName()).isNotEqualTo("username");
+        }
     }
 
     @Test
@@ -54,31 +58,16 @@ class RegisterUsernameConstraintTest {
             assertThat(annotation.annotationType().getSimpleName()).isNotEqualTo("Pattern");
         }
         LoginRequest login = new LoginRequest();
-        login.setUsername(sample(3));
+        login.setUsername("abc");
         assertThat(validator.validateProperty(login, "username")).isEmpty();
     }
 
-    private boolean blank(String message) {
-        return message.contains("不能为空");
-    }
-
-    private boolean length(String message) {
-        return message.contains("4-64");
-    }
-
-    private static Set<String> messages(RegisterRequest request) {
-        return validator.validateProperty(request, "username").stream()
+    private static Set<String> emailMessages(String email) {
+        RegisterRequest request = new RegisterRequest();
+        request.setEmail(email);
+        request.setPassword("placeholder");
+        return validator.validateProperty(request, "email").stream()
                 .map(ConstraintViolation::getMessage)
                 .collect(Collectors.toSet());
-    }
-
-    private static RegisterRequest request(String username) {
-        RegisterRequest request = new RegisterRequest();
-        request.setUsername(username);
-        return request;
-    }
-
-    private static String sample(int length) {
-        return "a" + "b".repeat(length - 1);
     }
 }

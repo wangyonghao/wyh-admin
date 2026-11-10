@@ -7,6 +7,10 @@ export const authApi = {
   register(req: RegisterReq) {
     return http.post<LoginResult>('/auth/register', req);
   },
+  /** 公开注册开关和当前实际密码规则。 */
+  registerOptions() {
+    return http.get<RegisterOptions>('/auth/register/options');
+  },
   /** 密码登录：用户名、邮箱或手机号 */
   passwordLogin(req: PasswordLoginReq) {
     const { grantType = 'PASSWORD', ...body } = req;
@@ -137,12 +141,22 @@ export interface AuthReq {
 }
 
 /**
- * 自助注册请求（对齐 RegisterRequest，不含 confirmPassword）。
- * password 为用户输入的原密码，传输安全依赖 HTTPS。
+ * 自助注册请求（对齐 RegisterRequest）。
+ * password 为用户输入的原密码，传输安全依赖 HTTPS。不提交用户名。
  */
 export interface RegisterReq {
-  username: string;
+  email: string;
   password: string;
+}
+
+/** 公开注册页使用的实际密码规则。 */
+export interface RegisterOptions {
+  registrationEnabled: boolean;
+  minLength: number;
+  maxLength: number;
+  requireLowercase: boolean;
+  requireDigit: boolean;
+  requireSpecial: boolean;
 }
 
 /** 密码登录请求参数。username / email / phone 三选一 */

@@ -23,4 +23,9 @@ public interface UserProfileService {
      * 自助注册：写入已校验的明文密码与角色。
      */
     User registerLocal(String username, String rawPassword, Long departmentId, List<Long> roleIds);
+
+    /**
+     * 邮箱自助注册：分配内部用户名后写入邮箱与慢哈希密码。
+     */
+    User registerWithEmail(String email, String rawPassword, Long departmentId, List<Long> roleIds);
 }

@@ -54,10 +54,7 @@ describe('login username compatibility', () => {
 });
 
 describe('username form wiring', () => {
-  it('uses the shared write pattern on register, user create, and tenant admin', () => {
-    expect(source('views/_core/authentication/register.vue')).toContain(
-      'USERNAME_WRITE_PATTERN',
-    );
+  it('uses the shared write pattern on user create and tenant admin', () => {
     expect(source('views/system/user/components/user-edit-drawer.vue')).toContain(
       'USERNAME_WRITE_PATTERN',
     );

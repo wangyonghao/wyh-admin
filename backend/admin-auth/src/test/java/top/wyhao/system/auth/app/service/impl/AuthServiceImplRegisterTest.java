@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import top.wyhao.cmn.core.constant.SystemConstants;
+import top.wyhao.identity.client.PasswordPolicyConfigApi;
 import top.wyhao.identity.client.UserApi;
 import top.wyhao.identity.client.UserCredential;
 import top.wyhao.security.client.RoleApi;
@@ -46,6 +47,8 @@ class AuthServiceImplRegisterTest {
     @Mock
     private RegisterConfigApi registerConfigApi;
     @Mock
+    private PasswordPolicyConfigApi passwordPolicyConfigApi;
+    @Mock
     private UserApi userApi;
     @Mock
     private RoleApi roleApi;
@@ -73,8 +76,8 @@ class AuthServiceImplRegisterTest {
         config.setEnabled(true);
         config.setDefaultRoleId("3");
         when(registerConfigApi.get()).thenReturn(config);
-        when(userApi.registerLocalUser(
-                "alice",
+        when(userApi.registerWithEmail(
+                "alice@example.com",
                 SUBMITTED,
                 SystemConstants.SUPER_DEPARTMENT_ID,
                 List.of(3L)))
@@ -82,14 +85,14 @@ class AuthServiceImplRegisterTest {
         when(tokenGateway.issue(any(), any())).thenReturn("token-fixture");
 
         RegisterRequest request = new RegisterRequest();
-        request.setUsername("alice");
+        request.setEmail("alice@example.com");
         request.setPassword(SUBMITTED);
 
         AccessTokenResponse response = authService.register(request);
 
         assertThat(response.getToken()).isEqualTo("token-fixture");
-        verify(userApi).registerLocalUser(
-                "alice",
+        verify(userApi).registerWithEmail(
+                "alice@example.com",
                 SUBMITTED,
                 SystemConstants.SUPER_DEPARTMENT_ID,
                 List.of(3L));
@@ -138,6 +141,23 @@ class AuthServiceImplRegisterTest {
 
         assertThat(response.getToken()).isEqualTo("token-fixture");
         verify(passwordSecurityService).fastVerifyPasswordFormat(eq("alice"), eq(SUBMITTED), any());
+        verify(passwordSecurityService).verifyPassword(eq(loginUser("alice")), eq(SUBMITTED), any());
+    }
+
+    @Test
+    void passwordLoginUsesExistingEmailField() {
+        when(userGateway.findByEmail("alice@example.com")).thenReturn(loginUser("alice"));
+        when(tokenGateway.issue(any(), any())).thenReturn("token-fixture");
+
+        LoginRequest request = new LoginRequest();
+        request.setClientId("client");
+        request.setEmail("alice@example.com");
+        request.setPassword(SUBMITTED);
+
+        AccessTokenResponse response = authService.login(GrantType.PASSWORD, request);
+
+        assertThat(response.getToken()).isEqualTo("token-fixture");
+        verify(userGateway).findByEmail("alice@example.com");
         verify(passwordSecurityService).verifyPassword(eq(loginUser("alice")), eq(SUBMITTED), any());
     }
 

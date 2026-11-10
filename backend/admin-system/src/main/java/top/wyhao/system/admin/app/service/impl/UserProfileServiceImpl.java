@@ -6,6 +6,7 @@ import cn.hutool.core.text.CharSequenceUtil;
 import com.alicp.jetcache.anno.CacheUpdate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,6 +27,9 @@ import top.wyhao.system.admin.domain.gateway.PasswordPolicyGateway;
 import top.wyhao.system.admin.domain.model.PasswordHistory;
 import top.wyhao.system.admin.domain.gateway.UserRepository;
 import top.wyhao.system.admin.domain.model.User;
+import top.wyhao.system.admin.domain.model.PasswordPolicy;
+import top.wyhao.system.admin.domain.service.RegisterUsernameAllocator;
+import top.wyhao.system.admin.domain.service.UniqueConflict;
 import top.wyhao.system.admin.domain.service.UserLifecycleRules;
 import top.wyhao.system.admin.domain.service.UserDomainService;
 import top.wyhao.security.client.RoleApi;
@@ -125,18 +129,50 @@ public class UserProfileServiceImpl implements UserProfileService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public User registerLocal(String username, String rawPassword, Long departmentId, List<Long> roleIds) {
+        userDomainService.assertUsernameAvailable(username);
+        return persistLocalAccount(username, null, rawPassword, departmentId, roleIds);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public User registerWithEmail(String email, String rawPassword, Long departmentId, List<Long> roleIds) {
+        String normalized = email == null ? null : email.trim();
+        if (CharSequenceUtil.isBlank(normalized) || normalized.length() > 64 || normalized.indexOf('@') < 1) {
+            throw UserException.of("EMAIL_INVALID", "邮箱格式不正确");
+        }
+        userDomainService.assertEmailAvailable(normalized, null);
+        PasswordPolicy policy = passwordPolicyGateway.current();
+        String username = RegisterUsernameAllocator.secure().allocate(
+                userRepository::existsUsername,
+                rawPassword,
+                !policy.allowContainUsername());
+        try {
+            User user = persistLocalAccount(username, normalized, rawPassword, departmentId, roleIds);
+            return user;
+        } catch (DataIntegrityViolationException ex) {
+            if (UniqueConflict.targetsEmail(ex)) {
+                throw UserException.emailExists();
+            }
+            if (UniqueConflict.targetsUsername(ex)) {
+                throw UserException.of("REGISTER_USERNAME_UNAVAILABLE", "注册暂时无法完成，请稍后重试");
+            }
+            throw ex;
+        }
+    }
+
+    private User persistLocalAccount(String username, String email, String rawPassword, Long departmentId, List<Long> roleIds) {
         userDomainService.assertCompliant(
                 rawPassword,
                 passwordPolicyGateway.current(),
                 username,
                 PasswordHistory.empty());
-        userDomainService.assertUsernameAvailable(username);
         if (CollUtil.isEmpty(roleIds)) {
             throw UserException.of("REGISTER_ROLE_REQUIRED", "未配置注册默认角色");
         }
         User user = new User();
         user.setUsername(username);
         user.setDisplayName(username);
+        user.setEmail(email);
         user.setPassword(passwordEncoder.encode(rawPassword));
         user.setGender(GenderEnum.UNKNOWN.getValue());
         user.setDepartmentId(departmentId);

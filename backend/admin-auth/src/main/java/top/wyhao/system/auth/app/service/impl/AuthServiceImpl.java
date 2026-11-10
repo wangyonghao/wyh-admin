@@ -15,6 +15,8 @@ import top.wyhao.cmn.core.constant.RegexConstants;
 import top.wyhao.cmn.core.constant.SystemConstants;
 import top.wyhao.cmn.core.enums.GenderEnum;
 import top.wyhao.satoken.util.LoginUtil;
+import top.wyhao.identity.client.EffectivePasswordRules;
+import top.wyhao.identity.client.PasswordPolicyConfigApi;
 import top.wyhao.identity.client.SocialLink;
 import top.wyhao.identity.client.UserApi;
 import top.wyhao.identity.client.UserCredential;
@@ -42,6 +44,7 @@ public class AuthServiceImpl implements AuthService {
     private static final String DEFAULT_REGISTER_ROLE_CODE = "general";
 
     private final RegisterConfigApi registerConfigApi;
+    private final PasswordPolicyConfigApi passwordPolicyConfigApi;
     private final UserApi userApi;
     private final RoleApi roleApi;
 
@@ -193,8 +196,8 @@ public class AuthServiceImpl implements AuthService {
         if (roleId == null) {
             throw AuthenticationException.registerRoleMissing();
         }
-        UserCredential registered = userApi.registerLocalUser(
-                request.getUsername(),
+        UserCredential registered = userApi.registerWithEmail(
+                request.getEmail(),
                 request.getPassword(),
                 SystemConstants.SUPER_DEPARTMENT_ID,
                 List.of(roleId)
@@ -204,6 +207,19 @@ public class AuthServiceImpl implements AuthService {
         top.wyhao.system.auth.domain.model.ClientContext client = clientContext();
         String token = tokenGateway.issue(user, client);
         return new AccessTokenResponse("200", token);
+    }
+
+    @Override
+    public RegisterOptionsResponse registerOptions() {
+        RegisterConfigVO config = registerConfigApi.get();
+        EffectivePasswordRules rules = EffectivePasswordRules.from(passwordPolicyConfigApi.get());
+        return new RegisterOptionsResponse(
+                config.isRegistrationEnabled(),
+                rules.minLength(),
+                rules.maxLength(),
+                rules.requireLowercase(),
+                rules.requireDigit(),
+                rules.requireSpecial());
     }
 
     private Long resolveDefaultRoleId(String configuredRoleId) {

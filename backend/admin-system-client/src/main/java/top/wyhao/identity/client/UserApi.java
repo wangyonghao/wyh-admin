@@ -28,6 +28,11 @@ public interface UserApi {
      */
     UserCredential registerLocalUser(String username, String rawPassword, Long departmentId, List<Long> roleIds);
 
+    /**
+     * 邮箱自助注册。服务端分配用户名，写入邮箱和慢哈希密码。不表示邮箱已验证。
+     */
+    UserCredential registerWithEmail(String email, String rawPassword, Long departmentId, List<Long> roleIds);
+
     SocialLink findSocial(String source, String openId);
 
     void saveSocialLogin(Long userId, String source, String openId, String metaJson);

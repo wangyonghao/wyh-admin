@@ -21,6 +21,8 @@ import { authApi } from '#/api/auth';
 import { $t } from '#/locales';
 import { toAccessMenus } from '#/utils/menu';
 
+import { toPasswordLoginFields } from '#/utils/login-identifier';
+
 import { toRegisterRequest } from './register-request';
 
 export const useUserStore = defineStore(
@@ -68,10 +70,13 @@ export const useUserStore = defineStore(
           params.captchaChallenge = params.captcha;
           delete params.captcha;
         }
+        const identifier: { username?: string; email?: string } = params.email
+          ? { email: String(params.email) }
+          : toPasswordLoginFields(String(params.username ?? ''));
         const loginResult = await authApi.passwordLogin({
           clientId: params.clientId,
-          username: params.username,
-          email: params.email,
+          username: identifier.username,
+          email: identifier.email,
           phone: params.phone,
           password: params.password,
           captchaUuid: params.captchaUuid,
@@ -88,7 +93,7 @@ export const useUserStore = defineStore(
      * 自助注册并直接进入系统。密码原样提交，传输安全依赖 HTTPS。
      */
     async function register(
-      params: { username: string; password: string; confirmPassword?: string },
+      params: { email: string; password: string },
       onSuccess?: () => Promise<void> | void,
     ) {
       try {

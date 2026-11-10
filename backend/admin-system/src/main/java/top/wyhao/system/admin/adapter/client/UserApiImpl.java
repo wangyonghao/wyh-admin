@@ -73,6 +73,11 @@ public class UserApiImpl implements UserApi, UserProfileApi {
     }
 
     @Override
+    public UserCredential registerWithEmail(String email, String rawPassword, Long departmentId, java.util.List<Long> roleIds) {
+        return toCredential(userProfileService.registerWithEmail(email, rawPassword, departmentId, roleIds));
+    }
+
+    @Override
     public SocialLink findSocial(String source, String openId) {
         UserSocial social = userSocialService.getBySourceAndOpenId(source, openId);
         if (social == null) {
