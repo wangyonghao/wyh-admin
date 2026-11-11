@@ -186,7 +186,7 @@ onMounted(() => {
       <!-- Title Section -->
       <div class="mx-auto mb-7 w-full max-w-md">
         <h2
-          class="text-foreground mb-3 text-3xl font-bold leading-9 tracking-tight lg:text-4xl"
+          class="text-foreground mb-3 text-3xl leading-9 tracking-tight lg:text-4xl"
         >
           {{ $t('authentication.welcomeBack') }} 👋🏻
         </h2>
@@ -196,14 +196,17 @@ onMounted(() => {
       </div>
 
       <!-- Form Section -->
-      <form @submit="handleSubmit">
+      <form id="sign-in-form" class="flex flex-col gap-4" @submit="handleSubmit">
         <!-- Username Field -->
-        <div class="mb-4 flex flex-col gap-2">
-          <Label for="username">{{ $t('authentication.username') }}</Label>
+        <div class="flex flex-col gap-2">
+          <Label for="username" class="font-normal">
+            {{ $t('authentication.username') }}
+          </Label>
           <Input
             id="username"
             v-model="username"
             :placeholder="$t('authentication.usernameTip')"
+            class="h-9"
             :class="{ 'border-red-500': usernameError }"
             @blur="validateField('username', username)"
           />
@@ -213,9 +216,11 @@ onMounted(() => {
         </div>
 
         <!-- Password Field -->
-        <div class="mb-4 flex flex-col gap-2">
+        <div class="flex flex-col gap-2">
           <div class="flex items-center justify-between">
-            <Label for="password">{{ $t('authentication.password') }}</Label>
+            <Label for="password" class="font-normal">
+              {{ $t('authentication.password') }}
+            </Label>
             <span
               class="text-muted-foreground hover:text-foreground cursor-pointer text-sm font-normal leading-none"
               @click="handleGo('/auth/forget-password')"
@@ -227,6 +232,7 @@ onMounted(() => {
             id="password"
             v-model="password"
             :placeholder="$t('authentication.passwordTip')"
+            class="h-9"
             :class="{ 'border-red-500': passwordError }"
             @blur="validateField('password', password)"
           />
@@ -236,13 +242,14 @@ onMounted(() => {
         </div>
 
         <!-- Captcha Field (conditional) -->
-        <div v-if="showCaptcha" class="mb-4 flex flex-col gap-2">
+        <div v-if="showCaptcha" class="flex flex-col gap-2">
           <Label for="code">{{ $t('authentication.code') }}</Label>
           <VbenInputCaptcha
             v-model="captcha"
             :captcha="captchaInfo.img"
             :expire-time="captchaInfo.expireTime"
             :placeholder="$t('authentication.code')"
+            class="h-9"
             :class="{
               'border-red-500': captchaError,
               'focus:border-primary': !captchaError,
@@ -254,32 +261,31 @@ onMounted(() => {
             {{ captchaError }}
           </div>
         </div>
+
+        <VbenButton
+          :class="{
+            'cursor-wait': loginLoading,
+          }"
+          :loading="loginLoading"
+          aria-label="login"
+          class="mb-6 w-full font-normal"
+          type="submit"
+        >
+          {{ $t('common.login') }}
+        </VbenButton>
       </form>
 
-      <!-- Submit Button -->
-      <VbenButton
-        :class="{
-          'cursor-wait': loginLoading,
-        }"
-        :loading="loginLoading"
-        aria-label="login"
-        class="mt-4 w-full"
-        @click="handleSubmit"
-      >
-        {{ $t('common.login') }}
-      </VbenButton>
-
       <!-- Alternative Login Methods -->
-      <div class="mb-2 mt-4 flex items-center justify-between">
+      <div class="mb-2 flex items-center justify-between">
         <VbenButton
-          class="w-1/2"
+          class="w-1/2 font-normal"
           variant="outline"
           @click="handleGo('/auth/code-login')"
         >
           {{ $t('authentication.mobileLogin') }}
         </VbenButton>
         <VbenButton
-          class="ml-4 w-1/2"
+          class="ml-4 w-1/2 font-normal"
           variant="outline"
           @click="handleGo('/auth/qrcode-login')"
         >

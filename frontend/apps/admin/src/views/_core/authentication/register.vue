@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { computed, onMounted, ref } from 'vue';
 
-import { VbenButton } from '#/ui/composed';
+import { VbenButton, VbenInputPassword } from '#/ui/composed';
 import { Input } from '#/ui/input';
 import { Label } from '#/ui/label';
 import { authApi, type RegisterOptions } from '#/api/auth';
@@ -22,11 +22,11 @@ const userStore = useUserStore();
 
 const email = ref('');
 const password = ref('');
-const showPassword = ref(false);
 const options = ref<RegisterOptions | null>(null);
 const optionsError = ref('');
 const formError = ref('');
 const emailTouched = ref(false);
+const passwordTouched = ref(false);
 
 const policy = computed<PasswordPolicyView | null>(() => {
   if (!options.value) return null;
@@ -58,6 +58,9 @@ const emailError = computed(() => {
   if (!emailTouched.value || email.value.trim() === '') return '';
   return emailValid.value ? '' : '邮箱格式不正确';
 });
+const showPasswordError = computed(
+  () => passwordTouched.value && policy.value != null && !passwordValid.value,
+);
 
 async function loadOptions() {
   optionsError.value = '';
@@ -77,6 +80,7 @@ function messageOf(error: unknown): string {
 
 async function handleSubmit() {
   emailTouched.value = true;
+  passwordTouched.value = true;
   formError.value = '';
   if (!canSubmit.value || userStore.loginLoading) return;
   try {
@@ -93,35 +97,29 @@ onMounted(loadOptions);
 </script>
 
 <template>
-  <div class="mx-auto w-full max-w-md">
-    <h1 class="text-foreground text-3xl font-bold tracking-tight">
-      创建账号
-    </h1>
-    <p class="text-muted-foreground mt-2 text-sm">
-      使用邮箱和密码注册。邮箱暂不验证。
-    </p>
+  <div>
+    <div class="mx-auto mb-7 w-full max-w-md">
+      <h2 class="text-foreground mb-3 text-3xl leading-9 tracking-tight lg:text-4xl">
+        创建账号
+      </h2>
+      <p class="text-muted-foreground lg:text-md text-sm">
+        使用邮箱和密码注册。邮箱暂不验证。
+      </p>
+      <p v-if="optionsError" class="mt-3 text-sm text-red-500" role="alert">
+        {{ optionsError }}
+      </p>
+      <p
+        v-else-if="options && !registrationOpen"
+        class="mt-3 text-sm text-red-500"
+        role="status"
+      >
+        系统未开放注册
+      </p>
+    </div>
 
-    <p
-      v-if="optionsError"
-      class="text-destructive mt-6 text-sm"
-      role="alert"
-    >
-      {{ optionsError }}
-    </p>
-    <p
-      v-else-if="options && !registrationOpen"
-      class="text-destructive mt-6 text-sm"
-      role="status"
-    >
-      系统未开放注册
-    </p>
-
-    <form
-      class="mt-6 space-y-4"
-      @submit.prevent="handleSubmit"
-    >
+    <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
       <div class="flex flex-col gap-2">
-        <Label for="register-email">邮箱</Label>
+        <Label for="register-email" class="font-normal">邮箱</Label>
         <Input
           id="register-email"
           v-model="email"
@@ -129,51 +127,46 @@ onMounted(loadOptions);
           inputmode="email"
           autocomplete="email"
           placeholder="name@example.com"
+          class="h-9"
           :aria-invalid="emailError ? 'true' : 'false'"
-          aria-describedby="register-email-error"
-          :class="emailError ? 'border-destructive' : ''"
+          :aria-describedby="emailError ? 'register-email-error' : undefined"
+          :class="{ 'border-red-500': emailError }"
           @blur="emailTouched = true"
         />
-        <p
+        <div
+          v-if="emailError"
           id="register-email-error"
-          class="text-destructive min-h-5 text-sm"
+          class="text-sm text-red-500"
           role="alert"
         >
           {{ emailError }}
-        </p>
+        </div>
       </div>
 
       <div class="flex flex-col gap-2">
-        <Label for="register-password">密码</Label>
-        <div class="relative">
-          <Input
-            id="register-password"
-            v-model="password"
-            :type="showPassword ? 'text' : 'password'"
-            autocomplete="new-password"
-            class="pr-12"
-            :aria-invalid="password && !passwordValid ? 'true' : 'false'"
-            aria-describedby="register-password-rules"
-          />
-          <button
-            type="button"
-            class="text-muted-foreground hover:text-foreground absolute inset-y-0 right-0 px-3 text-sm"
-            :aria-pressed="showPassword"
-            :aria-label="showPassword ? '隐藏密码' : '显示密码'"
-            @click="showPassword = !showPassword"
-          >
-            {{ showPassword ? '隐藏' : '显示' }}
-          </button>
-        </div>
-        <ul
-          id="register-password-rules"
-          class="space-y-1 text-sm"
-        >
+        <Label for="register-password" class="font-normal">密码</Label>
+        <VbenInputPassword
+          id="register-password"
+          v-model="password"
+          autocomplete="new-password"
+          class="h-9"
+          :aria-invalid="showPasswordError ? 'true' : 'false'"
+          aria-describedby="register-password-rules"
+          :class="{ 'border-red-500': showPasswordError }"
+          @blur="passwordTouched = true"
+        />
+        <ul id="register-password-rules" class="space-y-1 text-sm">
           <li
             v-for="rule in rules"
             :key="rule.id"
             class="flex items-center gap-2"
-            :class="rule.met ? 'text-primary' : 'text-muted-foreground'"
+            :class="
+              rule.met
+                ? 'text-primary'
+                : showPasswordError
+                  ? 'text-red-500'
+                  : 'text-muted-foreground'
+            "
           >
             <span aria-hidden="true">{{ rule.met ? '✓' : '○' }}</span>
             <span class="sr-only">{{ rule.met ? '已满足' : '未满足' }}</span>
@@ -182,17 +175,14 @@ onMounted(loadOptions);
         </ul>
       </div>
 
-      <p
-        v-if="formError"
-        class="text-destructive text-sm"
-        role="alert"
-      >
+      <div v-if="formError" class="text-sm text-red-500" role="alert">
         {{ formError }}
-      </p>
+      </div>
 
       <VbenButton
         type="submit"
-        class="w-full"
+        class="mb-6 w-full font-normal"
+        :class="{ 'cursor-wait': userStore.loginLoading }"
         :loading="userStore.loginLoading"
         :disabled="!canSubmit"
         aria-label="注册"
@@ -201,14 +191,11 @@ onMounted(loadOptions);
       </VbenButton>
     </form>
 
-    <p class="text-muted-foreground mt-4 text-center text-sm">
+    <div class="mt-3 text-center text-sm">
       已有账号？
-      <router-link
-        class="text-primary underline-offset-4 hover:underline"
-        to="/auth/login"
-      >
+      <router-link class="text-foreground font-normal underline" to="/auth/login">
         去登录
       </router-link>
-    </p>
+    </div>
   </div>
 </template>

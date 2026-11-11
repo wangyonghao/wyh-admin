@@ -86,7 +86,7 @@ watch(
     <div class="captcha-image--container relative ml-2">
       <img
         :src="captcha"
-        class="h-[40px] w-[115px] cursor-pointer rounded-r-md"
+        class="h-9 w-[115px] cursor-pointer rounded-r-md"
         :class="{ 'pointer-events-none': loading }"
         @click="$emit('captchaClick')"
       />
