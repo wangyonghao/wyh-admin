@@ -3,7 +3,7 @@ import type {
   VbenFormSchema as FormSchema,
 } from '@vben/common-ui';
 
-import type { ComponentPropsMap, ComponentType } from './component';
+import type { ComponentPropsMap, ComponentType } from '../ui';
 
 import { setupVbenForm, useVbenForm as useForm, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';

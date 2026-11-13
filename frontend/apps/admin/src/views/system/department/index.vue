@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { VxeTableGridOptions } from '#/components/ui-patterns/vxe-table';
 import type { DepartmentResult } from '#/api/system/department';
 
 import { nextTick, ref, watch } from 'vue';
@@ -10,7 +10,7 @@ import { $t } from '@vben/locales';
 
 import { useDebounceFn } from '@vueuse/core';
 
-import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { useVbenVxeGrid } from '#/components/ui-patterns/vxe-table';
 import { departmentApi } from '#/api/system/department';
 import { useDownload } from '#/hooks/app/useDownload';
 import { useUserStore } from '#/store/user';

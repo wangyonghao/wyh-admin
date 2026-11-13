@@ -58,7 +58,7 @@
 | 质量工具 | ESLint、Stylelint、oxfmt、oxlint、Commitlint、Lefthook | 见 catalog |
 | 测试 | Vitest、Playwright、@vue/test-utils | 4.1.4 / 1.59.1 等 |
 
-主应用：`frontend/apps/admin`（`@wyh/admin`）。共享 UI 在 `packages/ui`（`@wyh/ui`）、`packages/ui-patterns`（`@wyh/ui-patterns`）。可部署面在 `apps/`：`apps/admin`（产品后台）、`apps/docs`（`@wyh/docs`，VitePress）、`apps/design-system`（`@wyh/design-system`，只演示上述两个包）。壳在 `apps/admin/src/vben/`（偏好、布局、导航、多页签）。共享包平铺在 `packages/`：`form-ui`、`design`、`icons`、`shared`、`composables`。弹层运行时在 `apps/admin/src/components/popup`。依赖边界见 `docs/architecture/frontend-packages.md`。应用构建配置在 `apps/admin`（Vite、env、tsconfig）；仓库级 ESLint / Stylelint 仍在 `frontend/` 根目录（无 `configs/` 目录）。脚本：在 `frontend/` 下 `pnpm dev` / `pnpm build` 与 `pnpm dev:admin` / `pnpm build:admin` 相同，都启动产品后台；另有 `pnpm dev:docs`、`pnpm dev:ds`。
+主应用：`frontend/apps/admin`（`@wyh/admin`）。共享 UI 在 `packages/ui`（`@wyh/ui`）、`packages/ui-patterns`（`@wyh/ui-patterns`）。可部署面在 `apps/`：`apps/admin`（产品后台）、`apps/docs`（`@wyh/docs`，VitePress）、`apps/design-system`（`@wyh/design-system`，只演示上述两个包）。壳在 `apps/admin/src/components/vben/`（偏好、布局、导航、多页签）。共享包平铺在 `packages/`：`form-ui`、`design`、`icons`、`shared`、`composables`。弹层运行时在 `apps/admin/src/components/popup`。依赖边界见 `docs/architecture/frontend-packages.md`。应用构建配置在 `apps/admin`（Vite、env、tsconfig）；仓库级 ESLint / Stylelint 仍在 `frontend/` 根目录（无 `configs/` 目录）。脚本：在 `frontend/` 下 `pnpm dev` / `pnpm build` 与 `pnpm dev:admin` / `pnpm build:admin` 相同，都启动产品后台；另有 `pnpm dev:docs`、`pnpm dev:ds`。
 
 ## Architecture
 
@@ -101,13 +101,13 @@ admin-commons/cmn-*         # 基础设施；不要求 COLA；禁止依赖 *-cli
 
 ```
 frontend/apps/admin             # @wyh/admin；产品后台（入口 src/；views / api / …）
-  └── src/vben/                 # 内联壳（@vben/*）：偏好、布局、导航、多页签
+  └── src/components/vben/      # 内联壳（@vben/*）：偏好、布局、导航、多页签
 frontend/apps/docs              # @wyh/docs 5.7.0；VitePress
 frontend/apps/design-system     # @wyh/design-system；只演示 @wyh/ui 与 @wyh/ui-patterns，并引入 @wyh/design
 frontend/packages/ui-patterns   # @wyh/ui-patterns 5.7.0；依赖 @wyh/ui；应用别名 #/ui-patterns
 frontend/packages/ui            # @wyh/ui 5.7.0；应用别名 #/ui；cn 在 src/lib/cn.ts，导出 @wyh/ui/lib/cn
 frontend/packages/form-ui       # schema 表单运行时
-frontend/apps/admin/src/components/popup  # 命令式 modal / drawer / alert
+frontend/apps/admin/src/components/popup  # 命令式 modal / drawer / alert（分子路径引入）
 frontend/packages/design        # 设计 token
 frontend/packages/icons
 frontend/packages/shared        # 纯函数、通用类型、组件注册表
@@ -128,7 +128,7 @@ frontend/packages/composables
 4. **数据库变更走 Liquibase**：脚本放在 `db/changelog/postgresql/`，禁止只改库不改 changelog。
 5. **任务调度以 Quartz（cmn-job）为准**：勿回退或并行引入另一套分布式调度框架，除非宪法与 roadmap 明确变更。
 6. **前端主 UI 为 shadcn-vue / Vben 原子**：源码在 `@wyh/ui`、`@wyh/ui-patterns`（`frontend/packages/*`）。业务页用别名 `#/ui`、`#/ui-patterns`，或直接写包名。组件演示是 `frontend/apps/design-system`，只消费这两个包，不放业务页。勿默认再开平行产品应用，也不要再引入 `naive-ui`。
-7. **前端包按依赖方向放**：原子在 `frontend/packages/ui`，页面组合在 `frontend/packages/ui-patterns`，表单和弹层运行时各自成包，布局导航和多页签在 `frontend/apps/admin/src/vben`。共享包不得依赖应用。细则见 `docs/architecture/frontend-packages.md`。
+7. **前端包按依赖方向放**：原子在 `frontend/packages/ui`，页面组合在 `frontend/packages/ui-patterns`，表单和弹层运行时各自成包，布局导航和多页签在 `frontend/apps/admin/src/components/vben`。共享包不得依赖应用。细则见 `docs/architecture/frontend-packages.md`。
 8. **配置集中**：运行配置以 `admin-start/src/main/resources/config/` 为准；敏感项用环境变量覆盖。
 
 ## Deliberate exclusions

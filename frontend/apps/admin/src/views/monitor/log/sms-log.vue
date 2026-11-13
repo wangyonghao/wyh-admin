@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { VbenFormSchema } from '#/adapter/form';
-import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { VbenFormSchema } from '#/components/ui-patterns/form';
+import type { VxeTableGridOptions } from '#/components/ui-patterns/vxe-table';
 import type { SmsLogResp } from '#/api/system/sms-log';
 
 import { IconifyIcon } from '@vben/icons';
 
-import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { useVbenVxeGrid } from '#/components/ui-patterns/vxe-table';
 import { smsLogApi } from '#/api/system/sms-log';
 import { Badge } from '#/ui/badge';
 import { Button } from '#/ui/button';

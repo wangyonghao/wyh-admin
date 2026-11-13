@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { useVbenModal } from '@vben/common-ui';
+import { useVbenModal } from '#/components/popup/modal';
 
-import { useVbenForm } from '#/adapter/form';
+import { useVbenForm } from '#/components/ui-patterns/form';
 
 defineOptions({
   name: 'FormModelDemo',

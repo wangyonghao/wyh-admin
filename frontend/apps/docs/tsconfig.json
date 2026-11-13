@@ -3,7 +3,18 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "paths": {
-      "#/*": ["./src/_env/*"]
+      "#/components/popup/alert": [
+        "../admin/src/components/popup/alert/index.ts"
+      ],
+      "#/components/popup/drawer": [
+        "../admin/src/components/popup/drawer/index.ts"
+      ],
+      "#/components/popup/modal": [
+        "../admin/src/components/popup/modal/index.ts"
+      ],
+      "#/*": [
+        "./src/_env/*"
+      ]
     }
   },
   "include": [
@@ -14,5 +25,7 @@
     "src/**/*.ts",
     "src/**/*.vue"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

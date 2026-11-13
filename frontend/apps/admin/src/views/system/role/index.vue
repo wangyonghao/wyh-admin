@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { VxeTableGridOptions } from '#/components/ui-patterns/vxe-table';
 
 import type { RoleDetailResp, RoleResp, RoleUserResp } from '#/api/system/role';
 
@@ -9,7 +9,7 @@ import { ColPage } from '@vben/common-ui';
 import { IconifyIcon } from '@vben/icons';
 import { $t } from '@vben/locales';
 
-import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { useVbenVxeGrid } from '#/components/ui-patterns/vxe-table';
 import { roleApi } from '#/api/system/role';
 import { useUserStore } from '#/store';
 import { Badge } from '#/ui/badge';

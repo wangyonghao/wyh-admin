@@ -1,5 +1,5 @@
 /**
- * useVbenForm 的 Upload 绑 fileList，空值仍是 null（见 adapter/form.ts）。
+ * useVbenForm 的 Upload 绑 fileList，空值仍是 null（见 `#/components/ui-patterns/form`）。
  * null 显示为空列表。删到没有文件、或一次都没选，回写 null，不回写 []。
  * 页面上带自定义请求的上传按钮仍用 Naive，这里只覆盖表单 schema。
  */

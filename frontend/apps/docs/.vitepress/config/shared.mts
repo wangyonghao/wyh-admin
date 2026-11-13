@@ -29,7 +29,10 @@ import {
 } from 'vitepress-plugin-group-icons';
 
 import { installDocsSsrDom, uninstallDocsSsrDom } from '../ssr-dom';
-import { createVbenAliases } from '../../../admin/vben.aliases.mts';
+import {
+  createPopupAliases,
+  createVbenAliases,
+} from '../../../admin/vben.aliases.mts';
 import { demoPreviewPlugin } from './plugins/demo-preview';
 import { search as zhSearch } from './zh.mts';
 
@@ -127,6 +130,7 @@ export const shared = defineConfig({
     ],
     resolve: {
       alias: {
+        ...createPopupAliases(),
         ...createVbenAliases(),
         'vue-json-viewer': fileURLToPath(
           new URL('../shims/vue-json-viewer.ts', import.meta.url),

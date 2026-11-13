@@ -12,8 +12,8 @@ export * from './resize';
 export * from './tippy';
 export * from './tree';
 export * from '@wyh/form-ui';
-// 弹层运行时只在后台。文档示例通过 @vben/common-ui 别名使用这份实现。
-export * from '#/components/popup';
+// 弹层运行时在 `#/components/popup/{modal,drawer,alert}`，不再从本文件再导出。
+// 文档 demo 通过同样的子路径别名使用后台实现。
 
 // 给文档用
 export {

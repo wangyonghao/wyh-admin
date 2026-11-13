@@ -1,5 +1,5 @@
-import type { VbenFormSchema } from '#/adapter/form';
-import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { VbenFormSchema } from '#/components/ui-patterns/form';
+import type { VxeTableGridOptions } from '#/components/ui-patterns/vxe-table';
 
 import { $t } from '@vben/locales';
 

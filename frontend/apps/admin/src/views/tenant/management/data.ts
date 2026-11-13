@@ -1,9 +1,9 @@
-import type { VbenFormSchema } from '#/adapter/form';
-import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { VbenFormSchema } from '#/components/ui-patterns/form';
+import type { VxeTableGridOptions } from '#/components/ui-patterns/vxe-table';
 
 import { $t } from '@vben/locales';
 
-import { z } from '#/adapter/form';
+import { z } from '#/components/ui-patterns/form';
 import {
   USERNAME_WRITE_MESSAGE,
   USERNAME_WRITE_PATTERN,

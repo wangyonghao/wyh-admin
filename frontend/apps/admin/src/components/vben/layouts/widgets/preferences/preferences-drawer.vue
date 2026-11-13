@@ -27,7 +27,7 @@ import {
   usePreferences,
 } from '@vben/preferences';
 
-import { useVbenDrawer } from '#/components/popup';
+import { useVbenDrawer } from '#/components/popup/drawer';
 import {
   VbenButton,
   VbenIconButton,

@@ -9,8 +9,8 @@ import { useTitle } from '@vueuse/core';
 
 import { $t, setupI18n } from '#/locales';
 
-import { initComponentAdapter } from './adapter/component';
-import { initSetupVbenForm } from './adapter/form';
+import { initComponentAdapter } from './components/ui';
+import { initSetupVbenForm } from './components/ui-patterns/form';
 import App from './app.vue';
 import { registerAccessDirective } from './directives/access';
 import router from './router';

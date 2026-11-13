@@ -27,7 +27,7 @@ import {
 import { $t } from '@vben/locales';
 import { COLOR_PRESETS } from '@vben/preferences';
 
-import { prompt } from '#/components/popup';
+import { prompt } from '#/components/popup/alert';
 
 const headingLevels = [1, 2, 3, 4] as const;
 const editorColorPresets = [

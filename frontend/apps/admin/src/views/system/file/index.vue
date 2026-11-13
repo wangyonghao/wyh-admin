@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { VxeTableGridOptions } from '#/components/ui-patterns/vxe-table';
 import type { FileCategory, FileResult } from '#/api/system/file';
 
 import { ref, watch } from 'vue';
@@ -7,9 +7,9 @@ import { ref, watch } from 'vue';
 import { Page } from '@vben/common-ui';
 import { IconifyIcon } from '@vben/icons';
 
-import FormTreeSelect from '#/adapter/component/FormTreeSelect.vue';
+import FormTreeSelect from '#/components/ui/FormTreeSelect.vue';
 
-import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { useVbenVxeGrid } from '#/components/ui-patterns/vxe-table';
 import { fileApi, resolveFilePreviewUrl } from '#/api/system/file';
 import { Button } from '#/ui/button';
 import {

@@ -48,9 +48,6 @@
       "#/ui/*": [
         "../../packages/ui/src/component/shadcn-vue/ui/*"
       ],
-      "#/components/popup": [
-        "./src/components/popup/index.ts"
-      ],
       "#/*": [
         "./src/*"
       ],
@@ -103,61 +100,61 @@
         "./src/styles/theme.css"
       ],
       "@vben/styles": [
-        "./src/vben/styles/index.ts"
+        "./src/components/vben/styles/index.ts"
       ],
       "@vben/plugins/echarts": [
-        "./src/vben/plugins/echarts/index.ts"
+        "./src/components/vben/plugins/echarts/index.ts"
       ],
       "@vben/plugins/tiptap": [
-        "./src/vben/plugins/tiptap/index.ts"
+        "./src/components/vben/plugins/tiptap/index.ts"
       ],
       "@vben/plugins/vxe-table": [
-        "./src/vben/plugins/vxe-table/index.ts"
+        "./src/components/vben/plugins/vxe-table/index.ts"
       ],
       "@vben/plugins/motion": [
-        "./src/vben/plugins/motion/index.ts"
+        "./src/components/vben/plugins/motion/index.ts"
       ],
       "@vben/plugins": [
-        "./src/vben/plugins/index.ts"
+        "./src/components/vben/plugins/index.ts"
       ],
       "@vben/common-ui/es/tippy": [
-        "./src/vben/common-ui/components/tippy/index.ts"
+        "./src/components/vben/common-ui/components/tippy/index.ts"
       ],
       "@vben/common-ui/es/loading": [
-        "./src/vben/common-ui/components/loading/index.ts"
+        "./src/components/vben/common-ui/components/loading/index.ts"
       ],
       "@vben/common-ui": [
-        "./src/vben/common-ui/index.ts"
+        "./src/components/vben/common-ui/index.ts"
       ],
       "@vben/types/global": [
-        "./src/vben/types/global.d.ts"
+        "./src/components/vben/types/global.d.ts"
       ],
       "@vben/types": [
-        "./src/vben/types/index.ts"
+        "./src/components/vben/types/index.ts"
       ],
       "@vben/constants": [
-        "./src/vben/constants/index.ts"
+        "./src/components/vben/constants/index.ts"
       ],
       "@vben/utils": [
-        "./src/vben/utils/index.ts"
+        "./src/components/vben/utils/index.ts"
       ],
       "@vben/icons": [
-        "./src/vben/icons/index.ts"
+        "./src/components/vben/icons/index.ts"
       ],
       "@vben/stores": [
-        "./src/vben/stores/index.ts"
+        "./src/components/vben/stores/index.ts"
       ],
       "@vben/preferences": [
-        "./src/vben/preferences/index.ts"
+        "./src/components/vben/preferences/index.ts"
       ],
       "@vben/locales": [
-        "./src/vben/locales/index.ts"
+        "./src/components/vben/locales/index.ts"
       ],
       "@vben/hooks": [
-        "./src/vben/hooks/index.ts"
+        "./src/components/vben/hooks/index.ts"
       ],
       "@vben/layouts": [
-        "./src/vben/layouts/index.ts"
+        "./src/components/vben/layouts/index.ts"
       ]
     }
   },
@@ -165,7 +162,7 @@
     "src/**/*.ts",
     "src/**/*.tsx",
     "src/**/*.vue",
-    "src/vben/types/global.d.ts",
+    "src/components/vben/types/global.d.ts",
     "../../packages/ui/src/**/*.ts",
     "../../packages/ui/src/**/*.vue",
     "../../packages/ui-patterns/src/**/*.ts",

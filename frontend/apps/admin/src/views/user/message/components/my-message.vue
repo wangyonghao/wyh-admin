@@ -1,18 +1,19 @@
 <script setup lang="ts">
 import type { VbenFormSchema } from '@vben/common-ui';
 
-import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { VxeTableGridOptions } from '#/components/ui-patterns/vxe-table';
 import type { MessageResp } from '#/api/system/user-message';
 
 import { ref } from 'vue';
 
-import { Page, useVbenModal } from '@vben/common-ui';
+import { Page } from '@vben/common-ui';
+import { useVbenModal } from '#/components/popup/modal';
 import { $t } from '@vben/locales';
 
 
 import { Badge } from '#/ui/badge';
 
-import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { useVbenVxeGrid } from '#/components/ui-patterns/vxe-table';
 import { userMessageApi } from '#/api/system/user-message';
 import { useDict } from '#/hooks';
 import { Button } from '#/ui/button';

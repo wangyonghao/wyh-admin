@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { VxeTableGridOptions } from '#/components/ui-patterns/vxe-table';
 import type { JobResp } from '#/api/schedule';
 
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-import { Page, useVbenModal } from '@vben/common-ui';
+import { Page } from '@vben/common-ui';
+import { useVbenModal } from '#/components/popup/modal';
 
-import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { useVbenVxeGrid } from '#/components/ui-patterns/vxe-table';
 import {
   deleteJob,
   listJob,

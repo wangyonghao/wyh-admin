@@ -23,7 +23,7 @@ const routes: RouteRecordRaw[] = [
   {
     name: 'Root',
     path: '/',
-    component: () => import('#/layouts/basic.vue'),
+    component: () => import('#/components/layouts/basic.vue'),
     meta: { hideInBreadcrumb: true, title: 'Root' },
     redirect: preferences.app.defaultHomePath,
     children: [
@@ -88,7 +88,7 @@ const routes: RouteRecordRaw[] = [
   {
     name: 'Authentication',
     path: '/auth',
-    component: () => import('#/layouts/auth.vue'),
+    component: () => import('#/components/layouts/auth.vue'),
     meta: { hideInTab: true, requiresAuth: false, title: 'Authentication' },
     redirect: '/auth/login',
     children: [

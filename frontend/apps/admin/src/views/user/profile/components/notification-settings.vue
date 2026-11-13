@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import FormRadioGroup from '#/adapter/component/FormRadioGroup.vue';
+import FormRadioGroup from '#/components/ui/FormRadioGroup.vue';
 import { $t } from '@vben/locales';
 import { Button } from '#/ui/button';
 import { Checkbox } from '#/ui/checkbox';

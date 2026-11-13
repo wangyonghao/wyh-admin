@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { VbenFormSchema } from '#/adapter/form';
-import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { VbenFormSchema } from '#/components/ui-patterns/form';
+import type { VxeTableGridOptions } from '#/components/ui-patterns/vxe-table';
 import type { LoginLogQuery, LoginLogResult } from '#/api/system/login-log';
 
 import { IconifyIcon } from '@vben/icons';
 
-import { formatDateTimeRange } from '#/adapter/component/date-range';
-import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { formatDateTimeRange } from '#/components/ui/date-range';
+import { useVbenVxeGrid } from '#/components/ui-patterns/vxe-table';
 import { loginLogApi } from '#/api/system/login-log';
 import { $t } from '#/locales';
 import { Badge } from '#/ui/badge';

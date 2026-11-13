@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { VxeTableGridOptions } from '#/components/ui-patterns/vxe-table';
 import type { JobLogResp } from '#/api/schedule';
 
 import { onMounted } from 'vue';
@@ -7,7 +7,7 @@ import { useRoute } from 'vue-router';
 
 import { Page } from '@vben/common-ui';
 
-import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { useVbenVxeGrid } from '#/components/ui-patterns/vxe-table';
 import { Badge } from '#/ui/badge';
 import { badgeVariantForTag } from '#/ui/badge/variant';
 import { listJobLog } from '#/api/schedule';

@@ -68,7 +68,7 @@ import type { RouteRecordRaw } from 'vue-router';
 
 import { VBEN_LOGO_URL } from '@vben/constants';
 
-import { BasicLayout } from '#/layouts';
+import { BasicLayout } from '#/components/layouts';
 import { $t } from '#/locales';
 
 const routes: RouteRecordRaw[] = [
@@ -118,7 +118,7 @@ export default routes;
 ```ts
 import type { RouteRecordRaw } from 'vue-router';
 
-import { BasicLayout } from '#/layouts';
+import { BasicLayout } from '#/components/layouts';
 import { $t } from '#/locales';
 
 const routes: RouteRecordRaw[] = [
@@ -242,7 +242,7 @@ import type { RouteRecordRaw } from 'vue-router';
 
 import { VBEN_LOGO_URL } from '@vben/constants';
 
-import { BasicLayout } from '#/layouts';
+import { BasicLayout } from '#/components/layouts';
 import { $t } from '#/locales';
 
 const routes: RouteRecordRaw[] = [

@@ -2,15 +2,16 @@
 import type {
   OnActionClickParams,
   VxeTableGridOptions,
-} from '#/adapter/vxe-table';
+} from '#/components/ui-patterns/vxe-table';
 import type { OpenAppApi } from '#/api';
 
 import { ref } from 'vue';
 
-import { Page, useVbenDrawer } from '@vben/common-ui';
+import { Page } from '@vben/common-ui';
+import { useVbenDrawer } from '#/components/popup/drawer';
 import { $t } from '@vben/locales';
 
-import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { useVbenVxeGrid } from '#/components/ui-patterns/vxe-table';
 import { openAppApi } from '#/api/open';
 import { Button } from '#/ui/button';
 import { toast } from '#/ui-patterns/toast';

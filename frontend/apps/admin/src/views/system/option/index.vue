@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { VxeTableGridOptions } from '#/components/ui-patterns/vxe-table';
 import type { OptionResult } from '#/api/system/option';
 
 import { ref } from 'vue';
 
 import { Page } from '@vben/common-ui';
 
-import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { useVbenVxeGrid } from '#/components/ui-patterns/vxe-table';
 import { optionApi } from '#/api/system';
 import { Badge } from '#/ui/badge';
 import { Button } from '#/ui/button';

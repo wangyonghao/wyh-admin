@@ -122,13 +122,13 @@ wyh-admin 是**企业中后台脚手架**：信息密度偏高、结构清晰、
 
 ### Inputs & forms
 
-- 搜索与编辑表单优先 `useVbenForm` + Zod schema（`#/adapter/form`）。
+- 搜索与编辑表单优先 `useVbenForm` + Zod schema（`#/components/ui-patterns/form`）。
 - 栅格：搜索区常用 `grid-cols-1 md:grid-cols-2 lg:grid-cols-3/4`；`showCollapseButton` 字段多时开启。
 - 校验错误态走表单控件自己的错误样式，不单页覆写边框色。
 
 ### Tables
 
-- **默认：** `useVbenVxeGrid`（`#/adapter/vxe-table`），`height: 'auto'`，`Page auto-content-height`。
+- **默认：** `useVbenVxeGrid`（`#/components/ui-patterns/vxe-table`），`height: 'auto'`，`Page auto-content-height`。
 - 工具栏：`refresh` / `search` / `custom` / `zoom` 按需；业务按钮放 `#toolbar-tools`。
 - 新 CRUD 用 Vxe，不再手写另一套表格。
 

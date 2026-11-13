@@ -1,9 +1,10 @@
-import type { BeforeCloseScope, ExtendedFormApi } from '@vben/common-ui';
+import type { ExtendedFormApi } from '@vben/common-ui';
+import type { BeforeCloseScope } from '#/components/popup/alert';
 import type { MaybePromise } from '@vben/types';
 
 import { ref } from 'vue';
 
-import { confirm } from '@vben/common-ui';
+import { confirm } from '#/components/popup/alert';
 import { $t } from '@vben/locales';
 import { isFunction } from '@vben/utils';
 

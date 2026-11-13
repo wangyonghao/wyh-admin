@@ -10,7 +10,7 @@ import { computed, onBeforeUnmount, watch } from 'vue';
 import { Check, ChevronDown, Eye } from '@vben/icons';
 import { $t } from '@vben/locales';
 
-import { useVbenModal } from '#/components/popup';
+import { useVbenModal } from '#/components/popup/modal';
 import {
   VbenIconButton,
   VbenPopover,

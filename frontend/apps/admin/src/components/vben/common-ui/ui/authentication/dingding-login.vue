@@ -4,7 +4,8 @@ import { useRoute } from 'vue-router';
 import { SvgDingDingIcon } from '@vben/icons';
 import { $t } from '@vben/locales';
 
-import { alert, useVbenModal } from '#/components/popup';
+import { useVbenModal } from '#/components/popup/modal';
+import { alert } from '#/components/popup/alert';
 import { VbenIconButton } from '#/ui/composed';
 import { loadScript } from '@wyh/shared/utils';
 

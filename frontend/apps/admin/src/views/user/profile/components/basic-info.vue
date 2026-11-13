@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue';
 
-import { useVbenModal } from '@vben/common-ui';
+import { useVbenModal } from '#/components/popup/modal';
 
 import { VbenAvatar } from '#/ui/composed';
-import FormRadioGroup from '#/adapter/component/FormRadioGroup.vue';
+import FormRadioGroup from '#/components/ui/FormRadioGroup.vue';
 import { Button } from '#/ui/button';
 import { Input } from '#/ui/input';
 import { Label } from '#/ui/label';

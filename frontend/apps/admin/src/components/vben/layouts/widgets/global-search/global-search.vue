@@ -13,7 +13,7 @@ import {
 import { $t } from '@vben/locales';
 import { isWindowsOs } from '@vben/utils';
 
-import { useVbenModal } from '#/components/popup';
+import { useVbenModal } from '#/components/popup/modal';
 
 import { useMagicKeys, whenever } from '@vueuse/core';
 

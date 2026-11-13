@@ -1,7 +1,8 @@
 <script lang="ts" setup>
-import { Page, useVbenModal } from '@vben/common-ui';
+import { Page } from '@vben/common-ui';
+import { useVbenModal } from '#/components/popup/modal';
 
-import { useVbenForm } from '#/adapter/form';
+import { useVbenForm } from '#/components/ui-patterns/form';
 import { Button } from '#/ui/button';
 import {
   Card,

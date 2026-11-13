@@ -205,7 +205,7 @@ export default defineConfig(async ({ command, mode }) => {
         clientFiles: [
           './index.html',
           './src/bootstrap.ts',
-          './src/{views,layouts,router,store,api,adapter}/*',
+          './src/{views,components,router,store,api,adapter}/*',
         ],
       },
     },

@@ -1,5 +1,5 @@
 /**
- * useVbenForm 的空值是 null（见 adapter/form.ts）。
+ * useVbenForm 的空值是 null（见 `#/components/ui-patterns/form`）。
  * 输入框只把 null 画成空字符串；用户清空后仍回写空字符串，
  * 这样 zod 的 string 规则按空字符串失败，而不是类型错误。
  * 重置由表单把字段写成 null，组件读取即可。

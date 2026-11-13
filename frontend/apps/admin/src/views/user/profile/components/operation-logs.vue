@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { VxeTableGridOptions } from '#/components/ui-patterns/vxe-table';
 import type {
   LoginLogPageQuery,
   LoginLogQuery,
@@ -9,8 +9,8 @@ import type {
 import { ref } from 'vue';
 
 import { toast } from '#/ui-patterns/toast';
-import FormSelect from '#/adapter/component/FormSelect.vue';
-import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import FormSelect from '#/components/ui/FormSelect.vue';
+import { useVbenVxeGrid } from '#/components/ui-patterns/vxe-table';
 import { loginLogApi } from '#/api/system/login-log';
 import { $t } from '#/locales';
 import { useUserStore } from '#/store/user';

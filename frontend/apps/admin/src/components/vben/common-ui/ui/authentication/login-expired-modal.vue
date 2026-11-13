@@ -5,7 +5,7 @@ import { computed, watch } from 'vue';
 
 import { $t } from '@vben/locales';
 
-import { useVbenModal } from '#/components/popup';
+import { useVbenModal } from '#/components/popup/modal';
 import {
   Slot,
   VbenAvatar,

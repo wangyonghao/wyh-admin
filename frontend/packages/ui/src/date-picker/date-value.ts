@@ -1,5 +1,5 @@
 /**
- * useVbenForm 的空值是 null（见 adapter/form.ts）。
+ * useVbenForm 的空值是 null（见 `#/components/ui-patterns/form`）。
  * 日期把 null 画成未选；清除、未选完的范围都回写 null。
  * 没有 valueFormat 时提交时间戳（页面筛选就是这样读的）。
  * 有 valueFormat 时提交格式化字符串，供 LocalDateTime（yyyy-MM-dd HH:mm:ss）。

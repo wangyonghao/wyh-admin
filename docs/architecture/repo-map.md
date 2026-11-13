@@ -96,7 +96,7 @@ commons/cmn-*
 
 ```
 frontend/apps/
-  admin              # @wyh/admin 产品后台；壳在 src/vben
+  admin              # @wyh/admin 产品后台；壳在 src/components/vben
   design-system      # @wyh/design-system 组件演示
   docs               # @wyh/docs 文档站
 frontend/packages/
@@ -109,7 +109,7 @@ frontend/packages/
   composables        # @wyh/composables
 ```
 
-应用里 `@vben/*` 仍是指向 `apps/admin/src/vben` 的路径别名。业务组件仍走 `#` 前缀（`#/ui`、`#/ui-patterns` 等）。
+应用里 `@vben/*` 仍是指向 `apps/admin/src/components/vben` 的路径别名。业务组件仍走 `#` 前缀（`#/ui`、`#/ui-patterns` 等）。
 
 | 路径 | 包名 | 职责 |
 |------|------|------|
@@ -124,12 +124,12 @@ frontend/packages/
 | `frontend/packages/design` | `@wyh/design` | 设计 token。产品后台与 `apps/design-system` 都引入。导出：`./bem`、`./theme` |
 | `frontend/packages/composables` | `@wyh/composables` | `useScrollLock`、`useNamespace`、排序、断点、转发 props |
 | `frontend/packages/form-ui` | `@wyh/form-ui` | schema 表单运行时。动态字段 `VbenCollapsibleParams` 在这里 |
-| `frontend/apps/admin/src/components/popup` | 应用内 | 命令式 modal / drawer / alert。`@vben/common-ui` 再导出。文档示例走这个别名 |
-| `frontend/apps/admin/src/vben/layouts/frame` | 应用内 | 后台布局框架 |
-| `frontend/apps/admin/src/vben/layouts/navigation` | 应用内 | 侧栏 / 顶栏导航 |
-| `frontend/apps/admin/src/vben/layouts/workspace-tabs` | 应用内 | 多路由页签 |
-| `frontend/apps/admin/src/vben/preferences` | `@vben/preferences` | 产品后台偏好 |
-| `frontend/apps/admin/src/vben/types` | `@vben/types` | 菜单、页签、布局、路由 meta、用户信息模型。通用类型从 `@wyh/shared/types` 再导出 |
+| `frontend/apps/admin/src/components/popup` | 应用内 | 命令式 modal / drawer / alert。按 `modal` / `drawer` / `alert` 子路径引入，不再由 `@vben/common-ui` 再导出。文档示例走这些入口 |
+| `frontend/apps/admin/src/components/vben/layouts/frame` | 应用内 | 后台布局框架 |
+| `frontend/apps/admin/src/components/vben/layouts/navigation` | 应用内 | 侧栏 / 顶栏导航 |
+| `frontend/apps/admin/src/components/vben/layouts/workspace-tabs` | 应用内 | 多路由页签 |
+| `frontend/apps/admin/src/components/vben/preferences` | `@vben/preferences` | 产品后台偏好 |
+| `frontend/apps/admin/src/components/vben/types` | `@vben/types` | 菜单、页签、布局、路由 meta、用户信息模型。通用类型从 `@wyh/shared/types` 再导出 |
 
 ## Quick locate
 
@@ -165,9 +165,9 @@ frontend/packages/
 | API | `frontend/apps/admin/src/api/` |
 | 前后端对齐 | `docs/architecture/repo-map.md` |
 | 代码生成 | `AGENTS.md`（已从宪法删除，未实现） |
-| 应用内别名 | `frontend/apps/admin/src/vben/`（`@vben/*` 路径别名；内部已改引用 `@wyh/*`） |
+| 应用内别名 | `frontend/apps/admin/src/components/vben/`（`@vben/*` 路径别名；内部已改引用 `@wyh/*`） |
 | 共享包 | `frontend/packages/{ui,ui-patterns,form-ui,design,icons,shared,composables}` |
-| 应用壳 | `apps/admin/src/vben/`（布局框架、导航、多页签、偏好、后台模型类型） |
+| 应用壳 | `apps/admin/src/components/vben/`（布局框架、导航、多页签、偏好、后台模型类型） |
 | 原子 / 页面模式 | `frontend/packages/ui`（`@wyh/ui`）、`frontend/packages/ui-patterns`（`@wyh/ui-patterns`）。应用导入仍走 `#/ui`、`#/ui-patterns`；组合组件 `#/ui/composed`；原始布尔 Switch `#/ui/switch/switch-root` |
 | 文档站 | `frontend/apps/docs`（`@wyh/docs`，VitePress）。`pnpm dev:docs` / `pnpm build:docs` |
 | 组件演示 | `frontend/apps/design-system`（`@wyh/design-system`）。只演示上述两个包，不放业务页。`pnpm dev:ds` / `pnpm build:ds` |

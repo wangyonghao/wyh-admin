@@ -3,9 +3,9 @@ import type { OptionRequest, OptionResult } from '#/api/system/option';
 
 import { computed, ref, watch } from 'vue';
 
-import { useVbenDrawer } from '@vben/common-ui';
+import { useVbenDrawer } from '#/components/popup/drawer';
 
-import { useVbenForm, z, type VbenFormSchema } from '#/adapter/form';
+import { useVbenForm, z, type VbenFormSchema } from '#/components/ui-patterns/form';
 import { optionApi } from '#/api/system';
 import { toast } from '#/ui-patterns/toast';
 

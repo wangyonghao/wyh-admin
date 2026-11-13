@@ -11,7 +11,8 @@ import type {
 
 import { nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 
-import { ColPage, useVbenDrawer } from '@vben/common-ui';
+import { ColPage } from '@vben/common-ui';
+import { useVbenDrawer } from '#/components/popup/drawer';
 import { IconifyIcon } from '@vben/icons';
 
 import { configApi } from '#/api/system';

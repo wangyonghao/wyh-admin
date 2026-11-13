@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { h } from 'vue';
 
-import { alert, VbenButton } from '@vben/common-ui';
+import { VbenButton } from '@vben/common-ui';
+import { alert } from '#/components/popup/alert';
 
 import { Result } from 'ant-design-vue';
 

@@ -1,13 +1,14 @@
 <script lang="ts" setup>
-import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { VxeTableGridOptions } from '#/components/ui-patterns/vxe-table';
 import type { TenantResp } from '#/api/tenant/management';
 
 import { ref } from 'vue';
 
-import { Page, useVbenDrawer } from '@vben/common-ui';
+import { Page } from '@vben/common-ui';
+import { useVbenDrawer } from '#/components/popup/drawer';
 import { $t } from '@vben/locales';
 
-import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { useVbenVxeGrid } from '#/components/ui-patterns/vxe-table';
 import { deleteTenant, listTenant } from '#/api/tenant';
 import { Button } from '#/ui/button';
 import {

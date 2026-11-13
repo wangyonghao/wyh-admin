@@ -1,6 +1,6 @@
 # 前端包边界
 
-适用范围：`frontend/packages` 与 `apps/admin/src/vben` 的归属。  
+适用范围：`frontend/packages` 与 `apps/admin/src/components/vben` 的归属。  
 最后更新：2026-11-08
 
 包按能力平铺。目录名要能回答「谁可以依赖谁」。`core` / `shell` 回答不了这个问题，已经去掉。
@@ -16,12 +16,12 @@ packages/icons         图标
 packages/shared        纯函数、通用类型、组件注册表
 packages/composables   Vue hook，位于 ui 之下
 
-apps/admin/src/vben/layouts/frame            后台布局框架
-apps/admin/src/vben/layouts/navigation       侧栏 / 顶栏导航
-apps/admin/src/vben/layouts/workspace-tabs   多路由页签
+apps/admin/src/components/vben/layouts/frame            后台布局框架
+apps/admin/src/components/vben/layouts/navigation       侧栏 / 顶栏导航
+apps/admin/src/components/vben/layouts/workspace-tabs   多路由页签
 apps/admin/src/components/popup             命令式 modal / drawer / alert
-apps/admin/src/vben/preferences              偏好
-apps/admin/src/vben/types                    菜单、页签、布局、路由 meta、用户信息
+apps/admin/src/components/vben/preferences              偏好
+apps/admin/src/components/vben/types                    菜单、页签、布局、路由 meta、用户信息
 ```
 
 `@wyh/ui/tabs` 是页内选项卡。多路由工作区是 `layouts/workspace-tabs`，数据是 `TabDefinition`（路由）。`@wyh/ui/dropdown-menu` 是菜单原子。后台导航是 `layouts/navigation`，数据是 `MenuRecordRaw`。`@wyh/ui/form` 是字段原子。`@wyh/form-ui` 是 schema 运行时。
@@ -57,7 +57,7 @@ design ← 应用与 design-system（只引 CSS）
 
 `design`、`icons`、`shared`、`composables` 在原子下面，`form-ui` 在原子上面。把它们都叫 core 或 shell，依赖方向是反的。弹层运行时只属于后台，放在应用里。
 
-布局、导航、多页签只被产品后台使用，并且认识路由和偏好。它们跟偏好一样留在 `apps/admin/src/vben`。design-system 只演示 `ui` 和 `ui-patterns`，不带这套壳。
+布局、导航、多页签只被产品后台使用，并且认识路由和偏好。它们跟偏好一样留在 `apps/admin/src/components/vben`。design-system 只演示 `ui` 和 `ui-patterns`，不带这套壳。
 
 `form-ui` 仍留在 `packages`。弹层运行时只被后台使用，文档示例通过已有的 `@vben/common-ui` 别名指向 admin 源码，所以不单独留共享包，也不把运行时复制进 docs。`@wyh/ui` 的 dialog、sheet、alert-dialog 原子不动。
 
@@ -72,14 +72,14 @@ design ← 应用与 design-system（只引 CSS）
 | `packages/core/shared` | `packages/shared` |
 | `packages/core/composables` | `packages/composables` |
 | `packages/core/typings` 的 `ClassType`、`Recordable`、`DeepPartial` 等 | `@wyh/shared/types` |
-| `packages/core/typings` 的布局、菜单、页签、路由 meta、`BasicUserInfo` | `apps/admin/src/vben/types` |
+| `packages/core/typings` 的布局、菜单、页签、路由 meta、`BasicUserInfo` | `apps/admin/src/components/vben/types` |
 | `packages/shell/form-ui` | `packages/form-ui` |
 | `packages/popup-ui` | `apps/admin/src/components/popup` |
-| `packages/shell/layout-ui` | `apps/admin/src/vben/layouts/frame` |
-| `packages/shell/menu-ui` | `apps/admin/src/vben/layouts/navigation` |
-| `packages/shell/tabs-ui` | `apps/admin/src/vben/layouts/workspace-tabs` |
+| `packages/shell/layout-ui` | `apps/admin/src/components/vben/layouts/frame` |
+| `packages/shell/menu-ui` | `apps/admin/src/components/vben/layouts/navigation` |
+| `packages/shell/tabs-ui` | `apps/admin/src/components/vben/layouts/workspace-tabs` |
 | `ui` 里读注册表的 `VbenCollapsibleParams` | `packages/form-ui` |
-| `packages/core/preferences` | 本来就不存在。偏好仍在 `apps/admin/src/vben/preferences` |
+| `packages/core/preferences` | 本来就不存在。偏好仍在 `apps/admin/src/components/vben/preferences` |
 
 `@wyh/layout-ui`、`@wyh/menu-ui`、`@wyh/tabs-ui`、`@wyh/typings` 不再是包。
 
@@ -112,7 +112,7 @@ pnpm -F @wyh/design-system run build
 
 各包 `package.json` 的 `homepage` / `repository` 仍指向 Vben 上游，`repository.directory` 仍是上游目录。这是来源说明，不是本仓库路径。
 
-`@vben/common-ui` 仍再导出 `form-ui`，并再导出 `apps/admin/src/components/popup`。业务页继续从这个别名取 `useVbenForm`、`useVbenDrawer`、`useVbenModal`、`alert`。文档示例同样走这个别名，不另接一份运行时。
+`@vben/common-ui` 仍再导出 `form-ui`。弹层从 `#/components/popup/modal`、`#/components/popup/drawer`、`#/components/popup/alert` 引入；业务页的 `useVbenDrawer`、`useVbenModal`、`alert` 走这些子路径，`useVbenForm` 仍走 `@vben/common-ui`。文档示例同样走这些入口，不另接一份运行时。
 
 `pnpm -F @wyh/docs run build` 仍会失败：`preferences-drawer.vue` 里的 `@apply -top-3` 在文档站的 Tailwind 编译里不认识。这个文件和这行样式与 main `66b069cb` 相同，这次没有改它。开发服务器打开 `/components/common-ui/vben-form` 可以渲染表单示例。
 

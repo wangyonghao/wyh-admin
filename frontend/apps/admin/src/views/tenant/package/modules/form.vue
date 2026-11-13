@@ -3,10 +3,10 @@ import type { TenantPackageResp } from '#/api/tenant/package';
 
 import { computed, ref } from 'vue';
 
-import { useVbenDrawer } from '@vben/common-ui';
+import { useVbenDrawer } from '#/components/popup/drawer';
 import { $t } from '@vben/locales';
 
-import { useVbenForm } from '#/adapter/form';
+import { useVbenForm } from '#/components/ui-patterns/form';
 import { menuApi } from '#/api/system/menu';
 import {
   addTenantPackage,

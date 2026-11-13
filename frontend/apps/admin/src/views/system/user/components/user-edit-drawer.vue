@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue';
 
-import { useVbenDrawer } from '@vben/common-ui';
+import { useVbenDrawer } from '#/components/popup/drawer';
 
-import { asSelectList } from '#/adapter/component/select-value';
-import { useVbenForm, z } from '#/adapter/form';
+import { asSelectList } from '#/components/ui/select-value';
+import { useVbenForm, z } from '#/components/ui-patterns/form';
 import { userApi } from '#/api/system/user';
 import { toast } from '#/ui-patterns/toast';
 import {

@@ -1,6 +1,6 @@
 import type { NoticeCreateReq } from '#/api/system/notice';
 
-import { asSelectList } from '#/adapter/component/select-value';
+import { asSelectList } from '#/components/ui/select-value';
 
 export interface NoticeFormState {
   content?: string;

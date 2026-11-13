@@ -12,7 +12,7 @@ outline: deep
 
 ![login](/guide/login.png)
 
-只需要在应用下的 `src/layouts/auth.vue` 内，配置`AuthPageLayout`的 `props`参数即可：
+只需要在应用下的 `src/components/layouts/auth.vue` 内，配置`AuthPageLayout`的 `props`参数即可：
 
 ```vue {2-7}
 <AuthPageLayout

@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import type { VbenFormSchema } from '#/adapter/form';
-import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { VbenFormSchema } from '#/components/ui-patterns/form';
+import type { VxeTableGridOptions } from '#/components/ui-patterns/vxe-table';
 import type { OperationLogResp } from '#/api/monitor/log';
 
 import { ref } from 'vue';
 
-import { useVbenDrawer } from '@vben/common-ui';
+import { useVbenDrawer } from '#/components/popup/drawer';
 import { IconifyIcon } from '@vben/icons';
 
-import { formatDateTimeRange } from '#/adapter/component/date-range';
-import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { formatDateTimeRange } from '#/components/ui/date-range';
+import { useVbenVxeGrid } from '#/components/ui-patterns/vxe-table';
 import { logApi } from '#/api/monitor/log';
 import { Badge } from '#/ui/badge';
 import { badgeVariantForTag } from '#/ui/badge/variant';

@@ -41,13 +41,13 @@ export function createTideUiAliases() {
   ];
 }
 
-/** Absolute path under frontend/apps/admin/src/vben/<pkg>/... */
+/** Absolute path under frontend/apps/admin/src/components/vben/<pkg>/... */
 export function vbenSrc(...parts: string[]) {
-  return adminPath('src/vben', ...parts);
+  return adminPath('src/components/vben', ...parts);
 }
 
 /**
- * Maps former @vben/* workspace packages to apps/admin/src/vben.
+ * Maps former @vben/* workspace packages to apps/admin/src/components/vben.
  * More-specific subpaths must come before the package root entry.
  */
 export function createVbenAliases() {
@@ -81,5 +81,24 @@ export function createVbenAliases() {
     '@vben/locales': vbenSrc('locales/index.ts'),
     '@vben/hooks': vbenSrc('hooks/index.ts'),
     '@vben/layouts': vbenSrc('layouts/index.ts'),
+  } as const;
+}
+
+/**
+ * Docs `#/*` points at apps/docs/src/_env, so these explicit entries
+ * let documentation demos import the admin popup runtime by subpath.
+ * Admin already resolves them via `#/*` -> `./src/*`.
+ */
+export function createPopupAliases() {
+  return {
+    '#/components/popup/alert': adminPath(
+      'src/components/popup/alert/index.ts',
+    ),
+    '#/components/popup/drawer': adminPath(
+      'src/components/popup/drawer/index.ts',
+    ),
+    '#/components/popup/modal': adminPath(
+      'src/components/popup/modal/index.ts',
+    ),
   } as const;
 }

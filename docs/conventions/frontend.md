@@ -30,7 +30,7 @@ import { ToolbarActions } from '#/ui-patterns/toolbar-actions';
 frontend/
 ├── apps/
 │   ├── admin/           # @wyh/admin：产品后台。pnpm dev 与 pnpm dev:admin 相同
-│   │   └── src/         # 业务 + src/vben 壳 + src/styles/theme.css
+│   │   └── src/         # 业务 + src/components/vben 壳 + src/styles/theme.css
 │   ├── docs/            # @wyh/docs：VitePress，pnpm dev:docs
 │   └── design-system/   # @wyh/design-system：只演示 ui / ui-patterns，pnpm dev:ds
 ├── packages/
@@ -42,7 +42,7 @@ frontend/
 ```
 
 - 业务代码 → `frontend/apps/admin/src/`（不含 `vben/`）。不要放进 `apps/design-system`
-- 壳层封装 → `frontend/apps/admin/src/vben/`（含布局框架、导航、多页签、偏好）
+- 壳层封装 → `frontend/apps/admin/src/components/vben/`（含布局框架、导航、多页签、偏好）
 - 包边界 → [`docs/architecture/frontend-packages.md`](../architecture/frontend-packages.md)
 - 应用构建 → `frontend/apps/admin` 的 `vite.config.ts`、env、`tsconfig.json`
 - 仓库级检查 → 根目录 `eslint.config.mjs`、`stylelint.config.mjs`、`vitest.config.ts`

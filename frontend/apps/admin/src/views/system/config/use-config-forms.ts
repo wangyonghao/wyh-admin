@@ -10,7 +10,7 @@ import type {
 
 import type { Ref } from 'vue';
 
-import { useVbenForm, type VbenFormSchema } from '#/adapter/form';
+import { useVbenForm, type VbenFormSchema } from '#/components/ui-patterns/form';
 
 function text(label: string, fieldName: string, placeholder: string): VbenFormSchema {
   return {

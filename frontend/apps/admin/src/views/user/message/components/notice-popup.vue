@@ -3,7 +3,7 @@ import type { NoticeResp as NoticePreviewResp } from '#/api/system/notice';
 
 import { computed, ref } from 'vue';
 
-import { useVbenModal } from '@vben/common-ui';
+import { useVbenModal } from '#/components/popup/modal';
 
 import { userMessageApi} from '#/api/system/user-message';
 

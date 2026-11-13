@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { h, onMounted, ref } from 'vue';
 
-import { useVbenModal } from '@vben/common-ui';
+import { useVbenModal } from '#/components/popup/modal';
 
-import { useVbenForm, z } from '#/adapter/form';
+import { useVbenForm, z } from '#/components/ui-patterns/form';
 import { loginLogApi, type LoginLogResult } from '#/api/system/login-log';
 import {
   userProfileApi,

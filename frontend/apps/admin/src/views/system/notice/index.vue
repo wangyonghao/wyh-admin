@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { VxeTableGridOptions } from '#/components/ui-patterns/vxe-table';
 import type { NoticeDetailResp, NoticeResp } from '#/api/system/notice';
 
 import { ref } from 'vue';
 
-import { Page, useVbenDrawer } from '@vben/common-ui';
+import { Page } from '@vben/common-ui';
+import { useVbenDrawer } from '#/components/popup/drawer';
 import { IconifyIcon } from '@vben/icons';
 import { $t } from '@vben/locales';
 
-import { joinDateTimeRange } from '#/adapter/component/date-range';
-import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { joinDateTimeRange } from '#/components/ui/date-range';
+import { useVbenVxeGrid } from '#/components/ui-patterns/vxe-table';
 import { noticeApi } from '#/api/system/notice';
 import { useDict } from '#/hooks';
 import { Badge } from '#/ui/badge';

@@ -3,7 +3,7 @@ import type { MessageResp } from '#/api/system/user-message';
 
 import { computed, ref } from 'vue';
 
-import { useVbenModal } from '@vben/common-ui';
+import { useVbenModal } from '#/components/popup/modal';
 
 import { userMessageApi } from '#/api/system/user-message';
 

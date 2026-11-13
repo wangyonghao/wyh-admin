@@ -3,10 +3,10 @@ import type { RoleResp } from '#/api/system/role';
 
 import { computed, ref, watch } from 'vue';
 
-import { useVbenDrawer } from '@vben/common-ui';
+import { useVbenDrawer } from '#/components/popup/drawer';
 import { $t } from '@vben/locales';
 
-import { useVbenForm } from '#/adapter/form';
+import { useVbenForm } from '#/components/ui-patterns/form';
 import { roleApi } from '#/api/system/role';
 import { toast } from '#/ui-patterns/toast';
 

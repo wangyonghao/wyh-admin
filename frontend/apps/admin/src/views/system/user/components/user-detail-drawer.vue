@@ -3,7 +3,7 @@ import type { UserResp } from '#/api/system/user';
 
 import { ref, watch } from 'vue';
 
-import { useVbenDrawer } from '@vben/common-ui';
+import { useVbenDrawer } from '#/components/popup/drawer';
 import { IconifyIcon } from '@vben/icons';
 
 import { userApi } from '#/api/system/user';

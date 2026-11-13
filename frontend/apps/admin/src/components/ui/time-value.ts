@@ -1,5 +1,5 @@
 /**
- * useVbenForm 的空值是 null（见 adapter/form.ts）。
+ * useVbenForm 的空值是 null（见 `#/components/ui-patterns/form`）。
  * 时间把 null 画成未选；清空回写 null。0 仍是时间戳。
  * 没有 valueFormat 时提交当天日期上的时间戳；有 valueFormat 时提交格式化字符串。
  * 控件是原生 time 输入，只覆盖时分秒。12 小时制、禁用时刻不做。

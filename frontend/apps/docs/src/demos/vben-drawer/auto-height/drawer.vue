@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 
-import { useVbenDrawer, VbenButton } from '@vben/common-ui';
+import { VbenButton } from '@vben/common-ui';
+import { useVbenDrawer } from '#/components/popup/drawer';
 
 const list = ref<number[]>([]);
 

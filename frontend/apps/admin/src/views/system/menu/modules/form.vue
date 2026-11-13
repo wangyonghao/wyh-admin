@@ -3,11 +3,11 @@ import type { Menu } from '#/api/system/menu';
 
 import { ref } from 'vue';
 
-import { useVbenModal } from '@vben/common-ui';
+import { useVbenModal } from '#/components/popup/modal';
 
-import { useVbenForm } from '#/adapter/form';
+import { useVbenForm } from '#/components/ui-patterns/form';
 import { menuApi } from '#/api/system/menu';
-import IconSelect from '#/components/icon-select.vue';
+import IconSelect from '#/components/ui/icon-select.vue';
 import { toast } from '#/ui-patterns/toast';
 
 import { menuPayload, normalizeMenuParentId } from '../form-values';

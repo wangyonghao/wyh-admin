@@ -20,7 +20,7 @@ import { openWindow } from '@vben/utils';
 import { $t } from '#/locales';
 import { useUserStore } from '#/store/user';
 import LoginForm from '#/views/_core/authentication/login.vue';
-import OrgSwitcher from '#/components/org-switcher.vue';
+import OrgSwitcher from '#/components/ui-patterns/org-switcher.vue';
 import { resolveFilePreviewUrl } from '#/api/system/file';
 
 const notifications = ref<NotificationItem[]>([

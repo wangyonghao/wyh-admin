@@ -3,7 +3,7 @@ import type { OpenAppApi } from '#/api/open/app';
 
 import { computed, ref } from 'vue';
 
-import { useVbenDrawer } from '@vben/common-ui';
+import { useVbenDrawer } from '#/components/popup/drawer';
 import { $t } from '@vben/locales';
 
 import { Badge } from '#/ui/badge';

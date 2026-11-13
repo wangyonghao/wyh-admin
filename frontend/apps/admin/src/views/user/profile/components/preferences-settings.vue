@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-import FormRadioGroup from '#/adapter/component/FormRadioGroup.vue';
+import FormRadioGroup from '#/components/ui/FormRadioGroup.vue';
 import { Input } from '#/ui/input';
-import FormSelect from '#/adapter/component/FormSelect.vue';
+import FormSelect from '#/components/ui/FormSelect.vue';
 import { $t } from '#/locales';
 import { Button } from '#/ui/button';
 import { Separator } from '#/ui/separator';

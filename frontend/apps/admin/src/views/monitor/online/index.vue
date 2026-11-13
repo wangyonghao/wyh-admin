@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { VxeTableGridOptions } from '#/components/ui-patterns/vxe-table';
 import type { OnlineUser } from '#/api/monitor/online';
 
 import { ref } from 'vue';
@@ -8,7 +8,7 @@ import { Page } from '@vben/common-ui';
 import { IconifyIcon } from '@vben/icons';
 import { useAccessStore } from '@vben/stores';
 
-import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { useVbenVxeGrid } from '#/components/ui-patterns/vxe-table';
 import { onlineApi } from '#/api/monitor/online';
 import { Button } from '#/ui/button';
 import { toast } from '#/ui-patterns/toast';

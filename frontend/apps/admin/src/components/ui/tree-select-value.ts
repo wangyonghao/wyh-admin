@@ -1,5 +1,5 @@
 /**
- * useVbenForm 的空值是 null（见 adapter/form.ts）。
+ * useVbenForm 的空值是 null（见 `#/components/ui-patterns/form`）。
  * 树选择把 null 画成未选；清除后回写 null。0 是合法键（顶级菜单）。
  * 选项键优先用 keyField，没有再退回 value / key，避免 Api 转成 value 后对不上。
  * VbenTree 会在选项还没到时把对不上的值写成 undefined，下拉不用它做选中态。

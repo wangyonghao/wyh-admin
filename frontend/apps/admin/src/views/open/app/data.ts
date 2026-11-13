@@ -1,12 +1,12 @@
 import type { VxeTableGridOptions } from '@vben/plugins/vxe-table';
 
-import type { VbenFormSchema } from '#/adapter/form';
-import type { OnActionClickFn } from '#/adapter/vxe-table';
+import type { VbenFormSchema } from '#/components/ui-patterns/form';
+import type { OnActionClickFn } from '#/components/ui-patterns/vxe-table';
 import type { OpenAppApi } from '#/api/open/app';
 
 import { $t } from '@vben/locales';
 
-import { z } from '#/adapter/form';
+import { z } from '#/components/ui-patterns/form';
 
 /**
  * 获取编辑表单的字段配置

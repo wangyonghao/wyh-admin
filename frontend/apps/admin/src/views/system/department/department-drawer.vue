@@ -3,10 +3,10 @@ import type { DepartmentResult } from '#/api/system/department';
 
 import { computed, ref, watch } from 'vue';
 
-import { useVbenDrawer } from '@vben/common-ui';
+import { useVbenDrawer } from '#/components/popup/drawer';
 import { $t } from '@vben/locales';
 
-import { useVbenForm } from '#/adapter/form';
+import { useVbenForm } from '#/components/ui-patterns/form';
 import { departmentApi } from '#/api/system/department';
 import { useDict } from '#/hooks/app';
 import { toast } from '#/ui-patterns/toast';

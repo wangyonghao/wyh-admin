@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { VbenFormSchema } from '@vben/common-ui';
 
-import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { VxeTableGridOptions } from '#/components/ui-patterns/vxe-table';
 import type { NoticeResp } from '#/api/system/notice';
 
 import { useRouter } from 'vue-router';
@@ -11,7 +11,7 @@ import { $t } from '@vben/locales';
 
 import { Badge } from '#/ui/badge';
 
-import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { useVbenVxeGrid } from '#/components/ui-patterns/vxe-table';
 import { Button } from '#/ui/button';
 import { userMessageApi } from '#/api/system/user-message';
 import { useDict } from '#/hooks';

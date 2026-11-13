@@ -1,7 +1,7 @@
 import type { Recordable } from '@vben/types';
 import type { VxeTableGridOptions } from '@vben/plugins/vxe-table';
 
-import type { ComponentPropsMap, ComponentType } from './component';
+import type { ComponentPropsMap, ComponentType } from '../ui';
 
 import { h } from 'vue';
 

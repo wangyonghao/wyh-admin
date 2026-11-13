@@ -7,7 +7,7 @@ import { IconifyIcon } from '@vben/icons';
 import { $t } from '@vben/locales';
 import { VbenTiptap } from '@vben/plugins/tiptap';
 
-import { z, useVbenForm } from '#/adapter/form';
+import { z, useVbenForm } from '#/components/ui-patterns/form';
 import { noticeApi } from '#/api/system/notice';
 import { userApi } from '#/api/system/user';
 import { useDict } from '#/hooks';

@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import type { VxeTableGridOptions } from '#/adapter/vxe-table';
+import type { VxeTableGridOptions } from '#/components/ui-patterns/vxe-table';
 import type { DepartmentResult } from '#/api/system/department';
 import type { UserResp } from '#/api/system/user';
 import type { Option } from '#/types/global';
 
 import { computed, onMounted, ref } from 'vue';
 
-import { ColPage, useVbenModal } from '@vben/common-ui';
+import { ColPage } from '@vben/common-ui';
+import { useVbenModal } from '#/components/popup/modal';
 import { IconifyIcon } from '@vben/icons';
 
-import { filterRawTree } from '#/adapter/component/tree-select-value';
-import { useVbenVxeGrid } from '#/adapter/vxe-table';
+import { filterRawTree } from '#/components/ui/tree-select-value';
+import { useVbenVxeGrid } from '#/components/ui-patterns/vxe-table';
 import { departmentApi, roleApi, userApi } from '#/api/system';
 import { Badge } from '#/ui/badge';
 import { badgeVariantForTag } from '#/ui/badge/variant';

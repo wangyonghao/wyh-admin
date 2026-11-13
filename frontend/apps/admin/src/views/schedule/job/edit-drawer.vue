@@ -8,11 +8,11 @@ import type {
 
 import { computed, reactive, ref } from 'vue';
 
-import { useVbenModal } from '@vben/common-ui';
+import { useVbenModal } from '#/components/popup/modal';
 
-import FormInputNumber from '#/adapter/component/FormInputNumber.vue';
-import FormSelect from '#/adapter/component/FormSelect.vue';
-import FormTimePicker from '#/adapter/component/FormTimePicker.vue';
+import FormInputNumber from '#/components/ui/FormInputNumber.vue';
+import FormSelect from '#/components/ui/FormSelect.vue';
+import FormTimePicker from '#/components/ui/FormTimePicker.vue';
 import { Input } from '#/ui/input';
 import { Label } from '#/ui/label';
 import { Textarea } from '#/ui/textarea';

@@ -1,7 +1,8 @@
 <script lang="ts" setup>
 import { h } from 'vue';
 
-import { alert, prompt, useAlertContext, VbenButton } from '@vben/common-ui';
+import { VbenButton } from '@vben/common-ui';
+import { alert, prompt, useAlertContext } from '#/components/popup/alert';
 
 import { Input, RadioGroup, Select } from 'ant-design-vue';
 import { BadgeJapaneseYen } from 'lucide-vue-next';

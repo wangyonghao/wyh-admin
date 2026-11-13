@@ -1,5 +1,5 @@
 /**
- * useVbenForm 的空值是 null（见 adapter/form.ts）。
+ * useVbenForm 的空值是 null（见 `#/components/ui-patterns/form`）。
  * 下拉把 null 画成未选择；清除后回写 null，重置才会把字段清掉。
  * 选项原值（数字、布尔、字符串）原样回写。reka Select 只接受字符串，
  * 所以内部用带类型前缀的 key，避免 `1` 和 `"1"` 撞在一起。
