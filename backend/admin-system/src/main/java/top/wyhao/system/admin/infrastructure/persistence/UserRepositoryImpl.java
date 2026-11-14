@@ -139,10 +139,12 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public boolean existsEmail(String email, Long excludeUserId) {
-        return userMapper.lambdaQuery()
-                .eq(SysUserDO::getEmail, email)
-                .ne(excludeUserId != null, SysUserDO::getId, excludeUserId)
-                .exists();
+        // 邮箱列是 AES 密文。手写条件必须走 EncryptTypeHandler，否则查不到已注册邮箱。
+        SysUserDO found = userMapper.selectByEmail(email);
+        if (found == null) {
+            return false;
+        }
+        return excludeUserId == null || !excludeUserId.equals(found.getId());
     }
 
     @Override

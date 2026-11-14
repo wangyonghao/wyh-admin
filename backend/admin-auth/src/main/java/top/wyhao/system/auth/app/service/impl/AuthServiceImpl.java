@@ -10,17 +10,21 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import top.wyhao.cmn.core.constant.RegexConstants;
 import top.wyhao.cmn.core.constant.SystemConstants;
 import top.wyhao.cmn.core.enums.GenderEnum;
 import top.wyhao.satoken.util.LoginUtil;
 import top.wyhao.identity.client.EffectivePasswordRules;
+import top.wyhao.identity.client.EmailRegistrationApi;
+import top.wyhao.identity.client.EmailRegistrationConfirm;
+import top.wyhao.identity.client.EmailRegistrationStart;
+import top.wyhao.identity.client.EmailRegistrationTicket;
 import top.wyhao.identity.client.PasswordPolicyConfigApi;
 import top.wyhao.identity.client.SocialLink;
 import top.wyhao.identity.client.UserApi;
 import top.wyhao.identity.client.UserCredential;
 import top.wyhao.security.client.RoleApi;
+import top.wyhao.system.auth.app.service.RegistrationLinkOrigin;
 import top.wyhao.system.auth.client.RegisterConfigApi;
 import top.wyhao.system.auth.client.RegisterConfigVO;
 import top.wyhao.system.auth.app.dto.*;
@@ -46,6 +50,8 @@ public class AuthServiceImpl implements AuthService {
     private final RegisterConfigApi registerConfigApi;
     private final PasswordPolicyConfigApi passwordPolicyConfigApi;
     private final UserApi userApi;
+    private final EmailRegistrationApi emailRegistrationApi;
+    private final RegistrationLinkOrigin registrationLinkOrigin;
     private final RoleApi roleApi;
 
     private final UserGateway userGateway;
@@ -185,28 +191,60 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    @Transactional(rollbackFor = Exception.class)
-    public AccessTokenResponse register(@Valid RegisterRequest request) {
-        RegisterConfigVO config = registerConfigApi.get();
-        if (!config.isRegistrationEnabled()) {
-            throw AuthenticationException.registrationDisabled();
-        }
-
+    public EmailRegistrationResponse register(@Valid RegisterRequest request) {
+        RegisterConfigVO config = requireOpenRegistration();
         Long roleId = resolveDefaultRoleId(config.getDefaultRoleId());
         if (roleId == null) {
             throw AuthenticationException.registerRoleMissing();
         }
-        UserCredential registered = userApi.registerWithEmail(
+        EmailRegistrationTicket ticket = emailRegistrationApi.begin(new EmailRegistrationStart(
                 request.getEmail(),
                 request.getPassword(),
                 SystemConstants.SUPER_DEPARTMENT_ID,
-                List.of(roleId)
-        );
-        CredentialUser user = toCredential(registered);
+                roleId,
+                registrationLinkOrigin.requireBaseUrl(),
+                config.resolvedTtlMinutes(),
+                config.resolvedResendIntervalSeconds()));
+        return toResponse(ticket);
+    }
 
-        top.wyhao.system.auth.domain.model.ClientContext client = clientContext();
-        String token = tokenGateway.issue(user, client);
-        return new AccessTokenResponse("200", token);
+    @Override
+    public EmailRegistrationResponse resendRegistration(@Valid EmailRegistrationResendRequest request) {
+        RegisterConfigVO config = requireOpenRegistration();
+        EmailRegistrationTicket ticket = emailRegistrationApi.resend(
+                request.getEmail(),
+                registrationLinkOrigin.requireBaseUrl(),
+                config.resolvedTtlMinutes(),
+                config.resolvedResendIntervalSeconds());
+        return toResponse(ticket);
+    }
+
+    @Override
+    public EmailRegistrationConfirmResponse confirmRegistration(@Valid EmailRegistrationVerifyRequest request) {
+        RegisterConfigVO config = registerConfigApi.get();
+        if (!config.isRegistrationEnabled()) {
+            throw AuthenticationException.registrationDisabled();
+        }
+        EmailRegistrationConfirm confirmed = emailRegistrationApi.confirm(
+                request.getToken(), config.isRegistrationEnabled());
+        return new EmailRegistrationConfirmResponse("200", confirmed.status());
+    }
+
+    private RegisterConfigVO requireOpenRegistration() {
+        RegisterConfigVO config = registerConfigApi.get();
+        if (!config.isRegistrationEnabled()) {
+            throw AuthenticationException.registrationDisabled();
+        }
+        return config;
+    }
+
+    private static EmailRegistrationResponse toResponse(EmailRegistrationTicket ticket) {
+        return new EmailRegistrationResponse(
+                "200",
+                ticket.status(),
+                ticket.delivered(),
+                ticket.resendAfterSeconds(),
+                ticket.expiresMinutes());
     }
 
     @Override
@@ -219,7 +257,9 @@ public class AuthServiceImpl implements AuthService {
                 rules.maxLength(),
                 rules.requireLowercase(),
                 rules.requireDigit(),
-                rules.requireSpecial());
+                rules.requireSpecial(),
+                config.resolvedTtlMinutes(),
+                config.resolvedResendIntervalSeconds());
     }
 
     private Long resolveDefaultRoleId(String configuredRoleId) {

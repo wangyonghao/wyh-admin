@@ -3,9 +3,17 @@ import type { Menu } from './system';
 
 /* ==================== API 定义 ==================== */
 export const authApi = {
-  /** 自助注册（成功后返回登录 token）。password 为原密码，传输依赖 HTTPS。 */
+  /** 提交邮箱注册。password 为原密码。成功只表示验证邮件已受理，没有登录 token。 */
   register(req: RegisterReq) {
-    return http.post<LoginResult>('/auth/register', req);
+    return http.post<EmailRegistrationResult>('/auth/register', req);
+  },
+  /** 重发注册验证邮件。 */
+  resendRegistration(req: { email: string }) {
+    return http.post<EmailRegistrationResult>('/auth/register/resend', req);
+  },
+  /** 用户在确认页点击后提交一次性 token。不自动在打开链接时调用。 */
+  confirmRegistration(req: { token: string }) {
+    return http.post<EmailRegistrationConfirmResult>('/auth/register/verify', req);
   },
   /** 公开注册开关和当前实际密码规则。 */
   registerOptions() {
@@ -149,7 +157,7 @@ export interface RegisterReq {
   password: string;
 }
 
-/** 公开注册页使用的实际密码规则。 */
+/** 公开注册页使用的实际密码规则和验证邮件参数。 */
 export interface RegisterOptions {
   registrationEnabled: boolean;
   minLength: number;
@@ -157,6 +165,23 @@ export interface RegisterOptions {
   requireLowercase: boolean;
   requireDigit: boolean;
   requireSpecial: boolean;
+  verificationTtlMinutes: number;
+  resendIntervalSeconds: number;
+}
+
+/** 注册受理结果。没有登录 token。 */
+export interface EmailRegistrationResult {
+  code: string;
+  status: 'PENDING' | 'COOLDOWN';
+  delivered: boolean;
+  resendAfterSeconds: number;
+  expiresMinutes: number;
+}
+
+/** 确认链接的结果。没有登录 token。 */
+export interface EmailRegistrationConfirmResult {
+  code: string;
+  status: 'VERIFIED' | 'ALREADY_VERIFIED';
 }
 
 /** 密码登录请求参数。username / email / phone 三选一 */

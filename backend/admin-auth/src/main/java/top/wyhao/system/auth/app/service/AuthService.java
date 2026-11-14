@@ -12,9 +12,16 @@ public interface AuthService {
     AccessTokenResponse login(GrantType grantType, LoginRequest req);
 
     /**
-     * 自助注册并直接登录。
+     * 受理邮箱注册并发送验证链接。不登录、不签发 token。
      */
-    AccessTokenResponse register(@Valid RegisterRequest request);
+    EmailRegistrationResponse register(@Valid RegisterRequest request);
+
+    EmailRegistrationResponse resendRegistration(@Valid EmailRegistrationResendRequest request);
+
+    /**
+     * 确认验证链接并创建账号。不签发 token。
+     */
+    EmailRegistrationConfirmResponse confirmRegistration(@Valid EmailRegistrationVerifyRequest request);
 
     RegisterOptionsResponse registerOptions();
 
