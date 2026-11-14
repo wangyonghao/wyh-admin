@@ -90,17 +90,12 @@ export const useUserStore = defineStore(
     }
 
     /**
-     * 自助注册并直接进入系统。密码原样提交，传输安全依赖 HTTPS。
+     * 提交邮箱注册。密码原样提交，传输安全依赖 HTTPS。不登录、不保存 token。
      */
-    async function register(
-      params: { email: string; password: string },
-      onSuccess?: () => Promise<void> | void,
-    ) {
+    async function register(params: { email: string; password: string }) {
       try {
         loginLoading.value = true;
-        const result = await authApi.register(toRegisterRequest(params));
-        await completeLogin(result.token, onSuccess);
-        return { user };
+        return await authApi.register(toRegisterRequest(params));
       } finally {
         loginLoading.value = false;
       }

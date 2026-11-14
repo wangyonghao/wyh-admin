@@ -2,18 +2,24 @@ package top.wyhao.system.auth.app.service.impl;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import top.wyhao.cmn.core.constant.SystemConstants;
+import top.wyhao.identity.client.EmailRegistrationApi;
+import top.wyhao.identity.client.EmailRegistrationStart;
+import top.wyhao.identity.client.EmailRegistrationTicket;
 import top.wyhao.identity.client.PasswordPolicyConfigApi;
 import top.wyhao.identity.client.UserApi;
 import top.wyhao.identity.client.UserCredential;
 import top.wyhao.security.client.RoleApi;
 import top.wyhao.system.auth.app.dto.AccessTokenResponse;
+import top.wyhao.system.auth.app.dto.EmailRegistrationResponse;
 import top.wyhao.system.auth.app.dto.GrantType;
 import top.wyhao.system.auth.app.dto.LoginRequest;
 import top.wyhao.system.auth.app.dto.RegisterRequest;
+import top.wyhao.system.auth.app.service.RegistrationLinkOrigin;
 import top.wyhao.system.auth.client.RegisterConfigApi;
 import top.wyhao.system.auth.client.RegisterConfigVO;
 import top.wyhao.system.auth.domain.gateway.AuthLogGateway;
@@ -51,6 +57,10 @@ class AuthServiceImplRegisterTest {
     @Mock
     private UserApi userApi;
     @Mock
+    private EmailRegistrationApi emailRegistrationApi;
+    @Mock
+    private RegistrationLinkOrigin registrationLinkOrigin;
+    @Mock
     private RoleApi roleApi;
     @Mock
     private UserGateway userGateway;
@@ -76,26 +86,27 @@ class AuthServiceImplRegisterTest {
         config.setEnabled(true);
         config.setDefaultRoleId("3");
         when(registerConfigApi.get()).thenReturn(config);
-        when(userApi.registerWithEmail(
-                "alice@example.com",
-                SUBMITTED,
-                SystemConstants.SUPER_DEPARTMENT_ID,
-                List.of(3L)))
-                .thenReturn(credential());
-        when(tokenGateway.issue(any(), any())).thenReturn("token-fixture");
+        when(registrationLinkOrigin.requireBaseUrl()).thenReturn("http://127.0.0.1:5888");
+        when(emailRegistrationApi.begin(any())).thenReturn(
+                new EmailRegistrationTicket(EmailRegistrationTicket.PENDING, true, 60, 30));
 
         RegisterRequest request = new RegisterRequest();
         request.setEmail("alice@example.com");
         request.setPassword(SUBMITTED);
 
-        AccessTokenResponse response = authService.register(request);
+        EmailRegistrationResponse response = authService.register(request);
 
-        assertThat(response.getToken()).isEqualTo("token-fixture");
-        verify(userApi).registerWithEmail(
-                "alice@example.com",
-                SUBMITTED,
-                SystemConstants.SUPER_DEPARTMENT_ID,
-                List.of(3L));
+        assertThat(response.getStatus()).isEqualTo(EmailRegistrationTicket.PENDING);
+        assertThat(response.isDelivered()).isTrue();
+        assertThat(response.getCode()).isEqualTo("200");
+        ArgumentCaptor<EmailRegistrationStart> start = ArgumentCaptor.forClass(EmailRegistrationStart.class);
+        verify(emailRegistrationApi).begin(start.capture());
+        assertThat(start.getValue().rawPassword()).isEqualTo(SUBMITTED);
+        assertThat(start.getValue().email()).isEqualTo("alice@example.com");
+        assertThat(start.getValue().departmentId()).isEqualTo(SystemConstants.SUPER_DEPARTMENT_ID);
+        assertThat(start.getValue().roleId()).isEqualTo(3L);
+        assertThat(start.getValue().publicBaseUrl()).isEqualTo("http://127.0.0.1:5888");
+        verifyNoInteractions(tokenGateway);
         verifyNoInteractions(passwordSecurityService);
     }
 

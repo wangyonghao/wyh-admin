@@ -31,4 +31,10 @@ public class RegisterOptionsResponse {
 
     @Schema(description = "是否必须包含特殊字符")
     private boolean requireSpecial;
+
+    @Schema(description = "邮箱验证链接有效分钟数", example = "30")
+    private int verificationTtlMinutes;
+
+    @Schema(description = "验证邮件重发间隔秒数", example = "60")
+    private int resendIntervalSeconds;
 }

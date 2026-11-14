@@ -7,3 +7,5 @@ databaseChangeLog:
       file: db/changelog/postgresql/platform/platform-org.sql
   - include:
       file: db/changelog/postgresql/platform/platform-test.sql
+  - include:
+      file: db/changelog/postgresql/platform/platform-email-registration.sql

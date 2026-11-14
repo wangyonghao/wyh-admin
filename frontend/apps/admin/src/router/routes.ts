@@ -134,6 +134,12 @@ const routes: RouteRecordRaw[] = [
         meta: { requiresAuth: false, title: $t('page.auth.register') },
       },
       {
+        name: 'RegisterVerify',
+        path: 'register/verify',
+        component: () => import('#/views/_core/authentication/register-verify.vue'),
+        meta: { requiresAuth: false, title: '确认注册' },
+      },
+      {
         name: 'GithubCallback',
         path: 'github/callback',
         component: () =>

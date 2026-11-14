@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 
 import { VbenButton, VbenInputPassword } from '#/ui/composed';
 import { Input } from '#/ui/input';
 import { Label } from '#/ui/label';
-import { authApi, type RegisterOptions } from '#/api/auth';
+import { authApi, type EmailRegistrationResult, type RegisterOptions } from '#/api/auth';
 import { useUserStore } from '#/store';
 import { isLoginEmail } from '#/utils/login-identifier';
 import {
@@ -27,6 +27,10 @@ const optionsError = ref('');
 const formError = ref('');
 const emailTouched = ref(false);
 const passwordTouched = ref(false);
+const pending = ref<EmailRegistrationResult | null>(null);
+const submittedEmail = ref('');
+const resendWait = ref(0);
+let resendTimer = 0;
 
 const policy = computed<PasswordPolicyView | null>(() => {
   if (!options.value) return null;
@@ -78,22 +82,49 @@ function messageOf(error: unknown): string {
   return '注册失败，请稍后重试';
 }
 
+function startResendWait(seconds: number) {
+  window.clearInterval(resendTimer);
+  resendWait.value = Math.max(0, seconds);
+  if (resendWait.value === 0) return;
+  resendTimer = window.setInterval(() => {
+    resendWait.value -= 1;
+    if (resendWait.value <= 0) window.clearInterval(resendTimer);
+  }, 1000);
+}
+
 async function handleSubmit() {
   emailTouched.value = true;
   passwordTouched.value = true;
   formError.value = '';
   if (!canSubmit.value || userStore.loginLoading) return;
   try {
-    await userStore.register({
+    const result = await userStore.register({
       email: email.value,
       password: password.value,
     });
+    password.value = '';
+    submittedEmail.value = email.value.trim();
+    pending.value = result;
+    startResendWait(result.resendAfterSeconds);
+  } catch (error) {
+    formError.value = messageOf(error);
+  }
+}
+
+async function resend() {
+  formError.value = '';
+  if (!submittedEmail.value || resendWait.value > 0 || userStore.loginLoading) return;
+  try {
+    const result = await authApi.resendRegistration({ email: submittedEmail.value });
+    pending.value = result;
+    startResendWait(result.resendAfterSeconds);
   } catch (error) {
     formError.value = messageOf(error);
   }
 }
 
 onMounted(loadOptions);
+onUnmounted(() => window.clearInterval(resendTimer));
 </script>
 
 <template>
@@ -103,7 +134,11 @@ onMounted(loadOptions);
         创建账号
       </h2>
       <p class="text-muted-foreground lg:text-md text-sm">
-        使用邮箱和密码注册。邮箱暂不验证。
+        使用邮箱和密码注册。我们会发送验证链接，确认后才能登录。
+        <template v-if="options">
+          链接 {{ options.verificationTtlMinutes }} 分钟内有效，重发至少间隔
+          {{ options.resendIntervalSeconds }} 秒。
+        </template>
       </p>
       <p v-if="optionsError" class="mt-3 text-sm text-red-500" role="alert">
         {{ optionsError }}
@@ -117,7 +152,29 @@ onMounted(loadOptions);
       </p>
     </div>
 
-    <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
+    <div v-if="pending" class="flex flex-col gap-4" role="status">
+      <p class="text-foreground text-sm">
+        {{
+          pending.delivered
+            ? '验证邮件已发送。请打开邮件中的链接，并在页面上点击确认。打开链接本身不会完成注册。'
+            : '还没到重发时间，这次没有新发邮件。'
+        }}
+      </p>
+      <p class="text-muted-foreground text-sm">{{ submittedEmail }}</p>
+      <p v-if="formError" class="text-sm text-red-500" role="alert">{{ formError }}</p>
+      <VbenButton
+        type="button"
+        class="w-full font-normal"
+        :disabled="resendWait > 0 || userStore.loginLoading"
+        :loading="userStore.loginLoading"
+        aria-label="重发验证邮件"
+        @click="resend"
+      >
+        {{ resendWait > 0 ? `重发验证邮件（${resendWait} 秒）` : '重发验证邮件' }}
+      </VbenButton>
+    </div>
+
+    <form v-else class="flex flex-col gap-4" @submit.prevent="handleSubmit">
       <div class="flex flex-col gap-2">
         <Label for="register-email" class="font-normal">邮箱</Label>
         <Input

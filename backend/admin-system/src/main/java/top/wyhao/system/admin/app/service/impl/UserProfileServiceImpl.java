@@ -211,4 +211,36 @@ public class UserProfileServiceImpl implements UserProfileService {
         roleApi.assignRolesToUser(roleIds, user.getId());
         return user;
     }
+
+    @Override
+    public User createVerifiedEmailAccount(String username, String email, String passwordHash, Long departmentId, Long roleId) {
+        if (passwordHash == null || !passwordHash.startsWith("{")) {
+            throw UserException.of("REGISTER_PASSWORD_INVALID", "注册暂时无法完成，请稍后重试");
+        }
+        if (userRepository.existsEmail(email, null)) {
+            throw UserException.emailExists();
+        }
+        if (roleId == null) {
+            throw UserException.of("REGISTER_ROLE_REQUIRED", "未配置注册默认角色");
+        }
+        User user = new User();
+        user.setUsername(username);
+        user.setDisplayName(username);
+        user.setEmail(email);
+        user.setPassword(passwordHash);
+        user.setGender(GenderEnum.UNKNOWN.getValue());
+        user.setDepartmentId(departmentId);
+        user.setStatus(StatusEnum.ENABLE.getValue());
+        user.setIsBuiltin(false);
+        user.setPwdUpdateTime(LocalDateTime.now());
+        PasswordPolicyConfig passwordPolicy = passwordPolicyConfigApi.get();
+        int expireDays = passwordPolicy != null && passwordPolicy.getPasswordExpireDays() != null
+                ? passwordPolicy.getPasswordExpireDays()
+                : 90;
+        user.setPwdExpireDate(LocalDate.now().plusDays(expireDays));
+        userRepository.insert(user);
+        membershipService.replacePrimaryDepartment(user.getId(), departmentId);
+        roleApi.assignRolesToUser(List.of(roleId), user.getId());
+        return user;
+    }
 }

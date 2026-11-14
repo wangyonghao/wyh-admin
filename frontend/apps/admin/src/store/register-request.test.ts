@@ -46,6 +46,7 @@ describe('registration call scope', () => {
     );
 
     expect(registerFn).toContain('toRegisterRequest(params)');
+    expect(registerFn).not.toContain('completeLogin');
     expect(registerFn).not.toContain('encryptByRsa');
     expect(loginFn).not.toContain('encryptByRsa');
     expect(userStore).not.toContain("from '#/utils/crypto'");
@@ -55,6 +56,7 @@ describe('registration call scope', () => {
     const page = source('views/_core/authentication/register.vue');
     expect(page).toContain('userStore.register(');
     expect(page).toContain('email');
+    expect(page).not.toContain('邮箱暂不验证');
     expect(page).not.toContain('encryptByRsa');
     expect(page).not.toContain('USERNAME_WRITE_PATTERN');
   });

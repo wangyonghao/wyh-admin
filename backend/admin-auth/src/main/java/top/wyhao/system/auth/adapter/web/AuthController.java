@@ -66,17 +66,31 @@ public class AuthController {
     }
 
     @SaIgnore
-    @Operation(summary = "注册选项", description = "公开注册开关和当前实际密码规则。不表示邮箱已经验证。")
+    @Operation(summary = "注册选项", description = "公开注册开关、密码规则，以及验证链接有效期和重发间隔。")
     @GetMapping("/auth/register/options")
     public RegisterOptionsResponse registerOptions() {
         return authService.registerOptions();
     }
 
     @SaIgnore
-    @Operation(summary = "注册", description = "使用邮箱和原密码自助注册并直接登录。用户名由服务端分配。password 经 HTTPS 传输，服务端校验后做慢哈希存储。成功不表示邮箱已验证。")
+    @Operation(summary = "注册", description = "使用邮箱和原密码提交注册。password 经 HTTPS 传输，服务端校验后做慢哈希。成功只表示验证邮件已受理，不登录、不签发 token。点击邮件中的确认链接后才创建账号。")
     @PostMapping("/auth/register")
-    public AccessTokenResponse register(@RequestBody @Valid RegisterRequest request) {
+    public EmailRegistrationResponse register(@RequestBody @Valid RegisterRequest request) {
         return authService.register(request);
+    }
+
+    @SaIgnore
+    @Operation(summary = "重发注册验证邮件", description = "只对未过期的待验证记录重发。发送失败可以立即重试。没有待验证记录时不说明邮箱是否已注册。")
+    @PostMapping("/auth/register/resend")
+    public EmailRegistrationResponse resendRegistration(@RequestBody @Valid EmailRegistrationResendRequest request) {
+        return authService.resendRegistration(request);
+    }
+
+    @SaIgnore
+    @Operation(summary = "确认邮箱注册", description = "消费一次性 token 并创建账号。不签发登录 token。请由用户在页面上确认后调用，不要在打开链接时自动调用。")
+    @PostMapping("/auth/register/verify")
+    public EmailRegistrationConfirmResponse confirmRegistration(@RequestBody @Valid EmailRegistrationVerifyRequest request) {
+        return authService.confirmRegistration(request);
     }
 
     private static final String OTP_KEY_PREFIX = "otp:captcha:";

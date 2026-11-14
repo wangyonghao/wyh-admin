@@ -28,4 +28,9 @@ public interface UserProfileService {
      * 邮箱自助注册：分配内部用户名后写入邮箱与慢哈希密码。
      */
     User registerWithEmail(String email, String rawPassword, Long departmentId, List<Long> roleIds);
+
+    /**
+     * 邮件链接确认后建号。密码已经是慢哈希，这里不再编码。
+     */
+    User createVerifiedEmailAccount(String username, String email, String passwordHash, Long departmentId, Long roleId);
 }
