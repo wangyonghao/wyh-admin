@@ -16,8 +16,14 @@ export function adminPath(...parts: string[]) {
  * `#/ui-patterns` and project-owned `#/ui` entries must be matched before
  * the shadcn-vue atoms.
  */
-const ownedUiEntry =
-  'composed|date-picker|lib|switch|tree|upload';
+const ownedUiEntries = [
+  'composed',
+  'date-picker',
+  'lib',
+  'switch',
+  'tree',
+  'upload',
+] as const;
 
 export function createTideUiAliases() {
   const uiSrc = frontendPath('packages/ui/src');
@@ -30,10 +36,17 @@ export function createTideUiAliases() {
       find: /^#\/ui\/switch\/switch-root$/,
       replacement: frontendPath('packages/ui/src/switch/switch-root.vue'),
     },
-    {
-      find: new RegExp(`^#/ui/(${ownedUiEntry})(?=/|$)`),
-      replacement: `${uiSrc}/$1`,
-    },
+    // Rolldown 不会把 replacement 里的 $1 换成捕获组，会去加载字面路径 src/$1。
+    ...ownedUiEntries.flatMap((entry) => [
+      {
+        find: `#/ui/${entry}/`,
+        replacement: `${uiSrc}/${entry}/`,
+      },
+      {
+        find: `#/ui/${entry}`,
+        replacement: `${uiSrc}/${entry}`,
+      },
+    ]),
     {
       find: /^#\/ui(?=\/|$)/,
       replacement: `${uiSrc}/component/shadcn-vue/ui`,
