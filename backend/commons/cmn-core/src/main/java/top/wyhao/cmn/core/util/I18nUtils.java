@@ -15,20 +15,24 @@ import org.springframework.context.i18n.LocaleContextHolder;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class I18nUtils {
 
-    private static final MessageSource MESSAGE_SOURCE = SpringUtil.getBean(MessageSource.class);
-
     /**
-     * 根据消息键和参数 获取消息 委托给spring messageSource
+     * 根据消息键和参数获取消息，委托给 Spring MessageSource。
+     * 延迟查找 Bean，避免类加载阶段在非 Spring 环境中失败。
      *
      * @param code 消息键
      * @param args 参数
-     * @return 获取国际化翻译值
+     * @return 国际化翻译值；找不到或环境不可用时返回原 code
      */
     public static String message(String code, Object... args) {
         try {
-            assert MESSAGE_SOURCE != null;
-            return MESSAGE_SOURCE.getMessage(code, args, LocaleContextHolder.getLocale());
+            MessageSource messageSource = SpringUtil.getBean(MessageSource.class);
+            if (messageSource == null) {
+                return code;
+            }
+            return messageSource.getMessage(code, args, LocaleContextHolder.getLocale());
         } catch (NoSuchMessageException e) {
+            return code;
+        } catch (RuntimeException e) {
             return code;
         }
     }

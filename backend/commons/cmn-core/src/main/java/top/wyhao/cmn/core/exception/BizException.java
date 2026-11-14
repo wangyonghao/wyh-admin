@@ -55,9 +55,19 @@ public class BizException extends RuntimeException {
     @Override
     public String getMessage() {
         if (code != null) {
-            return I18nUtils.message(code, args);
+            try {
+                String localized = I18nUtils.message(code, args);
+                if (localized != null && !localized.isBlank() && !localized.equals(code)) {
+                    return localized;
+                }
+            } catch (RuntimeException ignored) {
+                // MessageSource 不可用或查找失败时，回退到创建异常时的默认文案
+            }
         }
-        return defaultMessage;
+        if (defaultMessage != null && !defaultMessage.isBlank()) {
+            return defaultMessage;
+        }
+        return code;
     }
 
     public static BizException of(String code){
