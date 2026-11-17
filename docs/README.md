@@ -1,50 +1,23 @@
-# docs/ — 项目知识库索引
-
-适用范围：wyh-admin 仓库内所有架构、规范、领域与运维文档。  
-维护：架构负责人；改动规范或目录结构时同步更新本文与根目录 [`AGENTS.md`](../AGENTS.md) 中的链接。  
-最后更新：2026-11-08
-
-本文说明 **`docs/` 怎么分、各目录写什么、怎么维护**。细则正文放在子目录里；根 [`AGENTS.md`](../AGENTS.md) 只做短索引。
+# docs/ — 项目知识库
 
 ---
 
-## 1. 设计原则（写文档前先看）
-
-| 原则 | 做法 |
-|------|------|
-| 索引短、正文按需读 | `AGENTS.md` / 本文保持短；细节用相对路径链出去，AI 按需打开 |
-| 可执行，不写空原则 | 写「谁可以/不可以做什么 + 命令」；避免「保持整洁」这类无法验收的话 |
-| 正反例优先 | 关键约束配 ✅ / ❌ 代码或路径对比 |
-| 写清边界 | 明确「不要做什么」（例如禁止改 `generated/`、新依赖先问） |
-| 能自动化就不写进文档 | Checkstyle / ESLint / Prettier / ArchUnit / lefthook 管得到的，文档只补工具管不了的部分 |
-| 单一真相 | 同一条规则只在一处写全，别处链接；禁止 conventions 与 `.cursor/rules` 各抄一版又不互链 |
-
----
-
-## 2. 目录地图
+## 1. 目录地图
 
 ```text
 docs/
-├── README.md           # 本文件：地图 + 维护约定
-├── mission.md          # 为什么做（愿景、用户、非目标）
+├── mission.md          # 项目使命（愿景、用户、非目标）
 ├── roadmap.md          # 做什么、阶段完成标准
 ├── tech-stack.md       # 用什么技术、版本、硬规则
-├── architecture/       # 架构总览、模块地图、边界与对齐记录
+├── glossary.md         # 领域术语表:业务名词、缩写、易混概念
+├── architecture/       # 架构总览、功能模块地图、边界与对齐记录
 ├── adr/                # 架构决策记录（为什么这样设计）
 ├── conventions/        # 编码 / UI / 交付等长期规范（一主题一文件）
-├── product/            # 产品文档（PRD、用户故事、阶段规格）
-└── runbook/            # 部署、运维、排障、演示步骤
+├── stories/            # 用户故事 + 验收标准(一功能模块一文件, 带编号）
+├── specs/              # 进行中的功能规格:每个功能一个子目录,含 spec(要什么)、plan(怎么做)、tasks(拆分步骤); 实现完成后可归档或删除
+└── contracts/
+    └──  
 ```
-
-| 目录 | 职责 | 主要读者 | 现有文件 |
-|------|------|----------|----------|
-| [`architecture/`](architecture/) | 系统长什么样、模块边界 | 人 + AI（设计/大改前） | [`repo-map.md`](architecture/repo-map.md)、[`frontend-packages.md`](architecture/frontend-packages.md) |
-| [`adr/`](adr/) | **为什么**选这个方案（背景 → 决策 → 后果） | 人 + AI（缺上下文时） | `template.md`（待补）、`NNNN-….md` |
-| [`conventions/`](conventions/) | **怎么写**才算合规 | 人 + AI（改代码时按需打开） | [`backend-java.md`](conventions/backend-java.md)、[`frontend.md`](conventions/frontend.md)、[`ui-patterns.md`](conventions/ui-patterns.md)、[`frontend-naive-migration.md`](conventions/frontend-naive-migration.md) |
-| [`product/`](product/) | PRD、用户故事、领域说明、阶段规格三件套；评审前的设计草案也放这里 | 人 + AI（写需求 / 开阶段时） | [`2026-11-08-auth/design.md`](product/2026-11-08-auth/design.md)（认证总设计）、[`2026-11-08-user-registration/design.md`](product/2026-11-08-user-registration/design.md)（注册与加入组织）。已实现的条目写在文内；其余推荐未实施。确认后再写 `YYYY-MM-DD-<slug>/{requirements,plan,validation}.md` |
-| [`mission.md`](mission.md) / [`roadmap.md`](roadmap.md) / [`tech-stack.md`](tech-stack.md) | 产品使命、阶段完成标准、技术选型硬规则 | 人 + AI（改宪法或开工前） | 三篇已落地 |
-| [`runbook/`](runbook/) | 可重复启动、演示、排障步骤 | 人 + AI（验收/值班） | [`tenant-demo.md`](runbook/tenant-demo.md) |
-
 ---
 
 ## 3. 与仓库其它入口的关系
@@ -129,3 +102,20 @@ Controller 只做参数校验与调用应用服务，禁止写业务规则；统
 | `conventions/api-design.md` | HTTP / 开放 API 约定 |
 | `conventions/database.md` | PostgreSQL + Liquibase |
 | `conventions/git-workflow.md` | 分支、提交、评审 |
+
+
+## 用户故事的写法
+每个故事带稳定编号和验收标准。
+编号用 `US-<模块缩写>-<序号>`。
+验收标准是测试用例的参考依据。
+
+```
+### US-USER-003 管理员重置用户密码
+
+作为 **系统管理员**,我想为忘记密码的用户重置密码,以便用户能重新登录。
+
+**验收标准**
+- Given 管理员已登录且有"用户管理"权限,When 点击重置密码,Then 系统生成一次性临时密码并要求用户首次登录时修改
+- Given 操作者没有该权限,When 调用重置接口,Then 返回 403
+- 重置操作写入审计日志
+```
