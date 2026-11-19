@@ -1,11 +1,11 @@
 # 本地开发：Postgres、Redis、Inbucket、MinIO、Spring Boot API、@wyh/admin 的 Vite。
 #
 #   cp .env.example .env   # 改掉占位密码和 AES_KEY
-#   docker compose --env-file .env -f docker-compose.dev.yml up
+#   docker compose --env-file .env -f docker-compose.prod.yml up
 #
 # 本文件只写 ${VAR}。真实密码放 .env，且不要提交。
 
-name: wyh-dev
+name: wyh-prod
 
 services:
   db:

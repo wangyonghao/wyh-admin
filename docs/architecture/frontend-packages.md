@@ -8,9 +8,9 @@
 ## 现在放哪
 
 ```text
-packages/ui            原子。button、dialog、tabs、form 字段
-packages/ui-patterns   页面组合。confirm、filter、toast、toolbar。只依赖 ui
-packages/form-ui       schema 表单运行时
+packages/ui            原子组件。button、dialog、tabs、form 字段
+packages/ui-patterns   页面组合组件。confirm、filter、toast、toolbar。只依赖 ui
+packages/form-ui       schema 动态表单组件
 packages/design        CSS token
 packages/icons         图标
 packages/shared        纯函数、通用类型、组件注册表

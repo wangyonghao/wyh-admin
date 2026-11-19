@@ -54,31 +54,7 @@ Vue Vben Admin 是 Vue Vben Admin 的升级版本。作为一个免费开源的�
 
 ## 安装使用
 
-1. 获取项目代码
-
-```bash
-git clone https://github.com/vbenjs/vue-vben-admin.git
-```
-
-2. 安装依赖
-
-```bash
-cd vue-vben-admin
-npm i -g corepack
-pnpm install
-```
-
-3. 运行
-
-```bash
-pnpm dev
-```
-
-4. 打包
-
-```bash
-pnpm build
-```
+本地开发、依赖安装、前后端启动与打包命令见仓库根目录 [DEVELOPERS.md](../DEVELOPERS.md)。
 
 ## 更新日志
 

@@ -1,4 +1,4 @@
-# wyh-admin — Agent Guide
+# Agent Guide
 
 面向 AI Agent 的**短索引**。细则按需阅读链接；勿把本文件当百科全书扩写。
 
@@ -57,7 +57,7 @@ DB 变更：`backend/admin-start/src/main/resources/db/changelog/postgresql/`
 ## Hard boundaries
 
 1. **不做微服务拆分**；保持模块化单体（见 mission / tech-stack）。
-2. **依赖方向**：`admin-start`（只装配）→ `admin-openapi` / `admin-biz-*` → `admin-biz-*-client` 与 `admin-commons`（`cmn-*`）。`admin-commons` 禁止依赖 `admin-biz-*-client`。禁止下层依赖上层。
+2. **依赖方向**：`admin-start`（只装配）→ `admin-openapi` / `admin-biz-`* → `admin-biz-*-client` 与 `admin-commons`（`cmn-*`）。`admin-commons` 禁止依赖 `admin-biz-*-client`。禁止下层依赖上层。
 3. **新依赖**：后端进根 `pom.xml` 的 `dependencyManagement`；前端进 `pnpm-workspace.yaml` catalog。
 4. **DB**：PostgreSQL + Liquibase；禁止只改库不改 changelog。
 5. **调度**：Spring Quartz / `cmn-job`；勿并行引入另一套调度内核。
