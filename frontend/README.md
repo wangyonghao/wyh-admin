@@ -54,31 +54,7 @@ Open the project in Gitpod (free online dev environment for GitHub) and start co
 
 ## Install and Use
 
-1. Get the project code
-
-```bash
-git clone https://github.com/vbenjs/vue-vben-admin.git
-```
-
-2. Install dependencies
-
-```bash
-cd vue-vben-admin
-npm i -g corepack
-pnpm install
-```
-
-3. Run
-
-```bash
-pnpm dev
-```
-
-4. Build
-
-```bash
-pnpm build
-```
+Local setup, dependency install, and start/build commands: [DEVELOPERS.md](./apps/docs/DEVELOPERS.md).
 
 ## Change Log
 

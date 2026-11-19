@@ -54,7 +54,7 @@ Vue Vben Admin 是 Vue Vben Admin 的升级版本。作为一个免费开源的�
 
 ## 安装使用
 
-本地开发、依赖安装、前后端启动与打包命令见仓库根目录 [DEVELOPERS.md](../DEVELOPERS.md)。
+本地开发、依赖安装、前后端启动与打包命令见 [DEVELOPERS.md](./apps/docs/DEVELOPERS.md)。
 
 ## 更新日志
 

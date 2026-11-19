@@ -13,11 +13,12 @@ docs/
 ├── architecture/       # 架构总览、功能模块地图、边界与对齐记录
 ├── adr/                # 架构决策记录（为什么这样设计）
 ├── conventions/        # 编码 / UI / 交付等长期规范（一主题一文件）
-├── stories/            # 用户故事 + 验收标准(一功能模块一文件, 带编号）
+├── product/            # PRD文档 + 验收标准(一功能模块一文件, 带编号）
 ├── specs/              # 进行中的功能规格:每个功能一个子目录,含 spec(要什么)、plan(怎么做)、tasks(拆分步骤); 实现完成后可归档或删除
 └── contracts/
-    └──  
+    └── API 接口文档
 ```
+
 ---
 
 ## 3. 与仓库其它入口的关系
@@ -28,6 +29,7 @@ docs/
 | [`.cursor/rules/`](../.cursor/rules/) | Cursor 自动加载的硬约束（尽量短）；细则链到 `conventions/` | 与 conventions 重复的百科 |
 | [`skills/`](../skills/) | 可复用工作流（开规格、续作、changelog）；技能目录留在仓库根 | 业务与产品知识（放 `product/`） |
 | `backend/AGENTS.md` / `frontend/AGENTS.md`（可选） | 该侧独有的短规则 | 全仓共通规则（仍放根 AGENTS + docs/） |
+| [`frontend/apps/docs/DEVELOPERS.md`](../frontend/apps/docs/DEVELOPERS.md) | 本地开发：依赖、中间件、前后端启动 | 产品规格、架构决策 |
 
 **选型口诀**
 
@@ -36,7 +38,7 @@ docs/
 - 画模块怎么拆、模块边界 → `architecture/`
 - 使命 / 路线图 / 技术选型 → `mission.md`、`roadmap.md`、`tech-stack.md`
 - 业务词、PRD、用户故事、阶段规格 → `product/`
-- 「按这几步能起服务 / 能演示 / 能排障」→ `runbook/`
+- 「按这几步能起服务 / 能演示 / 能排障」→ 本地开发见 [`frontend/apps/docs/DEVELOPERS.md`](../frontend/apps/docs/DEVELOPERS.md)；运维见 `runbook/`
 
 ---
 
@@ -103,8 +105,8 @@ Controller 只做参数校验与调用应用服务，禁止写业务规则；统
 | `conventions/database.md` | PostgreSQL + Liquibase |
 | `conventions/git-workflow.md` | 分支、提交、评审 |
 
-
 ## 用户故事的写法
+
 每个故事带稳定编号和验收标准。
 编号用 `US-<模块缩写>-<序号>`。
 验收标准是测试用例的参考依据。

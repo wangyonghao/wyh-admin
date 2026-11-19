@@ -6,6 +6,8 @@
 
 ## 快速开始
 
+本地开发完整步骤（中间件 `docker run`、后端、前端）见 [`frontend/apps/docs/DEVELOPERS.md`](frontend/apps/docs/DEVELOPERS.md)。
+
 ### 环境要求
 
 | 环境 | 要求 |
@@ -105,7 +107,8 @@ wyh-admin/
 │   └── ...
 ├── frontend/                      # 前端代码
 │   ├── AGENTS.md                  # 前端特有规则
-│   ├── apps/*                     # 可运行应用
+│   ├── apps/admin                 # 产品后台
+│   ├── apps/docs/DEVELOPERS.md    # 本地开发指南
 │   ├── packages/                  # ui、ui-patterns、core、shell
 │   └── ...
 ├── README.md                      # 本文件：简介、快速启动、目录结构

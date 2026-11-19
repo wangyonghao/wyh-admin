@@ -7,7 +7,7 @@
 - [Git](https://git-scm.com/)
 - [NodeJS](https://nodejs.org/)（`frontend/package.json` 的 `engines.node`：`^20.19.0 || ^22.18.0 || ^24.0.0`）
 - [pnpm](https://pnpm.io/)（`frontend/package.json` 的 `packageManager`，当前 `pnpm@10.33.4`）
-- [Docker](https://docs.docker.com/get-started/get-docker/)（本地起中间件）
+- [Docker](https://docs.docker.com/get-started/get-docker/) 或 [Apple Container](https://github.com/apple/container)（本地起中间件，二选一）
 - [OpenJDK](https://adoptium.net/temurin/releases?version=17)（后端必须 **JDK 17**）
 - [Maven](https://maven.apache.org/)（构建与启动后端）
 
@@ -23,11 +23,24 @@ cd wyh-admin
 2. 配置环境变量
 
 宿主机跑后端时需要：
-
+```bash
+# 设置环境变量
+export DB_HOST='localhost'
+export DB_PORT='5432'
+export DB_NAME='postgres'
+export DB_USER='postgres'
+export DB_PWD='postgres@2026'
+export REDIS_HOST='localhost'
+export REDIS_PORT='6379'
+export REDIS_PWD='redis@2026'
+export AES_KEY='0123456789abcdef0123456789abcdef'
+export WYH_JWT_SECRET='local-dev-jwt-secret-change-me-please'
+```
 
 3. 运行中间件容器
 
-口令须与上一步环境变量一致。已有同名容器时用 `docker start <name>`，不要重复 `run`。数据落在命名 volume，删容器不会丢数据（`docker volume rm` 才会清）。
+口令须与上一步环境变量一致。
+
 
 ```bash
 # Postgres
@@ -76,6 +89,58 @@ docker run --rm --add-host=host.docker.internal:host-gateway \
   -ec 'mc alias set local http://host.docker.internal:9002 wyh-minio minio@2026 && mc mb --ignore-existing local/tide'
 ```
 
+Mac下的另一种选择，用 Apple Container 运行容器
+```bash
+# Apple Container：先启动运行时（若未运行）
+container system start
+
+# Postgres
+container volume create wyh-postgres-data
+container run -d --name wyh-postgres \
+  -p 5432:5432 \
+  -v /etc/localtime:/etc/localtime:ro \
+  --mount type=volume,source=wyh-postgres-data,target=/var/lib/postgresql/data \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD='postgres@2026' \
+  -e POSTGRES_DB=postgres \
+  docker.io/library/postgres:17.6-alpine
+
+# Redis
+container volume create wyh-redis-data
+container run -d --name wyh-redis \
+  -p 6379:6379 \
+  -v /etc/localtime:/etc/localtime:ro \
+  --mount type=volume,source=wyh-redis-data,target=/data \
+  docker.io/library/redis:8-alpine \
+  redis-server --requirepass 'redis@2026' --appendonly yes
+
+# Inbucket（开发用邮件黑洞：SMTP 收信不外发，浏览器查看验证码等测试邮件）
+container volume create wyh-mail-data
+container run -d --name wyh-mail \
+  -p 2500:2500 -p 9000:9000 -p 1100:1100 \
+  -v /etc/localtime:/etc/localtime:ro \
+  --mount type=volume,source=wyh-mail-data,target=/storage \
+  docker.io/inbucket/inbucket:3.0.3
+
+# MinIO（可选；宿主机 9000 已被 Inbucket 占用，API 映射到 9002）
+container volume create wyh-minio-data
+container run -d --name wyh-minio \
+  -p 9002:9000 -p 9001:9001 \
+  -v /etc/localtime:/etc/localtime:ro \
+  --mount type=volume,source=wyh-minio-data,target=/data \
+  -e MINIO_ROOT_USER=wyh-minio \
+  -e MINIO_ROOT_PASSWORD='minio@2026' \
+  cgr.dev/chainguard/minio \
+  server --console-address ":9001" /data
+
+# 创建默认桶（MinIO 就绪后执行一次）
+container run --rm --add-host=host.docker.internal:host-gateway \
+  --entrypoint /bin/sh \
+  cgr.dev/chainguard/minio-client:latest-dev \
+  -ec 'mc alias set local http://host.docker.internal:9002 wyh-minio minio@2026 && mc mb --ignore-existing local/tide'
+```
+
+
 默认端口：Postgres `5432`、Redis `6379`、Inbucket SMTP `2500` / Web `9000`、MinIO API `9002` / Console `9001`。
 
 4. 运行后端工程
@@ -84,17 +149,6 @@ docker run --rm --add-host=host.docker.internal:host-gateway \
 
 ```bash
 
-# 设置环境变量
-export DB_HOST='localhost'
-export DB_PORT='5432'
-export DB_NAME='postgres'
-export DB_USER='postgres'
-export DB_PWD='postgres@2026'
-export REDIS_HOST='localhost'
-export REDIS_PORT='6379'
-export REDIS_PWD='redis@2026'
-export AES_KEY='0123456789abcdef0123456789abcdef'
-export WYH_JWT_SECRET='local-dev-jwt-secret-change-me-please'
 
 # 启动
 cd backend
