@@ -63,6 +63,7 @@
   "drag": "Drag to reorder",
   "dropRejected": "Can’t move it there",
   "edit": "Edit",
+  "emptyApps": "No modules yet",
   "emptyDetail": "Select an item to see details",
   "emptyMenu": "This module has no functions yet",
   "emptySearch": "No matches",

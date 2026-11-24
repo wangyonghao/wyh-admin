@@ -63,6 +63,7 @@
   "drag": "拖拽排序",
   "dropRejected": "无法移动到该位置",
   "edit": "编辑",
+  "emptyApps": "还没有模块",
   "emptyDetail": "选择一项查看详情",
   "emptyMenu": "这个模块还没有功能",
   "emptySearch": "没有匹配结果",

@@ -258,6 +258,9 @@ async function confirmDelete() {
 
 onMounted(() => {
   window.addEventListener('keydown', onWindowKey);
+  if (state.apps.value.length === 0 && !state.loading.value && !state.loadError.value) {
+    void state.load();
+  }
   void nextTick(mountSortable);
 });
 watch(
@@ -357,6 +360,12 @@ onBeforeUnmount(() => {
         class="px-4 py-6 text-sm text-muted-foreground"
       >
         {{ $t('appMenu.emptySearch') }}
+      </p>
+      <p
+        v-else-if="visibleApps.length === 0"
+        class="px-4 py-6 text-sm text-muted-foreground"
+      >
+        {{ $t('appMenu.emptyApps') }}
       </p>
       <ul
         v-else
