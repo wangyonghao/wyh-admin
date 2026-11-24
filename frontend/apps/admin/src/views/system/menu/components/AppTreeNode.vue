@@ -292,6 +292,7 @@ onBeforeUnmount(() => sortable?.destroy());
       v-if="opened"
       ref="listRef"
       role="group"
+      class="pl-8"
       :class="children.length === 0 ? 'min-h-6' : ''"
       data-parent-id=""
       :data-app-id="app.id"
