@@ -60,6 +60,13 @@ const canDelete = computed(
 
 const emit = defineEmits<{ open: []; remove: [id: string] }>();
 
+/** 应用节点是第 1 级、左内边距 8px。每一级目录再收进一档展开钮的宽度。 */
+const ROW_PADDING_BASE = 8;
+const ROW_INDENT_STEP = 24;
+const rowPaddingLeft = computed(
+  () => `${ROW_PADDING_BASE + Math.max(0, props.depth - 1) * ROW_INDENT_STEP}px`,
+);
+
 const children = computed(() =>
   childrenOf(state.treeSource.value, props.node.appId, props.node.id),
 );
@@ -193,7 +200,7 @@ onBeforeUnmount(() => sortable?.destroy());
         selected ? 'border-foreground' : 'border-transparent',
         coarse ? 'min-h-11' : 'min-h-8',
       ]"
-      style="padding-left: 8px"
+      :style="{ paddingLeft: rowPaddingLeft }"
     >
       <button
         v-if="showArrow"
