@@ -26,9 +26,68 @@ function kindOf(type: number): MenuRecord['type'] {
   return 'function';
 }
 
+function typeCode(value: unknown): number {
+  if (typeof value === 'number' && Number.isFinite(value)) return value;
+  if (typeof value === 'string') {
+    const named: Record<string, number> = {
+      BUTTON: 3,
+      DIR: 1,
+      MENU: 2,
+      button: 3,
+      folder: 1,
+      function: 2,
+    };
+    if (value in named) return named[value];
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : 0;
+  }
+  if (value && typeof value === 'object' && 'value' in value) {
+    return typeCode((value as { value: unknown }).value);
+  }
+  return 0;
+}
+
+function disabledStatus(value: unknown): boolean {
+  if (value && typeof value === 'object' && 'value' in value) {
+    return disabledStatus((value as { value: unknown }).value);
+  }
+  return value === 2 || value === '2' || value === 'DISABLE' || value === 'disabled';
+}
+
+type MenuPayload = MenuNode & { children?: MenuPayload[] | null; title?: null | string };
+
+/** 接口可能是扁平数组、包在 data 里，或带着 children 的树。 */
+export function menuRows(payload: unknown): MenuNode[] {
+  const root = unwrapMenuPayload(payload);
+  const flat: MenuNode[] = [];
+  const walk = (rows: MenuPayload[], parentId?: string) => {
+    for (const row of rows) {
+      const { children, ...rest } = row;
+      if ((rest.parentId == null || rest.parentId === '') && parentId) {
+        rest.parentId = parentId;
+      }
+      if (!rest.name && rest.title) rest.name = rest.title;
+      flat.push(rest);
+      if (Array.isArray(children) && children.length > 0) walk(children, asId(rest.id));
+    }
+  };
+  walk(root);
+  return flat;
+}
+
+function unwrapMenuPayload(payload: unknown): MenuPayload[] {
+  if (Array.isArray(payload)) return payload as MenuPayload[];
+  if (payload && typeof payload === 'object') {
+    const body = payload as { data?: unknown; rows?: unknown };
+    if (Array.isArray(body.data)) return body.data as MenuPayload[];
+    if (Array.isArray(body.rows)) return body.rows as MenuPayload[];
+  }
+  return [];
+}
+
 /** 根目录（parentId 为 0 且类型为目录）是模块，其余行是树节点。 */
-export function splitMenus(rows: MenuNode[]) {
-  const flat = rows.map((raw) => {
+export function splitMenus(payload: unknown) {
+  const flat = menuRows(payload).map((raw) => {
     const parentId = asId(raw.parentId);
     return {
       cache: !!raw.isCache,
@@ -41,8 +100,8 @@ export function splitMenus(rows: MenuNode[]) {
       path: text(raw.path),
       permission: text(raw.permission),
       sort: raw.sort ?? 0,
-      status: (Number(raw.status) === 2 ? 'disabled' : 'enabled') as MenuStatus,
-      type: Number(raw.type),
+      status: (disabledStatus(raw.status) ? 'disabled' : 'enabled') as MenuStatus,
+      type: typeCode(raw.type),
       visible: !raw.isHidden,
     };
   });

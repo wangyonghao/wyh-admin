@@ -29,20 +29,62 @@ export type PrefixChoice = 'abort' | 'keep' | 'sync';
 /**
  * 根目录（parentId 为 0 的目录）是模块。目录、功能和按钮都在 sys_menu，
  * 树里不展示按钮，按钮按 parentId 读取。
+ * 状态挂在 globalThis 上：热更新会再执行本模块，树和详情必须继续共用同一份列表。
  */
-const apps = ref<AppRecord[]>([]);
-const nodes = ref<MenuRecord[]>([]);
-const roles = ref<RoleGrant[]>([]);
-const selectedAppId = ref<null | string>(null);
-const selectedNodeId = ref<null | string>(null);
-const expandedIds = ref<Set<string>>(new Set());
-const searchQuery = ref('');
-const dirty = ref(false);
-const formEpoch = ref(0);
-const loading = ref(false);
-const loadError = ref(false);
-const hydrated = ref(false);
-const deleteAppId = ref<null | string>(null);
+const menuState = (() => {
+  const key = '__wyhMenuAdminState';
+  type MenuStore = {
+    apps: ReturnType<typeof ref<AppRecord[]>>;
+    deleteAppId: ReturnType<typeof ref<null | string>>;
+    dirty: ReturnType<typeof ref<boolean>>;
+    expandedIds: ReturnType<typeof ref<Set<string>>>;
+    formEpoch: ReturnType<typeof ref<number>>;
+    hydrated: ReturnType<typeof ref<boolean>>;
+    loadError: ReturnType<typeof ref<boolean>>;
+    loading: ReturnType<typeof ref<boolean>>;
+    nodes: ReturnType<typeof ref<MenuRecord[]>>;
+    roles: ReturnType<typeof ref<RoleGrant[]>>;
+    searchQuery: ReturnType<typeof ref<string>>;
+    selectedAppId: ReturnType<typeof ref<null | string>>;
+    selectedNodeId: ReturnType<typeof ref<null | string>>;
+  };
+  const host = globalThis as typeof globalThis & { [key]?: MenuStore };
+  let current = host[key];
+  if (!current) {
+    current = {
+      apps: ref<AppRecord[]>([]),
+      deleteAppId: ref<null | string>(null),
+      dirty: ref(false),
+      expandedIds: ref<Set<string>>(new Set()),
+      formEpoch: ref(0),
+      hydrated: ref(false),
+      loadError: ref(false),
+      loading: ref(false),
+      nodes: ref<MenuRecord[]>([]),
+      roles: ref<RoleGrant[]>([]),
+      searchQuery: ref(''),
+      selectedAppId: ref<null | string>(null),
+      selectedNodeId: ref<null | string>(null),
+    };
+    host[key] = current;
+  }
+  return current;
+})();
+
+const apps = menuState.apps;
+const nodes = menuState.nodes;
+const roles = menuState.roles;
+const selectedAppId = menuState.selectedAppId;
+const selectedNodeId = menuState.selectedNodeId;
+const expandedIds = menuState.expandedIds;
+const searchQuery = menuState.searchQuery;
+const dirty = menuState.dirty;
+const formEpoch = menuState.formEpoch;
+const loading = menuState.loading;
+const loadError = menuState.loadError;
+const hydrated = menuState.hydrated;
+const deleteAppId = menuState.deleteAppId;
+let menuLoad: Promise<void> | null = null;
 
 const dirtyWait = ref<((choice: DirtyChoice) => void) | null>(null);
 const prefixWait = ref<((choice: PrefixChoice) => void) | null>(null);
@@ -180,26 +222,36 @@ export function useMenuState() {
   }
 
   async function load() {
-    loading.value = true;
-    loadError.value = false;
-    try {
-      const split = splitMenus(await menuApi.all());
-      apps.value = split.apps;
-      nodes.value = split.nodes;
-      roles.value = [];
-      hydrated.value = true;
-      rememberSelection();
-      expandedIds.value = new Set([
-        ...apps.value.map((app) => app.id),
-        ...nodes.value
-          .filter((node) => node.type === 'folder')
-          .map((node) => node.id),
-      ]);
-    } catch {
-      loadError.value = true;
-    } finally {
-      loading.value = false;
-    }
+    if (menuLoad) return menuLoad;
+    menuLoad = (async () => {
+      loading.value = true;
+      loadError.value = false;
+      try {
+        const split = splitMenus(await menuApi.all());
+        apps.value = split.apps;
+        nodes.value = split.nodes;
+        roles.value = [];
+        hydrated.value = true;
+        rememberSelection();
+        expandedIds.value = new Set([
+          ...apps.value.map((app) => app.id),
+          ...nodes.value
+            .filter((node) => node.type === 'folder')
+            .map((node) => node.id),
+        ]);
+      } catch {
+        loadError.value = true;
+      } finally {
+        loading.value = false;
+        menuLoad = null;
+      }
+    })();
+    return menuLoad;
+  }
+
+  function ensureMenusLoaded() {
+    if (hydrated.value) return Promise.resolve();
+    return load();
   }
 
   function registerSave(handler: (() => Promise<boolean>) | null) {
@@ -924,6 +976,7 @@ export function useMenuState() {
     duplicateApp,
     duplicateNode,
     effectivelyDisabled,
+    ensureMenusLoaded,
     expandAll,
     expandedIds,
     finishMovePrefix,

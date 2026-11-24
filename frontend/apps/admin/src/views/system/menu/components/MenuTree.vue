@@ -258,9 +258,7 @@ async function confirmDelete() {
 
 onMounted(() => {
   window.addEventListener('keydown', onWindowKey);
-  if (state.apps.value.length === 0 && !state.loading.value && !state.loadError.value) {
-    void state.load();
-  }
+  void state.ensureMenusLoaded();
   void nextTick(mountSortable);
 });
 watch(
