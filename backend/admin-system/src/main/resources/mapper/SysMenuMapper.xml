@@ -10,6 +10,7 @@
                  LEFT JOIN sys_user AS t5 ON t5.id = t4.user_id
         WHERE t5.id = #{userId}
           AND t1.status = 1
+          AND t1.deleted_at IS NULL
           AND t1.permission IS NOT NULL
     </select>
 
@@ -18,6 +19,6 @@
         FROM sys_menu AS t1
         LEFT JOIN sys_role_menu AS t2 ON t2.menu_id = t1.id
         LEFT JOIN sys_role AS t3 ON t3.id = t2.role_id
-        WHERE t3.id = #{roleId} AND t1.status = 1
+        WHERE t3.id = #{roleId} AND t1.status = 1 AND t1.deleted_at IS NULL
     </select>
 </mapper>

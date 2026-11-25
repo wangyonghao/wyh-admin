@@ -40,4 +40,34 @@ public class TenantPackageDO extends BaseEntity {
      * 状态
      */
     private StatusEnum status;
+
+    /**
+     * 稳定标识
+     */
+    private String code;
+
+    /**
+     * MAIN 或 ADDON
+     */
+    private String kind;
+
+    /**
+     * DRAFT、PUBLISHED、DELISTED
+     */
+    private String lifecycle;
+
+    /**
+     * 首次发布时间。有值后名称不可改。
+     */
+    private java.time.LocalDateTime publishedAt;
+
+    /**
+     * 下架时间
+     */
+    private java.time.LocalDateTime delistedAt;
+
+    /**
+     * 乐观锁
+     */
+    private Integer version;
 }

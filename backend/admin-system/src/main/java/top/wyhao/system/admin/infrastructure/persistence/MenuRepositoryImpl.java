@@ -24,6 +24,7 @@ public class MenuRepositoryImpl implements MenuRepository {
     @Override
     public List<Menu> listAll() {
         return AdminDoMapper.toDomainList(menuMapper.selectList(new LambdaQueryWrapper<SysMenuDO>()
+                .isNull(SysMenuDO::getDeletedAt)
                 .orderByAsc(SysMenuDO::getParentId)
                 .orderByAsc(SysMenuDO::getSort)), Menu.class);
     }
@@ -32,6 +33,7 @@ public class MenuRepositoryImpl implements MenuRepository {
     public List<Menu> listEnabledTree() {
         return AdminDoMapper.toDomainList(menuMapper.selectList(new LambdaQueryWrapper<SysMenuDO>()
                 .eq(SysMenuDO::getStatus, StatusEnum.ENABLE.getValue())
+                .isNull(SysMenuDO::getDeletedAt)
                 .orderByAsc(SysMenuDO::getParentId)
                 .orderByAsc(SysMenuDO::getSort)), Menu.class);
     }
@@ -40,6 +42,7 @@ public class MenuRepositoryImpl implements MenuRepository {
     public List<Menu> listEnabledCatalogAndMenu() {
         return AdminDoMapper.toDomainList(menuMapper.selectList(new LambdaQueryWrapper<SysMenuDO>()
                 .eq(SysMenuDO::getStatus, 1)
+                .isNull(SysMenuDO::getDeletedAt)
                 .in(SysMenuDO::getType, 1, 2)
                 .orderByAsc(SysMenuDO::getParentId)
                 .orderByAsc(SysMenuDO::getSort)), Menu.class);
@@ -48,8 +51,28 @@ public class MenuRepositoryImpl implements MenuRepository {
     @Override
     public List<Menu> listEnabled() {
         return AdminDoMapper.toDomainList(
-                menuMapper.lambdaQuery().eq(SysMenuDO::getStatus, "1").list(),
+                menuMapper.lambdaQuery().eq(SysMenuDO::getStatus, "1").isNull(SysMenuDO::getDeletedAt).list(),
                 Menu.class);
+    }
+
+    @Override
+    public long countByScope(String scope) {
+        return menuMapper.lambdaQuery()
+                .eq(SysMenuDO::getScope, scope)
+                .isNull(SysMenuDO::getDeletedAt)
+                .count();
+    }
+
+    @Override
+    public List<Menu> listEnabledByScope(String scope) {
+        return AdminDoMapper.toDomainList(menuMapper.lambdaQuery()
+                .eq(SysMenuDO::getScope, scope)
+                .eq(SysMenuDO::getStatus, 1)
+                .isNull(SysMenuDO::getDeletedAt)
+                .in(SysMenuDO::getType, 1, 2)
+                .orderByAsc(SysMenuDO::getParentId)
+                .orderByAsc(SysMenuDO::getSort)
+                .list(), Menu.class);
     }
 
     @Override

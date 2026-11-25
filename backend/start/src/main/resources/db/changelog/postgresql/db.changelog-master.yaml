@@ -9,3 +9,5 @@ databaseChangeLog:
       file: db/changelog/postgresql/platform/platform-test.sql
   - include:
       file: db/changelog/postgresql/platform/platform-email-registration.sql
+  - include:
+      file: db/changelog/postgresql/platform/platform-menu-package.sql

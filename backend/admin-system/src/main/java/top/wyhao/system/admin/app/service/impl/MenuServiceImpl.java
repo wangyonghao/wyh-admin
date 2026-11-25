@@ -12,13 +12,22 @@ import top.wyhao.system.admin.domain.gateway.MenuRepository;
 import top.wyhao.system.admin.domain.gateway.RoleMenuRepository;
 import top.wyhao.system.admin.domain.gateway.UserRoleRepository;
 import top.wyhao.system.admin.domain.model.Menu;
+import top.wyhao.system.admin.domain.catalog.MenuAccess;
 import top.wyhao.system.admin.domain.exception.MenuException;
 import top.wyhao.cmn.core.constant.SystemConstants;
 import top.wyhao.system.admin.domain.model.MenuType;
 import top.wyhao.system.admin.app.dto.MenuTreeVO;
 import top.wyhao.system.admin.app.dto.MenuVO;
 import top.wyhao.system.admin.app.service.MenuService;
+import top.wyhao.system.admin.app.service.PackageMenuService;
+import top.wyhao.system.admin.infrastructure.persistence.dataobject.TenantDO;
+import top.wyhao.system.admin.infrastructure.persistence.dataobject.TenantPackageDO;
+import top.wyhao.system.admin.infrastructure.persistence.dataobject.TenantPackageGrantDO;
+import top.wyhao.system.admin.infrastructure.persistence.mapper.SysTenantMapper;
+import top.wyhao.system.admin.infrastructure.persistence.mapper.TenantPackageGrantMapper;
+import top.wyhao.system.admin.infrastructure.persistence.mapper.TenantPackageMapper;
 import top.wyhao.redisson.util.RedisUtils;
+import top.wyhao.satoken.util.LoginUtil;
 import top.wyhao.cmn.core.constant.CacheConstants;
 import top.wyhao.cmn.core.constant.StringConstants;
 import top.wyhao.cmn.core.enums.RoleCodeEnum;
@@ -27,9 +36,11 @@ import top.wyhao.system.admin.app.dto.MenuQuery;
 import top.wyhao.system.admin.app.dto.MenuRequest;
 import top.wyhao.system.admin.app.dto.MenuSortRequest;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -45,6 +56,10 @@ public class MenuServiceImpl implements MenuService {
     private final MenuRepository menuRepository;
     private final RoleMenuRepository roleMenuRepository;
     private final MenuAssembler menuAssembler;
+    private final SysTenantMapper tenantMapper;
+    private final TenantPackageMapper tenantPackageMapper;
+    private final TenantPackageGrantMapper grantMapper;
+    private final PackageMenuService packageMenuService;
 
     @Override
     public List<MenuTreeVO> tree(MenuQuery query) {
@@ -53,13 +68,50 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public List<MenuTreeVO> getMenuTreeByUserId(Long userId) {
-        // 获取用户的角色ID列表
         List<String> roleCodes = userRoleRepository.listRoleCodesByUserId(userId);
-        if (roleCodes.contains(RoleCodeEnum.SUPER_ADMIN.getCode())) {
-            return this.buildPermissionTree(menuRepository.listEnabledCatalogAndMenu());
+        boolean superAdmin = roleCodes.contains(RoleCodeEnum.SUPER_ADMIN.getCode());
+        List<Menu> menus = superAdmin
+                ? menuRepository.listEnabledCatalogAndMenu()
+                : menuRepository.listByUserId(userId);
+        Long tenantId = LoginUtil.getTenantId();
+        boolean platform = tenantId == null || tenantId == 0L;
+        if (platform) {
+            menus = MenuAccess.platform(menus);
+        } else if (menuRepository.countByScope("TENANT") > 0) {
+            Set<Long> allowed = packageMenuIds(tenantId);
+            if (!superAdmin) {
+                Set<Long> roleMenuIds = new HashSet<>();
+                for (Menu menu : menus) {
+                    roleMenuIds.add(menu.getId());
+                }
+                allowed.retainAll(roleMenuIds);
+            }
+            menus = MenuAccess.tenant(menuRepository.listEnabledByScope("TENANT"), allowed);
         }
-        List<Menu> menus = menuRepository.listByUserId(userId);
         return this.buildPermissionTree(menus);
+    }
+
+    private Set<Long> packageMenuIds(Long tenantId) {
+        Set<Long> packageIds = new LinkedHashSet<>();
+        TenantDO tenant = tenantMapper.selectById(tenantId);
+        if (tenant != null && tenant.getPackageId() != null) {
+            packageIds.add(tenant.getPackageId());
+        }
+        LocalDateTime now = LocalDateTime.now();
+        for (TenantPackageGrantDO grant : grantMapper.lambdaQuery().eq(TenantPackageGrantDO::getTenantId, tenantId).list()) {
+            if (grant.getEndAt() == null || grant.getEndAt().isAfter(now)) {
+                packageIds.add(grant.getPackageId());
+            }
+        }
+        Set<Long> menuIds = new HashSet<>();
+        for (Long packageId : packageIds) {
+            TenantPackageDO pkg = tenantPackageMapper.selectById(packageId);
+            if (pkg == null || "DRAFT".equals(pkg.getLifecycle())) {
+                continue;
+            }
+            menuIds.addAll(packageMenuService.listMenuIdsByPackageId(packageId));
+        }
+        return menuIds;
     }
 
     @Override

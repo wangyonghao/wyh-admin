@@ -39,4 +39,12 @@ public class PackageException extends BizException {
     public static PackageException inUse() {
         return of("PACKAGE_IN_USE", "套餐仍被租户使用，不能删除");
     }
+
+    public static PackageException nameLocked() {
+        return of("PACKAGE_NAME_LOCKED", "套餐已发布，不能修改名称");
+    }
+
+    public static PackageException versionConflict() {
+        return of("PACKAGE_VERSION_CONFLICT", "套餐已被其他人修改，请刷新后再试");
+    }
 }

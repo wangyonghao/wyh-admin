@@ -82,7 +82,7 @@ public class PackageController {
     @Operation(summary = "查询详情", description = "查询详情")
     @Parameter(name = "id", description = "ID", example = "1", in = ParameterIn.PATH)
     @SaCheckPermission("tenant:package:get")
-    @GetMapping("/{id}")
+    @GetMapping("/{id:\\d+}")
     public PackageDetailResp get(@PathVariable("id") Long id) {
         return baseService.get(id);
     }
@@ -109,7 +109,7 @@ public class PackageController {
     @Operation(summary = "修改数据", description = "修改数据")
     @Parameter(name = "id", description = "ID", example = "1", in = ParameterIn.PATH)
     @SaCheckPermission("tenant:package:update")
-    @PutMapping("/{id}")
+    @PutMapping("/{id:\\d+}")
     public void update(@RequestBody @Valid PackageRequest req, @PathVariable("id") Long id) {
         baseService.update(req, id);
     }
@@ -122,7 +122,7 @@ public class PackageController {
     @Operation(summary = "删除数据", description = "删除数据")
     @Parameter(name = "id", description = "ID", example = "1", in = ParameterIn.PATH)
     @SaCheckPermission("tenant:package:delete")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{id:\\d+}")
     public void delete(@PathVariable("id") Long id) {
         baseService.delete(List.of(id));
     }

@@ -31,4 +31,8 @@ public class MenuException extends BizException {
     public static MenuException notFound() {
         return of("MENU_NOT_FOUND", "菜单不存在");
     }
+
+    public static MenuException versionConflict() {
+        return of("MENU_VERSION_CONFLICT", "菜单已被其他人修改，请刷新后再试");
+    }
 }

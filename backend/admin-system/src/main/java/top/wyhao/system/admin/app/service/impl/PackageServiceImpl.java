@@ -14,16 +14,16 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.wyhao.cmn.core.enums.StatusEnum;
 import top.wyhao.mybatis.query.PageResult;
 import top.wyhao.mybatis.query.QueryWrapperBuilder;
-import top.wyhao.system.admin.domain.PackageMenuBinding;
 import top.wyhao.system.admin.domain.exception.PackageException;
 import top.wyhao.system.admin.infrastructure.persistence.mapper.SysTenantMapper;
 import top.wyhao.system.admin.infrastructure.persistence.mapper.TenantPackageMapper;
+import top.wyhao.system.admin.infrastructure.persistence.dataobject.TenantPackageMenuDraftDO;
+import top.wyhao.system.admin.infrastructure.persistence.mapper.TenantPackageMenuDraftMapper;
 import top.wyhao.system.admin.domain.model.Tenant;
 import top.wyhao.system.admin.domain.model.TenantPackage;
 import top.wyhao.system.admin.app.dto.PackageQuery;
@@ -32,7 +32,6 @@ import top.wyhao.system.admin.app.dto.PackageDetailResp;
 import top.wyhao.system.admin.app.dto.PackageResp;
 import top.wyhao.system.admin.app.service.PackageMenuService;
 import top.wyhao.system.admin.app.service.PackageService;
-import top.wyhao.system.admin.app.service.TenantService;
 import top.wyhao.web.core.model.PageQuery;
 
 import java.util.List;
@@ -48,9 +47,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class PackageServiceImpl implements PackageService {
     private final TenantPackageMapper baseMapper;
+    private final TenantPackageMenuDraftMapper draftMapper;
     private final PackageMenuService packageMenuService;
     private final SysTenantMapper tenantMapper;
-    private final ObjectProvider<TenantService> tenantService;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -61,11 +60,16 @@ public class PackageServiceImpl implements PackageService {
         entity.setSort(req.getSort() == null ? 999 : req.getSort());
         entity.setMenuCheckStrictly(req.getMenuCheckStrictly() == null || req.getMenuCheckStrictly());
         entity.setDescription(req.getDescription());
-        entity.setStatus(req.getStatus() == null ? StatusEnum.ENABLE : req.getStatus());
+        entity.setStatus(StatusEnum.DISABLE);
+        entity.setLifecycle("DRAFT");
+        entity.setKind("MAIN");
+        entity.setVersion(1);
         TenantPackageDO packageDo = AdminDoMapper.toDo(entity, TenantPackageDO.class);
         baseMapper.insert(packageDo);
         AdminDoMapper.copyBack(packageDo, entity);
-        packageMenuService.add(req.getMenuIds(), entity.getId());
+        packageDo.setCode("p" + packageDo.getId());
+        baseMapper.updateById(packageDo);
+        replaceDraft(entity.getId(), req.getMenuIds());
         return entity.getId();
     }
 
@@ -73,6 +77,12 @@ public class PackageServiceImpl implements PackageService {
     @Transactional(rollbackFor = Exception.class)
     public void update(PackageRequest req, Long id) {
         TenantPackage entity = require(id);
+        if (entity.getPublishedAt() != null && req.getName() != null && !req.getName().equals(entity.getName())) {
+            throw PackageException.nameLocked();
+        }
+        if ("DELISTED".equals(entity.getLifecycle())) {
+            throw PackageException.of("PACKAGE_LIFECYCLE", "已下架套餐不能修改菜单");
+        }
         checkNameRepeat(req.getName(), id);
         entity.setName(req.getName());
         if (req.getSort() != null) {
@@ -82,15 +92,8 @@ public class PackageServiceImpl implements PackageService {
             entity.setMenuCheckStrictly(req.getMenuCheckStrictly());
         }
         entity.setDescription(req.getDescription());
-        if (req.getStatus() != null) {
-            entity.setStatus(req.getStatus());
-        }
         baseMapper.updateById(AdminDoMapper.toDo(entity, TenantPackageDO.class));
-        boolean changed = packageMenuService.add(req.getMenuIds(), id);
-        if (changed) {
-            tenantService.getObject().updateTenantMenu(
-                PackageMenuBinding.menusForTenantAdmin(req.getMenuIds()), id);
-        }
+        replaceDraft(id, req.getMenuIds());
     }
 
     @Override
@@ -99,7 +102,7 @@ public class PackageServiceImpl implements PackageService {
         if (pkg == null) {
             throw PackageException.notFound();
         }
-        if (StatusEnum.DISABLE.equals(pkg.getStatus())) {
+        if (StatusEnum.DISABLE.equals(pkg.getStatus()) || !"PUBLISHED".equals(pkg.getLifecycle())) {
             throw PackageException.disabled();
         }
     }
@@ -133,13 +136,17 @@ public class PackageServiceImpl implements PackageService {
             return;
         }
         for (Long id : ids) {
-            require(id);
+            TenantPackage entity = require(id);
+            if (entity.getPublishedAt() != null || (entity.getLifecycle() != null && !"DRAFT".equals(entity.getLifecycle()))) {
+                throw PackageException.of("PACKAGE_LIFECYCLE", "只有未发布的套餐可以删除");
+            }
             if (tenantMapper.lambdaQuery().eq(TenantDO::getPackageId, id).exists()) {
                 throw PackageException.inUse();
             }
         }
         for (Long id : ids) {
             packageMenuService.add(List.of(), id);
+            draftMapper.lambdaUpdate().eq(TenantPackageMenuDraftDO::getPackageId, id).remove();
             baseMapper.deleteById(id);
         }
     }
@@ -154,7 +161,7 @@ public class PackageServiceImpl implements PackageService {
         TenantPackage entity = require(id);
         PackageDetailResp detail = new PackageDetailResp();
         copy(entity, detail);
-        detail.setMenuIds(packageMenuService.listMenuIdsByPackageId(id));
+        detail.setMenuIds(draftMenuIds(id));
         return detail;
     }
 
@@ -164,6 +171,27 @@ public class PackageServiceImpl implements PackageService {
             throw PackageException.notFound();
         }
         return entity;
+    }
+
+    private void replaceDraft(Long packageId, List<Long> menuIds) {
+        draftMapper.lambdaUpdate().eq(TenantPackageMenuDraftDO::getPackageId, packageId).remove();
+        if (menuIds == null) {
+            return;
+        }
+        for (Long menuId : menuIds) {
+            if (menuId != null) {
+                draftMapper.insert(new TenantPackageMenuDraftDO(packageId, menuId));
+            }
+        }
+    }
+
+    private List<Long> draftMenuIds(Long packageId) {
+        return draftMapper.lambdaQuery()
+            .eq(TenantPackageMenuDraftDO::getPackageId, packageId)
+            .list()
+            .stream()
+            .map(TenantPackageMenuDraftDO::getMenuId)
+            .toList();
     }
 
     private PackageResp toResp(TenantPackage entity) {

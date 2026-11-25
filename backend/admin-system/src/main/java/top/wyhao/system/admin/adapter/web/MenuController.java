@@ -66,7 +66,7 @@ public class MenuController {
      */
     @Operation(summary = "查询菜单详情", description = "查询菜单详情")
     @Parameter(name = "id", description = "ID", example = "1", in = ParameterIn.PATH)
-    @GetMapping("/system/menu/{id}")
+    @GetMapping("/system/menu/{id:\\d+}")
     public MenuVO get(@PathVariable Long id) {
         return menuService.get(id);
     }
@@ -93,7 +93,7 @@ public class MenuController {
     @Operation(summary = "修改菜单", description = "修改菜单")
     @Parameter(name = "id", description = "ID", example = "1", in = ParameterIn.PATH)
     @SaCheckPermission("system:menu:update")
-    @PutMapping("/system/menu/{id}")
+    @PutMapping("/system/menu/{id:\\d+}")
     public void update(@RequestBody @Validated(MenuRequest.Update.class) MenuRequest req, @PathVariable Long id) {
         menuService.update(id, req);
     }
@@ -106,7 +106,7 @@ public class MenuController {
     @Operation(summary = "删除数据", description = "删除数据")
     @Parameter(name = "id", description = "ID", example = "1", in = ParameterIn.PATH)
     @SaCheckPermission("system:menu:delete")
-    @DeleteMapping("/system/menu/{id}")
+    @DeleteMapping("/system/menu/{id:\\d+}")
     public void delete(@PathVariable Long id) {
         menuService.delete(id);
     }

@@ -103,4 +103,29 @@ public class Menu {
      * 状态
      */
     private StatusEnum status;
+
+    /**
+     * 稳定标识，创建后不可修改
+     */
+    private String code;
+
+    /**
+     * PLATFORM 或 TENANT
+     */
+    private String scope;
+
+    /**
+     * 系统保护，不能停用或删除
+     */
+    private Boolean isSystem;
+
+    /**
+     * 必含，不能停用或删除
+     */
+    private Boolean isRequired;
+
+    /**
+     * 软删除时间
+     */
+    private LocalDateTime deletedAt;
 }

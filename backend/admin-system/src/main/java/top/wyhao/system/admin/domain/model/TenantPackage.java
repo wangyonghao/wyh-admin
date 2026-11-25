@@ -62,4 +62,16 @@ public class TenantPackage {
      * 状态
      */
     private StatusEnum status;
+
+    private String code;
+
+    private String kind;
+
+    private String lifecycle;
+
+    private LocalDateTime publishedAt;
+
+    private LocalDateTime delistedAt;
+
+    private Integer version;
 }

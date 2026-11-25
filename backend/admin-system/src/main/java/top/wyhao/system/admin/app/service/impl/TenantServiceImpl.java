@@ -4,6 +4,8 @@ package top.wyhao.system.admin.app.service.impl;
 import top.wyhao.system.admin.infrastructure.persistence.AdminDoMapper;
 
 import top.wyhao.system.admin.infrastructure.persistence.dataobject.TenantPackageDO;
+import top.wyhao.system.admin.infrastructure.persistence.dataobject.TenantPackageGrantDO;
+import top.wyhao.system.admin.infrastructure.persistence.mapper.TenantPackageGrantMapper;
 
 import top.wyhao.system.admin.infrastructure.persistence.dataobject.TenantDO;
 
@@ -83,6 +85,7 @@ public class TenantServiceImpl implements TenantService {
     private final SysTenantMapper baseMapper;
     private final TenantAssembler tenantAssembler;
     private final TenantPackageMapper tenantPackageMapper;
+    private final TenantPackageGrantMapper grantMapper;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -101,6 +104,7 @@ public class TenantServiceImpl implements TenantService {
         TenantDO __tenantDo = AdminDoMapper.toDo(entity, TenantDO.class);
         baseMapper.insert(__tenantDo);
         AdminDoMapper.copyBack(__tenantDo, entity);
+        rememberGrant(entity.getId(), entity.getPackageId());
         // 初始化租户数据。运行时再取 TenantDataApi，避免构造期 Spring 容器尚未注册完实现类。
         req.setId(entity.getId());
         tenantDataApis().forEach((key, value) -> value.init(tenantAssembler.toBO(req)));
@@ -131,6 +135,7 @@ public class TenantServiceImpl implements TenantService {
         TenantDO __tenantDo = AdminDoMapper.toDo(entity, TenantDO.class);
         baseMapper.insert(__tenantDo);
         AdminDoMapper.copyBack(__tenantDo, entity);
+        rememberGrant(entity.getId(), packageId);
 
         TenantBO bo = new TenantBO();
         bo.setId(entity.getId());
@@ -352,6 +357,13 @@ public class TenantServiceImpl implements TenantService {
         }
         baseMapper.updateById(AdminDoMapper.toDo(tenant, TenantDO.class));
         if (req.getPackageId() != null && !req.getPackageId().equals(previousPackageId)) {
+            if (previousPackageId != null) {
+                grantMapper.lambdaUpdate()
+                    .eq(TenantPackageGrantDO::getTenantId, id)
+                    .eq(TenantPackageGrantDO::getPackageId, previousPackageId)
+                    .remove();
+            }
+            rememberGrant(id, req.getPackageId());
             syncAdminMenus(id, req.getPackageId());
         }
         RedisUtils.deleteByPattern(TENANT_KEY_PREFIX + StringConstants.ASTERISK);
@@ -448,6 +460,24 @@ public class TenantServiceImpl implements TenantService {
         resp.setUpdateUser(entity.getUpdateUser());
         resp.setUpdateTime(entity.getUpdateTime());
         return resp;
+    }
+
+    private void rememberGrant(Long tenantId, Long packageId) {
+        if (tenantId == null || packageId == null) {
+            return;
+        }
+        boolean exists = grantMapper.lambdaQuery()
+            .eq(TenantPackageGrantDO::getTenantId, tenantId)
+            .eq(TenantPackageGrantDO::getPackageId, packageId)
+            .exists();
+        if (exists) {
+            return;
+        }
+        TenantPackageGrantDO grant = new TenantPackageGrantDO();
+        grant.setTenantId(tenantId);
+        grant.setPackageId(packageId);
+        grant.setStartAt(LocalDateTime.now());
+        grantMapper.insert(grant);
     }
 
     private void syncAdminMenus(Long tenantId, Long packageId) {

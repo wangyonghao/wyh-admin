@@ -80,14 +80,10 @@ export function useLayoutHook() {
       return transitionName;
     }
 
-    // 如果页面已经加载过，则不使用动画
-    // if (route.meta.loaded) {
-    //   return;
-    // }
-    // 已经打开且已经加载过的页面不使用动画
-    // const inTabs = getCachedTabs.value.includes(route.name as string);
-
-    // return inTabs && route.meta.loaded ? undefined : transitionName;
+    // 已打开过的页面不再做 out-in，避免离开动画碰到已经卸掉的组件实例
+    if (_route.meta.loaded) {
+      return;
+    }
     return transitionName;
   }
 

@@ -80,4 +80,29 @@ public class SysMenuDO extends BaseEntity {
      * 状态
      */
     private StatusEnum status;
+
+    /**
+     * 稳定标识
+     */
+    private String code;
+
+    /**
+     * PLATFORM 或 TENANT
+     */
+    private String scope;
+
+    /**
+     * 系统保护
+     */
+    private Boolean isSystem;
+
+    /**
+     * 必含
+     */
+    private Boolean isRequired;
+
+    /**
+     * 软删除时间
+     */
+    private java.time.LocalDateTime deletedAt;
 }

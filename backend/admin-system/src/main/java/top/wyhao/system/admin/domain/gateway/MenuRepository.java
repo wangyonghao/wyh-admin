@@ -17,6 +17,10 @@ public interface MenuRepository {
 
     List<Menu> listEnabled();
 
+    long countByScope(String scope);
+
+    List<Menu> listEnabledByScope(String scope);
+
     List<Menu> listByUserId(Long userId);
 
     List<Menu> listByRoleId(Long roleId);

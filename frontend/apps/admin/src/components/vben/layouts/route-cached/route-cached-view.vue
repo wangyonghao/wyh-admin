@@ -15,7 +15,7 @@ const { getTabs, getCachedRoutes, getExcludeCachedTabs } =
   storeToRefs(tabbarStore);
 const { removeCachedRoute } = tabbarStore;
 
-const { getEnabledTransition, getTransitionName } = useLayoutHook();
+const { getTransitionName } = useLayoutHook();
 
 /**
  * 是否启用tab
@@ -75,7 +75,7 @@ const computedCurrentRouteKey = computed(() => {
   <template v-if="computedShowView">
     <template v-for="item in computedCachedRoutes" :key="item.key">
       <Transition
-        v-if="getEnabledTransition"
+        v-if="getTransitionName(item.route)"
         appear
         mode="out-in"
         :name="getTransitionName(item.route)"
