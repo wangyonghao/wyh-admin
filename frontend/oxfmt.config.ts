@@ -1,7 +1,7 @@
 import { defineConfig as defineOxfmtConfig } from 'oxfmt';
 
 export default defineOxfmtConfig({
-  printWidth: 80,
+  printWidth: 120,
   proseWrap: 'never',
   semi: true,
   singleQuote: true,

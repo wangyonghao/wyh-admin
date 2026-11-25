@@ -69,6 +69,7 @@ frontend/
 - 新依赖写入根 `pnpm-workspace.yaml` 的 **catalog**，应用内用 `catalog:` 引用
 - Node / pnpm 版本见 `frontend/package.json` `engines` 与 `docs/tech-stack.md`
 
+
 ## Quality
 
 - 遵循仓库 ESLint / Stylelint / oxfmt / oxlint；勿绕过 hooks 提交

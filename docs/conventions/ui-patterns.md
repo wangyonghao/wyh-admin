@@ -17,8 +17,6 @@
 
 原子底子在 `@vben-core/shadcn-ui/src/ui`（reka-ui + CVA）。应用代码走上面的路径。
 
-**新代码：** 优先 `#/ui/*`。不要新增 `naive-ui` 导入。表格用 Vxe。清单见 [`naive-migration-inventory.md`](naive-migration-inventory.md)。
-
 已有模式壳：`ui-patterns/toolbar-actions`（两个及以上工具栏按钮，`inline-flex` + `gap-2`）；`ui-patterns/filter-input`（无前缀的字符串筛选框，清除后为空字符串）；`ui-patterns/confirm-action`（AlertDialog 确认，`ask()` 返回是否确认）；`ui-patterns/toast`（成功 / 失败 / 警告，`duration: 0` 不自动关闭）。分割线走 `#/ui/separator`。状态开关走 `#/ui/switch`：默认布尔；`checked-value` / `unchecked-value` 用来接 `1/0` 这类字段，比较是严格相等。
 
 ---

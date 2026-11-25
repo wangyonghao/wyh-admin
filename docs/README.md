@@ -14,6 +14,9 @@ docs/
 ├── adr/                # 架构决策记录（为什么这样设计）
 ├── conventions/        # 编码 / UI / 交付等长期规范（一主题一文件）
 ├── product/            # PRD文档 + 验收标准(一功能模块一文件, 带编号）
+│   ├── _template.md    # 
+│   └── _examples/      # 积累的可复用的prd示例，不是真实需求，禁止据此生成任何代码、表或接口。
+│       └── README.md   # 说明每个示例演示什么、怎么用          
 ├── specs/              # 进行中的功能规格:每个功能一个子目录,含 spec(要什么)、plan(怎么做)、tasks(拆分步骤); 实现完成后可归档或删除
 └── contracts/
     └── API 接口文档
@@ -104,20 +107,3 @@ Controller 只做参数校验与调用应用服务，禁止写业务规则；统
 | `conventions/api-design.md` | HTTP / 开放 API 约定 |
 | `conventions/database.md` | PostgreSQL + Liquibase |
 | `conventions/git-workflow.md` | 分支、提交、评审 |
-
-## 用户故事的写法
-
-每个故事带稳定编号和验收标准。
-编号用 `US-<模块缩写>-<序号>`。
-验收标准是测试用例的参考依据。
-
-```
-### US-USER-003 管理员重置用户密码
-
-作为 **系统管理员**,我想为忘记密码的用户重置密码,以便用户能重新登录。
-
-**验收标准**
-- Given 管理员已登录且有"用户管理"权限,When 点击重置密码,Then 系统生成一次性临时密码并要求用户首次登录时修改
-- Given 操作者没有该权限,When 调用重置接口,Then 返回 403
-- 重置操作写入审计日志
-```
